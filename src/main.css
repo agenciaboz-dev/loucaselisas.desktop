@@ -1,0 +1,78 @@
+/* @import url("./assets/fonts/FoundersGrotesk-Regular.otf");
+@import url("./assets/fonts/FoundersGrotesk-Bold.otf");
+@import url("./assets/fonts/FoundersGroteskXCond-Bold.otf"); */
+
+@font-face {
+    font-family: 'FoundersGrotesk';
+    src: url('./assets/fonts/FoundersGrotesk-Regular.otf') format('regular2'),
+         url('./assets/fonts/FoundersGrotesk-Bold.otf') format('bold'),
+         url('./assets/fonts/FoundersGroteskXCond-Bold.otf') format('extraBold'),
+         url('./assets/fonts/FoundersGroteskXCond-Bold.ttf') format('regular');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'FoundersGrotesk';
+    /* user-select: none; */
+}
+
+form {
+    display: contents;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    height: 100%;
+    
+}
+
+#root {
+    height: 100%;
+}
+
+.MuiPaper-root, .MuiBox-root {
+    display: flex;
+    flex-shrink: 0
+}
+/* 
+.MuiBox-root {
+    display: flex;
+    flex-shrink: 0;
+} */
+
+.MuiButton-root, .MuiTab-root {
+    text-transform: none!important;
+}
+
+.MuiChip-label {
+    padding: 0!important;
+}
+
+.files-ui-dropzone-children-container {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5vw;
+    gap: 5vw;
+}
+
+img {
+    object-fit: contain;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
