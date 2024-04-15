@@ -7,18 +7,11 @@ import logo from "../assets/login/Vector.svg"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import InstagramIcon from "@mui/icons-material/Instagram"
 import { FaFacebookF } from "react-icons/fa"
-import backGround from "../assets/login/background.gif"
 interface HomeProps {}
 
 export const Home: React.FC<HomeProps> = ({}) => {
     return (
         <Box sx={{ width: 1, height: "100vh" }}>
-            <Avatar
-                variant="square"
-                src={backGround}
-                sx={{ width: "100vw", height: "100vh", position: "absolute", top: 0, left: 0, objectFit: "fill", zIndex: -1 }}
-            />
-
             <Box
                 sx={{
                     width: "75vw",
