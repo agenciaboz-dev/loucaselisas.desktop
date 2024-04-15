@@ -3,6 +3,7 @@ import { Box, Button, CircularProgress, IconButton, TextField, Typography } from
 import { Form } from "./Form"
 import { useFormik } from "formik"
 import { LoginForm } from "../../types/server/login"
+import * as Yup from "yup"
 
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
@@ -17,11 +18,41 @@ interface LoginProps {}
 export const Login: React.FC<LoginProps> = ({}) => {
     const { onLogin } = useUser()
     const [errorLogin, setErrorLogin] = useState(false)
+
+    const required_message = "Campo obrigatório"
+
+    const SignupSchema = Yup.object().shape({
+        login: Yup.string()
+            .required(required_message)
+            .test("is-valid-login", "Insira um nome de usuário válido ou um e-mail válido", async (value) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                if (emailRegex.test(value)) {
+                    return Yup.string().email("E-mail inválido").isValid(value)
+                } else {
+                    return Yup.string()
+                        .min(3, "Insira um nome válido, nome muito curto")
+                        .max(50, "Insira um nome válido, nome muito longo")
+                        .isValid(value)
+                }
+            }),
+
+        password: Yup.string()
+            .min(8, "Senha precisa ter pelo menos 8 caracteres")
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                "Senha precisa conter pelo menos uma letra maiúscula, uma letra minúscula e um número."
+            )
+            .required(required_message),
+    })
+
     const formik = useFormik<LoginForm>({
         initialValues: {
             login: "",
             password: "",
         },
+
+        validationSchema: SignupSchema,
+
         onSubmit: async (values) => {
             console.log(values)
 
@@ -72,12 +103,15 @@ export const Login: React.FC<LoginProps> = ({}) => {
                         name="login"
                         value={formik.values.login}
                         onChange={formik.handleChange}
+                        error={formik.touched.login && Boolean(formik.errors.login)}
+                        helperText={formik.touched.login && formik.errors.login}
                         required
                         InputProps={{
                             sx: { gap: "0.5vw" },
                             startAdornment: <PersonIcon />,
                         }}
                     />
+
                     <TextField
                         label="Senha"
                         variant="standard"
@@ -86,7 +120,8 @@ export const Login: React.FC<LoginProps> = ({}) => {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         type={showPassword ? "text" : "password"}
-                        required
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
                         InputProps={{
                             sx: { gap: "0.5vw" },
                             startAdornment: <KeyIcon />,
