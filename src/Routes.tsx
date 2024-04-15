@@ -1,8 +1,10 @@
 import React from "react"
-import { Box, Card } from "@mui/material"
+import { Box } from "@mui/material"
 import { Routes as ReactRoutes, Route } from "react-router-dom"
 import { Home } from "./pages/Home"
 import backgroundVideo from "./assets/background.webm"
+import { DashBoard } from "./pages/DashBoard"
+import { PageLayout } from "./pages/PageLayout"
 
 interface RoutesProps {}
 
@@ -19,6 +21,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
 
             <ReactRoutes>
                 <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<PageLayout children={<DashBoard />} title="DashBoard" />} />
             </ReactRoutes>
         </Box>
     )
