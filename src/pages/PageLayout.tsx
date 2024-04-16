@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Paper, TextField, Typography, useTheme } from "@mui/material"
-import { MenuPrincipal } from "../components/dashboard/Menu"
+import { MenuPrincipal } from "../components/menus/Menu"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useNavigate } from "react-router-dom"
 import MenuIcon from "@mui/icons-material/Menu"
@@ -60,6 +60,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
                                 width: 1,
                                 overflowY: "auto",
                                 border: "1px solid red",
+                                pt: "1vw",
                             }}
                         >
                             {children}
