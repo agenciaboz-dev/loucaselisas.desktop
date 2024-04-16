@@ -67,9 +67,6 @@ body {
     gap: 5vw;
 }
 
-img {
-    object-fit: contain;
-}
 
 ::-webkit-scrollbar {
     width: 10px;
