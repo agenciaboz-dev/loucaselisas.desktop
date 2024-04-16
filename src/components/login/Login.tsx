@@ -105,7 +105,6 @@ export const Login: React.FC<LoginProps> = ({}) => {
                         onChange={formik.handleChange}
                         error={formik.touched.login && Boolean(formik.errors.login)}
                         helperText={formik.touched.login && formik.errors.login}
-                        required
                         InputProps={{
                             sx: { gap: "0.5vw" },
                             startAdornment: <PersonIcon />,
