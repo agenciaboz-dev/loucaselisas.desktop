@@ -31,7 +31,7 @@ export const DashBoard: React.FC<DashBoardProps> = ({}) => {
 
     return (
         <Box>
-            <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: 1, scrollbarWidth: "none", pointerEvents: "auto" }}>
+            <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: 1, scrollbarWidth: "none" }}>
                 {courses.map((course) => (
                     <CoursersThumb key={course.id} course={course} />
                 ))}

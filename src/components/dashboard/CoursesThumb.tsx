@@ -21,7 +21,12 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                 position: "relative",
             }}
         >
-            <Avatar src={course.cover} alt="imagem de capa do curso" variant="square" sx={{ objectFit: "cover", width: 1, height: 1 }} />
+            <Avatar
+                src={course.cover}
+                alt="imagem de capa do curso"
+                variant="square"
+                sx={{ objectFit: "cover", width: 1, height: 1, pointerEvents: "none" }}
+            />
             <Box
                 sx={{
                     flexDirection: "column",
@@ -33,6 +38,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                     justifyContent: "flex-end",
                     padding: "0.2vw 1vw",
                     backgroundColor: "background.paper",
+                    userSelect: "none",
                 }}
             >
                 <Typography>{course.name}</Typography>
