@@ -6,91 +6,12 @@ import { PaymentCard, PaymentCardForm } from "./PaymentCard";
 import { FileUpload, WithoutFunctions } from "./helpers";
 import { Creator, CreatorForm, Student } from "./index";
 import { Role } from "./Role";
+import { PlanContract } from "./Plan";
 export declare const user_include: {
     creator: {
         include: {
             categories: true;
-            courses: {
-                include: {
-                    categories: true;
-                    chat: {
-                        include: {
-                            media: {
-                                include: {
-                                    images: true;
-                                    videos: true;
-                                };
-                            };
-                            messages: true;
-                        };
-                    };
-                    creators: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    gallery: {
-                        include: {
-                            images: true;
-                            videos: true;
-                        };
-                    };
-                    owner: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    students: true;
-                    favorited_by: true;
-                    lessons: {
-                        include: {
-                            image: true;
-                            video: true;
-                        };
-                    };
-                };
-            };
             favorited_by: true;
-            owned_courses: {
-                include: {
-                    categories: true;
-                    chat: {
-                        include: {
-                            media: {
-                                include: {
-                                    images: true;
-                                    videos: true;
-                                };
-                            };
-                            messages: true;
-                        };
-                    };
-                    creators: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    gallery: {
-                        include: {
-                            images: true;
-                            videos: true;
-                        };
-                    };
-                    owner: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    students: true;
-                    favorited_by: true;
-                    lessons: {
-                        include: {
-                            image: true;
-                            video: true;
-                        };
-                    };
-                };
-            };
         };
     };
     student: {
@@ -103,8 +24,7 @@ export declare const user_include: {
                         include: {
                             media: {
                                 include: {
-                                    images: true;
-                                    videos: true;
+                                    media: boolean;
                                 };
                             };
                             messages: true;
@@ -117,8 +37,7 @@ export declare const user_include: {
                     };
                     gallery: {
                         include: {
-                            images: true;
-                            videos: true;
+                            media: boolean;
                         };
                     };
                     owner: {
@@ -139,98 +58,18 @@ export declare const user_include: {
         };
     };
     favorite_courses: true;
-    favorite_creators: {
-        include: {
-            categories: true;
-            courses: {
-                include: {
-                    categories: true;
-                    chat: {
-                        include: {
-                            media: {
-                                include: {
-                                    images: true;
-                                    videos: true;
-                                };
-                            };
-                            messages: true;
-                        };
-                    };
-                    creators: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    gallery: {
-                        include: {
-                            images: true;
-                            videos: true;
-                        };
-                    };
-                    owner: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    students: true;
-                    favorited_by: true;
-                    lessons: {
-                        include: {
-                            image: true;
-                            video: true;
-                        };
-                    };
-                };
-            };
-            favorited_by: true;
-            owned_courses: {
-                include: {
-                    categories: true;
-                    chat: {
-                        include: {
-                            media: {
-                                include: {
-                                    images: true;
-                                    videos: true;
-                                };
-                            };
-                            messages: true;
-                        };
-                    };
-                    creators: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    gallery: {
-                        include: {
-                            images: true;
-                            videos: true;
-                        };
-                    };
-                    owner: {
-                        include: {
-                            user: true;
-                        };
-                    };
-                    students: true;
-                    favorited_by: true;
-                    lessons: {
-                        include: {
-                            image: true;
-                            video: true;
-                        };
-                    };
-                };
-            };
-        };
-    };
+    favorite_creators: true;
     payment_cards: true;
     role: {
         include: {
             admin_permissions: true;
             general_permissions: true;
             profile_permissions: true;
+        };
+    };
+    plan: {
+        include: {
+            plan_data: boolean;
         };
     };
 };
@@ -242,12 +81,15 @@ export interface UserImageForm {
     image?: FileUpload | null;
     cover?: FileUpload | null;
 }
-export type UserForm = Omit<WithoutFunctions<User>, "id" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards"> & {
+export type UserForm = Omit<WithoutFunctions<User>, "id" | "plan" | "plan_history" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards"> & {
     image: FileUpload | null;
     cover: FileUpload | null;
     student: boolean;
     creator: CreatorForm | null;
     payment_cards: PaymentCardForm[];
+};
+export type PartialUser = Partial<User> & {
+    id: string;
 };
 export declare class User {
     id: string;
@@ -269,24 +111,25 @@ export declare class User {
     bio: string | null;
     google_id: string | null;
     google_token: string | null;
-    favorite_creators: Creator[];
+    favorite_creators: string[];
     favorite_courses: Course[];
     payment_cards: PaymentCard[];
     creator: Creator | null;
     student: Student | null;
+    plan: PlanContract | null;
     role: Role;
     constructor(id: string, user_prisma?: UserPrisma);
     init(): Promise<void>;
-    static update(data: Partial<UserPrisma> & {
-        id: string;
-    }, socket: Socket): Promise<void>;
+    static update(data: PartialUser, socket: Socket): Promise<void>;
     static updateImage(data: UserImageForm & {
         id: string;
     }, socket: Socket): Promise<void>;
-    static signup(socket: Socket, data: UserForm): Promise<void>;
+    static signup(data: UserForm, socket?: Socket): Promise<string | User | undefined>;
     static list(socket: Socket): Promise<void>;
-    static login(data: LoginForm, socket?: Socket): Promise<User | null>;
+    static login(data: LoginForm & {
+        admin?: boolean;
+    }, socket?: Socket): Promise<User | null>;
     load(data: UserPrisma): void;
-    update(data: Partial<UserPrisma>, socket?: Socket): Promise<void>;
+    update(data: Partial<User>, socket?: Socket): Promise<string | undefined>;
     updateImage(data: UserImageForm, socket?: Socket): Promise<void>;
 }

@@ -1,22 +1,21 @@
 import { Prisma } from "@prisma/client";
-import { FileUpload, WithoutFunctions } from "../helpers";
-import { Media } from "./Media";
+import { WithoutFunctions } from "../helpers";
+import { Media, MediaForm } from "./Media";
 export declare const gallery_include: {
-    images: true;
-    videos: true;
+    media: boolean;
 };
 export type GalleryPrisma = Prisma.GalleryGetPayload<{
     include: typeof gallery_include;
 }>;
-export type GalleryForm = Omit<WithoutFunctions<Gallery>, "id" | "images" | "videos"> & {
-    images: FileUpload[];
-    videos: FileUpload[];
+export type GalleryForm = Omit<WithoutFunctions<Gallery>, "id" | "media"> & {
+    media: MediaForm[];
 };
 export declare class Gallery {
     id: string;
     name: string;
-    images: Media[];
-    videos: Media[];
+    media: Media[];
     constructor(data: GalleryPrisma);
     static new(data: GalleryForm): Promise<Gallery>;
+    load(data: GalleryPrisma): void;
+    updateMedia(list: MediaForm[]): Promise<void>;
 }
