@@ -9,7 +9,6 @@ import ViewListIcon from "@mui/icons-material/ViewList"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { useNavigate } from "react-router-dom"
 import { useUser } from "../../hooks/useUser"
-import noUser from "../../assets/placeholders/perfil.webp"
 
 interface IMenuOptions {
     label: string
@@ -56,7 +55,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                             width: theme.spacing(12),
                             height: theme.spacing(12),
                         }}
-                        src={user?.image || noUser}
+                        src={user?.image || "./placeholders/perfil.webp"}
                     />
                     <Typography variant="h2" component="h2" fontSize="1rem">
                         {user?.name}
