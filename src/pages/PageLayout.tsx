@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, Button, Paper, TextField, Typography, useTheme } from "@mui/material"
+import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from "@mui/material"
 import { MenuPrincipal } from "../components/menus/Menu"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useNavigate } from "react-router-dom"
 import MenuIcon from "@mui/icons-material/Menu"
 import SearchIcon from "@mui/icons-material/Search"
+import CachedIcon from "@mui/icons-material/Cached"
 interface PageLayoutProps {
     children: React.ReactNode
     title?: string
@@ -12,7 +13,6 @@ interface PageLayoutProps {
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
     const navigate = useNavigate()
-    const theme = useTheme()
     return (
         <Box sx={{ m: "4vw", flex: 1, height: "86vh", overflow: "hidden" }}>
             <Box
@@ -33,10 +33,15 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
                             p: "1.5vw",
                         }}
                     >
-                        <Box sx={{ alignItems: "center" }}>
-                            <Typography flex={1} variant="h2" component="h1" fontSize="1.5rem">
-                                {title}
-                            </Typography>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
+                            <Box sx={{ alignItems: "center", gap: "0.7vw", mb: 1 }}>
+                                <Typography variant="h2" component="h1" fontSize="1.5rem">
+                                    {title}
+                                </Typography>
+                                <IconButton color="primary">
+                                    <CachedIcon />
+                                </IconButton>
+                            </Box>
                             <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
                                 SAIR
                             </Button>
@@ -58,8 +63,6 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
                         <Box
                             sx={{
                                 width: 1,
-                                overflowY: "auto",
-                                border: "1px solid red",
                                 pt: "1vw",
                             }}
                         >
