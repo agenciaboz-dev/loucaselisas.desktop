@@ -5,6 +5,12 @@ import { Home } from "./pages/Home"
 import backgroundVideo from "./assets/background.webm"
 import { DashBoard } from "./pages/DashBoard"
 import { PageLayout } from "./pages/PageLayout"
+import { Courses } from "./pages/Courses"
+import { Lessons } from "./pages/Lessons"
+import { Aprove } from "./pages/Aprove"
+import { Groups } from "./pages/Groups"
+import { Users } from "./pages/Users"
+import { Settings } from "./pages/Settings"
 
 interface RoutesProps {}
 
@@ -38,6 +44,30 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                             carregando={carregando}
                         />
                     }
+                />
+                <Route
+                    path="/cursos"
+                    element={<PageLayout children={<Courses />} title="Cursos" carregando={carregando} refreshCallback={refreshCallback} />}
+                />
+                <Route
+                    path="/licoes"
+                    element={<PageLayout children={<Lessons />} title="Lições" carregando={carregando} refreshCallback={refreshCallback} />}
+                />
+                <Route
+                    path="/aprovar"
+                    element={<PageLayout children={<Aprove />} title="Aprovar" carregando={carregando} refreshCallback={refreshCallback} />}
+                />
+                <Route
+                    path="/grupos"
+                    element={<PageLayout children={<Groups />} title="Grupos" carregando={carregando} refreshCallback={refreshCallback} />}
+                />
+                <Route
+                    path="/usuarios"
+                    element={<PageLayout children={<Users />} title="Usuários" carregando={carregando} refreshCallback={refreshCallback} />}
+                />
+                <Route
+                    path="/configuracoes"
+                    element={<PageLayout children={<Settings />} title="Configurações" carregando={carregando} refreshCallback={refreshCallback} />}
                 />
             </ReactRoutes>
         </Box>
