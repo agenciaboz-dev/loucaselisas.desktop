@@ -3,6 +3,6 @@ import { Box } from "@mui/material"
 
 interface CourrsesProps {}
 
-export const Courrses: React.FC<CourrsesProps> = ({}) => {
+export const Courses: React.FC<CourrsesProps> = ({}) => {
     return <Box sx={{}}>Cursos</Box>
 }
