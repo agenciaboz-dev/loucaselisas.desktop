@@ -8,7 +8,7 @@ export declare const student_include: {
                 include: {
                     media: {
                         include: {
-                            media: boolean;
+                            media: true;
                         };
                     };
                     messages: true;
@@ -21,7 +21,7 @@ export declare const student_include: {
             };
             gallery: {
                 include: {
-                    media: boolean;
+                    media: true;
                 };
             };
             owner: {
@@ -29,12 +29,13 @@ export declare const student_include: {
                     user: true;
                 };
             };
-            students: true;
             favorited_by: true;
-            lessons: {
-                include: {
-                    image: true;
-                    video: true;
+            _count: {
+                select: {
+                    lessons: true;
+                    favorited_by: true;
+                    students: true;
+                    views: boolean;
                 };
             };
         };

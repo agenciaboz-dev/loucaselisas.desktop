@@ -4,7 +4,7 @@ import { Message } from "./Message";
 export declare const chat_include: {
     media: {
         include: {
-            media: boolean;
+            media: true;
         };
     };
     messages: true;

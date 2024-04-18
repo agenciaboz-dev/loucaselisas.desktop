@@ -39,6 +39,8 @@ export declare class Creator {
         language: string;
         description: string;
         active: boolean;
+        image: string | null;
+        cover: string | null;
     } | undefined>;
     load(data: CreatorPrisma): void;
     update(data: Partial<Creator>): Promise<this | undefined>;
