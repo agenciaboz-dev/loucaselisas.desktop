@@ -1,24 +1,31 @@
-/* @import url("./assets/fonts/FoundersGrotesk-Regular.otf");
-@import url("./assets/fonts/FoundersGrotesk-Bold.otf");
-@import url("./assets/fonts/FoundersGroteskXCond-Bold.otf"); */
 
 @font-face {
-    font-family: 'FoundersGrotesk';
-    src: url('./assets/fonts/FoundersGrotesk-Regular.otf') format('regular2'),
-         url('./assets/fonts/FoundersGrotesk-Bold.otf') format('bold'),
-         url('./assets/fonts/FoundersGroteskXCond-Bold.otf') format('extraBold'),
-         url('./assets/fonts/FoundersGroteskXCond-Bold.ttf') format('regular');
-    font-weight: normal;
+    font-family: FoundersGroteskRegular;
+    src: url('./assets/fonts/FoundersGroteskBOZ-Regular.otf') format('opentype');
+    font-weight: 400; /* Normal weight */
     font-style: normal;
-  }
-  
+}
+
+@font-face {
+    font-family: FoundersGroteskBold;
+    src: url('./assets/fonts/FoundersGroteskBOZ-Bold.otf') format('opentype');
+    font-weight: 700; /* Bold weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: FoundersGroteskCondensed;
+    src: url('./assets/fonts/FoundersGroteskXCondBOZ-Bold.otf') format('opentype');
+    font-weight: 700; /* Bold weight */
+    font-style: normal;
+}
 
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'FoundersGrotesk';
+    font-family: FoundersGrotesk;
     /* user-select: none; */
 }
 

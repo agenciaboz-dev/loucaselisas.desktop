@@ -17,11 +17,11 @@ export const usemuiTheme = () => {
             },
             background: {
                 default: "#DDDDDD",
-                paper: grey[100]
+                paper: grey[100],
             },
         },
         typography: {
-            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+            fontFamily: ["FoundersGroteskCondensed"].join(","),
             fontSize: 14,
             h1: {
                 fontWeight: 900,
@@ -34,7 +34,7 @@ export const usemuiTheme = () => {
             },
             subtitle1: {
                 fontSize: 500,
-            }
+            },
         },
     })
     return THEME
