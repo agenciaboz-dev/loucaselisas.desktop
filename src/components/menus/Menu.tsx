@@ -21,12 +21,12 @@ interface MenuPrincipalProps {}
 export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
     const menuOptions: IMenuOptions[] = [
         { label: "Painel", icon: <ViewListIcon />, path: "/dashboard" },
-        { label: "Categorias", icon: <ViewListIcon />, path: "/categories" },
-        { label: "Cursos", icon: <PersonalVideoIcon />, path: "/courses" },
-        { label: "Lições", icon: <AutoStoriesIcon />, path: "/lessons" },
-        { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/check" },
-        { label: "Grupos", icon: <GroupsIcon />, path: "/groups" },
-        { label: "Usuários", icon: <GroupIcon />, path: "/users" },
+        // { label: "Categorias", icon: <ViewListIcon />, path: "/categorias" },
+        { label: "Cursos", icon: <PersonalVideoIcon />, path: "/cursos" },
+        { label: "Lições", icon: <AutoStoriesIcon />, path: "/licoes" },
+        { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
+        { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
+        { label: "Usuários", icon: <GroupIcon />, path: "/usuarios" },
     ]
 
     const { user } = useUser()
@@ -66,7 +66,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                     ))}
                 </List>
                 <List>
-                    <MenuItem menuOption={{ path: "/settings", icon: <SettingsIcon />, label: "Configurações" }} />
+                    <MenuItem menuOption={{ path: "/configuracoes", icon: <SettingsIcon />, label: "Configurações" }} />
                 </List>
             </Paper>
         </Box>
