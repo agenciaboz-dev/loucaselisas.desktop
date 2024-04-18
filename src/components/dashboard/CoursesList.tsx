@@ -23,7 +23,7 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                         variant="body1"
                         component="p"
                         sx={{
-                            width: "30vw",
+                            width: "29vw",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "normal",

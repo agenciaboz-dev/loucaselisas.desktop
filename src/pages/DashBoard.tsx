@@ -6,14 +6,18 @@ import { Course } from "../types/server/class/Course"
 import { useDraggable } from "react-use-draggable-scroll"
 import { CoursesList } from "../components/dashboard/CoursesList"
 
-interface DashBoardProps {}
+interface DashBoardProps {
+    setRefreshCallback: React.Dispatch<React.SetStateAction<() => void>>
+    setCarregando: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export const DashBoard: React.FC<DashBoardProps> = ({}) => {
+export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCarregando }) => {
     const [courses, setCourses] = useState<Course[]>([])
     const [loading, setLoading] = useState(false)
     const skeletonCourse = new Array(20).fill(`course`)
 
     const getCourses = async () => {
+        setCarregando(true)
         setLoading(true)
         try {
             const response = await api.get("/course/all")
@@ -23,12 +27,16 @@ export const DashBoard: React.FC<DashBoardProps> = ({}) => {
         } catch (error) {
             console.log(error)
         } finally {
-            setTimeout(() => setLoading(false), 3000)
+            setTimeout(() => {
+                setLoading(false)
+                setCarregando(false)
+            }, 500)
         }
     }
 
     useEffect(() => {
         getCourses()
+        setRefreshCallback(() => getCourses)
     }, [])
 
     console.log(courses)
@@ -43,7 +51,6 @@ export const DashBoard: React.FC<DashBoardProps> = ({}) => {
                 height: "64vh",
                 width: 1,
                 gap: "0.8vw",
-                overflow: "hidden",
             }}
         >
             <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw" }}>
@@ -69,15 +76,15 @@ export const DashBoard: React.FC<DashBoardProps> = ({}) => {
             </Typography>
             <Box
                 sx={{
-                    overflowX: "hidden",
                     overflowY: "scroll",
                     flex: 1,
                     flexDirection: "column",
                     // height: "55vh",
-                    width: 1,
                     gap: "0.5vw",
                     border: "1px sold blue",
                     pt: "0.1vw",
+                    mx: "-1.5vw",
+                    px: "1.5vw",
                 }}
             >
                 <Grid container columns={2} spacing={2}>
@@ -87,9 +94,8 @@ export const DashBoard: React.FC<DashBoardProps> = ({}) => {
                                   <Paper elevation={3} sx={{ flex: 1, p: "0.5vw", gap: "1vw" }}>
                                       <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
                                       <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
-                                          <Skeleton variant="text" animation="wave" sx={{ width: "25vw" }} />
-                                          <Skeleton variant="text" animation="wave" />
-                                          <Skeleton variant="text" animation="wave" />
+                                          <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
+                                          <Skeleton variant="text" animation="wave" sx={{ width: "28.5vw", height: "4vw" }} />
                                       </Box>
                                   </Paper>
                               </Grid>

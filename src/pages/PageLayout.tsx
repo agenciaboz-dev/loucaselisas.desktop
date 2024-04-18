@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState } from "react"
 import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from "@mui/material"
 import { MenuPrincipal } from "../components/menus/Menu"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useNavigate } from "react-router-dom"
 import MenuIcon from "@mui/icons-material/Menu"
 import SearchIcon from "@mui/icons-material/Search"
-import CachedIcon from "@mui/icons-material/Cached"
+import { RefreshButton } from "../components/RefreshButtton"
+
 interface PageLayoutProps {
     children: React.ReactNode
     title?: string
+    refreshCallback: () => void
+    carregando: boolean
 }
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
+export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, refreshCallback, carregando }) => {
     const navigate = useNavigate()
+
     return (
         <Box sx={{ m: "4vw", flex: 1, height: "86vh", overflow: "hidden" }}>
             <Box
@@ -38,10 +42,9 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
                                 <Typography variant="h2" component="h1" fontSize="1.5rem">
                                     {title}
                                 </Typography>
-                                <IconButton color="primary">
-                                    <CachedIcon />
-                                </IconButton>
+                                <RefreshButton carregando={carregando} callBack={refreshCallback} />
                             </Box>
+
                             <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
                                 SAIR
                             </Button>

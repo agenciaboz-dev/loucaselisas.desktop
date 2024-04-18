@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box } from "@mui/material"
 import { Routes as ReactRoutes, Route } from "react-router-dom"
 import { Home } from "./pages/Home"
@@ -9,6 +9,13 @@ import { PageLayout } from "./pages/PageLayout"
 interface RoutesProps {}
 
 export const Routes: React.FC<RoutesProps> = ({}) => {
+    const [refreshCallback, setRefreshCallback] = useState<() => void>(() => () => null)
+    const [carregando, setCarregando] = useState(false)
+
+    useEffect(() => {
+        console.log({ refreshCallback })
+    }, [refreshCallback])
+
     return (
         <Box>
             <video
@@ -21,7 +28,17 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
 
             <ReactRoutes>
                 <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<PageLayout children={<DashBoard />} title="DashBoard" />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PageLayout
+                            children={<DashBoard setRefreshCallback={setRefreshCallback} setCarregando={setCarregando} />}
+                            title="DashBoard"
+                            refreshCallback={refreshCallback}
+                            carregando={carregando}
+                        />
+                    }
+                />
             </ReactRoutes>
         </Box>
     )
