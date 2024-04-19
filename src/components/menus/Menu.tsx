@@ -55,10 +55,12 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                         }}
                         src={user?.image || "./placeholders/perfil.webp"}
                     />
-                    <Typography variant="h2" component="h2" fontSize="1rem">
+                    <Typography variant="h3" component="h3" sx={{ textTransform: "uppercase" }}>
                         {user?.name}
                     </Typography>
-                    <Typography mt="-1vw">{role}</Typography>
+                    <Typography variant="h4" component="h4" mt="-1vw">
+                        {role}
+                    </Typography>
                 </Box>
                 <List sx={{ flex: 1 }}>
                     {menuOptions.map((menuOption) => (

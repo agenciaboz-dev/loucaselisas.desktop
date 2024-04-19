@@ -30,8 +30,8 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     return Yup.string().email("E-mail inválido").isValid(value)
                 } else {
                     return Yup.string()
-                        .min(3, "Insira um nome válido, nome muito curto")
-                        .max(50, "Insira um nome válido, nome muito longo")
+                        .min(3, "Insira um nome de usuário válido, nome muito curto")
+                        .max(50, "Insira um nome de usuário válido, nome muito longo")
                         .isValid(value)
                 }
             }),
@@ -87,14 +87,14 @@ export const Login: React.FC<LoginProps> = ({}) => {
     const [loading, setLoading] = useState(false)
 
     return (
-        <Box sx={{ height: 1, width: 1, padding: "1.5vw", gap: "2vw", flexDirection: "column", backgroundColor: "background.default" }}>
-            <Typography variant="h1" component="h1" sx={{ fontSize: "3rem" }}>
+        <Box sx={{ height: 1, padding: "1.5vw", pt: 0, gap: "0vw", flexDirection: "column", backgroundColor: "background.default" }}>
+            <Typography variant="subtitle1" component="h1" sx={{ fontSize: "4.8rem", fontWeight: 700 }}>
                 Administrativo
             </Typography>
-            <Typography variant="body1" component="p">
+            <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem", mt: "-1.5vw", mb: "1.5vw" }}>
                 Esta área é exclusiva para administradores.
             </Typography>
-            <Box sx={{ gap: "2vw", flexDirection: "column" }}>
+            <Box sx={{ gap: "0vw", flexDirection: "column" }}>
                 <Form onSubmit={formik.handleSubmit} sx={{ height: 1, flexDirection: "column", gap: "2vw" }}>
                     <TextField
                         label="Usuário ou Email"
@@ -106,9 +106,10 @@ export const Login: React.FC<LoginProps> = ({}) => {
                         error={formik.touched.login && Boolean(formik.errors.login)}
                         helperText={formik.touched.login && formik.errors.login}
                         InputProps={{
-                            sx: { gap: "0.5vw" },
+                            sx: { gap: "0.5vw", fontSize: "1rem" },
                             startAdornment: <PersonIcon />,
                         }}
+                        InputLabelProps={{ sx: { fontSize: "1rem" } }}
                     />
 
                     <TextField
@@ -122,7 +123,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
                         InputProps={{
-                            sx: { gap: "0.5vw" },
+                            sx: { gap: "0.5vw", fontSize: "1rem" },
                             startAdornment: <KeyIcon />,
                             endAdornment: (
                                 <IconButton onClick={() => setShowPassword(!showPassword)}>
@@ -130,8 +131,13 @@ export const Login: React.FC<LoginProps> = ({}) => {
                                 </IconButton>
                             ),
                         }}
+                        InputLabelProps={{ sx: { fontSize: "1rem" } }}
                     />
-                    {errorLogin && <Typography color="error.main">Usuário ou senha incorretos</Typography>}
+                    {errorLogin && (
+                        <Typography variant="body1" component="p" color="error.main">
+                            Usuário ou senha incorretos
+                        </Typography>
+                    )}
                     <Box sx={{ justifyContent: "end" }}>
                         <Button type="submit" variant="contained" sx={{ borderRadius: 0, width: "30%" }}>
                             {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Entrar"}

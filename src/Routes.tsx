@@ -39,7 +39,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     element={
                         <PageLayout
                             children={<DashBoard setRefreshCallback={setRefreshCallback} setCarregando={setCarregando} />}
-                            title="DashBoard"
+                            title="painel de controle"
                             refreshCallback={refreshCallback}
                             carregando={carregando}
                         />

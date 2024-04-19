@@ -16,7 +16,7 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                     <Avatar src="./placeholders/midia_1-1.webp" sx={{ width: "3.5vw", height: "3.5vw" }} />
                 </Avatar>
                 <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
-                    <Typography variant="h2" component="h3" sx={{ fontSize: "1rem" }}>
+                    <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1rem" }}>
                         {course.name}
                     </Typography>
                     <Typography
@@ -35,7 +35,9 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                     >
                         {course.description}
                     </Typography>
-                    <Typography>{course.lessons?.length || 5999} aulas</Typography>
+                    <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem" }}>
+                        {course.lessons || 5999} Videos
+                    </Typography>
                 </Box>
             </Box>
         </Grid>

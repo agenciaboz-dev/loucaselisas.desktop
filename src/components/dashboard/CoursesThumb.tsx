@@ -7,7 +7,7 @@ interface CoursersThumbProps {
 }
 
 export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
-    const numAulas = course.lessons.length?.toString().padStart(2, "0") || 9999
+    const numAulas = course.lessons || 9999
     return (
         <Paper
             elevation={2}
@@ -42,8 +42,12 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                     userSelect: "none",
                 }}
             >
-                <Typography>{course.name}</Typography>
-                <Typography>{numAulas} aulas</Typography>
+                <Typography variant="body1" component="p" sx={{ fontWeight: "600" }}>
+                    {course.name}
+                </Typography>
+                <Typography variant="body2" component="p" fontSize="0.8rem">
+                    {numAulas} Videos
+                </Typography>
             </Box>
         </Paper>
     )

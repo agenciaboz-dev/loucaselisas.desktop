@@ -28,33 +28,55 @@ export const Home: React.FC<HomeProps> = ({}) => {
                         <Avatar variant="square" src={logoMarca} sx={{ width: 1, height: 1, objectFit: "contain" }} />
                     </Box>
                     <Box flex={0.7} sx={{ justifyContent: "end", gap: "1.8vw" }}>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Inicio
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Inicio
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Produtos
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Produtos
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Sobre
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Sobre
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Portfolio
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Portfolio
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Academia
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Academia
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Contato
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Contato
+                            </Typography>
                         </Button>
-                        <Button variant="text" color="secondary" sx={{ fontSize: "1.2rem" }}>
-                            Comprar
+                        <Button variant="text" color="secondary">
+                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Comprar
+                            </Typography>
                         </Button>
                     </Box>
                 </Box>
 
                 <Grid container spacing={4}>
                     <Grid item xs={7}>
-                        <Avatar variant="square" src={destaque} sx={{ width: 1, height: 1, objectFit: "contain" }} />
+                        <Avatar
+                            variant="square"
+                            src={destaque}
+                            sx={{
+                                width: 1,
+                                height: 1,
+                                objectFit: "fill",
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={5}>
                         <Login />

@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { Box, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 
 interface IMenuOption {
@@ -25,7 +25,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({ menuOption }) => {
                 sx={{ backgroundColor: active ? "secondary.main" : "", ml: active ? "-6px" : "" }}
             >
                 <ListItemIcon>{menuOption.icon}</ListItemIcon>
-                <ListItemText>{menuOption.label}</ListItemText>
+                <ListItemText>
+                    <Typography variant="h2" component="h2" sx={{ ml: "-1vw", textTransform: "uppercase" }}>
+                        {menuOption.label}
+                    </Typography>
+                </ListItemText>
             </ListItemButton>
         </Box>
     )

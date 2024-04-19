@@ -38,14 +38,16 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, refresh
                     >
                         <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
                             <Box sx={{ alignItems: "center", gap: "0.7vw", mb: 1 }}>
-                                <Typography variant="h2" component="h1" fontSize="1.5rem">
+                                <Typography variant="h1" component="h1" sx={{ textTransform: "uppercase" }}>
                                     {title}
                                 </Typography>
                                 <RefreshButton carregando={carregando} callBack={refreshCallback} />
                             </Box>
 
                             <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
-                                SAIR
+                                <Typography variant="h4" component="p" sx={{ fontSize: "1.4rem" }}>
+                                    SAIR
+                                </Typography>
                             </Button>
                         </Box>
                         <Box>
