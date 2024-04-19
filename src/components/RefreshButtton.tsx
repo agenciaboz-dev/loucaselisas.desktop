@@ -4,13 +4,13 @@ import CachedIcon from "@mui/icons-material/Cached"
 
 interface RefreshButtonProps {
     callBack: () => void
-    carregando: boolean
+    loading: boolean
 }
 
-export const RefreshButton: React.FC<RefreshButtonProps> = ({ callBack, carregando }) => {
+export const RefreshButton: React.FC<RefreshButtonProps> = ({ callBack, loading }) => {
     return (
         <IconButton color="primary" onClick={callBack}>
-            {carregando ? <CircularProgress size="1.5rem" /> : <CachedIcon />}
+            {loading ? <CircularProgress size="1.5rem" /> : <CachedIcon />}
         </IconButton>
     )
 }
