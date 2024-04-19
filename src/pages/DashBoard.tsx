@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material"
-import { api } from "../api/api"
 import { CoursersThumb } from "../components/dashboard/CoursesThumb"
 import { Course } from "../types/server/class/Course"
 import { useDraggable } from "react-use-draggable-scroll"
 import { CoursesList } from "../components/dashboard/CoursesList"
+import { useGetCourses } from "../hooks/useGetCourses"
 
 interface DashBoardProps {
     setRefreshCallback: React.Dispatch<React.SetStateAction<() => void>>
@@ -13,30 +13,33 @@ interface DashBoardProps {
 
 export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCarregando }) => {
     const [courses, setCourses] = useState<Course[]>([])
-    const [loading, setLoading] = useState(false)
     const skeletonCourse = new Array(20).fill(`course`)
+    const { getCourses, loading } = useGetCourses()
 
-    const getCourses = async () => {
-        setCarregando(true)
-        setLoading(true)
-        try {
-            const response = await api.get("/course/all")
-            console.log({ courses: response.data })
-
-            setCourses(response.data)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-                setCarregando(false)
-            }, 500)
+    const fetchCourses = async () => {
+        console.log("executou a função para carregar cursos")
+        const courses = await getCourses()
+        if (!courses) {
+            // feedback visual que deu erro
+            console.log("erro ao carregar cursos")
+            return
         }
+
+        setTimeout(() => {
+            console.log("dentro do setTimeOut")
+            setCourses(courses)
+        }, 300)
     }
 
     useEffect(() => {
-        getCourses()
-        setRefreshCallback(() => getCourses)
+        console.log("dentro do useEffect ssetCarregando")
+        setCarregando(loading)
+    }, [loading])
+
+    useEffect(() => {
+        console.log("dentro do useEffect principal")
+        fetchCourses()
+        setRefreshCallback(() => fetchCourses)
     }, [])
 
     console.log(courses)
