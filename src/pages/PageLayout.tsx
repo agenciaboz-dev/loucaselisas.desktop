@@ -1,21 +1,11 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material"
+import { Box, Paper } from "@mui/material"
 import { MenuPrincipal } from "../components/menus/Menu"
-import LogoutIcon from "@mui/icons-material/Logout"
-import { useNavigate } from "react-router-dom"
-import MenuIcon from "@mui/icons-material/Menu"
-import SearchIcon from "@mui/icons-material/Search"
-import { RefreshButton } from "../components/RefreshButtton"
 
 interface PageLayoutProps {
     children: React.ReactNode
-    title?: string
-    refreshCallback: () => void
-    carregando: boolean
 }
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, refreshCallback, carregando }) => {
-    const navigate = useNavigate()
-
+export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     return (
         <Box sx={{ m: "4vw", flex: 1, height: "86vh", overflow: "hidden" }}>
             <Box
@@ -36,42 +26,33 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, refresh
                             p: "1.5vw",
                         }}
                     >
-                        <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
-                            <Box sx={{ alignItems: "center", gap: "0.7vw", mb: 1 }}>
-                                <Typography variant="h1" component="h1" sx={{ textTransform: "uppercase" }}>
-                                    {title}
-                                </Typography>
-                                <RefreshButton carregando={carregando} callBack={refreshCallback} />
+                        <Box sx={{ border: "1px solid red", flex: 1 }}>{children}</Box>
+                        {/* 
+                            <Box>
+                                <Filters />
+                            </Box>
+                            <Box>
+                                <TextField
+                                    placeholder="Explorar"
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    InputProps={{
+                                        startAdornment: <MenuIcon />,
+                                        endAdornment: <SearchIcon />,
+                                        sx: { gap: "1vw", borderRadius: "2vw", backgroundColor: "secondary.main" },
+                                    }}
+                                />
                             </Box>
 
-                            <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
-                                <Typography variant="h4" component="p" sx={{ fontSize: "1.4rem" }}>
-                                    SAIR
-                                </Typography>
-                            </Button>
-                        </Box>
-                        <Box>
-                            <TextField
-                                placeholder="Explorar"
-                                fullWidth
-                                variant="outlined"
-                                size="small"
-                                InputProps={{
-                                    startAdornment: <MenuIcon />,
-                                    endAdornment: <SearchIcon />,
-                                    sx: { gap: "1vw", borderRadius: "2vw", backgroundColor: "secondary.main" },
+                            <Box
+                                sx={{
+                                    width: 1,
+                                    pt: "1vw",
                                 }}
-                            />
-                        </Box>
-
-                        <Box
-                            sx={{
-                                width: 1,
-                                pt: "1vw",
-                            }}
-                        >
-                            {children}
-                        </Box>
+                            >
+                                {children}
+                            </Box> */}
                     </Paper>
                 </Box>
             </Box>
