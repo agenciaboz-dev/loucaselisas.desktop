@@ -13,7 +13,6 @@ interface HeaderInfoProps {
 export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback }) => {
     const navigate = useNavigate()
     return (
-        <Box sx={{}}>
             <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
                 <Box sx={{ alignItems: "center", gap: "0.7vw", mb: 1 }}>
                     <Typography variant="h1" component="h1" sx={{ textTransform: "uppercase" }}>
@@ -28,6 +27,5 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshC
                     </Typography>
                 </Button>
             </Box>
-        </Box>
     )
 }

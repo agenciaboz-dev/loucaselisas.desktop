@@ -6,6 +6,7 @@ import { useDraggable } from "react-use-draggable-scroll"
 import { CoursesList } from "../components/dashboard/CoursesList"
 import { useGetCourses } from "../hooks/useGetCourses"
 import { HeaderInfo } from "../components/header/HeaderInfo"
+import { SearchBar } from "../components/header/SearchBar"
 
 interface DashBoardProps {
     setRefreshCallback: React.Dispatch<React.SetStateAction<() => void>>
@@ -49,14 +50,16 @@ export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCar
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
 
     return (
-        <>
+        <Box sx={{width:1, flexDirection:"column",}}>
             <HeaderInfo title="painel de controle" loading={false} refreshCallback={() => {}} />
+            <SearchBar />
             <Box
                 sx={{
                     flexDirection: "column",
                     height: "64vh",
                     width: 1,
                     gap: "0.8vw",
+                    pt:"1vw"
                 }}
             >
                 <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw" }}>
@@ -85,9 +88,7 @@ export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCar
                         overflowY: "scroll",
                         flex: 1,
                         flexDirection: "column",
-                        // height: "55vh",
                         gap: "0.5vw",
-                        border: "1px sold blue",
                         pt: "0.1vw",
                         mx: "-1.5vw",
                         px: "1.5vw",
@@ -110,6 +111,6 @@ export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCar
                     </Grid>
                 </Box>
             </Box>
-        </>
+        </Box>
     )
 }
