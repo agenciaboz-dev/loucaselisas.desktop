@@ -1,9 +1,20 @@
 import { Box, TextField } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import React from "react";
+import React, { useState } from "react"
 
-export const SearchBar: React.FC = () => {
+interface ISearchBar {
+    handleSearch: (value: string) => void
+}
+
+export const SearchBar: React.FC<ISearchBar> = ({ handleSearch }) => {
+    const [searchValue, setSearchValue] = useState("")
+
+    const onChange = (value: string) => {
+        setSearchValue(value)
+        handleSearch(value)
+    }
+
     return (
         <Box>
             <TextField
@@ -11,6 +22,8 @@ export const SearchBar: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 size="small"
+                value={searchValue}
+                onChange={(e) => onChange(e.target.value)}
                 InputProps={{
                     startAdornment: <MenuIcon />,
                     endAdornment: <SearchIcon />,
@@ -22,5 +35,5 @@ export const SearchBar: React.FC = () => {
                 }}
             />
         </Box>
-    );
-};
+    )
+}
