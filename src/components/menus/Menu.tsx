@@ -64,7 +64,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                 </Box>
                 <List sx={{ flex: 1 }}>
                     {menuOptions.map((menuOption) => (
-                        <MenuItem menuOption={menuOption} />
+                        <MenuItem key={menuOption.path} menuOption={menuOption} />
                     ))}
                 </List>
                 <List>
