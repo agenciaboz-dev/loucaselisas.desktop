@@ -24,8 +24,9 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                             flexDirection: "column",
                             backgroundColor: "background.paper",
                             p: "1.5vw",
+                            pt: "0.8vw",
                         }}
-                    >   
+                    >
                         <Box>{children}</Box>
                     </Paper>
                 </Box>
