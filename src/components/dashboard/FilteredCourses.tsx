@@ -40,7 +40,11 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
     return (
         <Box sx={{ flex: 1, flexDirection: "column", gap: "1vw" }}>
             <Filters courses={courses} onFilter={onFilteredCourses} active={active} setActive={setActive} />
-            <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw" }}>
+            <Box
+                ref={ref}
+                {...events}
+                sx={{ width: "76.25vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw", px: "1.5vw", mx: "-1.5vw" }}
+            >
                 {skeletonLoading
                     ? skeletonCourse.map((_, index) => (
                           <Skeleton
