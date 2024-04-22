@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material"
-import { CoursersThumb } from "../components/dashboard/CoursesThumb"
 import { Course } from "../types/server/class/Course"
-import { useDraggable } from "react-use-draggable-scroll"
 import { CoursesList } from "../components/dashboard/CoursesList"
 import { useGetCourses } from "../hooks/useGetCourses"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import { SearchBar } from "../components/header/SearchBar"
+import { FilteredCourses } from "../components/dashboard/FilteredCourses"
 
 export const DashBoard: React.FC = ({}) => {
     const [courses, setCourses] = useState<Course[]>([])
@@ -31,9 +30,6 @@ export const DashBoard: React.FC = ({}) => {
         fetchCourses()
     }, [])
 
-    const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
-    const { events } = useDraggable(ref, { applyRubberBandEffect: true })
-
     return (
         <Box sx={{ width: 1, flexDirection: "column" }}>
             <HeaderInfo title="painel de controle" loading={loading} refreshCallback={() => fetchCourses()} />
@@ -47,23 +43,7 @@ export const DashBoard: React.FC = ({}) => {
                     pt: "1vw",
                 }}
             >
-                <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw" }}>
-                    {loading
-                        ? skeletonCourse.map((course) => (
-                              <Skeleton
-                                  key={course.index}
-                                  variant="rounded"
-                                  animation="wave"
-                                  sx={{
-                                      height: "13vw",
-                                      aspectRatio: "4/3",
-                                      flexShrink: 0,
-                                      borderRadius: "1.2vw",
-                                  }}
-                              />
-                          ))
-                        : courses.map((course) => <CoursersThumb key={course.id} course={course} />)}
-                </Box>
+                <FilteredCourses loading={loading} courses={courses} />
 
                 <Typography variant="h2" component="h2" sx={{ fontSize: "1.2rem" }}>
                     Explorar
@@ -81,8 +61,8 @@ export const DashBoard: React.FC = ({}) => {
                 >
                     <Grid container columns={2} spacing={2}>
                         {loading
-                            ? skeletonCourse.map((course) => (
-                                  <Grid item key={course.index} xs={1}>
+                            ? skeletonCourse.map((_, index) => (
+                                  <Grid item key={index} xs={1}>
                                       <Paper elevation={3} sx={{ flex: 1, p: "0.5vw", gap: "1vw" }}>
                                           <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
                                           <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
