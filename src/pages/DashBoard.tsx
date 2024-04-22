@@ -8,50 +8,35 @@ import { useGetCourses } from "../hooks/useGetCourses"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import { SearchBar } from "../components/header/SearchBar"
 
-interface DashBoardProps {
-    setRefreshCallback: React.Dispatch<React.SetStateAction<() => void>>
-    setCarregando: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCarregando }) => {
+export const DashBoard: React.FC = ({}) => {
     const [courses, setCourses] = useState<Course[]>([])
     const skeletonCourse = new Array(20).fill(`course`)
     const { getCourses, loading } = useGetCourses()
 
     const fetchCourses = async () => {
-        console.log("executou a função para carregar cursos")
         const courses = await getCourses()
         if (!courses) {
-            // feedback visual que deu erro
             console.log("erro ao carregar cursos")
             return
         }
 
         setTimeout(() => {
-            console.log("dentro do setTimeOut")
             setCourses(courses)
         }, 300)
     }
 
-    useEffect(() => {
-        console.log("dentro do useEffect ssetCarregando")
-        setCarregando(loading)
-    }, [loading])
+    useEffect(() => {}, [loading])
 
     useEffect(() => {
-        console.log("dentro do useEffect principal")
         fetchCourses()
-        setRefreshCallback(() => fetchCourses)
     }, [])
-
-    console.log(courses)
 
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
 
     return (
-        <Box sx={{width:1, flexDirection:"column",}}>
-            <HeaderInfo title="painel de controle" loading={false} refreshCallback={() => {}} />
+        <Box sx={{ width: 1, flexDirection: "column" }}>
+            <HeaderInfo title="painel de controle" loading={loading} refreshCallback={() => fetchCourses()} />
             <SearchBar />
             <Box
                 sx={{
@@ -59,7 +44,7 @@ export const DashBoard: React.FC<DashBoardProps> = ({ setRefreshCallback, setCar
                     height: "64vh",
                     width: 1,
                     gap: "0.8vw",
-                    pt:"1vw"
+                    pt: "1vw",
                 }}
             >
                 <Box ref={ref} {...events} sx={{ width: "73.5vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw" }}>
