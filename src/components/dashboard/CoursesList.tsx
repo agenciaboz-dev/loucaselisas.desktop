@@ -30,7 +30,6 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                             display: "-webkit-box",
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: "vertical",
-                            fontSize: "0.9rem",
                         }}
                     >
                         {course.description}
