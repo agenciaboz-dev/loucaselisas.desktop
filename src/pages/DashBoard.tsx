@@ -22,8 +22,6 @@ export const DashBoard: React.FC = ({}) => {
         }, 300)
     }
 
-    useEffect(() => {}, [loading])
-
     useEffect(() => {
         fetchCourses()
     }, [])
