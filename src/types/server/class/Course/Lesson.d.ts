@@ -1,20 +1,27 @@
 import { Prisma } from "@prisma/client";
-import { Media } from "../Gallery/Media";
+import { Media, MediaForm } from "../Gallery/Media";
 import { FileUpload, WithoutFunctions } from "../helpers";
 export declare const lesson_include: {
-    media: boolean;
-    user_downloads: {
-        include: {
-            _count: boolean;
+    media: true;
+    likes: true;
+    course: true;
+    _count: {
+        select: {
+            downloads: true;
+            likes: true;
+            views: true;
         };
     };
 };
 export type LessonPrisma = Prisma.LessonGetPayload<{
     include: typeof lesson_include;
 }>;
-export type LessonForm = Omit<WithoutFunctions<Lesson>, "id" | "published" | "thumb" | "user_views" | "user_likes" | "user_downloads" | "active"> & {
+export type LessonForm = Omit<WithoutFunctions<Lesson>, "id" | "published" | "thumb" | "views" | "likes" | "downloads" | "active"> & {
     thumb: FileUpload;
-    media: FileUpload;
+    media: MediaForm;
+};
+export type PartialLesson = Partial<Lesson> & {
+    id: string;
 };
 export declare class Lesson {
     id: string;
@@ -24,12 +31,20 @@ export declare class Lesson {
     info: string;
     active: boolean;
     media: Media;
-    user_views: number;
-    user_likes: number;
-    user_downloads: number;
+    views: number;
+    likes: number;
+    downloads: number;
     course_id: string;
+    course: any;
+    favorited_by: {
+        id: string;
+    }[];
     pdf: string | null;
     static new(data: LessonForm): Promise<Lesson>;
     constructor(id: string, data?: LessonPrisma);
+    init(): Promise<void>;
     load(data: LessonPrisma): void;
+    updateMedia(media: MediaForm, thumb: FileUpload): Promise<void>;
+    update(data: Partial<LessonForm>): Promise<void>;
+    favorite(user_id: string, like?: boolean): Promise<void>;
 }

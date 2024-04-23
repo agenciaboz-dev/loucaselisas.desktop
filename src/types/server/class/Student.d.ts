@@ -11,7 +11,11 @@ export declare const student_include: {
                             media: true;
                         };
                     };
-                    messages: true;
+                    _count: {
+                        select: {
+                            messages: true;
+                        };
+                    };
                 };
             };
             creators: {
@@ -29,13 +33,33 @@ export declare const student_include: {
                     user: true;
                 };
             };
-            favorited_by: true;
+            favorited_by: {
+                select: {
+                    id: true;
+                };
+            };
+            roles: {
+                include: {
+                    admin_permissions: true;
+                    general_permissions: true;
+                    profile_permissions: true;
+                };
+            };
+            lessons: {
+                include: {
+                    _count: {
+                        select: {
+                            downloads: true;
+                        };
+                    };
+                };
+            };
             _count: {
                 select: {
                     lessons: true;
                     favorited_by: true;
                     students: true;
-                    views: boolean;
+                    views: true;
                 };
             };
         };

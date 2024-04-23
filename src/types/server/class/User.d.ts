@@ -7,6 +7,7 @@ import { FileUpload, WithoutFunctions } from "./helpers";
 import { Creator, CreatorForm, Student } from "./index";
 import { Role } from "./Role";
 import { PlanContract } from "./Plan";
+import { Lesson } from "./Course/Lesson";
 export declare const user_include: {
     creator: {
         include: {
@@ -27,7 +28,11 @@ export declare const user_include: {
                                     media: true;
                                 };
                             };
-                            messages: true;
+                            _count: {
+                                select: {
+                                    messages: true;
+                                };
+                            };
                         };
                     };
                     creators: {
@@ -45,20 +50,44 @@ export declare const user_include: {
                             user: true;
                         };
                     };
-                    favorited_by: true;
+                    favorited_by: {
+                        select: {
+                            id: true;
+                        };
+                    };
+                    roles: {
+                        include: {
+                            admin_permissions: true;
+                            general_permissions: true;
+                            profile_permissions: true;
+                        };
+                    };
+                    lessons: {
+                        include: {
+                            _count: {
+                                select: {
+                                    downloads: true;
+                                };
+                            };
+                        };
+                    };
                     _count: {
                         select: {
                             lessons: true;
                             favorited_by: true;
                             students: true;
-                            views: boolean;
+                            views: true;
                         };
                     };
                 };
             };
         };
     };
-    favorite_courses: true;
+    favorite_courses: {
+        select: {
+            id: true;
+        };
+    };
     favorite_creators: true;
     payment_cards: true;
     role: {
@@ -73,6 +102,11 @@ export declare const user_include: {
             plan_data: true;
         };
     };
+    _count: {
+        select: {
+            lessons_likes: true;
+        };
+    };
 };
 export type UserPrisma = Prisma.UserGetPayload<{
     include: typeof user_include;
@@ -82,7 +116,7 @@ export interface UserImageForm {
     image?: FileUpload | null;
     cover?: FileUpload | null;
 }
-export type UserForm = Omit<WithoutFunctions<User>, "id" | "plan" | "plan_history" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards"> & {
+export type UserForm = Omit<WithoutFunctions<User>, "id" | "plan" | "plan_history" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards" | "liked_lessons"> & {
     image: FileUpload | null;
     cover: FileUpload | null;
     student: boolean;
@@ -113,12 +147,15 @@ export declare class User {
     google_id: string | null;
     google_token: string | null;
     favorite_creators: string[];
-    favorite_courses: Course[];
+    favorite_courses: {
+        id: string;
+    }[];
     payment_cards: PaymentCard[];
     creator: Creator | null;
     student: Student | null;
     plan: PlanContract | null;
     role: Role;
+    liked_lessons: number;
     constructor(id: string, user_prisma?: UserPrisma);
     init(): Promise<void>;
     static update(data: PartialUser, socket: Socket): Promise<void>;
@@ -133,4 +170,8 @@ export declare class User {
     load(data: UserPrisma): void;
     update(data: Partial<User>, socket?: Socket): Promise<string | undefined>;
     updateImage(data: UserImageForm, socket?: Socket): Promise<void>;
+    getLikedLessons(): Promise<{
+        lessons: Lesson[];
+        courses: Course[];
+    }>;
 }
