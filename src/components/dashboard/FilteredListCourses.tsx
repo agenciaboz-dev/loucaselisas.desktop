@@ -11,11 +11,10 @@ interface FilteredListCoursesProps {
 
 export const FilteredListCourses: React.FC<FilteredListCoursesProps> = ({ loading, courses }) => {
     const skeletonCourse = new Array(20).fill(`course`)
-    // const [searchValue, setSearchValue] = useState("")
+
     const [filteredCourseList, setFilteredCourseList] = useState(courses)
 
     const handleSearch = (value: string) => {
-        // console.log(value)
         setFilteredCourseList(courses.filter((course) => course.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
     }
 
