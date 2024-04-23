@@ -10,7 +10,7 @@ interface RefreshButtonProps {
 export const RefreshButton: React.FC<RefreshButtonProps> = ({ callBack, loading }) => {
     return (
         <IconButton color="primary" onClick={callBack}>
-            {loading ? <CircularProgress size="1.5rem" /> : <CachedIcon />}
+            {loading ? <CircularProgress size="1.7rem" /> : <CachedIcon />}
         </IconButton>
     )
 }
