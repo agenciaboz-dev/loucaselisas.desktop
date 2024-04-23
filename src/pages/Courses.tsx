@@ -124,6 +124,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                           messages={course.chat?.messages}
                                           views={course.views}
                                           userName={course.owner.user.username}
+                                          link={"/courses"}
                                       />
                                   ))}
                         </Grid>

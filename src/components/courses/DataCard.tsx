@@ -1,11 +1,12 @@
 import React from "react"
-import { Avatar, Box, Divider, Grid, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, Box, Divider, Grid, IconButton, MenuItem, Paper, Typography } from "@mui/material"
 import { StatData } from "./StatData"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import ChatIcon from "@mui/icons-material/Chat"
+import { useNavigate } from "react-router-dom"
 
 interface DataCardProps {
     image: string
@@ -16,9 +17,12 @@ interface DataCardProps {
     messages?: number
     views: number
     userName: string | undefined
+    link: string
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName }) => {
+export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName, link }) => {
+    const navigate = useNavigate()
+
     return (
         <>
             <Grid item xs={1}>
@@ -26,9 +30,18 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
                     <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
                         <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }} />
                         <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
-                            <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1rem" }}>
-                                {title}
-                            </Typography>
+                            <MenuItem sx={{ p: 0, m: 0 }}>
+                                <Typography
+                                    onClick={() => navigate(link)}
+                                    variant="subtitle1"
+                                    component="h3"
+                                    sx={{
+                                        fontSize: "1rem",
+                                    }}
+                                >
+                                    {title}
+                                </Typography>
+                            </MenuItem>
                             <Typography
                                 variant="body1"
                                 component="p"
@@ -58,7 +71,6 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
                             <StatData stats={messages} Icon={ChatIcon} />
                             <StatData stats={views} Icon={VisibilityOutlinedIcon} />
                         </Box>
-
                         <Typography variant="subtitle1" component="p">
                             @{userName}
                         </Typography>
