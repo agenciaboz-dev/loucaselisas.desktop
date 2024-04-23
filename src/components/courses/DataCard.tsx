@@ -1,27 +1,33 @@
 import React from "react"
-import { Avatar, Box, Button, Divider, Grid, IconButton, Paper, Typography } from "@mui/material"
-import { Course } from "../../types/server/class/Course"
+import { Avatar, Box, Divider, Grid, IconButton, Paper, Typography } from "@mui/material"
+import { StatData } from "./StatData"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
-import { StatData } from "./StatData"
+import FileDownloadIcon from "@mui/icons-material/FileDownload"
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
+import ChatIcon from "@mui/icons-material/Chat"
 
-interface StatusCourseProps {
-    course: Course
+interface DataCardProps {
+    image: string
+    title: string
+    description: string
+    likes: number
+    downloads: number
+    messages?: number
+    views: number
+    userName: string | undefined
 }
 
-export const StatusCourse: React.FC<StatusCourseProps> = ({ course }) => {
-    const userName = course.owner.user.username
-    const downloadsNumber = course.downloads
-
+export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName }) => {
     return (
         <>
             <Grid item xs={1}>
                 <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw" }}>
                     <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
-                        <Avatar src={course.cover} variant="rounded" sx={{ width: "5vw", height: "5vw" }} />
+                        <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }} />
                         <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
                             <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1rem" }}>
-                                {course.name}
+                                {title}
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -35,7 +41,7 @@ export const StatusCourse: React.FC<StatusCourseProps> = ({ course }) => {
                                     WebkitBoxOrient: "vertical",
                                 }}
                             >
-                                {course.description}
+                                {description}
                             </Typography>
                         </Box>
                         <Box>
@@ -47,10 +53,10 @@ export const StatusCourse: React.FC<StatusCourseProps> = ({ course }) => {
                     <Divider />
                     <Box sx={{ justifyContent: "space-between" }}>
                         <Box sx={{ gap: "1vw" }}>
-                            <StatData stats={course.likes} Icon={FavoriteBorderIcon} />
-                            <StatData stats={downloadsNumber} Icon={FavoriteBorderIcon} />
-                            <StatData stats={course.chat?.messages} Icon={FavoriteBorderIcon} />
-                            <StatData stats={course.views} Icon={FavoriteBorderIcon} />
+                            <StatData stats={likes} Icon={FavoriteBorderIcon} />
+                            <StatData stats={downloads} Icon={FileDownloadIcon} />
+                            <StatData stats={messages} Icon={ChatIcon} />
+                            <StatData stats={views} Icon={VisibilityOutlinedIcon} />
                         </Box>
 
                         <Typography variant="subtitle1" component="p">

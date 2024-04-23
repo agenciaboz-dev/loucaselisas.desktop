@@ -5,7 +5,7 @@ import { useGetCourses } from "../hooks/useGetCourses"
 import { Course } from "../types/server/class/Course"
 import { Filters } from "../components/pageLayout/Filters"
 import { SearchBar } from "../components/header/SearchBar"
-import { StatusCourse } from "../components/courses/StatusCourse"
+import { DataCard } from "../components/courses/DataCard"
 import { useDraggable } from "react-use-draggable-scroll"
 
 interface CourrsesProps {}
@@ -113,7 +113,19 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                           </Paper>
                                       </Grid>
                                   ))
-                                : filteredCourses.map((course) => <StatusCourse key={course.id} course={course} />)}
+                                : filteredCourses.map((course) => (
+                                      <DataCard
+                                          key={course.id}
+                                          image={course.cover}
+                                          title={course.name}
+                                          description={course.description}
+                                          likes={course.likes}
+                                          downloads={course.downloads}
+                                          messages={course.chat?.messages}
+                                          views={course.views}
+                                          userName={course.owner.user.username}
+                                      />
+                                  ))}
                         </Grid>
                     </Box>
                 </Box>
