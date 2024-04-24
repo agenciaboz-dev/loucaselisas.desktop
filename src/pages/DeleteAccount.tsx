@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Paper, Typography } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
-import { StepByStep } from "../components/StepByStep"
+import { StepByStep } from "../components/header/StepByStep"
 
 interface DeleteAccountProps {}
 
