@@ -33,57 +33,25 @@ export const Home: React.FC<HomeProps> = ({}) => {
                     padding: "5vw 0",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between",
+                    justifyContent: isMobile ? "" : "space-between",
+                    gap: isMobile ? 4 : "",
                 }}
             >
-                <Box justifyContent="space-between" gap="1.5vw">
-                    <Box flex={0.2}>
+                <Box justifyContent="space-between" gap={isMobile ? "0.5vw" : "1.5vw"}>
+                    <Box flex={isMobile ? 0.6 : 0.2}>
                         <Avatar variant="square" src={logoMarca} sx={{ width: 1, height: 1, objectFit: "contain" }} />
                     </Box>
-                    <Box flex={0.7} sx={{ justifyContent: "end", gap: "1.8vw" }}>
-                        {/* <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Inicio
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Produtos
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Sobre
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Portfolio
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Academia
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Contato
-                            </Typography>
-                        </Button>
-                        <Button variant="text" color="secondary">
-                            <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Comprar
-                            </Typography>
-                        </Button> */}
-                        {paths.map((path) => (
-                            <MenuHome key={path.link} title={path.title} link={path.link} />
-                        ))}
-                    </Box>
+                    {!isMobile && (
+                        <Box flex={0.7} sx={{ justifyContent: "end", gap: "1.8vw" }}>
+                            {paths.map((path) => (
+                                <MenuHome key={path.link} title={path.title} link={path.link} />
+                            ))}
+                        </Box>
+                    )}
                 </Box>
 
                 <Grid container spacing={4}>
-                    <Grid item xs={7}>
+                    <Grid item xs={isMobile ? 12 : 7}>
                         <Avatar
                             variant="square"
                             src={destaque}
@@ -94,7 +62,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={isMobile ? 12 : 5}>
                         <Login />
                     </Grid>
                 </Grid>
