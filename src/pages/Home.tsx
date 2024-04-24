@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box, Button, Grid, IconButton, Typography } from "@mui/material"
+import { Avatar, Box, Button, Grid, IconButton, Typography, useMediaQuery } from "@mui/material"
 import { Login } from "../components/login/Login"
 import destaque from "../assets/login/Frame747.svg"
 import logoMarca from "../assets/login/logo_wide.svg"
@@ -7,9 +7,22 @@ import logo from "../assets/login/Vector.svg"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import InstagramIcon from "@mui/icons-material/Instagram"
 import { FaFacebookF } from "react-icons/fa"
+import { MenuHome } from "../components/login/MenuHome"
 interface HomeProps {}
 
 export const Home: React.FC<HomeProps> = ({}) => {
+    const isMobile = useMediaQuery("(orientation:portrait")
+
+    const paths = [
+        { title: "Inicio", link: "https://www.loucaselisas.com.br/" },
+        { title: "Produtos", link: "https://www.loucaselisas.com.br/produtos" },
+        { title: "Sobre", link: "https://www.loucaselisas.com.br/sobre" },
+        { title: "Portfolio", link: "https://www.loucaselisas.com.br/_files/ugd/0914c1_e7d129ccd4cc41829f4cb9256d2cef92.pdf?index=true" },
+        { title: "Academia", link: "https://www.loucaselisas.com.br/academia" },
+        { title: "Contato", link: "https://www.loucaselisas.com.br/contato" },
+        { title: "Comprar", link: "https://www.loucaselisas.com.br/comprar" },
+    ]
+
     return (
         <Box sx={{ width: 1, height: "100vh" }}>
             <Box
@@ -28,7 +41,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
                         <Avatar variant="square" src={logoMarca} sx={{ width: 1, height: 1, objectFit: "contain" }} />
                     </Box>
                     <Box flex={0.7} sx={{ justifyContent: "end", gap: "1.8vw" }}>
-                        <Button variant="text" color="secondary">
+                        {/* <Button variant="text" color="secondary">
                             <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
                                 Inicio
                             </Typography>
@@ -62,7 +75,10 @@ export const Home: React.FC<HomeProps> = ({}) => {
                             <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
                                 Comprar
                             </Typography>
-                        </Button>
+                        </Button> */}
+                        {paths.map((path) => (
+                            <MenuHome key={path.link} title={path.title} link={path.link} />
+                        ))}
                     </Box>
                 </Box>
 
