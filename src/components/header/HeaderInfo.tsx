@@ -11,7 +11,7 @@ interface HeaderInfoProps {
     refreshButton?: boolean
 }
 
-export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback, refreshButton }) => {
+export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback, refreshButton = true }) => {
     const navigate = useNavigate()
     return (
         <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
