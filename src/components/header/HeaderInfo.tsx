@@ -1,6 +1,6 @@
 import React from "react"
 import { Box, Button, Typography } from "@mui/material"
-import { RefreshButton } from "../RefreshButtton"
+import { RefreshButton } from "./RefreshButtton"
 import { useNavigate } from "react-router-dom"
 import LogoutIcon from "@mui/icons-material/Logout"
 
