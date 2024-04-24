@@ -11,6 +11,7 @@ import { Aprove } from "./pages/Aprove"
 import { Groups } from "./pages/Groups"
 import { Users } from "./pages/Users"
 import { Settings } from "./pages/Settings"
+import { DeleteAccount } from "./pages/DeleteAccount"
 
 interface RoutesProps {}
 
@@ -34,6 +35,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
                 <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
                 <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
+                <Route path="/delete-account" element={<DeleteAccount />} />
             </ReactRoutes>
         </Box>
     )
