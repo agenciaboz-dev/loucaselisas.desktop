@@ -3,7 +3,7 @@ import { Box, Divider, Grid, Paper, Skeleton } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import { useGetCourses } from "../hooks/useGetCourses"
 import { Course } from "../types/server/class/Course"
-import { Filters } from "../components/pageLayout/Filters"
+import { FilterCourses } from "../components/pageLayout/FilterCourses"
 import { SearchBar } from "../components/header/SearchBar"
 import { DataCard } from "../components/courses/DataCard"
 import { useDraggable } from "react-use-draggable-scroll"
@@ -76,7 +76,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                         pt: "0.2vw",
                     }}
                 >
-                    <Filters courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} />
+                    <FilterCourses courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} />
                     <SearchBar handleSearch={(value) => handleSearch(value)} />
                     <Box
                         ref={ref}

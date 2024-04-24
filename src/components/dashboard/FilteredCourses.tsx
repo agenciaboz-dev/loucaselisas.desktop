@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Skeleton } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
-import { Filters } from "../pageLayout/Filters"
+import { FilterCourses } from "../pageLayout/FilterCourses"
 import { useDraggable } from "react-use-draggable-scroll"
 import { CoursersThumb } from "./CoursesThumb"
 
@@ -39,7 +39,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
 
     return (
         <Box sx={{ flex: 1, flexDirection: "column", gap: "1vw" }}>
-            <Filters courses={courses} onFilter={onFilteredCourses} active={active} setActive={setActive} />
+            <FilterCourses courses={courses} onFilter={onFilteredCourses} active={active} setActive={setActive} />
             <Box
                 ref={ref}
                 {...events}
