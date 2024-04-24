@@ -93,7 +93,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        <Grid container columns={3} spacing={2}>
+                        <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
                             {skeletonLoading
                                 ? skeletonCourse.map((_, index) => (
                                       <Grid item key={index} xs={1}>

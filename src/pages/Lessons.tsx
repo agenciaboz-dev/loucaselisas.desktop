@@ -71,7 +71,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: "61.3vh",
+                            height: "67vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",
@@ -81,7 +81,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        <Grid container columns={3} spacing={2}>
+                        <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
                             {loading
                                 ? skeletonLessons.map((index) => (
                                       <Grid item key={index} xs={1}>
