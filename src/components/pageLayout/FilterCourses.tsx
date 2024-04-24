@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react"
-import { Box,  } from "@mui/material"
+import { Box } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { Category } from "../../types/server/class/Category"
 import { api } from "../../api/api"
 import { FilterButton } from "./FilterButton"
 
-interface FiltersProps {
+interface FilterCoursesProps {
     onFilter: (course: Course[]) => void
     courses: Course[]
     active: string
     setActive: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const Filters: React.FC<FiltersProps> = ({ onFilter, courses, active, setActive }) => {
+export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses, active, setActive }) => {
     const [categories, setCategories] = useState<Category[]>([])
     const [loading, setLoading] = useState(false)
 
