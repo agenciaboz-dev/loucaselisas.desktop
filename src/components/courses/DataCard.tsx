@@ -37,6 +37,8 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
                                     component="h3"
                                     sx={{
                                         fontSize: "1rem",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
                                     }}
                                 >
                                     {title}
