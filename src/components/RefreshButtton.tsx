@@ -3,8 +3,8 @@ import { CircularProgress, IconButton } from "@mui/material"
 import CachedIcon from "@mui/icons-material/Cached"
 
 interface RefreshButtonProps {
-    callBack: () => void
-    loading: boolean
+    callBack?: () => void
+    loading?: boolean
 }
 
 export const RefreshButton: React.FC<RefreshButtonProps> = ({ callBack, loading }) => {
