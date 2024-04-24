@@ -6,11 +6,12 @@ import LogoutIcon from "@mui/icons-material/Logout"
 
 interface HeaderInfoProps {
     title: string
-    loading: boolean
-    refreshCallback: () => void
+    loading?: boolean
+    refreshCallback?: () => void
+    refreshButton?: boolean
 }
 
-export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback }) => {
+export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback, refreshButton }) => {
     const navigate = useNavigate()
     return (
         <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
@@ -18,7 +19,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshC
                 <Typography variant="h1" component="h1" sx={{ textTransform: "uppercase" }}>
                     {title}
                 </Typography>
-                <RefreshButton loading={loading} callBack={refreshCallback} />
+                {refreshButton && <RefreshButton loading={loading} callBack={refreshCallback} />}
             </Box>
 
             <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
