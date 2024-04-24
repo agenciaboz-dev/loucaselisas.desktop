@@ -15,8 +15,8 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
     const [courses, setCourses] = useState<Course[]>([])
     const { getCourses, loading } = useGetCourses()
     const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
-    const skeletonCourse = new Array(20).fill(`course`)
-    const [skeletonLoading, setSkeletonLoading] = useState(loading)
+    const skeletonCourse: string[] = new Array(20).fill(`course`)
+    const [skeletonLoading, setSkeletonLoading] = useState<boolean>(loading)
 
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
@@ -49,6 +49,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
     useEffect(() => {
         setSkeletonLoading(loading)
     }, [loading])
+
     useEffect(() => {
         setFilteredCourses(courses)
         const currentFilter = active
