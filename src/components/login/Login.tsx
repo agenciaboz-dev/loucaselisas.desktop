@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, CircularProgress, IconButton, TextField, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, IconButton, TextField, Typography, useMediaQuery } from "@mui/material"
 import { Form } from "./Form"
 import { useFormik } from "formik"
 import { LoginForm } from "../../types/server/login"
@@ -16,6 +16,8 @@ import { useUser } from "../../hooks/useUser"
 interface LoginProps {}
 
 export const Login: React.FC<LoginProps> = ({}) => {
+    const isMobile = useMediaQuery("(orientation:portrait")
+
     const { onLogin } = useUser()
     const [errorLogin, setErrorLogin] = useState(false)
 
@@ -87,64 +89,89 @@ export const Login: React.FC<LoginProps> = ({}) => {
     const [loading, setLoading] = useState(false)
 
     return (
-        <Box sx={{ height: 1, padding: "1.5vw", pt: 0, gap: "0vw", flexDirection: "column", backgroundColor: "background.default" }}>
-            <Typography variant="subtitle1" component="h1" sx={{ fontSize: "4.8rem", fontWeight: 700 }}>
-                Administrativo
-            </Typography>
-            <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem", mt: "-1.5vw", mb: "1.5vw" }}>
-                Esta área é exclusiva para administradores.
-            </Typography>
-            <Box sx={{ gap: "0vw", flexDirection: "column" }}>
-                <Form onSubmit={formik.handleSubmit} sx={{ height: 1, flexDirection: "column", gap: "2vw" }}>
-                    <TextField
-                        label="Usuário ou Email"
-                        variant="standard"
-                        placeholder="Digite seu usuário ou o seu email "
-                        name="login"
-                        value={formik.values.login}
-                        onChange={formik.handleChange}
-                        error={formik.touched.login && Boolean(formik.errors.login)}
-                        helperText={formik.touched.login && formik.errors.login}
-                        InputProps={{
-                            sx: { gap: "0.5vw", fontSize: "1rem" },
-                            startAdornment: <PersonIcon />,
-                        }}
-                        InputLabelProps={{ sx: { fontSize: "1rem" } }}
-                    />
-
-                    <TextField
-                        label="Senha"
-                        variant="standard"
-                        placeholder="Digite a sua senha"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        type={showPassword ? "text" : "password"}
-                        error={formik.touched.password && Boolean(formik.errors.password)}
-                        helperText={formik.touched.password && formik.errors.password}
-                        InputProps={{
-                            sx: { gap: "0.5vw", fontSize: "1rem" },
-                            startAdornment: <KeyIcon />,
-                            endAdornment: (
-                                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                </IconButton>
-                            ),
-                        }}
-                        InputLabelProps={{ sx: { fontSize: "1rem" } }}
-                    />
-                    {errorLogin && (
-                        <Typography variant="body1" component="p" color="error.main">
-                            Usuário ou senha incorretos
-                        </Typography>
-                    )}
-                    <Box sx={{ justifyContent: "end" }}>
-                        <Button type="submit" variant="contained" sx={{ borderRadius: 0, width: "30%" }}>
-                            {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Entrar"}
+        <>
+            <Box
+                sx={{
+                    height: 1,
+                    padding: isMobile ? "5vw" : "1.5vw",
+                    pt: 0,
+                    gap: "0vw",
+                    flexDirection: "column",
+                    backgroundColor: "background.default",
+                }}
+            >
+                <Typography
+                    variant="subtitle1"
+                    component="h1"
+                    sx={{ fontSize: isMobile ? "2.2rem" : "4vw", fontWeight: 700, alignSelf: isMobile ? "center" : "flex-start" }}
+                >
+                    Administrativo
+                </Typography>
+                <Typography
+                    variant="body2"
+                    component="p"
+                    sx={{ fontSize: isMobile ? "0.8rem" : "1.1rem", mt: "-1.5vw", mb: "1.5vw", alignSelf: isMobile ? "center" : "flex-start" }}
+                >
+                    Esta área é exclusiva para administradores.
+                </Typography>
+                <Box sx={{ gap: "0vw", flexDirection: "column", w: 1 }}>
+                    {isMobile ? (
+                        <Button variant="contained" fullWidth>
+                            Abrir Aplicativo
                         </Button>
-                    </Box>
-                </Form>
+                    ) : (
+                        <Form onSubmit={formik.handleSubmit} sx={{ height: 1, flexDirection: "column", gap: "2vw" }}>
+                            <TextField
+                                label="Usuário ou Email"
+                                variant="standard"
+                                placeholder="Digite seu usuário ou o seu email "
+                                name="login"
+                                value={formik.values.login}
+                                onChange={formik.handleChange}
+                                error={formik.touched.login && Boolean(formik.errors.login)}
+                                helperText={formik.touched.login && formik.errors.login}
+                                InputProps={{
+                                    sx: { gap: "0.5vw", fontSize: "1rem" },
+                                    startAdornment: <PersonIcon />,
+                                }}
+                                InputLabelProps={{ sx: { fontSize: "1rem" } }}
+                            />
+
+                            <TextField
+                                label="Senha"
+                                variant="standard"
+                                placeholder="Digite a sua senha"
+                                name="password"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                type={showPassword ? "text" : "password"}
+                                error={formik.touched.password && Boolean(formik.errors.password)}
+                                helperText={formik.touched.password && formik.errors.password}
+                                InputProps={{
+                                    sx: { gap: "0.5vw", fontSize: "1rem" },
+                                    startAdornment: <KeyIcon />,
+                                    endAdornment: (
+                                        <IconButton onClick={() => setShowPassword(!showPassword)}>
+                                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                        </IconButton>
+                                    ),
+                                }}
+                                InputLabelProps={{ sx: { fontSize: "1rem" } }}
+                            />
+                            {errorLogin && (
+                                <Typography variant="body1" component="p" color="error.main">
+                                    Usuário ou senha incorretos
+                                </Typography>
+                            )}
+                            <Box sx={{ justifyContent: "end" }}>
+                                <Button type="submit" variant="contained" sx={{ borderRadius: 0, width: "30%" }}>
+                                    {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Entrar"}
+                                </Button>
+                            </Box>
+                        </Form>
+                    )}
+                </Box>
             </Box>
-        </Box>
+        </>
     )
 }
