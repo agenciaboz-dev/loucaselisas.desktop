@@ -6,7 +6,7 @@ import { Course } from "../types/server/class/Course"
 import { useGetCourses } from "../hooks/useGetCourses"
 import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
-import { GroupCard } from "../components/courses/GroupCard"
+import { GroupCard } from "../components/courses/groups/GroupCard"
 
 interface GroupsProps {}
 
@@ -33,7 +33,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
 
     useEffect(() => {
         fetchCourses()
-        console.log({ CHTAS: courses })
+        // console.log({ CHTAS: courses })
     }, [])
 
     const onFilteredCourses = (filtered_courses: Course[]) => {
@@ -127,7 +127,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                               <Skeleton
                                                   variant="rounded"
                                                   animation="wave"
-                                                  sx={{ marginRight: "1vw", width: "2vw", height: "2vw" }}
+                                                  sx={{ marginRight: "1vw", width: "3vw", height: "3vw" }}
                                               />
                                           </Box>
                                           <Divider />
