@@ -1,8 +1,175 @@
-import React from "react"
-import { Box } from "@mui/material"
+import React, { useEffect, useRef, useState } from "react"
+import { Avatar, Box, Divider, Grid, MenuItem, Paper, Skeleton, Typography } from "@mui/material"
+import { HeaderInfo } from "../components/header/HeaderInfo"
+import { FilterCourses } from "../components/pageLayout/FilterCourses"
+import { Course } from "../types/server/class/Course"
+import { useGetCourses } from "../hooks/useGetCourses"
+import { SearchBar } from "../components/header/SearchBar"
+import { useDraggable } from "react-use-draggable-scroll"
+import { GroupCard } from "../components/courses/GroupCard"
 
 interface GroupsProps {}
 
 export const Groups: React.FC<GroupsProps> = ({}) => {
-    return <Box sx={{}}>Grupos</Box>
+    const [active, setActive] = useState("popular")
+    const { getCourses, loading } = useGetCourses()
+    const [courses, setCourses] = useState<Course[]>([])
+    const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
+    const skeletonCourse: string[] = new Array(20).fill(`course`)
+    const [skeletonLoading, setSkeletonLoading] = useState<boolean>(loading)
+
+    const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
+    const { events } = useDraggable(ref, { applyRubberBandEffect: true })
+    const fetchCourses = async () => {
+        const courses = await getCourses()
+        if (!courses) {
+            console.log("erro ao carregar cursos")
+            return
+        }
+        setTimeout(() => {
+            setCourses(courses)
+        }, 300)
+    }
+
+    useEffect(() => {
+        fetchCourses()
+        console.log({ CHTAS: courses })
+    }, [])
+
+    const onFilteredCourses = (filtered_courses: Course[]) => {
+        setSkeletonLoading(true)
+
+        setTimeout(() => {
+            setFilteredCourses(filtered_courses)
+            setSkeletonLoading(false)
+        }, 200)
+    }
+
+    useEffect(() => {
+        setSkeletonLoading(loading)
+    }, [loading])
+
+    useEffect(() => {
+        setFilteredCourses(courses)
+        const currentFilter = active
+        setActive(currentFilter)
+    }, [courses])
+
+    const handleSearch = (value: string) => {
+        setFilteredCourses(courses.filter((course) => course.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
+    }
+
+    useEffect(() => {
+        setFilteredCourses(courses)
+    }, [courses])
+
+    return (
+        <Box sx={{ width: "100%", flexDirection: "column" }}>
+            <HeaderInfo title="Grupos" />
+            <Box
+                sx={{
+                    flexDirection: "column",
+                    height: "72.8vh",
+                    width: 1,
+                    gap: "0.8vw",
+                    pt: "0.2vw",
+                }}
+            >
+                <FilterCourses courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} />
+                <SearchBar handleSearch={() => {}} key={"name"} />
+
+                <Box
+                    ref={ref}
+                    {...events}
+                    sx={{
+                        height: "61.3vh",
+                        pt: "0.2vw",
+                        overflowY: "scroll",
+                        scrollbarWidth: "none",
+                        gap: "0.5vw",
+                        px: "1.5vw",
+                        mx: "-1.5vw",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
+                        {skeletonLoading
+                            ? skeletonCourse.map((_, index) => (
+                                  <Grid item xs={1} sx={{}}>
+                                      <Paper
+                                          sx={{
+                                              flexDirection: "column",
+                                              p: "0.5vw",
+                                              gap: "0.5vw",
+                                              borderRadius: "1vw",
+                                              flex: 1,
+                                          }}
+                                      >
+                                          <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                                              <Box
+                                                  sx={{
+                                                      flexDirection: "column",
+                                                      justifyContent: "space-between",
+                                                      gap: "0.3vw",
+                                                  }}
+                                              >
+                                                  <Skeleton
+                                                      variant="rounded"
+                                                      animation="wave"
+                                                      sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
+                                                  />
+                                                  <Skeleton
+                                                      variant="rounded"
+                                                      animation="wave"
+                                                      sx={{ width: "18vw", height: "0.8vw", maxWidth: "16vw" }}
+                                                  />
+                                              </Box>
+                                              <Skeleton
+                                                  variant="rounded"
+                                                  animation="wave"
+                                                  sx={{ marginRight: "1vw", width: "2vw", height: "2vw" }}
+                                              />
+                                          </Box>
+                                          <Divider />
+                                          <Box
+                                              sx={{
+                                                  width: 1,
+                                                  flexDirection: "row",
+                                                  gap: "0.5vw",
+                                                  alignItems: "center",
+                                              }}
+                                          >
+                                              <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                                              <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.4vw" }}>
+                                                  <Skeleton
+                                                      variant="rounded"
+                                                      animation="wave"
+                                                      sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
+                                                  />
+                                                  <Skeleton
+                                                      variant="rounded"
+                                                      animation="wave"
+                                                      sx={{ width: "20vw", height: "1.5vw", maxWidth: "16vw" }}
+                                                  />
+                                                  <Skeleton
+                                                      variant="rounded"
+                                                      animation="wave"
+                                                      sx={{
+                                                          alignSelf: "end",
+                                                          width: "5vw",
+                                                          height: "0.7vw",
+                                                          maxWidth: "16vw",
+                                                      }}
+                                                  />
+                                              </Box>
+                                          </Box>
+                                      </Paper>
+                                  </Grid>
+                              ))
+                            : filteredCourses.map((course) => <GroupCard course={course} />)}
+                    </Grid>
+                </Box>
+            </Box>
+        </Box>
+    )
 }
