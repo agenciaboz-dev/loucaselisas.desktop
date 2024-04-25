@@ -149,17 +149,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                   <Skeleton
                                                       variant="rounded"
                                                       animation="wave"
-                                                      sx={{ width: "20vw", height: "1.5vw", maxWidth: "16vw" }}
-                                                  />
-                                                  <Skeleton
-                                                      variant="rounded"
-                                                      animation="wave"
-                                                      sx={{
-                                                          alignSelf: "end",
-                                                          width: "5vw",
-                                                          height: "0.7vw",
-                                                          maxWidth: "16vw",
-                                                      }}
+                                                      sx={{ width: "16vw", height: "2vw", maxWidth: "16vw" }}
                                                   />
                                               </Box>
                                           </Box>
