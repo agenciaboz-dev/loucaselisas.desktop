@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Avatar, Box, Button, Grid, IconButton, Typography, useMediaQuery } from "@mui/material"
 import { Login } from "../components/login/Login"
 import destaque from "../assets/login/Frame747.svg"
@@ -8,23 +8,21 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import InstagramIcon from "@mui/icons-material/Instagram"
 import { FaFacebookF } from "react-icons/fa"
 import { MenuHome } from "../components/login/MenuHome"
+import MenuIcon from "@mui/icons-material/Menu"
+import { MenuMobile } from "../components/login/MenuMobile"
+import { paths } from "../paths"
+import { MenuMobileDrop } from "../components/login/MenuMobileDrop"
 interface HomeProps {}
 
 export const Home: React.FC<HomeProps> = ({}) => {
     const isMobile = useMediaQuery("(orientation:portrait")
+    const [isOpen, setIsOpen] = useState(false)
 
-    const paths = [
-        { title: "Inicio", link: "https://www.loucaselisas.com.br/" },
-        { title: "Produtos", link: "https://www.loucaselisas.com.br/produtos" },
-        { title: "Sobre", link: "https://www.loucaselisas.com.br/sobre" },
-        { title: "Portfolio", link: "https://www.loucaselisas.com.br/_files/ugd/0914c1_e7d129ccd4cc41829f4cb9256d2cef92.pdf?index=true" },
-        { title: "Academia", link: "https://www.loucaselisas.com.br/academia" },
-        { title: "Contato", link: "https://www.loucaselisas.com.br/contato" },
-        { title: "Comprar", link: "https://www.loucaselisas.com.br/comprar" },
-    ]
+    console.log(isOpen)
 
     return (
         <Box sx={{ width: 1, height: "100vh" }}>
+            {isOpen && <MenuMobile isOpen={isOpen} setIsOpen={setIsOpen} />}
             <Box
                 sx={{
                     width: "75vw",
@@ -33,15 +31,23 @@ export const Home: React.FC<HomeProps> = ({}) => {
                     padding: "5vw 0",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: isMobile ? "" : "space-between",
-                    gap: isMobile ? 4 : "",
+                    justifyContent: "space-between",
                 }}
             >
                 <Box justifyContent="space-between" gap={isMobile ? "0.5vw" : "1.5vw"}>
-                    <Box flex={isMobile ? 0.6 : 0.2}>
+                    <Box flex={isMobile ? 0.9 : 0.2}>
                         <Avatar variant="square" src={logoMarca} sx={{ width: 1, height: 1, objectFit: "contain" }} />
                     </Box>
-                    {!isMobile && (
+                    {isMobile ? (
+                        <MenuMobileDrop />
+                    ) : (
+                        // <IconButton
+                        //     color={isOpen ? "primary" : "secondary"}
+                        //     onClick={() => setIsOpen(!isOpen)}
+                        //     sx={{ zIndex: 100, position: isOpen ? "fixed" : "", right: isOpen ? "3vw" : "" }}
+                        // >
+                        //     <MenuIcon />
+                        // </IconButton>
                         <Box flex={0.7} sx={{ justifyContent: "end", gap: "1.8vw" }}>
                             {paths.map((path) => (
                                 <MenuHome key={path.link} title={path.title} link={path.link} />
@@ -50,7 +56,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
                     )}
                 </Box>
 
-                <Grid container spacing={4}>
+                <Grid container spacing={isMobile ? 8 : 4}>
                     <Grid item xs={isMobile ? 12 : 7}>
                         <Avatar
                             variant="square"
@@ -66,20 +72,27 @@ export const Home: React.FC<HomeProps> = ({}) => {
                         <Login />
                     </Grid>
                 </Grid>
-                <Box sx={{ justifyContent: "space-between" }}>
-                    <Box gap="1.5vw">
-                        <IconButton sx={{ backgroundColor: "secondary.main", color: "primary.main" }}>
-                            <WhatsAppIcon sx={{ fontSize: "1.2rem" }} />
-                        </IconButton>
-                        <IconButton sx={{ backgroundColor: "secondary.main", color: "primary.main" }}>
-                            <InstagramIcon sx={{ fontSize: "1.2rem" }} />
-                        </IconButton>
-                        <IconButton sx={{ backgroundColor: "secondary.main", color: "primary.main" }}>
+                <Box
+                    sx={{
+                        flexDirection: isMobile ? "column" : "row",
+                        justifyContent: "space-between",
+                        gap: isMobile ? "3vw" : "",
+                        alignItems: isMobile ? "center" : "",
+                    }}
+                >
+                    <Box gap={isMobile ? "4vw" : "1.5vw"}>
+                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
+                            <WhatsAppIcon sx={{ fontSize: isMobile ? "1.5rem" : "1.2rem" }} />
+                        </Button>
+                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
+                            <InstagramIcon sx={{ fontSize: isMobile ? "1.5rem" : "1.2rem" }} />
+                        </Button>
+                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2.5vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
                             <FaFacebookF style={{ fontSize: "1.2rem" }} />
-                        </IconButton>
+                        </Button>
                     </Box>
                     <Box gap="1vw" sx={{ color: "secondary.main" }}>
-                        <Avatar src={logo} sx={{ height: "1.5rem", width: "1.5rem" }} />
+                        <Avatar src={logo} sx={{ display: isMobile ? "none" : "", height: "1.5rem", width: "1.5rem" }} />
                         <Typography variant="body1">© 2024 Loucas & Lisas</Typography>
                     </Box>
                 </Box>
