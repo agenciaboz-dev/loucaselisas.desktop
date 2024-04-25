@@ -18,11 +18,13 @@ export const Home: React.FC<HomeProps> = ({}) => {
     const isMobile = useMediaQuery("(orientation:portrait")
     const [isOpen, setIsOpen] = useState(false)
 
+    const socialUrls = ["https://wa.me/5548999401049", "https://www.instagram.com/loucaselisas/", "https://www.facebook.com/LoucasLisas/"]
+
     console.log(isOpen)
 
     return (
-        <Box sx={{ width: 1, height: "100vh" }}>
-            {isOpen && <MenuMobile isOpen={isOpen} setIsOpen={setIsOpen} />}
+        <Box sx={{ width: 1, height: "100vh", py: "2vh" }}>
+            {/* {isOpen && <MenuMobile isOpen={isOpen} setIsOpen={setIsOpen} />} */}
             <Box
                 sx={{
                     width: "75vw",
@@ -81,13 +83,28 @@ export const Home: React.FC<HomeProps> = ({}) => {
                     }}
                 >
                     <Box gap={isMobile ? "4vw" : "1.5vw"}>
-                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}
+                            onClick={() => window.open(socialUrls[0], "_blank")}
+                        >
                             <WhatsAppIcon sx={{ fontSize: isMobile ? "1.5rem" : "1.2rem" }} />
                         </Button>
-                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            sx={{ p: isMobile ? "2vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}
+                            onClick={() => window.open(socialUrls[1], "_blank")}
+                        >
                             <InstagramIcon sx={{ fontSize: isMobile ? "1.5rem" : "1.2rem" }} />
                         </Button>
-                        <Button variant="contained" color="secondary" sx={{ p: isMobile ? "2.5vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            sx={{ p: isMobile ? "2.5vw" : "0.5vw", borderRadius: "30vw", minWidth: 0 }}
+                            onClick={() => window.open(socialUrls[2], "_blank")}
+                        >
                             <FaFacebookF style={{ fontSize: "1.2rem" }} />
                         </Button>
                     </Box>
