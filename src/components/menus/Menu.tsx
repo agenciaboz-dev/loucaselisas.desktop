@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { Avatar, Box, List, Paper, Typography, useTheme } from "@mui/material"
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn"
 import AutoStoriesIcon from "@mui/icons-material/AutoStories"
@@ -25,8 +25,9 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
         { label: "Cursos", icon: <PersonalVideoIcon />, path: "/cursos" },
         { label: "Lições", icon: <AutoStoriesIcon />, path: "/licoes" },
         { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
-        { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
         { label: "Usuários", icon: <GroupIcon />, path: "/usuarios" },
+        { label: "Tipos de Usuários", icon: <GroupIcon />, path: "/type-users" },
+        { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
     ]
 
     const { user } = useUser()
@@ -46,7 +47,15 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                     flexDirection: "column",
                 }}
             >
-                <Box sx={{ justifyContent: "center", m: "2.5vw 0 0.5vw", flexDirection: "column", gap: " 1vw", alignItems: "center" }}>
+                <Box
+                    sx={{
+                        justifyContent: "center",
+                        m: "2.5vw 0 0.5vw",
+                        flexDirection: "column",
+                        gap: " 1vw",
+                        alignItems: "center",
+                    }}
+                >
                     <Avatar
                         variant="circular"
                         sx={{
