@@ -36,22 +36,22 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
             ></video>
 
             <ReactRoutes>
-                {!user ? (
+                {/* {!user ? (
                     <>
-                        <Route path="/" element={<Home />} />
                         <Route path="/delete-account" element={<DeleteAccount />} />
+                        <Route path="*" element={<Home />} />
                     </>
-                ) : (
-                    <>
-                        <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
-                        <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
-                        <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
-                        <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
-                        <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
-                        <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
-                        <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
-                    </>
-                )}
+                ) : ( */}
+                <>
+                    <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
+                    <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
+                    <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
+                    <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
+                    <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
+                    <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                    <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
+                </>
+                {/* )} */}
             </ReactRoutes>
         </Box>
     )
