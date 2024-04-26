@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material"
 import { RefreshButton } from "./RefreshButtton"
 import { useNavigate } from "react-router-dom"
 import LogoutIcon from "@mui/icons-material/Logout"
+import { useUser } from "../../hooks/useUser"
 
 interface HeaderInfoProps {
     title: string
@@ -13,6 +14,7 @@ interface HeaderInfoProps {
 
 export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback, refreshButton = true }) => {
     const navigate = useNavigate()
+    const { user, onLogout } = useUser()
     return (
         <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
             <Box sx={{ alignItems: "center", gap: "0.7vw" }}>
@@ -22,7 +24,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshC
                 {refreshButton && <RefreshButton loading={loading} callBack={refreshCallback} />}
             </Box>
 
-            <Button endIcon={<LogoutIcon />} onClick={() => navigate("/")}>
+            <Button endIcon={<LogoutIcon />} onClick={onLogout}>
                 <Typography variant="h4" component="p" sx={{ fontSize: "1.4rem" }}>
                     SAIR
                 </Typography>

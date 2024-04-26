@@ -12,30 +12,46 @@ import { Groups } from "./pages/Groups"
 import { Users } from "./pages/Users"
 import { Settings } from "./pages/Settings"
 import { DeleteAccount } from "./pages/DeleteAccount"
+import { useUser } from "./hooks/useUser"
 
 interface RoutesProps {}
 
 export const Routes: React.FC<RoutesProps> = ({}) => {
+    const { user } = useUser()
     return (
         <Box>
             <video
                 autoPlay
                 loop
                 muted
-                style={{ pointerEvents: "none", zIndex: -1, position: "absolute", width: "100vw", height: "100vh", objectFit: "cover" }}
+                style={{
+                    pointerEvents: "none",
+                    zIndex: -1,
+                    position: "absolute",
+                    width: "100vw",
+                    height: "100vh",
+                    objectFit: "cover",
+                }}
                 src={backgroundVideo}
             ></video>
 
             <ReactRoutes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
-                <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
-                <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
-                <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
-                <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
-                <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
-                <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
-                <Route path="/delete-account" element={<DeleteAccount />} />
+                {!user ? (
+                    <>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/delete-account" element={<DeleteAccount />} />
+                    </>
+                ) : (
+                    <>
+                        <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
+                        <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
+                        <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
+                        <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
+                        <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
+                        <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                        <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
+                    </>
+                )}
             </ReactRoutes>
         </Box>
     )
