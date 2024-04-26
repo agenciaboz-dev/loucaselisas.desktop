@@ -44,12 +44,13 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     </>
                 ) : ( */}
                 <>
+                    <Route path="/" element={<Home />} />
                     <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
                     <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
                     <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
-                    <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
                     <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
                     <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                    <Route path="/type-users" element={<PageLayout children={<TypeUsers />} />} />
                     <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
                 </>
                 {/* )} */}

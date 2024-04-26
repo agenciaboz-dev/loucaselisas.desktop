@@ -24,7 +24,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
         // { label: "Categorias", icon: <ViewListIcon />, path: "/categorias" },
         { label: "Cursos", icon: <PersonalVideoIcon />, path: "/cursos" },
         { label: "Lições", icon: <AutoStoriesIcon />, path: "/licoes" },
-        { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
+        // { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
         { label: "Usuários", icon: <GroupIcon />, path: "/usuarios" },
         { label: "Tipos de Usuários", icon: <GroupIcon />, path: "/type-users" },
         { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
