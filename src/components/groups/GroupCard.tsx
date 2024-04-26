@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { Avatar, Box, Divider, Grid, Menu, MenuItem, Paper, Typography } from "@mui/material"
 import MoreVert from "@mui/icons-material/MoreVert"
-import { Course } from "../../../types/server/class/Course"
-import { Message } from "../../../types/server/class/Chat/Message"
-import { api } from "../../../api/api"
+import { Course } from "../../types/server/class/Course"
+import { Message } from "../../types/server/class/Chat/Message"
+import { api } from "../../api/api"
 
 interface GroupCardProps {
     course: Course
@@ -32,7 +32,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
     return (
         message && (
             <Grid item xs={1} sx={{}}>
-                <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw", borderRadius: "1vw", flex: 1 }}>
+                <Paper sx={{ flexDirection: "column", p: "0.7vw", gap: "0.5vw", borderRadius: "0.5vw", flex: 1 }}>
                     <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
                         <Box sx={{ flexDirection: "column", justifyContent: "center" }}>
                             <Typography
@@ -62,11 +62,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
                                 {course.description}
                             </Typography>
                         </Box>
-                        <Avatar
-                            src={course.cover}
-                            variant="rounded"
-                            sx={{ marginRight: "1vw", width: "3vw", height: "3vw" }}
-                        />
+                        <Avatar src={course.cover} variant="rounded" sx={{ width: "3vw", height: "3vw" }} />
                     </Box>
                     <Divider />
                     <Box
@@ -75,30 +71,49 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
                             flexDirection: "row",
                             gap: "0.5vw",
                             alignItems: "center",
+                            justifyContent: "space-between",
                         }}
                     >
-                        <Avatar src={message.user.cover} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
-                        <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
-                            <Typography variant="body2" component={"p"}>
-                                {message?.user.name}
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                component={"p"}
-                                fontSize={"0.8rem"}
-                                sx={{
-                                    width: 1,
-                                    overflow: "hidden",
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: "vertical",
-                                    textAlign: "justify",
-                                }}
-                            >
-                                {message?.text}
-                            </Typography>
-                            <Typography variant="body2" component={"p"} fontSize={"0.7rem"} sx={{ color: "gray" }}>
+                        <Box
+                            sx={{
+                                width: 0.8,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                minHeight: "4.2vw",
+                                gap: "0.5vw",
+                            }}
+                        >
+                            <Avatar src={message.user.cover} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                            <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
+                                <Typography variant="body2" component={"p"}>
+                                    {message?.user.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    component={"p"}
+                                    fontSize={"0.8rem"}
+                                    sx={{
+                                        width: 1,
+                                        overflow: "hidden",
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: "vertical",
+                                        textAlign: "justify",
+                                    }}
+                                >
+                                    {message?.text}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Box sx={{ flexDirection: "column", alignItems: "end" }}>
+                            <Typography variant="body2" component={"p"} fontSize={"0.75rem"} sx={{ color: "gray" }}>
                                 {new Date(Number(message?.datetime)).toLocaleDateString("pt-br")}
+                            </Typography>
+                            <Typography variant="body2" component={"p"} fontSize={"0.75rem"} sx={{ color: "gray" }}>
+                                {new Date(Number(message.datetime)).toLocaleTimeString("pt-br", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                })}
                             </Typography>
                         </Box>
                     </Box>

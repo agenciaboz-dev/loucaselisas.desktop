@@ -67,8 +67,16 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
 
     return (
         <Box sx={{ gap: "0.8vw" }}>
-            <FilterButton active={"popular" === active} content="Mais Vistos" onClickCategory={() => onClickCategory("popular")} />
-            <FilterButton active={"recent" === active} content="Novos Cursos" onClickCategory={() => onClickCategory("recent")} />
+            <FilterButton
+                active={"popular" === active}
+                content="Mais Vistos"
+                onClickCategory={() => onClickCategory("popular")}
+            />
+            <FilterButton
+                active={"recent" === active}
+                content="Novos Cursos"
+                onClickCategory={() => onClickCategory("recent")}
+            />
             {categories.map((category) => (
                 <FilterButton
                     key={category.id}

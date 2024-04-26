@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Avatar, Box, Divider, Grid, MenuItem, Paper, Skeleton, Typography } from "@mui/material"
+import { Box, Divider, Grid, Paper, Skeleton } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
-import { FilterCourses } from "../components/pageLayout/FilterCourses"
 import { Course } from "../types/server/class/Course"
 import { useGetCourses } from "../hooks/useGetCourses"
 import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
-import { GroupCard } from "../components/courses/groups/GroupCard"
+import { GroupCard } from "../components/groups/GroupCard"
 
 interface GroupsProps {}
 
@@ -33,17 +32,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
 
     useEffect(() => {
         fetchCourses()
-        // console.log({ CHTAS: courses })
     }, [])
-
-    const onFilteredCourses = (filtered_courses: Course[]) => {
-        setSkeletonLoading(true)
-
-        setTimeout(() => {
-            setFilteredCourses(filtered_courses)
-            setSkeletonLoading(false)
-        }, 200)
-    }
 
     useEffect(() => {
         setSkeletonLoading(loading)
@@ -75,8 +64,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                     pt: "0.2vw",
                 }}
             >
-                <FilterCourses courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} />
-                <SearchBar handleSearch={() => {}} key={"name"} />
+                <SearchBar handleSearch={(value) => handleSearch(value)} key={"name"} />
 
                 <Box
                     ref={ref}
@@ -95,11 +83,11 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                     <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
                         {skeletonLoading
                             ? skeletonCourse.map((_, index) => (
-                                  <Grid item xs={1} sx={{}}>
+                                  <Grid item xs={1} key={index}>
                                       <Paper
                                           sx={{
                                               flexDirection: "column",
-                                              p: "0.5vw",
+                                              p: "0.7vw",
                                               gap: "0.5vw",
                                               borderRadius: "1vw",
                                               flex: 1,
@@ -127,13 +115,14 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                               <Skeleton
                                                   variant="rounded"
                                                   animation="wave"
-                                                  sx={{ marginRight: "1vw", width: "3vw", height: "3vw" }}
+                                                  sx={{ width: "3vw", height: "3vw" }}
                                               />
                                           </Box>
                                           <Divider />
                                           <Box
                                               sx={{
                                                   width: 1,
+                                                  minHeight: "5vw",
                                                   flexDirection: "row",
                                                   gap: "0.5vw",
                                                   alignItems: "center",
@@ -156,7 +145,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                       </Paper>
                                   </Grid>
                               ))
-                            : filteredCourses.map((course) => <GroupCard course={course} />)}
+                            : filteredCourses.map((course) => <GroupCard course={course} key={course.id} />)}
                     </Grid>
                 </Box>
             </Box>
