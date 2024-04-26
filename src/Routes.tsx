@@ -13,6 +13,7 @@ import { Users } from "./pages/Users"
 import { Settings } from "./pages/Settings"
 import { DeleteAccount } from "./pages/DeleteAccount"
 import { useUser } from "./hooks/useUser"
+import { TypeUsers } from "./pages/TypeUsers"
 
 interface RoutesProps {}
 
@@ -49,6 +50,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                         <Route path="/aprovar" element={<PageLayout children={<Aprove />} />} />
                         <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
                         <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                        <Route path="/type-users" element={<PageLayout children={<TypeUsers />} />} />
                         <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
                     </>
                 )}
