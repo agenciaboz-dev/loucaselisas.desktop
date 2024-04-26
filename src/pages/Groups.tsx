@@ -6,8 +6,13 @@ import { useGetCourses } from "../hooks/useGetCourses"
 import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
 import { GroupCard } from "../components/groups/GroupCard"
+import { api } from "../api/api"
+import { Message } from "yup"
 
 interface GroupsProps {}
+interface LastMessages {
+    [key: string]: any
+}
 
 export const Groups: React.FC<GroupsProps> = ({}) => {
     const [active, setActive] = useState("popular")
@@ -25,6 +30,8 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
             console.log("erro ao carregar cursos")
             return
         }
+
+        await fetchMessages(courses)
         setTimeout(() => {
             setCourses(courses)
         }, 300)
@@ -44,9 +51,46 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         setActive(currentFilter)
     }, [courses])
 
-    const handleSearch = (value: string) => {
-        setFilteredCourses(courses.filter((course) => course.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
+    const [lastMessages, setLastMessages] = useState<{ [key: string]: any | null }>({})
+
+    const fetchMessages = async (courses: Course[]) => {
+        try {
+            const messages: LastMessages = {}
+            courses.forEach(async (course) => {
+                let message: Message | null = null
+                const response = await api.get("/course/last_message", { params: { course_id: course.id } })
+                if (response.data) {
+                    message = response.data
+                }
+                messages[course.id] = message
+            })
+            setLastMessages(messages)
+        } catch (error) {
+            console.error(error)
+        }
     }
+
+    const handleSearch = (value: string) => {
+        const lowerCaseValue = value.toLowerCase()
+        setFilteredCourses(
+            courses.filter((course) => {
+                const courseMatches =
+                    course.name.toLowerCase().includes(lowerCaseValue) ||
+                    course.owner.user.username?.toLowerCase().includes(lowerCaseValue)
+
+                const messageMatches =
+                    (lastMessages[course.id] && lastMessages[course.id]?.text.toLowerCase().includes(lowerCaseValue)) ||
+                    lastMessages[course.id]?.user.name.toLowerCase().includes(lowerCaseValue) ||
+                    lastMessages[course.id]?.user.username.toLowerCase().includes(lowerCaseValue)
+
+                return courseMatches || messageMatches
+            })
+        )
+    }
+
+    useEffect(() => {
+        console.log(lastMessages)
+    }, [lastMessages])
 
     useEffect(() => {
         setFilteredCourses(courses)
@@ -54,7 +98,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
 
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
-            <HeaderInfo title="Grupos" />
+            <HeaderInfo title="Grupos" refreshCallback={() => fetchCourses()} loading={loading} />
             <Box
                 sx={{
                     flexDirection: "column",
@@ -70,7 +114,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                     ref={ref}
                     {...events}
                     sx={{
-                        height: "61.3vh",
+                        height: "66.9vh",
                         pt: "0.2vw",
                         overflowY: "scroll",
                         scrollbarWidth: "none",
