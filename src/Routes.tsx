@@ -13,6 +13,7 @@ import { Users } from "./pages/Users"
 import { Settings } from "./pages/Settings"
 import { DeleteAccount } from "./pages/DeleteAccount"
 import { useUser } from "./hooks/useUser"
+import { TypeUsers } from "./pages/TypeUsers"
 
 interface RoutesProps {}
 
