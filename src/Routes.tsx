@@ -14,6 +14,7 @@ import { Settings } from "./pages/Settings"
 import { DeleteAccount } from "./pages/DeleteAccount"
 import { useUser } from "./hooks/useUser"
 import { TypeUsers } from "./pages/TypeUsers"
+import { ResetPassword } from "./pages/ResetPassword"
 
 interface RoutesProps {}
 
@@ -39,8 +40,8 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
             <ReactRoutes>
                 {/* {!user ? (
                     <>
-                        <Route path="/delete-account" element={<DeleteAccount />} />
-                        <Route path="*" element={<Home />} />
+
+                    <Route path="*" element={<Home />} />
                     </>
                 ) : ( */}
                 <>
@@ -52,6 +53,9 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
                     <Route path="/type-users" element={<PageLayout children={<TypeUsers />} />} />
                     <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
+
+                    <Route path="/delete-account" element={<DeleteAccount />} />
+                    <Route path="redefinir-senha/:user_id/:timestamp" element={<ResetPassword />} />
                 </>
                 {/* )} */}
             </ReactRoutes>
