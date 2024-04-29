@@ -38,13 +38,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
                 }
             }),
 
-        password: Yup.string()
-            .min(8, "Senha precisa ter pelo menos 8 caracteres")
-            .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                "Senha precisa conter pelo menos uma letra maiúscula, uma letra minúscula e um número."
-            )
-            .required(required_message),
+        password: Yup.string().required(required_message),
     })
 
     const formik = useFormik<LoginForm>({
@@ -142,9 +136,9 @@ export const Login: React.FC<LoginProps> = ({}) => {
                                 variant="standard"
                                 placeholder="Digite a sua senha"
                                 name="password"
+                                type={showPassword ? "text" : "password"}
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
-                                type={showPassword ? "text" : "password"}
                                 error={formik.touched.password && Boolean(formik.errors.password)}
                                 helperText={formik.touched.password && formik.errors.password}
                                 InputProps={{
