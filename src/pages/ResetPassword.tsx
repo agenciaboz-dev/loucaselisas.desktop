@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Avatar, Box, Button, CircularProgress, IconButton, Paper, TextField, Typography, useMediaQuery } from "@mui/material"
 import { useParams } from "react-router-dom"
 import logoWide from "../assets/login/logo_wide.svg"
@@ -10,6 +10,7 @@ import { Form } from "../components/login/Form"
 import KeyIcon from "@mui/icons-material/Key"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import { red } from "@mui/material/colors"
 
 interface ResetPasswordProps {}
 
@@ -21,7 +22,18 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
     const expiredLink: boolean = isNaN(created) ? true : new Date().getTime() - created >= 24 * 60 * 60 * 1000
     const [showPassword, setShowPassword] = useState(false)
 
-    console.log(created)
+    const [pass1, setPass1] = useState<string>("")
+    const [pass2, setPass2] = useState<string>("")
+    const [samePassword, setsamePassword] = useState(true)
+
+    useEffect(() => {
+        if (pass1 === pass2) {
+            setsamePassword(true)
+        } else {
+            setsamePassword(false)
+        }
+    }, [pass2])
+
     const isMobile: boolean = useMediaQuery("(orientation:portrait)")
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -36,9 +48,6 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                 "Senha precisa conter pelo menos uma letra maiúscula, uma letra minúscula e um número ."
             )
             .required(required_message),
-        // password2: Yup.string()
-        //     .oneOf([Yup.ref("password")], "As senhas não coincidem")
-        //     .required("Este campo é obrigatório"),
     })
 
     const formik = useFormik<Partial<User>>({
@@ -132,7 +141,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                         >
                             Defina a nova senha
                         </Typography>
-                        <Typography variant="body1" component="p" sx={{ fontSize: isMobile ? "1rem" : "1.2rem", alignSelf: "self-start" }}>
+                        <Typography variant="body1" component="p" sx={{ fontSize: isMobile ? "1rem" : "1.2rem" }}>
                             Digite uma nova senha.
                         </Typography>
                         <Form onSubmit={formik.handleSubmit} sx={{ flexDirection: "column", gap: "2vw" }}>
@@ -143,6 +152,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 value={formik.values.password}
+                                onBlur={(e) => setPass1(e.target.value)}
                                 onChange={formik.handleChange}
                                 error={formik.touched.password && Boolean(formik.errors.password)}
                                 helperText={formik.touched.password && formik.errors.password}
@@ -157,15 +167,13 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                                 }}
                                 InputLabelProps={{ sx: { fontSize: "1rem" } }}
                             />
-                            {/* <TextField
+                            <TextField
                                 label="Nova Senha"
                                 variant="standard"
                                 placeholder="Digite a nova senha"
                                 name="password2"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                error={formik.touched.password2 && Boolean(formik.errors.password2)}
-                                helperText={formik.touched.password && formik.errors.password}
+                                type={showPassword ? "text" : "password"}
+                                onBlur={(e) => setPass2(e.target.value)}
                                 InputProps={{
                                     sx: { gap: "0.5vw", fontSize: "1rem" },
                                     startAdornment: <KeyIcon />,
@@ -176,8 +184,8 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                                     ),
                                 }}
                                 InputLabelProps={{ sx: { fontSize: "1rem" } }}
-                            /> */}
-
+                            />
+                            {!samePassword && <Typography color="error">As senhas não conferem</Typography>}
                             <Button variant="contained" type="submit">
                                 {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Alterar Senha"}
                             </Button>
