@@ -3,6 +3,7 @@ import { Avatar, Box, Chip, Grid, IconButton, MenuItem, Paper, Typography } from
 import { User } from "../../types/server/class"
 import { useNavigate } from "react-router-dom"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
+import zIndex from "@mui/material/styles/zIndex"
 
 interface UserCardProps {
     user: User
@@ -14,8 +15,8 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ padding: "0.7vw" }}>
-                    <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: 0 }} onClick={() => console.log("teste 1")}>
+                <Paper sx={{ position: "relative" }}>
+                    <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }} onClick={() => console.log("teste 1")}>
                         <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
                             <Avatar src={user.image || undefined} variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
                             <Box flexDirection="column" gap="0.5vw">
@@ -30,10 +31,21 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <IconButton onClick={() => console.log("teste 2")}>
-                            <MoreVertIcon />
-                        </IconButton>
                     </MenuItem>
+                    <IconButton
+                        onClick={() => console.log("teste 2")}
+                        sx={{
+                            height: "2vw",
+                            p: "0.2vw",
+                            mr: "0.5vw",
+                            minHeight: 0,
+                            position: "absolute",
+                            right: 0,
+                            top: "calc( 50% - 1vw)",
+                        }}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
                 </Paper>
             </Grid>
         </>
