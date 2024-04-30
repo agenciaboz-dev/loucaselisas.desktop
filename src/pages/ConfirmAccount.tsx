@@ -18,8 +18,11 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
+
             try {
-                await api.post("/user/forgot_password", values)
+                console.log(loading)
+                const response = await api.post("/user/forgot_password", values)
+                console.log(response.data)
                 setSendedEmail(true)
             } catch (error) {
                 console.log(error)
@@ -52,7 +55,6 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
                     height: "fit-content",
                     backgroundColor: "background.default",
                     justifyContent: "center",
-                    alignItems: "center",
                     flexDirection: "column",
                     padding: isMobile ? "7vw" : "1vw",
                     gap: isMobile ? "5vw" : "1vw",
@@ -63,31 +65,29 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
                         <Typography
                             variant="subtitle1"
                             component="h1"
-                            sx={{ fontSize: isMobile ? "1.7rem" : "4rem", lineHeight: isMobile ? "1.3rem" : "3.5rem" }}
+                            sx={{ fontSize: isMobile ? "9.5vw" : "4.9vw", lineHeight: isMobile ? "2.5rem" : "5vw", alignSelf: "center" }}
                         >
                             Redefinir Senha
                         </Typography>
-                        <Typography variant="body1" component="p" sx={{ fontSize: "1.2rem" }}>
-                            Um link de redefinição de senha foi enviado para o email digitado caso exista uma conta cadastradacom ele.
+                        <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                            Um link de redefinição de senha foi enviado para o email digitado caso exista uma conta cadastrada com ele.
                         </Typography>
-                        <Button variant="contained" fullWidth onClick={() => window.close()}>
-                            Sair
-                        </Button>
                     </>
                 ) : (
                     <>
                         <Typography
                             variant="subtitle1"
                             component="h1"
-                            sx={{ fontSize: isMobile ? "1.7rem" : "4rem", lineHeight: isMobile ? "1.3rem" : "3.5rem" }}
+                            sx={{ fontSize: isMobile ? "9.5vw" : "4.91vw", lineHeight: isMobile ? "2.5rem" : "5vw", alignSelf: "center" }}
                         >
                             Redefinir Senha
                         </Typography>
-                        <Typography variant="body1" component="p" sx={{ fontSize: "1.2rem" }}>
+                        <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
                             Digite o endereço de email para o qual deseja que suas informações de redefinição de senha sejam enviadas
                         </Typography>
-                        <Form onSubmit={formik.handleSubmit}>
+                        <Form onSubmit={formik.handleSubmit} sx={{ flexDirection: "column", gap: isMobile ? "5vw" : "1vw" }}>
                             <TextField
+                                fullWidth
                                 label="Email"
                                 variant="standard"
                                 placeholder="Digite o email cadastrado"
@@ -102,10 +102,14 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
                                 }}
                                 InputLabelProps={{ sx: { fontSize: "1rem" } }}
                             />
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                sx={{ width: isMobile ? "100%" : "auto", alignSelf: isMobile ? "" : "flex-end" }}
+                            >
+                                Solicitar link de recuperação
+                            </Button>
                         </Form>
-                        <Button variant="contained" fullWidth type="submit">
-                            Solicitar link de recuperação
-                        </Button>
                     </>
                 )}
             </Paper>
