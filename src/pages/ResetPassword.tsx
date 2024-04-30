@@ -18,21 +18,14 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
     const params = useParams()
     const userId: string | undefined = params.user_id
     const created: number | undefined = Number(params.timestamp || 0)
-    // const expiredLink: boolean = !isNaN(created) ? new Date().getTime() - created >= 24 * 60 * 60 * 1000 : false
     const expiredLink: boolean = isNaN(created) ? true : new Date().getTime() - created >= 24 * 60 * 60 * 1000
     const [showPassword, setShowPassword] = useState(false)
 
-    const [pass1, setPass1] = useState<string>("")
+    var timestamp = new Date().getTime()
+    console.log(timestamp)
+
     const [pass2, setPass2] = useState<string>("")
     const [samePassword, setsamePassword] = useState(true)
-
-    useEffect(() => {
-        if (pass1 === pass2) {
-            setsamePassword(true)
-        } else {
-            setsamePassword(false)
-        }
-    }, [pass2])
 
     const isMobile: boolean = useMediaQuery("(orientation:portrait)")
 
@@ -57,7 +50,10 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
 
         onSubmit: async (values) => {
             if (loading) return
-
+            if (values.password !== pass2) {
+                setsamePassword(false)
+                return
+            }
             setLoading(true)
 
             try {
@@ -152,7 +148,6 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 value={formik.values.password}
-                                onBlur={(e) => setPass1(e.target.value)}
                                 onChange={formik.handleChange}
                                 error={formik.touched.password && Boolean(formik.errors.password)}
                                 helperText={formik.touched.password && formik.errors.password}
@@ -173,7 +168,8 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                                 placeholder="Digite a nova senha"
                                 name="password2"
                                 type={showPassword ? "text" : "password"}
-                                onBlur={(e) => setPass2(e.target.value)}
+                                value={pass2}
+                                onChange={(e) => setPass2(e.target.value)}
                                 InputProps={{
                                     sx: { gap: "0.5vw", fontSize: "1rem" },
                                     startAdornment: <KeyIcon />,
