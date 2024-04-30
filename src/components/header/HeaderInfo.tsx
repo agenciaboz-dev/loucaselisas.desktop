@@ -4,7 +4,6 @@ import { RefreshButton } from "./RefreshButtton"
 import { useNavigate } from "react-router-dom"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useUser } from "../../hooks/useUser"
-import { OutlineButton } from "../typeUsers/OutlineButtom"
 import { IoMdAddCircleOutline } from "react-icons/io"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 interface HeaderInfoProps {
