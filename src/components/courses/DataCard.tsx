@@ -7,6 +7,8 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import ChatIcon from "@mui/icons-material/Chat"
 import { useNavigate } from "react-router-dom"
+import { Course } from "../../types/server/class/Course"
+import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface DataCardProps {
     image: string
@@ -18,9 +20,10 @@ interface DataCardProps {
     views: number
     userName: string | undefined
     link: string
+    routerParam?: Course | Lesson
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName, link }) => {
+export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName, link, routerParam }) => {
     const navigate = useNavigate()
 
     return (
@@ -30,9 +33,8 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
                     <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
                         <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }} />
                         <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
-                            <MenuItem sx={{ p: 0, m: 0 }}>
+                            <MenuItem sx={{ p: 0, m: 0 }} onClick={() => navigate(link, { state: { data: routerParam } })}>
                                 <Typography
-                                    onClick={() => navigate(link)}
                                     variant="subtitle1"
                                     component="h3"
                                     sx={{
