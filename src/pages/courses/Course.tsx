@@ -35,27 +35,25 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     return (
         <Box sx={{ flexDirection: "column" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton />
-            <Box sx={{ width: "75vw", height: 1, border: "1px solid green" }}>
-                <Grid container columns={2} spacing={4}>
-                    <Grid item xs={7} sx={{ border: "1px solid blue" }}>
-                        <Box sx={{ w: 1, flex: 1, border: "1px solid red" }}>
-                            {course.cover_type === "video" && (
-                                <>
-                                    <video src={course.cover}> </video>
-                                </>
-                            )}
-                            {course.cover_type === "image" && (
-                                <>
-                                    <Avatar variant="square" src={course.cover} sx={{ width: "35vw", height: 1, objectFit: "contain" }} />
-                                </>
-                            )}
-                        </Box>
-                    </Grid>
-                    <Grid item xs={5} sx={{}}>
-                        teste
-                    </Grid>
+            <Grid container columns={2} spacing={4} sx={{ width: "75vw", height: "auto" }}>
+                <Grid item xs={7} sx={{ border: "1px solid blue" }}>
+                    <Box sx={{ border: "1px solid red" }}>
+                        {course.cover_type === "video" && (
+                            <>
+                                <video src={course.cover}> </video>
+                            </>
+                        )}
+                        {course.cover_type === "image" && (
+                            <>
+                                <Avatar variant="square" src={course.cover} sx={{ width: "35vw", height: 1, objectFit: "contain" }} />
+                            </>
+                        )}
+                    </Box>
                 </Grid>
-            </Box>
+                <Grid item xs={5} sx={{}}>
+                    <Box sx={{ w: 1, flex: 1, backgroundColor: "#ff0000" }}>atenção</Box>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
