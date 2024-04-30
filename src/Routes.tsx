@@ -51,7 +51,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
                     <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
                     <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
-                    <Route path="/type-users" element={<PageLayout children={<TypeUsers />} />} />
+                    <Route path="/tipos-usuarios" element={<PageLayout children={<TypeUsers />} />} />
                     <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
 
                     <Route path="/delete-account" element={<DeleteAccount />} />
