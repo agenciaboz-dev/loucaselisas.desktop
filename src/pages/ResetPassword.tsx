@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Avatar, Box, Button, CircularProgress, IconButton, Paper, TextField, Typography, useMediaQuery } from "@mui/material"
 import { useParams } from "react-router-dom"
 import logoWide from "../assets/login/logo_wide.svg"
@@ -10,7 +10,6 @@ import { Form } from "../components/login/Form"
 import KeyIcon from "@mui/icons-material/Key"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
-import { red } from "@mui/material/colors"
 
 interface ResetPasswordProps {}
 
@@ -90,7 +89,6 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                     height: "fit-content",
                     backgroundColor: "background.default",
                     justifyContent: "center",
-                    alignItems: "center",
                     flexDirection: "column",
                     padding: isMobile ? "7vw" : "1vw",
                     gap: isMobile ? "5vw" : "1vw",
@@ -101,39 +99,33 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                         <Typography
                             variant="subtitle1"
                             component="h1"
-                            sx={{ fontSize: isMobile ? "2.47rem" : "5.5rem", lineHeight: isMobile ? "2rem" : "4.5rem" }}
+                            sx={{ fontSize: isMobile ? "11vw" : "5.65vw", lineHeight: isMobile ? "2rem" : "5.6vw" }}
                         >
                             Link Expirado
                         </Typography>
                         <Typography variant="body1" component="p" sx={{ fontSize: isMobile ? "1rem" : "1.2rem" }}>
                             Por favor, solicite a redefinição de senha novamente
                         </Typography>
-                        <Button variant="contained" fullWidth onClick={() => window.close()}>
-                            Sair
-                        </Button>
                     </>
                 ) : newPassword ? (
                     <>
                         <Typography
                             variant="subtitle1"
                             component="h1"
-                            sx={{ fontSize: isMobile ? "1.7rem" : "4rem", lineHeight: isMobile ? "1.3rem" : "3.5rem" }}
+                            sx={{ fontSize: isMobile ? "7.55vw" : "3.85vw", lineHeight: isMobile ? "8vw" : "4vw" }}
                         >
                             Nova senha definida
                         </Typography>
                         <Typography variant="body1" component="p" sx={{ fontSize: "1.2rem" }}>
                             Senha alterada com sucesso
                         </Typography>
-                        <Button variant="contained" fullWidth onClick={() => window.close()}>
-                            Sair
-                        </Button>
                     </>
                 ) : (
                     <>
                         <Typography
                             variant="subtitle1"
                             component="h1"
-                            sx={{ fontSize: isMobile ? "1.7rem" : "3.2rem", lineHeight: isMobile ? "" : "3rem" }}
+                            sx={{ fontSize: isMobile ? "7.65vw" : "3.95vw", lineHeight: isMobile ? "" : "4vw" }}
                         >
                             Defina a nova senha
                         </Typography>
