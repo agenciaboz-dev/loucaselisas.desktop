@@ -12,6 +12,7 @@ import KeyIcon from "@mui/icons-material/Key"
 import { api } from "../../api/api"
 import { User } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
+import { useNavigate } from "react-router-dom"
 
 interface LoginProps {}
 
@@ -19,6 +20,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
     const isMobile = useMediaQuery("(orientation:portrait)")
 
     const { onLogin } = useUser()
+    const navigate = useNavigate()
     const [errorLogin, setErrorLogin] = useState(false)
 
     const required_message = "Campo obrigatório"
@@ -157,7 +159,10 @@ export const Login: React.FC<LoginProps> = ({}) => {
                                     Usuário ou senha incorretos
                                 </Typography>
                             )}
-                            <Box sx={{ justifyContent: "end" }}>
+                            <Box sx={{ justifyContent: "space-between", alignItems: "center" }}>
+                                <Button variant="text" onClick={() => navigate("/confirmacao-de-conta")}>
+                                    Esqueci a minha senha
+                                </Button>
                                 <Button type="submit" variant="contained" sx={{ borderRadius: 0, width: "30%" }}>
                                     {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Entrar"}
                                 </Button>
