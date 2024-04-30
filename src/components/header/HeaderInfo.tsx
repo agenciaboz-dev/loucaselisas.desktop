@@ -4,15 +4,23 @@ import { RefreshButton } from "./RefreshButtton"
 import { useNavigate } from "react-router-dom"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useUser } from "../../hooks/useUser"
-
+import { OutlineButton } from "../typeUsers/OutlineButtom"
+import { IoMdAddCircleOutline } from "react-icons/io"
 interface HeaderInfoProps {
     title: string
     loading?: boolean
     refreshCallback?: () => void
     refreshButton?: boolean
+    dashButton?: boolean
 }
 
-export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshCallback, refreshButton = true }) => {
+export const HeaderInfo: React.FC<HeaderInfoProps> = ({
+    title,
+    loading,
+    refreshCallback,
+    refreshButton = true,
+    dashButton = false,
+}) => {
     const navigate = useNavigate()
     const { user, onLogout } = useUser()
     return (
@@ -22,6 +30,15 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({ title, loading, refreshC
                     {title}
                 </Typography>
                 {refreshButton && <RefreshButton loading={loading} callBack={refreshCallback} />}
+                {dashButton && (
+                    <Button
+                        variant="outlined"
+                        sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw" }}
+                    >
+                        Adicionar novo usuário
+                        <IoMdAddCircleOutline size={"1.3vw"} />
+                    </Button>
+                )}
             </Box>
 
             <Button endIcon={<LogoutIcon />} onClick={onLogout}>

@@ -26,7 +26,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
         { label: "Lições", icon: <AutoStoriesIcon />, path: "/licoes" },
         // { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
         { label: "Usuários", icon: <GroupIcon />, path: "/usuarios" },
-        { label: "Tipos de Usuários", icon: <GroupIcon />, path: "/type-users" },
+        { label: "Tipos de Usuários", icon: <GroupIcon />, path: "/tipos-usuarios" },
         { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
     ]
 
