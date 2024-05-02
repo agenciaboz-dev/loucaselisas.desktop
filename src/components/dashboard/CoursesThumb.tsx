@@ -1,6 +1,7 @@
 import React from "react"
 import { Avatar, Box, Paper, Typography } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
+import { useNavigate } from "react-router-dom"
 
 interface CoursersThumbProps {
     course: Course
@@ -8,6 +9,7 @@ interface CoursersThumbProps {
 
 export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
     const numAulas = course.lessons || 9999
+    const navigate = useNavigate()
     return (
         <Paper
             elevation={2}
@@ -19,6 +21,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                 overflow: "hidden",
                 position: "relative",
             }}
+            onClick={() => navigate("/cursos/${course.name}", { state: { data: course } })}
         >
             <Avatar
                 src={course?.cover}
