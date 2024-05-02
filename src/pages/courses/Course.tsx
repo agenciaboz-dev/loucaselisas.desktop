@@ -6,6 +6,7 @@ import { api } from "../../api/api"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
+import { FormAprove } from "../../components/aprove/FormAprove"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
@@ -54,7 +55,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                         )}
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
-                                <Avatar src={course.owner.user.image || undefined} sx={{ width: "4vw", height: "4vw" }} />
+                                <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
                                         {course.owner.user.name}
@@ -88,7 +89,9 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ w: 1, flex: 1, backgroundColor: "#ff0000" }}>atenção</Box>
+                    <Box sx={{ w: 1, flex: 1, flexDirection: "column" }}>
+                        <FormAprove name={course.name} type="course" id={course.id} />
+                    </Box>
                 </Grid>
             </Grid>
         </Box>
