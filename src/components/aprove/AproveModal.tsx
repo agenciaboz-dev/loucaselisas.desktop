@@ -34,7 +34,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                                 Deseja realmente APROVAR esse Curso:
                             </Typography>
                         )}
-                        <Typography variant="subtitle1" component="p" sx={{ fontSize: "1.4rem" }}>
+                        <Typography variant="subtitle1" component="p" sx={{ fontSize: "1.4rem", mt: "-0.5vw" }}>
                             {name}
                         </Typography>
                     </Box>
