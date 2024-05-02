@@ -6,7 +6,7 @@ interface AproveModalProps {
     type: "course" | "lesson"
     openAproveModal: boolean
     handleOpenAproveModal: () => void
-    onConfirm?: () => void
+    onConfirm: () => void
 }
 
 export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
