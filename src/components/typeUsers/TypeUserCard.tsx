@@ -2,10 +2,13 @@ import React from "react"
 import { Box, Grid, IconButton, Menu, MenuItem, Paper, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { useNavigate } from "react-router-dom"
+import { Role } from "../../types/server/class/Role"
 
-interface TypeUserCardProps {}
+interface TypeUserCardProps {
+    role: Role
+}
 
-export const TypeUserCard: React.FC<TypeUserCardProps> = ({}) => {
+export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role }) => {
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
@@ -34,7 +37,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({}) => {
                     alignItems: "center",
                 }}
             >
-                Administrador
+                {role.name}
                 <Box>
                     <IconButton
                         aria-controls={open ? "basic-menu" : undefined}

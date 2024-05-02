@@ -5,29 +5,32 @@ import { SearchBar } from "../components/header/SearchBar"
 import { TypeUserCard } from "../components/typeUsers/TypeUserCard"
 import { RoleInfo } from "../components/typeUsers/RoleInfo"
 import { api } from "../api/api"
+import { Role } from "../types/server/class/Role"
 
 interface TypeUsersProps {}
 
 export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     const skeletonCourse: string[] = new Array(6).fill(`course`)
+    const [roles, setRoles] = useState<Role[]>([])
     const [skeletonLoading, setSkeletonLoading] = useState<boolean>(false)
 
-    // const fetchRoles = async () => {
-    //     try {
-    //         const response = await api.get("/role/all")
-    //         console.log({ roles: response.data })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    const fetchRoles = async () => {
+        try {
+            const response = await api.get("/user/types")
+            console.log({ roles: response.data })
+            setRoles(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-    // useEffect(() => {
-    //     fetchRoles()
-    // }, [])
+    useEffect(() => {
+        fetchRoles()
+    }, [])
 
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
-            <HeaderInfo title="Tipos de Usuários" refreshCallback={() => {}} dashButton />
+            <HeaderInfo title="Tipos de Usuários" refreshButton={false} refreshCallback={() => {}} dashButton />
             <Box
                 sx={{
                     flexDirection: "column",
@@ -73,7 +76,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                               />
                                           </Grid>
                                       ))
-                                    : skeletonCourse.map((_, index) => <TypeUserCard key={index} />)}
+                                    : roles.map((role, index) => <TypeUserCard key={index} role={role} />)}
                             </Grid>
                         </Box>
                         {skeletonLoading ? (

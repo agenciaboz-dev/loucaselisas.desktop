@@ -1,13 +1,45 @@
 import React from "react"
-import { Box, Divider, MenuItem, Paper, TextField, Typography } from "@mui/material"
+import { Box, Checkbox, Divider, FormControlLabel, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { OutlineButton } from "./OutlineButtom"
 import { FaEdit } from "react-icons/fa"
+import { SelectRoles } from "./SelectRoles"
 
 interface RoleInfoProps {}
 
 export const RoleInfo: React.FC<RoleInfoProps> = ({}) => {
+    const [checked, setChecked] = React.useState([false, false, false, false, false])
+
+    const handleChangeStudent = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newChecked = [...checked]
+        newChecked[index] = event.target.checked
+        setChecked(newChecked)
+    }
+    const children = (
+        <Box sx={{ display: "flex", flexDirection: "column", ml: 6, pb: "1vw", borderRadius: "2vw" }}>
+            <FormControlLabel
+                label="Editar Perfil"
+                control={<Checkbox checked={checked[1]} onChange={handleChangeStudent(1)} />}
+            />
+            <FormControlLabel
+                label="Comentários"
+                control={<Checkbox checked={checked[2]} onChange={handleChangeStudent(2)} />}
+            />
+            <FormControlLabel
+                label="Estatísticas"
+                control={<Checkbox checked={checked[3]} onChange={handleChangeStudent(3)} />}
+            />
+            <FormControlLabel
+                label="Seus Cursos"
+                control={<Checkbox checked={checked[4]} onChange={handleChangeStudent(4)} />}
+            />
+            <FormControlLabel
+                label="Adicionar Novo Curso"
+                control={<Checkbox checked={checked[5]} onChange={handleChangeStudent(5)} />}
+            />
+        </Box>
+    )
     return (
-        <Paper sx={{ borderRadius: "1vw", width: 0.28, height: "100%", p: "1vw", flexDirection: "column", gap: "0.7vw" }}>
+        <Paper sx={{ borderRadius: "1vw", width: 0.28, height: "100%", p: "1vw", flexDirection: "column", gap: "0.5vw" }}>
             <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
                 <Typography component={"h2"} fontSize={"1.3rem"}>
                     Role ID
@@ -43,43 +75,16 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({}) => {
                 <Typography component={"p"} fontSize={"1rem"}>
                     Administrador
                 </Typography>
-                <TextField
-                    select
-                    InputProps={{
-                        sx: { height: "2vw" }, // Define a altura do input
-                    }}
-                    SelectProps={{
-                        MenuProps: {
-                            sx: { maxHeight: "20vh" }, // Opcional: Limita a altura máxima do menu dropdown
-                        },
-                    }}
-                >
-                    <MenuItem value="option1">Opção 1</MenuItem>
-                    <MenuItem value="option2">Opção 2</MenuItem>
-                    <MenuItem value="option3">Opção 3</MenuItem>
-                </TextField>
+                <SelectRoles />
+
                 <Typography component={"p"} fontSize={"1rem"}>
                     Estudante
                 </Typography>
-                <TextField
-                    select
-                    InputProps={{
-                        sx: { height: "2vw" }, // Define a altura do input
-                    }}
-                    SelectProps={{
-                        MenuProps: {
-                            sx: { maxHeight: "20vh" }, // Opcional: Limita a altura máxima do menu dropdown
-                        },
-                    }}
-                >
-                    <MenuItem value="option1">Opção 1</MenuItem>
-                    <MenuItem value="option2">Opção 2</MenuItem>
-                    <MenuItem value="option3">Opção 3</MenuItem>
-                </TextField>
-
+                <SelectRoles />
                 <Typography component={"p"} fontSize={"1rem"}>
                     Criador de conteúdo
                 </Typography>
+                <SelectRoles />
             </Box>
             <OutlineButton title="Editar" handleClick={() => {}} Icon={FaEdit} style={{ alignSelf: "end" }} />
         </Paper>

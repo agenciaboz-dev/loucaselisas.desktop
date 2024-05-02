@@ -57,9 +57,7 @@ export declare const user_include: {
                     };
                     roles: {
                         include: {
-                            admin_permissions: true;
-                            general_permissions: true;
-                            profile_permissions: true;
+                            permissions: true;
                         };
                     };
                     lessons: {
@@ -92,9 +90,7 @@ export declare const user_include: {
     payment_cards: true;
     role: {
         include: {
-            admin_permissions: true;
-            general_permissions: true;
-            profile_permissions: true;
+            permissions: true;
         };
     };
     plan: {
