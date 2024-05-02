@@ -90,7 +90,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5} sx={{}}>
                     <Box sx={{ w: 1, flex: 1, flexDirection: "column" }}>
-                        <FormAprove name={course.name} type="course" id={course.id} price={course.price} />
+                        <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />
                     </Box>
                 </Grid>
             </Grid>

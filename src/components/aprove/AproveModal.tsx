@@ -1,6 +1,7 @@
 import React from "react"
 import { Box, Button, Modal, Paper, Typography } from "@mui/material"
 
+
 interface AproveModalProps {
     name: string
     type: "course" | "lesson"

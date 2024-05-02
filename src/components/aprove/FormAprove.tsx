@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Paper } from "@mui/material"
+import { Box, Button, Paper, TextField, Typography } from "@mui/material"
 import { Form } from "../login/Form"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
@@ -7,6 +7,7 @@ import { ReproveModal } from "./ReproveModal"
 import { Course, PartialCourse } from "../../types/server/class/Course"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
+import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface FormAproveProps {
     options?: boolean
@@ -25,7 +26,7 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
 
-    const aproveFormik = useFormik<StatusForm>({
+    const formik = useFormik<StatusForm>({
         initialValues: { id: id, status: "active", price: price },
         onSubmit: async (values) => {
             if (loading) return
@@ -67,7 +68,20 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.5vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
-                    {options && <Box></Box>}
+                    {options && (
+                        <Box>
+                            {" "}
+                            <Box>
+                                <Box sx={{ flexDirection: "column" }}>
+                                    <Box sx={{ justifyContent: "space-between" }}>
+                                        <Typography>Valor</Typography>
+                                        <Typography>sugerido: R$ {formik.initialValues.price} </Typography>
+                                    </Box>
+                                    <TextField value={formik.values.price} onChange={formik.handleChange} />
+                                </Box>
+                            </Box>
+                        </Box>
+                    )}
 
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                         <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
@@ -81,7 +95,7 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
                             type={type}
                             openAproveModal={openAproveModal}
                             handleOpenAproveModal={handleOpenAproveModal}
-                            onConfirm={aproveFormik.handleSubmit}
+                            onConfirm={formik.handleSubmit}
                         />
                         <ReproveModal
                             name={name}
