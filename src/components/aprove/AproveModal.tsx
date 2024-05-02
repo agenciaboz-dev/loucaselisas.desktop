@@ -9,7 +9,7 @@ interface AproveModalProps {
     onConfirm?: () => void
 }
 
-export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm: onSubmit }) => {
+export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
     return (
         <Modal open={openAproveModal} onClose={handleOpenAproveModal}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
@@ -45,7 +45,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                         <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenAproveModal}>
                             Cancelar
                         </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onSubmit}>
+                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onConfirm}>
                             Aprovar
                         </Button>
                     </Box>
