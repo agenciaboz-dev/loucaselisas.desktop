@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Modal, Paper, Typography } from "@mui/material"
+import { Box, Button, Modal, Paper, TextField, Typography } from "@mui/material"
 
 interface ReproveModalProps {
     name: string
@@ -23,20 +23,34 @@ export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openRepr
                         borderRadius: "1vw",
                     }}
                 >
-                    <Box sx={{ flexDirection: "column" }}>
-                        {type === "lesson" && (
-                            <Typography variant="body2" component="h3" sx={{ fontSize: "1.5rem" }}>
-                                Deseja realmente Reprovar essa Lição:
+                    <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                        <Box sx={{ flexDirection: "column" }}>
+                            {type === "lesson" && (
+                                <Typography variant="body2" component="h3" sx={{ fontSize: "1.5rem" }}>
+                                    Deseja realmente Reprovar essa Lição:
+                                </Typography>
+                            )}
+                            {type === "course" && (
+                                <Typography variant="body2" component="h3" sx={{ fontSize: "1.5rem" }}>
+                                    Deseja realmente Reprovar esse Curso:
+                                </Typography>
+                            )}
+                            <Typography variant="subtitle1" component="p" sx={{ fontSize: "1.4rem", mt: "-0.5vw" }}>
+                                {name}
                             </Typography>
-                        )}
-                        {type === "course" && (
-                            <Typography variant="body2" component="h3" sx={{ fontSize: "1.5rem" }}>
-                                Deseja realmente Reprovar esse Curso:
-                            </Typography>
-                        )}
-                        <Typography variant="subtitle1" component="p" sx={{ fontSize: "1.4rem" }}>
-                            {name}
-                        </Typography>
+                        </Box>
+                        <Box sx={{ flexDirection: "column" }}>
+                            <Typography>Motivo da reprovação (Opcional)</Typography>
+                            <TextField fullWidth minRows={3} multiline />
+                        </Box>
+                        <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
+                            <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenReproveModal}>
+                                Cancelar
+                            </Button>
+                            <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onSubmit}>
+                                Aprovar
+                            </Button>
+                        </Box>
                     </Box>
                 </Paper>
             </Box>
