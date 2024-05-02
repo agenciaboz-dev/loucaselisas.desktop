@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, Button, Modal, Paper, TextField, Typography } from "@mui/material"
 
 interface ReproveModalProps {
@@ -6,10 +6,12 @@ interface ReproveModalProps {
     type: "course" | "lesson"
     openReproveModal: boolean
     handleOpenReproveModal: () => void
-    onSubmit?: () => void
+    onConfirm: (reason: string) => void
 }
 
-export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openReproveModal, handleOpenReproveModal, onSubmit }) => {
+export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openReproveModal, handleOpenReproveModal, onConfirm }) => {
+    const [reason, setReason] = useState<string>("")
+
     return (
         <Modal open={openReproveModal} onClose={handleOpenReproveModal}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
@@ -41,14 +43,14 @@ export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openRepr
                         </Box>
                         <Box sx={{ flexDirection: "column" }}>
                             <Typography>Motivo da reprovação (Opcional)</Typography>
-                            <TextField fullWidth minRows={3} multiline />
+                            <TextField fullWidth minRows={3} multiline value={reason} onChange={(e) => setReason(e.target.value)} />
                         </Box>
                         <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
                             <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenReproveModal}>
                                 Cancelar
                             </Button>
-                            <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onSubmit}>
-                                Aprovar
+                            <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={() => onConfirm(reason)}>
+                                Reprovar
                             </Button>
                         </Box>
                     </Box>
