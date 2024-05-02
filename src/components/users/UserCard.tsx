@@ -21,8 +21,12 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                             <Avatar src={user.image || undefined} variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
                             <Box flexDirection="column" gap="0.5vw">
                                 <Box>
-                                    <Typography>{user.name}</Typography>
-                                    <Typography>{user.birth}</Typography>
+                                    <Typography variant="subtitle1" component="h4">
+                                        {user.name}
+                                    </Typography>
+                                    <Typography variant="body1" component="p">
+                                        {user.birth}
+                                    </Typography>
                                 </Box>
                                 <Box sx={{ gap: "0.3vw" }}>
                                     {user.admin && <Chip label="ADM" variant="outlined" sx={{ px: "0.5vw" }} />}
