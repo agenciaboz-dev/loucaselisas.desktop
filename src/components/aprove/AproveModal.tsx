@@ -6,9 +6,10 @@ interface AproveModalProps {
     type: "course" | "lesson"
     openAproveModal: boolean
     handleOpenAproveModal: () => void
+    onSubmit: () => void
 }
 
-export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal }) => {
+export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onSubmit }) => {
     return (
         <Modal open={openAproveModal} onClose={handleOpenAproveModal}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
@@ -44,7 +45,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                         <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenAproveModal}>
                             Cancelar
                         </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }}>
+                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onSubmit}>
                             Aprovar
                         </Button>
                     </Box>
