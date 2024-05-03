@@ -90,9 +90,25 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ w: 1, flex: 1, flexDirection: "column" }}>
+                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />
-                        <DataCard name="{lesson.name}" description="{lessons.description}" image="{lessons.image}" time={1546} />
+                        <Box
+                            sx={{
+                                flexDirection: "column",
+                                gap: "1vw",
+                                pb: "1vw",
+                                w: 1,
+                                height: "28.3vw",
+                                overflowY: "scroll",
+                                mx: "-0.5vw",
+                                px: "0.5vw",
+                                // border: "1px solid red",
+                            }}
+                        >
+                            {lessons.map((lesson) => (
+                                <DataCard key={lesson.id} name={lesson.name} description={lesson.info} image={lesson.thumb} />
+                            ))}
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
