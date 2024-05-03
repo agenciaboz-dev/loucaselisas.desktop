@@ -34,6 +34,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     useEffect(() => {
         console.log(roles)
     }, [roles])
+
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
             <HeaderInfo title="Tipos de Usuários" refreshButton={false} refreshCallback={() => {}} dashButton />

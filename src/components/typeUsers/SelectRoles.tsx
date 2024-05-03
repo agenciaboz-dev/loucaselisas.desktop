@@ -53,9 +53,9 @@ export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermiss
                 }}
                 SelectProps={{
                     MenuProps: {
-                        MenuListProps: { sx: { width: "100%", height: "100%", bgcolor: "#E5E5E5", borderRadius: "1vw" } },
+                        MenuListProps: { sx: { width: "100%", height: "100%", bgcolor: "#E5E5E5" } },
 
-                        sx: { maxHeight: "29vh" }, // Opcional: Limita a altura máxima do menu dropdown
+                        sx: { maxHeight: "29vh", borderRadius: "1vw" }, // Opcional: Limita a altura máxima do menu dropdown
                     },
                 }}
             >
@@ -71,7 +71,7 @@ export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermiss
                                         onChange={handleChange(permission)}
                                     />
                                 }
-                                sx={{ p: "0 2vw" }}
+                                sx={{ p: "0 1vw" }}
                             />
                         ))}
                     {menu === "student" &&
@@ -85,7 +85,7 @@ export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermiss
                                         onChange={handleChange(permission)}
                                     />
                                 }
-                                sx={{ p: "0 2vw" }}
+                                sx={{ p: "0 1vw" }}
                             />
                         ))}
                     {menu === "creator" &&
@@ -99,7 +99,7 @@ export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermiss
                                         onChange={handleChange(permission)}
                                     />
                                 }
-                                sx={{ p: "0 2vw" }}
+                                sx={{ p: "0 1vw" }}
                             />
                         ))}
                 </Box>
