@@ -10,7 +10,7 @@ const mediaDesign = { width: "8vw", height: "5vw", borderRadius: "1vw" }
 
 export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia }) => {
     return (
-        <Box sx={{ gap: "1vw" }}>
+        <Box sx={{ gap: "1vw", position: "relative" }}>
             {gallery.map((media) => (
                 <>
                     {media.type === "image" && (
