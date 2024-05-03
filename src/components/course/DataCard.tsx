@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box, Typography } from "@mui/material"
+import { Avatar, Box, LinearProgress, Typography } from "@mui/material"
 
 interface DataCardProps {
     image: string | null
@@ -10,7 +10,7 @@ interface DataCardProps {
 
 export const DataCard: React.FC<DataCardProps> = ({ image, description, name, time }) => {
     return (
-        <Box sx={{ flex: 1, gap: "1vw" }}>
+        <Box sx={{ flex: 1, gap: "1vw", maxHeight: "5vw" }}>
             <Avatar
                 variant="rounded"
                 src={image || "/placeholders/perfil.webp"}
@@ -36,9 +36,13 @@ export const DataCard: React.FC<DataCardProps> = ({ image, description, name, ti
                 >
                     {description}
                 </Typography>
-                <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
-                    {time || "59:99"}
-                </Typography>
+
+                <Box sx={{ justifyContent: "space-between", alignItems: "center" }}>
+                    <LinearProgress variant="determinate" value={65} sx={{ width: "15vw" }} />
+                    <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
+                        {time || "59:99"}
+                    </Typography>
+                </Box>
             </Box>
         </Box>
     )
