@@ -10,7 +10,7 @@ export const usemuiTheme = () => {
             },
             secondary: {
                 main: "#DDDDDD",
-                contrastText: "#000",
+                contrastText: "#7F7F7F",
             },
             error: {
                 main: red[900],

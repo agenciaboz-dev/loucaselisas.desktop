@@ -1,13 +1,10 @@
 import React, { useState } from "react"
-import { Box, Button, Paper, TextField, Typography } from "@mui/material"
-import { Form } from "../login/Form"
+import { Box, Button, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
-import { Course, PartialCourse } from "../../types/server/class/Course"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
-import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface FormAproveProps {
     options?: boolean
@@ -25,6 +22,25 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
+
+    const selectOptions = [
+        {
+            value: "value1",
+            label: "label1",
+        },
+        {
+            value: "value2",
+            label: "label2",
+        },
+        {
+            value: "value3",
+            label: "label3",
+        },
+        {
+            value: "value4",
+            label: "label4",
+        },
+    ]
 
     const formik = useFormik<StatusForm>({
         initialValues: { id: id, status: "active", price: price },
@@ -66,19 +82,33 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
 
     return (
         <Box sx={{}}>
-            <Paper sx={{ flex: 1, p: "0.5vw" }}>
+            <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
                     {options && (
-                        <Box>
-                            {" "}
-                            <Box>
-                                <Box sx={{ flexDirection: "column" }}>
-                                    <Box sx={{ justifyContent: "space-between" }}>
-                                        <Typography>Valor</Typography>
-                                        <Typography>sugerido: R$ {formik.initialValues.price} </Typography>
-                                    </Box>
-                                    <TextField value={formik.values.price} onChange={formik.handleChange} />
+                        <Box sx={{ justifyContent: "space-between", gap: "1vw" }}>
+                            <Box sx={{ flexDirection: "column", flex: 1 }}>
+                                <Box sx={{ justifyContent: "space-between", flex: 1 }}>
+                                    <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                                        Tipo de Plano
+                                    </Typography>
+                                    <Typography sx={{ color: "secondary.contrastText" }}>Sugerido: Valor a parte </Typography>
                                 </Box>
+                                <TextField select placeholder="plano" SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}>
+                                    {selectOptions.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Box>
+                            <Box sx={{ flexDirection: "column", flex: 1 }}>
+                                <Box sx={{ justifyContent: "space-between" }}>
+                                    <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                                        Valor
+                                    </Typography>
+                                    <Typography sx={{ color: "secondary.contrastText" }}>Sugerido: R$ {formik.initialValues.price} </Typography>
+                                </Box>
+                                <TextField value={formik.values.price} onChange={formik.handleChange} />
                             </Box>
                         </Box>
                     )}

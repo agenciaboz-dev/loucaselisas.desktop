@@ -7,6 +7,7 @@ import { Lesson } from "../../types/server/class/Course/Lesson"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAprove } from "../../components/aprove/FormAprove"
+import { DataCard } from "../../components/course/DataCard"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
@@ -36,7 +37,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     return (
         <Box sx={{ flexDirection: "column" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton />
-            <Grid container spacing={4} sx={{ width: "75vw", height: "74vh" }}>
+            <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7} sx={{ flex: 1 }}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
                         {course.cover_type === "video" && (
@@ -89,8 +90,25 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ w: 1, flex: 1, flexDirection: "column" }}>
+                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />
+                        <Box
+                            sx={{
+                                flexDirection: "column",
+                                gap: "1vw",
+                                pb: "1vw",
+                                w: 1,
+                                height: "28.3vw",
+                                overflowY: "scroll",
+                                mx: "-0.5vw",
+                                px: "0.5vw",
+                                // border: "1px solid red",
+                            }}
+                        >
+                            {lessons.map((lesson) => (
+                                <DataCard key={lesson.id} name={lesson.name} description={lesson.info} image={lesson.thumb} />
+                            ))}
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
