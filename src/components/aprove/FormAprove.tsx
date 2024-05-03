@@ -95,7 +95,7 @@ export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, t
                                 </Box>
                                 <TextField select placeholder="plano" SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}>
                                     {selectOptions.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
+                                        <MenuItem key={option.value} defaultValue={option.value[0]} value={option.value}>
                                             {option.label}
                                         </MenuItem>
                                     ))}
