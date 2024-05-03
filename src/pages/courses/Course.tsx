@@ -8,11 +8,25 @@ import { HeaderInfo } from "../../components/header/HeaderInfo"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAprove } from "../../components/aprove/FormAprove"
 import { DataCard } from "../../components/course/DataCard"
+import { Carrousel } from "../../components/Carrousel"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
     const course = useLocation().state.data as Course
     // const isVideo = course.cover_type === "video"
+
+    // const [gallery, setGallery] = useState([{ url: course.cover }])
+
+    // setGallery([
+    //     ...gallery,
+    //     ...course.gallery.media.map((item) => ({
+    //         url: item.url,
+    //     })),
+    // ])
+
+    const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
+
+    const [media, setMedia] = useState({ url: course.cover, type: course.cover_type })
 
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
@@ -38,22 +52,25 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
         <Box sx={{ flexDirection: "column" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
-                <Grid item xs={7} sx={{ flex: 1 }}>
+                <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        {course.cover_type === "video" && (
+                        {/* <Box sx={{ w: 1, h: 1 }}> */}
+
+                        {media.type === "video" && (
                             <Paper sx={{ borderRadius: "1vw" }}>
-                                <video src={course.cover} controls style={{ borderRadius: "1vw", width: "100%" }} />
+                                <video src={media.url} controls style={{ borderRadius: "1vw", width: "100%" }} />
                             </Paper>
                         )}
-                        {course.cover_type === "image" && (
+                        {media.type === "image" && (
                             <Paper sx={{ borderRadius: "1vw" }}>
-                                <Avatar
-                                    variant="rounded"
-                                    src={course.cover}
-                                    sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }}
-                                />
+                                <Avatar variant="rounded" src={media.url} sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }} />
                             </Paper>
                         )}
+
+                        <Box sx={{ position: "absolute" }}>
+                            <Carrousel setMedia={setMedia} gallery={medias} />
+                        </Box>
+                        {/* </Box> */}
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
                                 <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
