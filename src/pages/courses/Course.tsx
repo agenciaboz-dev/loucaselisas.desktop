@@ -54,7 +54,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        {/* <Box sx={{ w: 1, h: 1 }}> */}
+                        <Box sx={{ w: 1, h: 1 }}></Box>
 
                         {media.type === "video" && (
                             <Paper sx={{ borderRadius: "1vw" }}>
@@ -70,7 +70,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                         <Box sx={{ position: "absolute" }}>
                             <Carrousel setMedia={setMedia} gallery={medias} />
                         </Box>
-                        {/* </Box> */}
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
                                 <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
