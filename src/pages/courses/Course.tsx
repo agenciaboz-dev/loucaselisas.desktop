@@ -67,9 +67,9 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             </Paper>
                         )}
 
-                        <Box sx={{ position: "absolute" }}>
+                        {/* <Box sx={{ position: "absolute" }}>
                             <Carrousel setMedia={setMedia} gallery={medias} />
-                        </Box>
+                        </Box> */}
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
                                 <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
