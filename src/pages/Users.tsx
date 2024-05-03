@@ -71,7 +71,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
                     >
                         <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
                             {users.map((user) => (
-                                <UserCard user={user} />
+                                <UserCard user={user} key={user.id} />
                             ))}
                         </Grid>
                     </Box>

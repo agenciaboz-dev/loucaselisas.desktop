@@ -6,9 +6,10 @@ import { Role } from "../../types/server/class/Role"
 
 interface TypeUserCardProps {
     role: Role
+    setSelectedRole: React.Dispatch<React.SetStateAction<Role | null>>
 }
 
-export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role }) => {
+export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRole }) => {
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
@@ -35,6 +36,10 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role }) => {
                     height: "fit-content",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    cursor: "pointer",
+                }}
+                onClick={() => {
+                    setSelectedRole(role)
                 }}
             >
                 {role.name}

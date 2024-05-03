@@ -7,14 +7,16 @@ interface OutlineButtonProps {
     title: string
     handleClick: () => void
     style?: SxProps
+    type: string
 }
 
-export const OutlineButton: React.FC<OutlineButtonProps> = ({ title, handleClick, Icon, style }) => {
+export const OutlineButton: React.FC<OutlineButtonProps> = ({ title, handleClick, Icon, style, type }) => {
     return (
         <Button
             variant="outlined"
-            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "0.7vw", ...style }}
+            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "2vw", ...style }}
             onClick={handleClick}
+            type={type}
         >
             <Icon />
             {title}
