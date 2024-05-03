@@ -5,12 +5,12 @@ export type MediaForm = FileUpload & Omit<WithoutFunctions<Partial<Media>>, "pos
     position: number;
     width: number;
     height: number;
-    type: "IMAGE" | "VIDEO";
+    type: "image" | "video";
 };
 export declare class Media {
     id: string;
     url: string;
-    type: "IMAGE" | "VIDEO";
+    type: "image" | "video";
     position: number;
     width: number;
     height: number;
