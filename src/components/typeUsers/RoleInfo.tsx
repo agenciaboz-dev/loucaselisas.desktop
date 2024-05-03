@@ -3,41 +3,34 @@ import { Box, Checkbox, Divider, FormControlLabel, MenuItem, Paper, TextField, T
 import { OutlineButton } from "./OutlineButtom"
 import { FaEdit } from "react-icons/fa"
 import { SelectRoles } from "./SelectRoles"
+import { Role } from "../../types/server/class/Role"
 
-interface RoleInfoProps {}
+interface RoleInfoProps {
+    roles: Role[]
+    role: Role
+}
 
-export const RoleInfo: React.FC<RoleInfoProps> = ({}) => {
+export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
     const [checked, setChecked] = React.useState([false, false, false, false, false])
 
-    const handleChangeStudent = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newChecked = [...checked]
-        newChecked[index] = event.target.checked
-        setChecked(newChecked)
+    const menuAdmin = ["outros"]
+    const menuStudent = ["searchTab"]
+    const menuCreator = ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"]
+
+    const selectedMenu = (typeUser: string) => {
+        const menu = roles
+            .filter((role) => role.permissions) // Garante que o role tem um objeto de permissões
+            .flatMap((role) => Object.entries(role.permissions))
+            .filter(([permission, isActive]) =>
+                typeUser == "admin"
+                    ? menuAdmin.includes(permission) && isActive
+                    : typeUser == "student"
+                    ? menuStudent.includes(permission) && isActive
+                    : typeUser === "creator" && menuCreator.includes(permission) && isActive
+            )
+            .map(([permission]) => permission) // Extrai o nome da permissão
+        return menu
     }
-    const children = (
-        <Box sx={{ display: "flex", flexDirection: "column", ml: 6, pb: "1vw", borderRadius: "2vw" }}>
-            <FormControlLabel
-                label="Editar Perfil"
-                control={<Checkbox checked={checked[1]} onChange={handleChangeStudent(1)} />}
-            />
-            <FormControlLabel
-                label="Comentários"
-                control={<Checkbox checked={checked[2]} onChange={handleChangeStudent(2)} />}
-            />
-            <FormControlLabel
-                label="Estatísticas"
-                control={<Checkbox checked={checked[3]} onChange={handleChangeStudent(3)} />}
-            />
-            <FormControlLabel
-                label="Seus Cursos"
-                control={<Checkbox checked={checked[4]} onChange={handleChangeStudent(4)} />}
-            />
-            <FormControlLabel
-                label="Adicionar Novo Curso"
-                control={<Checkbox checked={checked[5]} onChange={handleChangeStudent(5)} />}
-            />
-        </Box>
-    )
     return (
         <Paper sx={{ borderRadius: "1vw", width: 0.28, height: "100%", p: "1vw", flexDirection: "column", gap: "0.5vw" }}>
             <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
@@ -45,7 +38,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({}) => {
                     Role ID
                 </Typography>
                 <Typography component={"p"} fontSize={"1.1rem"}>
-                    Administrador
+                    {role.name}
                 </Typography>
             </Box>
             <Divider />
@@ -75,16 +68,31 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({}) => {
                 <Typography component={"p"} fontSize={"1rem"}>
                     Administrador
                 </Typography>
-                <SelectRoles />
+                <SelectRoles
+                    selectedPermissions={selectedMenu("admin")}
+                    onSelectPermission={(permission) => console.log(permission)}
+                    roles={roles}
+                    menu={"admin"}
+                />
 
                 <Typography component={"p"} fontSize={"1rem"}>
                     Estudante
                 </Typography>
-                <SelectRoles />
+                <SelectRoles
+                    selectedPermissions={selectedMenu("student")}
+                    onSelectPermission={(permission) => console.log(permission)}
+                    roles={roles}
+                    menu="student"
+                />
                 <Typography component={"p"} fontSize={"1rem"}>
                     Criador de conteúdo
                 </Typography>
-                <SelectRoles />
+                <SelectRoles
+                    selectedPermissions={selectedMenu("creator")}
+                    onSelectPermission={(permission) => console.log(permission)}
+                    menu="creator"
+                    roles={roles}
+                />
             </Box>
             <OutlineButton title="Editar" handleClick={() => {}} Icon={FaEdit} style={{ alignSelf: "end" }} />
         </Paper>

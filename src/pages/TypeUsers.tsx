@@ -13,7 +13,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     const skeletonCourse: string[] = new Array(6).fill(`course`)
     const [roles, setRoles] = useState<Role[]>([])
     const [skeletonLoading, setSkeletonLoading] = useState<boolean>(false)
-
+    const [selectedRole, setSelectedRole] = useState<Role | null>(null)
     const fetchRoles = async () => {
         try {
             const response = await api.get("/user/types")
@@ -27,7 +27,13 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     useEffect(() => {
         fetchRoles()
     }, [])
+    useEffect(() => {
+        if (roles.length !== 0) setSelectedRole(roles[0])
+    }, [roles])
 
+    useEffect(() => {
+        console.log(roles)
+    }, [roles])
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
             <HeaderInfo title="Tipos de Usuários" refreshButton={false} refreshCallback={() => {}} dashButton />
@@ -76,7 +82,9 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                               />
                                           </Grid>
                                       ))
-                                    : roles.map((role, index) => <TypeUserCard key={index} role={role} />)}
+                                    : roles.map((role, index) => (
+                                          <TypeUserCard key={index} role={role} setSelectedRole={setSelectedRole} />
+                                      ))}
                             </Grid>
                         </Box>
                         {skeletonLoading ? (
@@ -86,7 +94,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                 sx={{ borderRadius: "1vw", width: 0.3, height: "100%" }}
                             />
                         ) : (
-                            <RoleInfo />
+                            selectedRole && <RoleInfo roles={roles} role={selectedRole} />
                         )}
                     </Box>
                 </Box>
