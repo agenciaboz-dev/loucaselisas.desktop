@@ -9,6 +9,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAprove } from "../../components/aprove/FormAprove"
 import { DataCard } from "../../components/course/DataCard"
 import { Carrousel } from "../../components/Carrousel"
+import { Media } from "../../components/media/Media"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
@@ -56,31 +57,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
-                            <Paper
-                                sx={{ borderRadius: "1vw", width: "42.5vw", aspectRatio: "16/9" }}
-                                onMouseEnter={() => setShowCarrosel(true)}
-                                onMouseLeave={() => setShowCarrosel(false)}
-                            >
-                                {media.type === "video" && (
-                                    <video
-                                        src={media.url}
-                                        controls
-                                        style={{
-                                            borderRadius: "1vw",
-                                            width: "100%",
-                                            height: "100%",
-                                        }}
-                                    />
-                                )}
-                                {media.type === "image" && (
-                                    <Avatar
-                                        variant="rounded"
-                                        src={media.url}
-                                        sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }}
-                                    />
-                                )}
-                            </Paper>
-
+                            <Media media={media} setShowCarrosel={setShowCarrosel} />
                             {showCarrosel && (
                                 <Carrousel
                                     setMedia={setMedia}
