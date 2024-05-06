@@ -4,7 +4,7 @@ import { Avatar, Paper } from "@mui/material"
 interface MediaProps {
     setShowCarrosel: React.Dispatch<SetStateAction<boolean>>
     media: {
-        url: string
+        url: string | null
         type: "image" | "video"
     }
 }
@@ -19,7 +19,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
             >
                 {media.type === "video" && (
                     <video
-                        src={media.url}
+                        src={media.url || "/placeholders/video.webp"}
                         controls
                         style={{
                             borderRadius: "1vw",
@@ -29,7 +29,11 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
                     />
                 )}
                 {media.type === "image" && (
-                    <Avatar variant="rounded" src={media.url} sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }} />
+                    <Avatar
+                        variant="rounded"
+                        src={media.url || "/placeholders/midia_1-1.webp"}
+                        sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }}
+                    />
                 )}
             </Paper>
         </>
