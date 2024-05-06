@@ -112,7 +112,8 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                                           downloads={lesson.downloads}
                                           views={lesson.views}
                                           userName={lesson.course.name}
-                                          link={"/courses"}
+                                          link={`/licoes/${lesson.name}`}
+                                          routerParam={lesson}
                                       />
                                   ))}
                         </Grid>
