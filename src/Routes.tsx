@@ -16,6 +16,7 @@ import { TypeUsers } from "./pages/TypeUsers"
 import { ResetPassword } from "./pages/ResetPassword"
 import { ConfirmAccount } from "./pages/ConfirmAccount"
 import { CoursePage } from "./pages/courses/Course"
+import { Lesson } from "./pages/lessons/Lesson"
 
 interface RoutesProps {}
 
@@ -50,6 +51,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
                     <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
                     <Route path="/cursos/:id" element={<PageLayout children={<CoursePage />} />} />
+                    <Route path="lessons/:id" element={<PageLayout children={<Lesson />} />} />
 
                     <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
                     <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
