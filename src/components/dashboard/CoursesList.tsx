@@ -16,7 +16,7 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
             <Box
                 elevation={3}
                 component={Paper}
-                sx={{ flex: 1, p: "0.5vw", gap: "1vw" }}
+                sx={{ flex: 1, p: "0.5vw", gap: "1vw", cursor: "pointer" }}
                 onClick={() => navigate("/cursos/${course.name}", { state: { data: course } })}
             >
                 <Avatar variant="rounded" src={course.cover} alt="Capa do curso" sx={{ width: coverSize, height: coverSize, objectFit: "cover" }}>

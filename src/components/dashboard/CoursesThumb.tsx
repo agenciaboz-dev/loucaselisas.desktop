@@ -20,6 +20,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                 borderRadius: "1.2vw",
                 overflow: "hidden",
                 position: "relative",
+                cursor: "pointer",
             }}
             onClick={() => navigate("/cursos/${course.name}", { state: { data: course } })}
         >
