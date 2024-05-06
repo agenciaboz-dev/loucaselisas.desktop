@@ -17,7 +17,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
 
-    const [media, setMedia] = useState({ url: course.cover, type: course.cover_type })
+    const [media, setMedia] = useState({ url: course.cover || null, type: course.cover_type })
     const [showCarrosel, setShowCarrosel] = useState(false)
 
     const [loading, setLoading] = useState(false)
@@ -44,7 +44,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
         <Box sx={{ flexDirection: "column" }}>
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
-                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw", border: "2px, solid, red" }}>
+                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
                         <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} setShowCarrosel={setShowCarrosel} />
