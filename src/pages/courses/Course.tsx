@@ -45,7 +45,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw", border: "2px, solid, red" }}>
-                        <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton />
+                        <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} setShowCarrosel={setShowCarrosel} />
                             {showCarrosel && (
@@ -106,7 +106,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 overflowY: "scroll",
                                 mx: "-0.5vw",
                                 px: "0.5vw",
-                                // border: "1px solid red",
                             }}
                         >
                             {lessons.map((lesson) => (
@@ -115,7 +114,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                     name={lesson.name}
                                     description={lesson.info}
                                     image={lesson.thumb}
-                                    link={`/lessons/${lesson.name}`}
+                                    link={`/licoes/${lesson.name}`}
                                     routerParam={lesson}
                                 />
                             ))}
