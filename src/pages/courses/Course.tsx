@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Grid, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material"
 import { useLocation } from "react-router-dom"
 import { Course } from "../../types/server/class/Course"
 import { api } from "../../api/api"
@@ -14,16 +14,6 @@ interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
     const course = useLocation().state.data as Course
-    // const isVideo = course.cover_type === "video"
-
-    // const [gallery, setGallery] = useState([{ url: course.cover }])
-
-    // setGallery([
-    //     ...gallery,
-    //     ...course.gallery.media.map((item) => ({
-    //         url: item.url,
-    //     })),
-    // ])
 
     const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
 
@@ -52,10 +42,10 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     return (
         <Box sx={{ flexDirection: "column" }}>
-            <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
-                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw", border: "2px, solid, red" }}>
+                        <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} setShowCarrosel={setShowCarrosel} />
                             {showCarrosel && (
@@ -104,7 +94,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />
                         <Box
                             sx={{
@@ -120,7 +110,14 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             }}
                         >
                             {lessons.map((lesson) => (
-                                <DataCard key={lesson.id} name={lesson.name} description={lesson.info} image={lesson.thumb} />
+                                <DataCard
+                                    key={lesson.id}
+                                    name={lesson.name}
+                                    description={lesson.info}
+                                    image={lesson.thumb}
+                                    link={`/lessons/${lesson.name}`}
+                                    routerParam={lesson}
+                                />
                             ))}
                         </Box>
                     </Box>
