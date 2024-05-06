@@ -34,7 +34,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
     const { onLogout } = useUser()
     const navigate = useNavigate()
     return (
-        <Box sx={{ alignItems: "center", justifyContent: "space-between", border: "1px solid red" }}>
+        <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
             <Box sx={{ alignItems: "center", gap: "0.2vw", width: 1 }}>
                 {backButton && (
                     <IconButton onClick={() => navigate("/cursos")}>
@@ -60,7 +60,12 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                     )}
 
                     {!!chatButton && (
-                        <Button variant="contained" endIcon={<ChatIcon />} sx={{ p: "0.2vw 1vw", borderRadius: "2vw", ml: "auto" }}>
+                        <Button
+                            variant="contained"
+                            endIcon={<ChatIcon />}
+                            sx={{ p: "0.2vw 1vw", borderRadius: "2vw", ml: "auto" }}
+                            onClick={() => navigate("/grupos")}
+                        >
                             Ir para grupo
                         </Button>
                     )}
