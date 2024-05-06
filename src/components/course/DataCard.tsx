@@ -1,16 +1,21 @@
 import React from "react"
-import { Avatar, Box, LinearProgress, Typography } from "@mui/material"
+import { Avatar, Box, LinearProgress, MenuItem, Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface DataCardProps {
     image: string | null
     name: string
     description: string
     time?: number
+    link: string
+    routerParam?: Lesson
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ image, description, name, time }) => {
+export const DataCard: React.FC<DataCardProps> = ({ image, description, name, time, link, routerParam }) => {
+    const navigate = useNavigate()
     return (
-        <Box sx={{ flex: 1, gap: "1vw", maxHeight: "5vw" }}>
+        <MenuItem sx={{ flex: 1, gap: "1vw", maxHeight: "5vw", padding: 0 }} onClick={() => navigate(link, { state: { data: routerParam } })}>
             <Avatar
                 variant="rounded"
                 src={image || "/placeholders/perfil.webp"}
@@ -44,6 +49,6 @@ export const DataCard: React.FC<DataCardProps> = ({ image, description, name, ti
                     </Typography>
                 </Box>
             </Box>
-        </Box>
+        </MenuItem>
     )
 }
