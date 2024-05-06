@@ -27,6 +27,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
 
     const [media, setMedia] = useState({ url: course.cover, type: course.cover_type })
+    const [showCarrosel, setShowCarrosel] = useState(false)
 
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
@@ -54,21 +55,41 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        <Box sx={{ w: 1, h: 1 }}></Box>
-
-                        {media.type === "video" && (
-                            <Paper sx={{ borderRadius: "1vw" }}>
-                                <video src={media.url} controls style={{ borderRadius: "1vw", width: "100%" }} />
+                        <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
+                            <Paper
+                                sx={{ borderRadius: "1vw", width: "42.5vw", aspectRatio: "16/9" }}
+                                onMouseEnter={() => setShowCarrosel(true)}
+                                onMouseLeave={() => setShowCarrosel(false)}
+                            >
+                                {media.type === "video" && (
+                                    <video
+                                        src={media.url}
+                                        controls
+                                        style={{
+                                            borderRadius: "1vw",
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                    />
+                                )}
+                                {media.type === "image" && (
+                                    <Avatar
+                                        variant="rounded"
+                                        src={media.url}
+                                        sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }}
+                                    />
+                                )}
                             </Paper>
-                        )}
-                        {media.type === "image" && (
-                            <Paper sx={{ borderRadius: "1vw" }}>
-                                <Avatar variant="rounded" src={media.url} sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }} />
-                            </Paper>
-                        )}
 
-                        <Box sx={{ position: "absolute" }}>
-                            <Carrousel setMedia={setMedia} gallery={medias} />
+                            {showCarrosel && (
+                                <Carrousel
+                                    setMedia={setMedia}
+                                    isVideo={media.type === "video"}
+                                    gallery={medias}
+                                    onMouseEnter={() => setShowCarrosel(true)}
+                                    onMouseLeave={() => setShowCarrosel(false)}
+                                />
+                            )}
                         </Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>

@@ -5,22 +5,30 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 interface CarrouselProps {
     gallery: { url: string; type: "image" | "video" }[]
     setMedia: React.Dispatch<React.SetStateAction<{ url: string; type: "image" | "video" }>>
+    onMouseEnter: () => void
+    onMouseLeave: () => void
+    isVideo: boolean
 }
 
-const mediaDesign = { width: "8vw", height: "5vw", borderRadius: "1vw" }
+const mediaDesign = { width: "8vw", height: "5vw", borderRadius: "1vw", cursor: "pointer" }
 
-export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia }) => {
+export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia, onMouseEnter, onMouseLeave, isVideo }) => {
     return (
         <Box
             sx={{
                 gap: "1vw",
-                position: "relative",
+                position: "absolute",
+                bottom: isVideo ? "2vw" : 0,
+                left: 0,
                 height: "8vw",
-                width: "42.45vw",
-                backgroundColor: "#000",
+                width: "42.5vw",
+                background: "linear-gradient(0deg, #000000 20%, rgba(34, 34, 34, 0.7) 100%)",
                 alignItems: "center",
                 pl: "1vw",
+                borderRadius: isVideo ? 0 : "0 0 1vw 1vw",
             }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             {gallery.map((media) => (
                 <>
