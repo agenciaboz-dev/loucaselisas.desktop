@@ -11,7 +11,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
 
     return (
         <Box sx={{ flexDirection: "column" }}>
-            <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton={true} />
+            <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
         </Box>
     )
 }
