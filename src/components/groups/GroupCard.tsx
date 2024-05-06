@@ -83,10 +83,14 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
                                 gap: "0.5vw",
                             }}
                         >
-                            <Avatar src={message.user.cover} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                            <Avatar
+                                src={message.user?.cover || "/placeholders/perfil.webp"}
+                                variant="circular"
+                                sx={{ width: "3vw", height: "3vw" }}
+                            />
                             <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography variant="body2" component={"p"}>
-                                    {message?.user.name}
+                                    {message?.user?.name || "usuário indisponivel"}
                                 </Typography>
                                 <Typography
                                     variant="body2"
