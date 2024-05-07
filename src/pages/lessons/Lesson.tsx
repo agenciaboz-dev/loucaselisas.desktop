@@ -31,10 +31,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     useEffect(() => {
         fetchLessons()
     }, [])
-    const medias = [{ url: lesson.thumb, type: lesson.media.type }, ...lessons.map((lesson) => ({ url: lesson.thumb, type: lesson.media.type }))]
 
     const [media, setMedia] = useState({ url: lesson.thumb, type: lesson.media.type })
-    const [showCarrosel, setShowCarrosel] = useState(false)
+    // const medias = [{ url: lesson.thumb, type: lesson.media.type }, ...lessons.map((lesson) => ({ url: lesson.thumb, type: lesson.media.type }))]
+    // const [showCarrosel, setShowCarrosel] = useState(false)
 
     return (
         <Box sx={{ flexDirection: "column" }}>
@@ -43,8 +43,8 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
                         <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
-                            <Media media={media} setShowCarrosel={setShowCarrosel} />
-                            {showCarrosel && (
+                            <Media media={media} />
+                            {/* {showCarrosel && (
                                 <Carrousel
                                     setMedia={setMedia}
                                     isVideo={media.type === "video"}
@@ -52,7 +52,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                     onMouseEnter={() => setShowCarrosel(true)}
                                     onMouseLeave={() => setShowCarrosel(false)}
                                 />
-                            )}
+                            )} */}
                         </Box>
                     </Box>
                 </Grid>
