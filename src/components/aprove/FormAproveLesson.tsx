@@ -1,18 +1,21 @@
 import React, { useState } from "react"
-import { Box, Button, Paper } from "@mui/material"
+import { Box, Button, Paper, Typography } from "@mui/material"
 import { useFormik } from "formik"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
 import { AproveModal } from "./AproveModal"
 import { ReproveModal } from "./ReproveModal"
+import { Status } from "../../types/server/class/Course"
+import { formatStatus } from "../../tools/formatStatus"
 
 interface FormAproveLessonProps {
     id: string
     name: string
     type: "course" | "lesson"
+    status: Status
 }
 
-export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type }) => {
+export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type, status }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setopenAproveModal] = useState(false)
@@ -20,6 +23,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
     const handleOpenAproveModal = () => setopenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
+
+    const FormatedStatus = formatStatus(status)
 
     const formik = useFormik<StatusForm>({
         initialValues: {
@@ -69,12 +74,19 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
-                            Reprovar
-                        </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
-                            Aprovar
-                        </Button>
+                        <Box>
+                            <Typography>Status do conteúdo: {status} </Typography>
+                        </Box>
+                        {status === "pending" && (
+                            <>
+                                <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
+                                    Reprovar
+                                </Button>
+                                <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
+                                    Aprovar
+                                </Button>
+                            </>
+                        )}
                         <AproveModal
                             name={name}
                             type={type}
