@@ -6,7 +6,7 @@ import { ReproveModal } from "./ReproveModal"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
 
-interface FormAproveProps {
+interface FormAproveCourseProps {
     options?: boolean
     name: string
     type: "course" | "lesson"
@@ -14,7 +14,7 @@ interface FormAproveProps {
     price: number
 }
 
-export const FormAprove: React.FC<FormAproveProps> = ({ options = false, name, type, id, price }) => {
+export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setOpenAproveModal] = useState(false)
