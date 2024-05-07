@@ -20,18 +20,23 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                         <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
                             <Avatar src={user.image || undefined} variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
                             <Box flexDirection="column" gap="0.5vw">
-                                <Box>
+                                <Box sx={{ gap: "0.3vw" }}>
                                     <Typography variant="subtitle1" component="h4">
                                         {user.name}
                                     </Typography>
-                                    <Typography variant="body1" component="p">
-                                        {user.birth}
-                                    </Typography>
+                                    {user.created_at && (
+                                        <>
+                                            <Typography>-</Typography>
+                                            <Typography variant="body1" component="p">
+                                                {user.created_at}
+                                            </Typography>
+                                        </>
+                                    )}
                                 </Box>
                                 <Box sx={{ gap: "0.3vw" }}>
                                     {user.admin && <Chip label="ADM" variant="outlined" sx={{ px: "0.5vw" }} />}
-                                    {user.student && <Chip label="Estudante" variant="outlined" sx={{ px: "0.5vw" }} />}
                                     {user.creator && <Chip label="Criador de Conteudo" variant="outlined" sx={{ px: "0.5vw" }} />}
+                                    {user.student && <Chip label="Estudante" variant="outlined" sx={{ px: "0.5vw" }} />}
                                 </Box>
                             </Box>
                         </Box>
