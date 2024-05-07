@@ -74,8 +74,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        <Box>
-                            <Typography>Status do conteúdo: {status} </Typography>
+                        <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
+                            <FormatedStatus.Icon />
+                            <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
                         {status === "pending" && (
                             <>
