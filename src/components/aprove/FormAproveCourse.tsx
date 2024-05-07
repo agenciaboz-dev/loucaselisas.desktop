@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, MenuItem, Paper, TextField, Typography } from "@mui/material"
+import { Box, Button, Divider, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
@@ -96,6 +96,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                         <FormatedStatus.Icon />
                         <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                     </Box>
+                    <Divider />
                     {options && (
                         <Box sx={{ justifyContent: "space-between", gap: "1vw" }}>
                             <Box sx={{ flexDirection: "column", flex: 1 }}>
@@ -118,20 +119,32 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                                     <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
                                         Valor
                                     </Typography>
-                                    <Typography sx={{ color: "secondary.contrastText" }}>Sugerido: R$ {formik.initialValues.price} </Typography>
                                 </Box>
                                 <TextField value={formik.values.price} onChange={formik.handleChange} />
                             </Box>
                         </Box>
                     )}
 
+                    <TextField
+                        select
+                        helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
+                        label="Selecione o tipo de usuário"
+                        SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
+                    >
+                        <MenuItem>teste</MenuItem>
+                    </TextField>
+
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
-                            Reprovar
-                        </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
-                            Aprovar
-                        </Button>
+                        {status === "pending" && (
+                            <>
+                                <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
+                                    Reprovar
+                                </Button>
+                                <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
+                                    Aprovar
+                                </Button>
+                            </>
+                        )}
                         <AproveModal
                             name={name}
                             type={type}
