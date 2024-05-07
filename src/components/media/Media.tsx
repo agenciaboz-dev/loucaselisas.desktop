@@ -2,7 +2,7 @@ import React, { SetStateAction } from "react"
 import { Avatar, Paper } from "@mui/material"
 
 interface MediaProps {
-    setShowCarrosel: React.Dispatch<SetStateAction<boolean>>
+    setShowCarrosel?: React.Dispatch<SetStateAction<boolean>> | undefined
     media: {
         url: string | null
         type: "image" | "video"
@@ -14,8 +14,12 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
         <>
             <Paper
                 sx={{ borderRadius: "1vw", width: "42.5vw", aspectRatio: "16/9" }}
-                onMouseEnter={() => setShowCarrosel(true)}
-                onMouseLeave={() => setShowCarrosel(false)}
+                onMouseEnter={() => {
+                    setShowCarrosel && setShowCarrosel(true)
+                }}
+                onMouseLeave={() => {
+                    setShowCarrosel && setShowCarrosel(false)
+                }}
             >
                 {media.type === "video" && (
                     <video
