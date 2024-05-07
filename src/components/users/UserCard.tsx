@@ -19,8 +19,8 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                     <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }} onClick={() => console.log("teste 1")}>
                         <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
                             <Avatar src={user.image || undefined} variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
-                            <Box flexDirection="column" gap="0.5vw">
-                                <Box sx={{ gap: "0.3vw" }}>
+                            <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                                <Box sx={{ gap: "0.3vw", alignItems: "center" }}>
                                     <Typography variant="subtitle1" component="h4">
                                         {user.name}
                                     </Typography>
