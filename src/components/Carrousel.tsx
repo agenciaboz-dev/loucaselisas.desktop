@@ -39,20 +39,16 @@ export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia, onMouse
             onMouseLeave={onMouseLeave}
         >
             {gallery.map((media) => (
-                <MenuItem onClick={() => setMedia({ type: media.type, url: media.url })} sx={{ ...mediaDesign, userSelect: "none" }}>
+                <MenuItem key={media.url} onClick={() => setMedia({ type: media.type, url: media.url })} sx={{ ...mediaDesign, userSelect: "none" }}>
                     {media.type === "image" && (
-                        <Avatar key={media.url} src={media.url || "/placeholders/midia_1.1.webp"} sx={{ ...mediaDesign, pointerEvents: "none" }} />
+                        <Avatar src={media.url || "/placeholders/midia_1.1.webp"} sx={{ ...mediaDesign, pointerEvents: "none" }} />
                     )}
                     {media.type === "video" && (
                         <Box sx={{ ...mediaDesign, position: "relative", alignItems: "center", justifyContent: "center" }}>
                             {media.url ? (
-                                <video key={media.url} src={media.url} style={{ ...mediaDesign, pointerEvents: "none" }}></video>
+                                <video src={media.url} style={{ ...mediaDesign, pointerEvents: "none" }}></video>
                             ) : (
-                                <Avatar
-                                    key={media.url}
-                                    src={media.url || "/placeholders/midia_1.1.webp"}
-                                    sx={{ ...mediaDesign, pointerEvents: "none" }}
-                                />
+                                <Avatar src={media.url || "/placeholders/midia_1.1.webp"} sx={{ ...mediaDesign, pointerEvents: "none" }} />
                             )}
                             <PlayArrowIcon color="secondary" sx={{ position: "absolute", fontSize: "2.5rem" }} />
                         </Box>
