@@ -15,10 +15,10 @@ interface FormAproveCourseProps {
     id: string
     price: number
     status: Status
-    onAprove: () => Promise<void>
+    onChangeStatus: () => Promise<void>
 }
 
-export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price, status, onAprove }) => {
+export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price, status, onChangeStatus }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setOpenAproveModal] = useState(false)
@@ -57,7 +57,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
             try {
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
-                onAprove
+                onChangeStatus()
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
@@ -77,6 +77,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
         try {
             const response = await api.patch("/course", data)
             setOpenReproveModal(!openReproveModal)
+            onChangeStatus()
             console.log(response.data)
         } catch (error) {
             console.log(error)

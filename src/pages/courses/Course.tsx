@@ -13,7 +13,7 @@ import { Media } from "../../components/media/Media"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
-    const course = useLocation().state.data as Course
+    const [course, setCourse] = useState(useLocation().state.data as Course)
 
     const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
 
@@ -22,6 +22,23 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
+
+    const fetchCourse = async () => {
+        if (loading) return
+        setLoading(true)
+        try {
+            const response = await api.get("/course", { params: { course_id: course.id } })
+            setCourse(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchCourse()
+    }, [])
 
     const fetchLessons = async () => {
         if (loading) return
@@ -95,7 +112,15 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5} sx={{}}>
                     <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
-                        <FormAproveCourse name={course.name} type="course" id={course.id} price={course.price} options />
+                        <FormAproveCourse
+                            name={course.name}
+                            type="course"
+                            id={course.id}
+                            price={course.price}
+                            options
+                            status={course.status}
+                            onChangeStatus={fetchCourse}
+                        />
                         <Box
                             sx={{
                                 flexDirection: "column",
