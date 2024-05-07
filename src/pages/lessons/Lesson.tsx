@@ -9,6 +9,7 @@ import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAproveCourse } from "../../components/aprove/FormAproveCourse"
+import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 
 interface LessonPageProps {}
 
@@ -113,7 +114,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5}>
                     <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
-                        {course && <FormAproveCourse name={course.name} type="course" id={course.id} price={course.price} options={false} />}
+                        {course && <FormAproveLesson name={lesson.name} type="lesson" id={lesson.id} />}
                         <Box
                             sx={{
                                 flexDirection: "column",
