@@ -5,6 +5,8 @@ import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
+import { Status } from "../../types/server/class/Course"
+import { formatStatus } from "../../tools/formatStatus"
 
 interface FormAproveCourseProps {
     options?: boolean
@@ -12,9 +14,11 @@ interface FormAproveCourseProps {
     type: "course" | "lesson"
     id: string
     price: number
+    status: Status
+    onAprove: () => Promise<void>
 }
 
-export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price }) => {
+export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price, status, onAprove }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setOpenAproveModal] = useState(false)
@@ -22,6 +26,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
+
+    const FormatedStatus = formatStatus(status)
 
     const selectOptions = [
         {
@@ -51,6 +57,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
             try {
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
+                onAprove
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
@@ -84,6 +91,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
+                    <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
+                        <FormatedStatus.Icon />
+                        <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                    </Box>
                     {options && (
                         <Box sx={{ justifyContent: "space-between", gap: "1vw" }}>
                             <Box sx={{ flexDirection: "column", flex: 1 }}>
