@@ -2,6 +2,7 @@ import React from "react"
 import { Avatar, Box, LinearProgress, MenuItem, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { Lesson } from "../../types/server/class/Course/Lesson"
+import { Course } from "../../types/server/class/Course"
 
 interface DataCardProps {
     image: string | null
@@ -9,7 +10,7 @@ interface DataCardProps {
     description: string
     time?: number
     link: string
-    routerParam?: Lesson
+    routerParam?: { lesson: Lesson; course: Course }
 }
 
 export const DataCard: React.FC<DataCardProps> = ({ image, description, name, time, link, routerParam }) => {
