@@ -13,9 +13,10 @@ interface FormAproveLessonProps {
     name: string
     type: "course" | "lesson"
     status: Status
+    onChangeStatus?: () => Promise<void>
 }
 
-export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type, status }) => {
+export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type, status, onChangeStatus }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setopenAproveModal] = useState(false)
@@ -38,6 +39,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
             try {
                 const response = await api.patch("/lesson", values)
                 setopenAproveModal(!setopenAproveModal)
+                {
+                    onChangeStatus && onChangeStatus()
+                }
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
@@ -73,11 +77,11 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
+                    <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
+                        <FormatedStatus.Icon />
+                        <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                    </Box>
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
-                            <FormatedStatus.Icon />
-                            <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
-                        </Box>
                         {status === "pending" && (
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>

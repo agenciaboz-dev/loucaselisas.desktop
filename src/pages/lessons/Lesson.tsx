@@ -14,30 +14,33 @@ import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
-    const lesson = useLocation().state.data.lesson as Lesson
+    
+    const [lesson, setLesson] = useState(useLocation().state.data.lesson as Lesson)
+
     const course = useLocation().state.data.course as Course
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
     console.log({ Lessons: lessons })
     // const [course, setCourse] = useState<Course | null>(null)
     console.log({ Course: course })
-    // const fetchCourse = async () => {
-    //     if (loading) return
-    //     setLoading(true)
 
-    //     try {
-    //         const response = await api.get("/course", { params: { course_id: lesson.course_id } })
-    //         setCourse(response.data)
-    //     } catch (error) {
-    //         console.log(error)
-    //     } finally {
-    //         setLoading(false)
-    //     }
-    // }
+    const fetchLesson = async () => {
+        if (loading) return
+        setLoading(true)
 
-    // useEffect(() => {
-    //     fetchCourse()
-    // }, [])
+        try {
+            const response = await api.get("/lesson", { params: { lesson_id: lesson.id } })
+            setLesson(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchLesson()
+    }, [])
 
     const fetchLessons = async () => {
         if (loading) return
@@ -114,7 +117,9 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5}>
                     <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
-                        {course && <FormAproveLesson name={lesson.name} type="lesson" id={lesson.id} />}
+                        {course && (
+                            <FormAproveLesson name={lesson.name} type="lesson" id={lesson.id} status={lesson.status} onChangeStatus={fetchLesson} />
+                        )}
                         <Box
                             sx={{
                                 flexDirection: "column",
