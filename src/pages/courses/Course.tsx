@@ -117,7 +117,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             type="course"
                             id={course.id}
                             price={course.price}
-                            options
                             status={course.status}
                             onChangeStatus={fetchCourse}
                         />
@@ -127,7 +126,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 gap: "1vw",
                                 pb: "1vw",
                                 w: 1,
-                                height: "28.3vw",
+                                maxHeight: "22.3vw",
                                 overflowY: "scroll",
                                 mx: "-0.5vw",
                                 px: "0.5vw",

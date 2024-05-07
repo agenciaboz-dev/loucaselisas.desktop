@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Paper, Typography } from "@mui/material"
+import { Box, Button, Divider, Paper, Typography } from "@mui/material"
 import { useFormik } from "formik"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
@@ -81,6 +81,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                         <FormatedStatus.Icon />
                         <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                     </Box>
+                    <Divider />
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                         {status === "pending" && (
                             <>
