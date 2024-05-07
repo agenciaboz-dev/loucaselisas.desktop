@@ -1,5 +1,5 @@
 import React from "react"
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Routes as ReactRoutes, Route } from "react-router-dom"
 import { Home } from "./pages/Home"
 import backgroundVideo from "./assets/background.webm"
@@ -17,6 +17,7 @@ import { ResetPassword } from "./pages/ResetPassword"
 import { ConfirmAccount } from "./pages/ConfirmAccount"
 import { CoursePage } from "./pages/courses/Course"
 import { LessonPage } from "./pages/lessons/Lesson"
+import { version } from "./tools/appVersion"
 
 interface RoutesProps {}
 
@@ -38,6 +39,8 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 }}
                 src={backgroundVideo}
             ></video>
+
+            <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>v: {version}</Typography>
 
             <ReactRoutes>
                 {/* {!user ? (
