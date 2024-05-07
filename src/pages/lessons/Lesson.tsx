@@ -8,7 +8,7 @@ import { Carrousel } from "../../components/Carrousel"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { FormAprove } from "../../components/aprove/FormAprove"
+import { FormAproveCourse } from "../../components/aprove/FormAproveCourse"
 
 interface LessonPageProps {}
 
@@ -113,7 +113,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5}>
                     <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
-                        {course && <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />}
+                        {course && <FormAproveCourse name={course.name} type="course" id={course.id} price={course.price} options={false} />}
                         <Box
                             sx={{
                                 flexDirection: "column",

@@ -6,7 +6,7 @@ import { api } from "../../api/api"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { FormAprove } from "../../components/aprove/FormAprove"
+import { FormAproveCourse } from "../../components/aprove/FormAproveCourse"
 import { DataCard } from "../../components/course/DataCard"
 import { Carrousel } from "../../components/Carrousel"
 import { Media } from "../../components/media/Media"
@@ -95,7 +95,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 </Grid>
                 <Grid item xs={5} sx={{}}>
                     <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
-                        <FormAprove name={course.name} type="course" id={course.id} price={course.price} options />
+                        <FormAproveCourse name={course.name} type="course" id={course.id} price={course.price} options />
                         <Box
                             sx={{
                                 flexDirection: "column",
