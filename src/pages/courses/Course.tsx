@@ -115,7 +115,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                     description={lesson.info}
                                     image={lesson.thumb}
                                     link={`/licoes/${lesson.name}`}
-                                    routerParam={lesson}
+                                    routerParam={{ lesson, course }}
                                 />
                             ))}
                         </Box>
