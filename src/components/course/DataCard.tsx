@@ -11,6 +11,7 @@ interface DataCardProps {
     lesson: Lesson
     link: string
     refreshStatus: () => Promise<void>
+    // refreshLesson?: () => Promise<void>
     routerParam?: { lesson: Lesson; course: Course }
 }
 
@@ -57,7 +58,12 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
             </Box>
             <MenuItem
                 sx={{ flex: 1, maxHeight: "5vw", padding: 0, flexDirection: "column" }}
-                onClick={() => navigate(link, { state: { data: routerParam } })}
+                onClick={() => {
+                    // {
+                    //     refreshLesson && refreshLesson()
+                    // }
+                    navigate(link, { state: { data: routerParam } })
+                }}
             >
                 <Box sx={{ gap: "1vw" }}>
                     <Avatar

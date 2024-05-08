@@ -4,16 +4,16 @@ import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { useLocation } from "react-router-dom"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { Media } from "../../components/media/Media"
-import { Carrousel } from "../../components/Carrousel"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { FormAproveCourse } from "../../components/aprove/FormAproveCourse"
 import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
+import { DataCard } from "../../components/course/DataCard"
 
 interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
+    const inicialLesson = useLocation().state.data.lesson as Lesson
     const [lesson, setLesson] = useState(useLocation().state.data.lesson as Lesson)
 
     const course = useLocation().state.data.course as Course
@@ -131,16 +131,16 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                 px: "0.5vw",
                             }}
                         >
-                            {/* {lessons.map((lesson) => (
+                            {lessons.map((lesson) => (
                                 <DataCard
                                     key={lesson.id}
-                                    name={lesson.name}
-                                    description={lesson.info}
-                                    image={lesson.thumb}
+                                    lesson={lesson}
+                                    refreshStatus={fetchLessons}
+                                    // refreshLesson={fetchLesson}
                                     link={`/licoes/${lesson.name}`}
-                                    routerParam={lesson}
+                                    routerParam={{ lesson, course }}
                                 />
-                            ))} */}
+                            ))}
                         </Box>
                     </Box>
                 </Grid>
