@@ -135,9 +135,8 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             {lessons.map((lesson) => (
                                 <DataCard
                                     key={lesson.id}
-                                    name={lesson.name}
-                                    description={lesson.info}
-                                    image={lesson.thumb}
+                                    lesson={lesson}
+                                    refreshStatus={fetchLessons}
                                     link={`/licoes/${lesson.name}`}
                                     routerParam={{ lesson, course }}
                                 />
