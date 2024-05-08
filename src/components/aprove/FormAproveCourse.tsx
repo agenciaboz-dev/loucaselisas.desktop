@@ -164,7 +164,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                     </TextField>
 
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        {(status === "pending" || status === "disabled") && (
+                        {status === "pending" && (
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
                                     Reprovar

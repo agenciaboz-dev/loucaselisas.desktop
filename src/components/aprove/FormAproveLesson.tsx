@@ -98,7 +98,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                         <Switch checked={status === "active"} disabled={!(status == "active")} onChange={() => onDisabled()} />
                     </Box>
                     {status == "pending" && <Divider />}
-                    {(status === "pending" || status === "disabled") && (
+                    {status === "pending" && (
                         <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
