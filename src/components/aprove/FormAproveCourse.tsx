@@ -70,7 +70,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
     })
 
     const onDisabled = async () => {
-        const data: StatusForm = { id: id, status: "disabled" }
+        const data: StatusForm = { id: id, status: "pending" }
         if (loading) return
         setLoading(true)
 
@@ -115,15 +115,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                             <FormatedStatus.Icon />
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
-                        {status !== "pending" && (
-                            <>
-                                <Switch
-                                    checked={status !== "active" ? false : true}
-                                    disabled={status !== "active" ? true : false}
-                                    onChange={() => onDisabled()}
-                                />
-                            </>
-                        )}
+
+                        <Switch checked={status === "active"} disabled={status !== "active"} onChange={() => onDisabled()} />
                     </Box>
                     <Divider />
                     {options && (
