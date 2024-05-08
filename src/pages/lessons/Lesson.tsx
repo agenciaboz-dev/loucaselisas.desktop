@@ -14,7 +14,6 @@ import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
-    
     const [lesson, setLesson] = useState(useLocation().state.data.lesson as Lesson)
 
     const course = useLocation().state.data.course as Course
@@ -63,11 +62,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     // const [showCarrosel, setShowCarrosel] = useState(false)
 
     return (
-        <Box sx={{ flexDirection: "column" }}>
+        <Box sx={{ flexDirection: "column", gap: "1vw" }}>
+            <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} />
                             {/* {showCarrosel && (
@@ -116,7 +115,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5}>
-                    <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         {course && (
                             <FormAproveLesson name={lesson.name} type="lesson" id={lesson.id} status={lesson.status} onChangeStatus={fetchLesson} />
                         )}

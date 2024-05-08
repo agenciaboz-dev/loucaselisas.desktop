@@ -58,11 +58,11 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     }, [])
 
     return (
-        <Box sx={{ flexDirection: "column" }}>
+        <Box sx={{ flexDirection: "column", gap: "1vw" }}>
+            <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
                         <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} setShowCarrosel={setShowCarrosel} />
                             {showCarrosel && (
@@ -111,7 +111,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ pt: "1vw", w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         <FormAproveCourse
                             name={course.name}
                             type="course"
