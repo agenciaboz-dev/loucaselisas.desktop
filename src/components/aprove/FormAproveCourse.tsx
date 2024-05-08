@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Divider, MenuItem, Paper, TextField, Typography } from "@mui/material"
+import { Box, Button, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
@@ -26,6 +26,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
+
+    // const [statusSwitch, setStatusSwitch] = useState<Status>(status)
+    // const [oldStatusSwitch, setoldStatusSwitch] = useState(status)
 
     const FormatedStatus = formatStatus(status)
 
@@ -58,6 +61,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
+                // setStatusSwitch("active")
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
@@ -68,6 +72,25 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
             }
         },
     })
+
+    const onDisabled = async () => {
+        const data: StatusForm = { id: id, status: "disabled" }
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.patch("/course", data)
+            onChangeStatus()
+            console.log(response.data)
+            // setStatusSwitch("disabled")
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
 
     const onReprove = async (reason: string) => {
         const data: StatusForm = { id: id, status: "declined", declined_reason: reason, price: price }
@@ -92,9 +115,20 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
-                    <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
-                        <FormatedStatus.Icon />
-                        <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                    <Box sx={{ alignItems: "center", gap: "0.2vw", justifyContent: "space-between" }}>
+                        <Box sx={{ alignItems: "center", gap: "0.3vw" }}>
+                            <FormatedStatus.Icon />
+                            <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                        </Box>
+                        {status !== "pending" && (
+                            <>
+                                <Switch
+                                    defaultChecked={status !== "active" ? false : true}
+                                    disabled={status !== "active" ? true : false}
+                                    onChange={() => onDisabled()}
+                                />
+                            </>
+                        )}
                     </Box>
                     <Divider />
                     {options && (
@@ -135,7 +169,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                     </TextField>
 
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        {status === "pending" && (
+                        {(status === "pending" || status === "disabled") && (
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
                                     Reprovar
