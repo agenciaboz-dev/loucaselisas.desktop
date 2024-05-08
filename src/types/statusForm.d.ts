@@ -6,5 +6,5 @@ export interface StatusForm {
     status: Status
     declined_reason?: string
     price?: number
-    plan?: Plan
+    plans?: Plan[]
 }
