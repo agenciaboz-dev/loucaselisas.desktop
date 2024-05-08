@@ -97,9 +97,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
                         <Switch checked={status === "active"} disabled={!(status == "active")} onChange={() => onDisabled()} />
                     </Box>
-                    <Divider />
-                    <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        {(status === "pending" || status === "disabled") && (
+                    {status == "pending" && <Divider />}
+                    {(status === "pending" || status === "disabled") && (
+                        <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
                                     Reprovar
@@ -108,22 +108,23 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                                     Aprovar
                                 </Button>
                             </>
-                        )}
-                        <AproveModal
-                            name={name}
-                            type={type}
-                            openAproveModal={openAproveModal}
-                            handleOpenAproveModal={handleOpenAproveModal}
-                            onConfirm={formik.handleSubmit}
-                        />
-                        <ReproveModal
-                            name={name}
-                            type={type}
-                            openReproveModal={openReproveModal}
-                            handleOpenReproveModal={handleopenReproveModal}
-                            onConfirm={onReprove}
-                        />
-                    </Box>
+
+                            <AproveModal
+                                name={name}
+                                type={type}
+                                openAproveModal={openAproveModal}
+                                handleOpenAproveModal={handleOpenAproveModal}
+                                onConfirm={formik.handleSubmit}
+                            />
+                            <ReproveModal
+                                name={name}
+                                type={type}
+                                openReproveModal={openReproveModal}
+                                handleOpenReproveModal={handleopenReproveModal}
+                                onConfirm={onReprove}
+                            />
+                        </Box>
+                    )}
                 </Box>
             </Paper>
         </Box>

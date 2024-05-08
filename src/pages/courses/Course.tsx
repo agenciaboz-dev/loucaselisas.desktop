@@ -130,7 +130,19 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5} sx={{}}>
-                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box
+                        sx={{
+                            w: 1,
+                            flex: 1,
+                            flexDirection: "column",
+                            gap: "1vw",
+                            maxHeight: "71vh",
+                            overflowY: "scroll",
+                            mx: "-0.5vw",
+                            px: "0.5vw",
+                            pt: "0.1vw",
+                        }}
+                    >
                         <FormAproveCourse
                             plans={plans}
                             name={course.name}
@@ -146,10 +158,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 gap: "1vw",
                                 pb: "1vw",
                                 w: 1,
-                                maxHeight: "22.3vw",
-                                overflowY: "scroll",
-                                mx: "-0.5vw",
-                                px: "0.5vw",
                             }}
                         >
                             {lessons.map((lesson) => (

@@ -124,7 +124,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                 gap: "1vw",
                                 pb: "1vw",
                                 w: 1,
-                                height: "28.3vw",
+                                height: lesson.status === "pending" ? "28.3vw" : "32.7vw",
                                 overflowY: "scroll",
                                 mx: "-0.5vw",
                                 px: "0.5vw",
