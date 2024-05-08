@@ -22,7 +22,7 @@ export const MenuMobileDrop: React.FC<MenuMobileDropProps> = ({}) => {
             </IconButton>
             <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade}>
                 {paths.map((path) => (
-                    <MenuItem onClick={() => window.open(path.link, "_blank")} sx={{ justifyContent: "right" }}>
+                    <MenuItem key={path.link} onClick={() => window.open(path.link, "_blank")} sx={{ justifyContent: "right" }}>
                         <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
                             {path.title}
                         </Typography>

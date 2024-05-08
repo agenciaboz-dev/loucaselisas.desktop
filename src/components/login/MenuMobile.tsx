@@ -22,6 +22,7 @@ export const MenuMobile: React.FC<MenuMobileProps> = ({ isOpen, setIsOpen }) => 
         >
             {paths.map((path) => (
                 <MenuItem
+                    key={path.link}
                     onClick={() => window.open(path.link, "_blank")}
                     color="primary"
                     sx={{
