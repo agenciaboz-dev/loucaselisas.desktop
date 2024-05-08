@@ -72,7 +72,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
     }
 
     const onDisabled = async () => {
-        const data: StatusForm = { id: id, status: "disabled" }
+        const data: StatusForm = { id: id, status: "pending" }
         if (loading) return
         setLoading(true)
 
@@ -98,15 +98,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                             <FormatedStatus.Icon />
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
-                        {status !== "pending" && (
-                            <>
-                                <Switch
-                                    checked={status !== "active" ? false : true}
-                                    disabled={status !== "active" ? true : false}
-                                    onChange={() => onDisabled()}
-                                />
-                            </>
-                        )}
+
+                        <Switch checked={status === "active"} disabled={!(status == "active")} onChange={() => onDisabled()} />
                     </Box>
                     <Divider />
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
