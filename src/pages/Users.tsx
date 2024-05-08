@@ -22,7 +22,6 @@ export const Users: React.FC<UsersProps> = ({}) => {
         try {
             const response = await api.get("/user/all")
             setUsers(response.data)
-            console.log({ users: response.data })
         } catch (error) {
             console.log(error)
         } finally {

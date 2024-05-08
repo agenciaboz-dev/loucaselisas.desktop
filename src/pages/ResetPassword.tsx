@@ -21,7 +21,6 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
     const [showPassword, setShowPassword] = useState(false)
 
     var timestamp = new Date().getTime()
-    console.log(timestamp)
 
     const [pass2, setPass2] = useState<string>("")
     const [samePassword, setsamePassword] = useState(true)

@@ -52,8 +52,6 @@ export const Login: React.FC<LoginProps> = ({}) => {
         validationSchema: SignupSchema,
 
         onSubmit: async (values) => {
-            console.log(values)
-
             if (loading) return
 
             setLoading(true)
@@ -64,7 +62,6 @@ export const Login: React.FC<LoginProps> = ({}) => {
 
             try {
                 const response = await api.post("/login/admin", data)
-                console.log(response.data)
                 const user = response.data as User | null
 
                 if (!user) {

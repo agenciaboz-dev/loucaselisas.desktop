@@ -60,7 +60,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
-                console.log(response.data)
             } catch (error) {
                 console.log(error)
             } finally {
@@ -79,7 +78,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
         try {
             const response = await api.patch("/course", data)
             onChangeStatus()
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -98,7 +96,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
             const response = await api.patch("/course", data)
             setOpenReproveModal(!openReproveModal)
             onChangeStatus()
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {

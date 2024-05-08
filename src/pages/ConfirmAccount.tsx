@@ -20,9 +20,7 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
             setLoading(true)
 
             try {
-                console.log(loading)
                 const response = await api.post("/user/forgot_password", values)
-                console.log(response.data)
                 setSendedEmail(true)
             } catch (error) {
                 console.log(error)

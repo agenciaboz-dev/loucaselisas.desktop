@@ -19,9 +19,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const course = useLocation().state.data.course as Course
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
-    console.log({ Lessons: lessons })
     // const [course, setCourse] = useState<Course | null>(null)
-    console.log({ Course: course })
 
     const fetchLesson = async () => {
         if (loading) return

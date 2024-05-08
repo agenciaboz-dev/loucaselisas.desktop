@@ -31,7 +31,6 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
 
     const onClickCategory = (id: string) => {
         setActive(id)
-        console.log(active)
     }
 
     useEffect(() => {
@@ -51,8 +50,6 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             }
 
             const selectedCategory = categories.find((category) => category.id === active)
-
-            console.log(selectedCategory)
 
             if (selectedCategory) {
                 filteredCourses = courses

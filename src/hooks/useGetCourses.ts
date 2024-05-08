@@ -12,7 +12,6 @@ export const useGetCourses = () => {
         try {
             const response = await api.get("/course/all")
             courses = response.data
-            console.log({ courses: response.data })
         } catch (error) {
             console.error(error)
         } finally {

@@ -22,7 +22,6 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
     const [loading, setLoading] = useState(false)
 
     const onChangeStatus = async (checked: boolean) => {
-        console.log(checked)
         const data: StatusForm = { id: lesson.id, status: checked ? "active" : "pending" }
         if (loading) return
         setLoading(true)
@@ -30,7 +29,6 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
         try {
             const response = await api.patch("/lesson", data)
             refreshStatus()
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {

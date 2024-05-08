@@ -20,7 +20,6 @@ export const Home: React.FC<HomeProps> = ({}) => {
 
     const socialUrls = ["https://wa.me/5548999401049", "https://www.instagram.com/loucaselisas/", "https://www.facebook.com/LoucasLisas/"]
 
-    console.log(isOpen)
 
     return (
         <Box sx={{ width: 1, height: "100vh", py: "2vh" }}>

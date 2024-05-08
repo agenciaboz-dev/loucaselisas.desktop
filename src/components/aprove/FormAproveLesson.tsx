@@ -40,7 +40,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                 const response = await api.patch("/lesson", values)
                 setopenAproveModal(!setopenAproveModal)
                 onChangeStatus()
-                console.log(response.data)
             } catch (error) {
                 console.log(error)
             } finally {
@@ -53,7 +52,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
     const onReprove = async (reason: string) => {
         const data: StatusForm = { id: id, status: "declined", declined_reason: reason }
-        console.log(data)
         if (loading) return
         setLoading(true)
 
@@ -61,7 +59,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
             const response = await api.patch("/lesson", data)
             setOpenReproveModal(!openReproveModal)
             onChangeStatus()
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -79,7 +76,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
         try {
             const response = await api.patch("/lesson", data)
             onChangeStatus()
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {

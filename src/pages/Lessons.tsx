@@ -25,7 +25,6 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
         try {
             const response = await api.get("lesson/all")
             setLessons(response.data)
-            console.log({ lessons: response.data })
         } catch (error) {
             console.error(error)
         } finally {

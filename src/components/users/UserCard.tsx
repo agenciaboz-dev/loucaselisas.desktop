@@ -16,7 +16,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
         <>
             <Grid item xs={1}>
                 <Paper sx={{ position: "relative" }}>
-                    <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }} onClick={() => console.log("teste 1")}>
+                    <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }} onClick={() => {}}>
                         <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
                             <Avatar src={user.image || undefined} variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
                             <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
@@ -42,7 +42,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                         </Box>
                     </MenuItem>
                     <IconButton
-                        onClick={() => console.log("teste 2")}
+                        onClick={() => {}}
                         sx={{
                             height: "2vw",
                             p: "0.2vw",

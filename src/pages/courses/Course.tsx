@@ -63,7 +63,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
         try {
             const response = await api.get("/plan")
-            console.log(response.data)
             setPlans(response.data)
         } catch (error) {
             console.log(error)
