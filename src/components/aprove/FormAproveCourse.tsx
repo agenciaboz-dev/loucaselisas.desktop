@@ -27,9 +27,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
 
-    // const [statusSwitch, setStatusSwitch] = useState<Status>(status)
-    // const [oldStatusSwitch, setoldStatusSwitch] = useState(status)
-
     const FormatedStatus = formatStatus(status)
 
     const selectOptions = [
@@ -61,7 +58,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
-                // setStatusSwitch("active")
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
@@ -82,7 +78,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
             const response = await api.patch("/course", data)
             onChangeStatus()
             console.log(response.data)
-            // setStatusSwitch("disabled")
         } catch (error) {
             console.log(error)
         } finally {
@@ -115,7 +110,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
-                    <Box sx={{ alignItems: "center", gap: "0.2vw", justifyContent: "space-between" }}>
+                    <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
                         <Box sx={{ alignItems: "center", gap: "0.3vw" }}>
                             <FormatedStatus.Icon />
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>

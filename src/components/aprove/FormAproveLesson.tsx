@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Divider, Paper, Typography } from "@mui/material"
+import { Box, Button, Divider, Paper, Switch, Typography } from "@mui/material"
 import { useFormik } from "formik"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
@@ -13,7 +13,7 @@ interface FormAproveLessonProps {
     name: string
     type: "course" | "lesson"
     status: Status
-    onChangeStatus?: () => Promise<void>
+    onChangeStatus: () => Promise<void>
 }
 
 export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type, status, onChangeStatus }) => {
@@ -39,16 +39,14 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
             try {
                 const response = await api.patch("/lesson", values)
                 setopenAproveModal(!setopenAproveModal)
-                {
-                    onChangeStatus && onChangeStatus()
-                }
+                onChangeStatus()
                 console.log(response.data)
             } catch (error) {
                 console.log(error)
             } finally {
                 setTimeout(() => {
                     setLoading(false)
-                }, 500)
+                }, 300)
             }
         },
     })
@@ -62,14 +60,32 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
         try {
             const response = await api.patch("/lesson", data)
             setOpenReproveModal(!openReproveModal)
-
+            onChangeStatus()
             console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            }, 500)
+            }, 300)
+        }
+    }
+
+    const onDisabled = async () => {
+        const data: StatusForm = { id: id, status: "disabled" }
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.patch("/lesson", data)
+            onChangeStatus()
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
         }
     }
 
@@ -77,13 +93,24 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
                 <Box sx={{ flexDirection: "column", flex: 1, gap: "1vw" }}>
-                    <Box sx={{ alignItems: "center", gap: "0.2vw" }}>
-                        <FormatedStatus.Icon />
-                        <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                    <Box sx={{ justifyContent: "space-between", alignItems: "center" }}>
+                        <Box sx={{ alignItems: "center", gap: "0.3vw" }}>
+                            <FormatedStatus.Icon />
+                            <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
+                        </Box>
+                        {status !== "pending" && (
+                            <>
+                                <Switch
+                                    defaultChecked={status !== "active" ? false : true}
+                                    disabled={status !== "active" ? true : false}
+                                    onChange={() => onDisabled()}
+                                />
+                            </>
+                        )}
                     </Box>
                     <Divider />
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                        {status === "pending" && (
+                        {(status === "pending" || status === "disabled") && (
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
                                     Reprovar
