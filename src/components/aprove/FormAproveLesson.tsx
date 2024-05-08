@@ -101,7 +101,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                         {status !== "pending" && (
                             <>
                                 <Switch
-                                    defaultChecked={status !== "active" ? false : true}
+                                    checked={status !== "active" ? false : true}
                                     disabled={status !== "active" ? true : false}
                                     onChange={() => onDisabled()}
                                 />
