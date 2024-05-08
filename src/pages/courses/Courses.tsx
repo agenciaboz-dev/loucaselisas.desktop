@@ -7,6 +7,7 @@ import { FilterCourses } from "../../components/pageLayout/FilterCourses"
 import { SearchBar } from "../../components/header/SearchBar"
 import { DataCard } from "../../components/courses/DataCard"
 import { useDraggable } from "react-use-draggable-scroll"
+import { slugify } from "../../tools/urlMask"
 
 interface CourrsesProps {}
 
@@ -125,7 +126,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                           messages={course.chat?.messages}
                                           views={course.views}
                                           userName={course.owner.user.username}
-                                          link={`/cursos/${course.name}`}
+                                          link={`/cursos/${slugify(course.name)}`}
                                           routerParam={course}
                                       />
                                   ))}

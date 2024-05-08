@@ -6,6 +6,7 @@ import { HeaderInfo } from "../components/header/HeaderInfo"
 import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
 import { DataCard } from "../components/courses/DataCard"
+import { slugify } from "../tools/urlMask"
 
 interface LessonsProps {}
 
@@ -111,7 +112,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                                           downloads={lesson.downloads}
                                           views={lesson.views}
                                           userName={lesson.course.name}
-                                          link={`/licoes/${lesson.name}`}
+                                          link={`/licoes/${slugify(lesson.name)}`}
                                           routerParam={lesson}
                                       />
                                   ))}

@@ -9,6 +9,7 @@ import { Course } from "../../types/server/class/Course"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 import { DataCard } from "../../components/course/DataCard"
+import { slugify } from "../../tools/urlMask"
 
 interface LessonPageProps {}
 
@@ -135,7 +136,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                     lesson={lesson}
                                     refreshStatus={fetchLessons}
                                     // refreshLesson={fetchLesson}
-                                    link={`/licoes/${lesson.name}`}
+                                    link={`/licoes/${slugify(lesson.name)}`}
                                     routerParam={{ lesson, course }}
                                 />
                             ))}

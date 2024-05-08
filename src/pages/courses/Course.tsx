@@ -11,6 +11,7 @@ import { DataCard } from "../../components/course/DataCard"
 import { Carrousel } from "../../components/Carrousel"
 import { Media } from "../../components/media/Media"
 import { Plan } from "../../types/server/class/Plan"
+import { slugify } from "../../tools/urlMask"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
@@ -156,7 +157,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                     key={lesson.id}
                                     lesson={lesson}
                                     refreshStatus={fetchLessons}
-                                    link={`/licoes/${lesson.name}`}
+                                    link={`/licoes/${slugify(lesson.name)}`}
                                     routerParam={{ lesson, course }}
                                 />
                             ))}
