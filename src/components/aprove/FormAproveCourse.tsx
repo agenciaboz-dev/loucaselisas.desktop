@@ -7,9 +7,11 @@ import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
 import { Status } from "../../types/server/class/Course"
 import { formatStatus } from "../../tools/formatStatus"
+import { Plan } from "../../types/server/class/Plan"
 
 interface FormAproveCourseProps {
     options?: boolean
+    plans: Plan[]
     name: string
     type: "course" | "lesson"
     id: string
@@ -18,7 +20,7 @@ interface FormAproveCourseProps {
     onChangeStatus: () => Promise<void>
 }
 
-export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, price, status, onChangeStatus }) => {
+export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, plans, name, type, id, price, status, onChangeStatus }) => {
     const [loading, setLoading] = useState(false)
 
     const [openAproveModal, setOpenAproveModal] = useState(false)
@@ -128,10 +130,16 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                                     </Typography>
                                     <Typography sx={{ color: "secondary.contrastText" }}>Sugerido: Valor a parte </Typography>
                                 </Box>
-                                <TextField select placeholder="plano" SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}>
-                                    {selectOptions.map((option) => (
-                                        <MenuItem key={option.value} defaultValue={option.value[0]} value={option.value}>
-                                            {option.label}
+                                <TextField
+                                    select
+                                    placeholder="plano"
+                                    onChange={() => console.log("selecinando")}
+                                    value=""
+                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
+                                >
+                                    {plans.map((plan) => (
+                                        <MenuItem key={plan.id} value={plan.name || ""}>
+                                            {plan.name}
                                         </MenuItem>
                                     ))}
                                 </TextField>
@@ -153,7 +161,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                         label="Selecione o tipo de usuário"
                         SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                     >
-                        <MenuItem>teste</MenuItem>
+                        {selectOptions.map((option) => (
+                            <MenuItem key={option.value}>{option.label}</MenuItem>
+                        ))}
                     </TextField>
 
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
