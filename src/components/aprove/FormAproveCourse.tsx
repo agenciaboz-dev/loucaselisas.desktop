@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Button, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
+import { Box, Button, Dialog, DialogTitle, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
@@ -8,6 +8,7 @@ import { api } from "../../api/api"
 import { Status } from "../../types/server/class/Course"
 import { formatStatus } from "../../tools/formatStatus"
 import { Plan } from "../../types/server/class/Plan"
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 
 interface FormAproveCourseProps {
     options?: boolean
@@ -162,6 +163,23 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                             <MenuItem key={option.value}>{option.label}</MenuItem>
                         ))}
                     </TextField>
+
+                    <Box sx={{ justifyContent: "space-between" }}>
+                        <MenuItem sx={{ pl: 0 }}>
+                            <Typography variant="body1" component="p">
+                                Criar cupom?
+                            </Typography>
+                        </MenuItem>
+                        <Button startIcon={<AddCircleOutlineIcon />} sx={{ px: "1vw", border: "1px dashed", borderRadius: "5vw" }}>
+                            Adicionar
+                        </Button>
+
+                        {/* <Dialog open sx={{ flexDirection: "column" }}>
+                            <DialogTitle>Adicionar novo cupom</DialogTitle>
+                            <TextField placeholder="Código do cupom"></TextField>
+                            <TextField placeholder="Descrição "></TextField>
+                        </Dialog> */}
+                    </Box>
 
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                         {status === "pending" && (
