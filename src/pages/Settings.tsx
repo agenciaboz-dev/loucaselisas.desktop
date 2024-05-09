@@ -11,6 +11,30 @@ interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
     const [loading, setLoading] = useState(false)
+    const [categories, setCategorys] = useState<Category[]>([])
+
+    const fetchCategories = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/category/list")
+            setCategorys(response.data)
+            console.log(categories)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+
+    useEffect(() => {
+        return () => {
+            fetchCategories()
+        }
+    }, [])
 
     const formikCategories = useFormik<CategoryForm>({
         initialValues: { name: "" },
@@ -21,6 +45,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             try {
                 const response = await api.post("/category", formikCategories.values)
                 console.log(response.data)
+                fetchCategories()
             } catch (error) {
                 console.log(error)
             } finally {
