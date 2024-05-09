@@ -6,11 +6,31 @@ import { useFormik } from "formik"
 import { Category, CategoryForm } from "../types/server/class/Category"
 import { Avatar, FileInputButton } from "@files-ui/react"
 import { api } from "../api/api"
-import { Form } from "../components/login/Form"
 
 interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
+    const [loading, setLoading] = useState(false)
+
+    const formikCategories = useFormik<CategoryForm>({
+        initialValues: { name: "" },
+        onSubmit: async () => {
+            if (loading) return
+            setLoading(true)
+
+            try {
+                const response = await api.post("/category", formikCategories.values)
+                console.log(response.data)
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500)
+            }
+        },
+    })
+
     const [imageSource, setImageSource] = useState<File>()
 
     const [openModal, setOpenModal] = useState(false)
@@ -38,43 +58,50 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                             onClose={() => setOpenModal(!openModal)}
                             PaperProps={{ sx: { width: "100%", maxWidth: "fit-content", padding: "1vw", gap: "1vw", borderRadius: "1.2vw" } }}
                         >
-                            <Box>
-                                <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
-                                    Adicionar Categoria
-                                </Typography>
-                            </Box>
-                            <Box sx={{ gap: "1vw", width: "100%" }}>
-                                <Avatar readOnly src={imageSource || "/placeholders/perfil.webp"} style={{ width: "135px", height: "135px" }} />
-                                <Box sx={{ flexDirection: "column", gap: "1vw" }}>
-                                    <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
-                                        <Typography>Nome da Categoria</Typography>
-                                        <TextField name="name" sx={{ width: "20vw" }} />
-                                    </Box>
-                                    <Box sx={{ gap: "1vw", alignItems: "center", justifyContent: "space-between" }}>
-                                        <Typography>Adicionar a imagem a categoria</Typography>
-                                        <FileInputButton
-                                            label="Procurar"
-                                            accept="image/*"
-                                            onChange={(files) => setImageSource(files[0].file)}
-                                            style={{ textTransform: "none", borderRadius: "5vw", backgroundColor: "#88827C" }}
-                                        />
+                            <form onSubmit={formikCategories.handleSubmit}>
+                                <Box>
+                                    <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                                        Adicionar Categoria
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ gap: "1vw", width: "100%" }}>
+                                    <Avatar readOnly src={imageSource || "/placeholders/perfil.webp"} style={{ width: "135px", height: "135px" }} />
+                                    <Box sx={{ flexDirection: "column", gap: "1vw" }}>
+                                        <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
+                                            <Typography>Nome da Categoria</Typography>
+                                            <TextField
+                                                name="name"
+                                                value={formikCategories.values.name}
+                                                onChange={formikCategories.handleChange}
+                                                sx={{ width: "20vw" }}
+                                            />
+                                        </Box>
+                                        <Box sx={{ gap: "1vw", alignItems: "center", justifyContent: "space-between" }}>
+                                            <Typography>Adicionar a imagem a categoria</Typography>
+                                            <FileInputButton
+                                                label="Procurar"
+                                                accept="image/*"
+                                                onChange={(files) => setImageSource(files[0].file)}
+                                                style={{ textTransform: "none", borderRadius: "5vw", backgroundColor: "#88827C" }}
+                                            />
+                                        </Box>
                                     </Box>
                                 </Box>
-                            </Box>
-                            <Box sx={{ gap: "1vw" }}>
-                                <Button
-                                    variant="outlined"
-                                    sx={{ flex: 1, borderRadius: "5vw" }}
-                                    onClick={() => {
-                                        setOpenModal(!openModal)
-                                    }}
-                                >
-                                    Cancelar
-                                </Button>
-                                <Button type="submit" variant="contained" sx={{ flex: 1, borderRadius: "5vw" }}>
-                                    Adicionar
-                                </Button>
-                            </Box>
+                                <Box sx={{ gap: "1vw" }}>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ flex: 1, borderRadius: "5vw" }}
+                                        onClick={() => {
+                                            setOpenModal(!openModal)
+                                        }}
+                                    >
+                                        Cancelar
+                                    </Button>
+                                    <Button type="submit" variant="contained" sx={{ flex: 1, borderRadius: "5vw" }}>
+                                        Adicionar
+                                    </Button>
+                                </Box>
+                            </form>
                         </Dialog>
                         {<Paper></Paper>}
                     </Box>
