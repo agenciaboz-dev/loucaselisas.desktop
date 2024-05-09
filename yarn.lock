@@ -221,6 +221,11 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
+"@dynamicss/dynamicss@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@dynamicss/dynamicss/-/dynamicss-2.2.8.tgz#e28c3209ed44fa768ea1ba609d0825b402ca72f7"
+  integrity sha512-e6hrGUydr8f+c9E/9fHFSG5LoSLdq/MdZXXfbzEDWIVuzKF2hcdxZE7nHNqUNF2htw1mZ17Pyoshu3A6kFEeFA==
+
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz"
@@ -474,6 +479,19 @@
   version "8.57.0"
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.57.0.tgz"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
+
+"@files-ui/core@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@files-ui/core/-/core-2.0.7.tgz#edb99391a09e982d463c57fa92be9f89193ead29"
+  integrity sha512-L/DqdMWMusULUTrOd6AEpiC+Lkfy9eMNN8LVLzPyfHrUgW9jw2b2Aa5BBJyjdiTHTmd8hM/huc0kVu7CgeZWIQ==
+
+"@files-ui/react@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@files-ui/react/-/react-1.2.4.tgz#e6f338da874330ffd20abdf32d44ce061cec013e"
+  integrity sha512-7nOfTNhb5FxG5Lgt2/fec4JjeVFiKzqfRAU3tnrqWMUtRh2v53vZOSO39R58g3A5d5Skh1gQUFSx274wW4ozzw==
+  dependencies:
+    "@dynamicss/dynamicss" "^2.2.8"
+    "@files-ui/core" "^2.0.7"
 
 "@floating-ui/core@^1.0.0":
   version "1.6.0"
