@@ -95,7 +95,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
 
-                        <Switch checked={status === "active"} disabled={!(status == "active")} onChange={() => onDisabled()} />
+                        {status !== "declined" && <Switch checked={status === "active"} onChange={() => onDisabled()} />}
                     </Box>
                     {status == "pending" && <Divider />}
                     {status === "pending" && (
