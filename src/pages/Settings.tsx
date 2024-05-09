@@ -31,10 +31,8 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     }
 
     useEffect(() => {
-        return () => {
-            fetchCategories()
-        }
-    }, [])
+        fetchCategories()
+    }, [categories])
 
     const formikCategories = useFormik<CategoryForm>({
         initialValues: { name: "" },
