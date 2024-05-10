@@ -25,7 +25,7 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, s
         >
             <form onSubmit={formik.handleSubmit}>
                 <Box>
-                    <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                    <Typography variant="body1" component="p" sx={{ fontSize: "1.5rem" }}>
                         Adicionar Categoria
                     </Typography>
                 </Box>
