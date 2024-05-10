@@ -10,6 +10,7 @@ import { NewCategoryModal } from "../components/settings/NewCategoryModal"
 import { SettingsCard } from "../components/settings/SettingsCard"
 import { Plan } from "../types/server/class/Plan"
 import { NewPlanModal } from "../components/settings/NewPlanModal"
+import { StatisticGraphycs } from "../components/settings/StatisticGraphyc"
 
 interface SettingsProps {}
 
@@ -164,7 +165,10 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={1}>
-                    <Box sx={{ flexDirection: "column", gap: "1vw" }}>Graficos</Box>
+                    <Box sx={{ flexDirection: "column", gap: "1vw" }}>
+                        <Typography>Graficos</Typography>
+                        <StatisticGraphycs />
+                    </Box>
                 </Grid>
             </Grid>
         </Box>
