@@ -9,6 +9,7 @@ import { api } from "../api/api"
 import { NewCategoryModal } from "../components/settings/NewCategoryModal"
 import { SettingsCard } from "../components/settings/SettingsCard"
 import { Plan } from "../types/server/class/Plan"
+import { NewPlanModal } from "../components/settings/NewPlanModal"
 
 interface SettingsProps {}
 
@@ -139,7 +140,8 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 startIcon={<AddCircleOutlineIcon />}
                                 sx={{ borderRadius: "5vw", border: "1px dashed" }}
                                 onClick={() => {
-                                    setOpenPlanModal(!openPlanModal)
+                                    setOpenPlanModal(true)
+                                    console.log(openPlanModal)
                                 }}
                             >
                                 Adicionar Planos
@@ -158,6 +160,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 <SettingsCard key={plan.id} name={plan.name} openEditModal={setOpenPlanModal} plan />
                             ))}
                         </Box>
+                        <NewPlanModal openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} />
                     </Box>
                 </Grid>
                 <Grid item xs={1}>
