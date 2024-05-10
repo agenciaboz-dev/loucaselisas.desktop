@@ -33,7 +33,7 @@ export const DashBoard: React.FC = ({}) => {
                 sx={{
                     flexDirection: "column",
                     height: "72.8vh",
-                    width: 1,
+                    width: "73.2vw",
                     gap: "0.8vw",
                     pt: "0.2vw",
                 }}

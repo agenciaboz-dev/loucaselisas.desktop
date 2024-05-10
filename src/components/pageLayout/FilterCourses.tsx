@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Box } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { Category } from "../../types/server/class/Category"
 import { api } from "../../api/api"
 import { FilterButton } from "./FilterButton"
+import { useDraggable } from "react-use-draggable-scroll"
 
 interface FilterCoursesProps {
     onFilter: (course: Course[]) => void
@@ -15,6 +16,8 @@ interface FilterCoursesProps {
 export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses, active, setActive }) => {
     const [categories, setCategories] = useState<Category[]>([])
     const [loading, setLoading] = useState(false)
+    const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
+    const { events } = useDraggable(ref, { applyRubberBandEffect: true })
 
     const getCategories = async () => {
         if (loading) return
@@ -63,17 +66,13 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
     }, [active])
 
     return (
-        <Box sx={{ gap: "0.8vw" }}>
-            <FilterButton
-                active={"popular" === active}
-                content="Mais Vistos"
-                onClickCategory={() => onClickCategory("popular")}
-            />
-            <FilterButton
-                active={"recent" === active}
-                content="Novos Cursos"
-                onClickCategory={() => onClickCategory("recent")}
-            />
+        <Box
+            ref={ref}
+            {...events}
+            sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
+        >
+            <FilterButton active={"popular" === active} content="Mais Vistos" onClickCategory={() => onClickCategory("popular")} />
+            <FilterButton active={"recent" === active} content="Novos Cursos" onClickCategory={() => onClickCategory("recent")} />
             {categories.map((category) => (
                 <FilterButton
                     key={category.id}

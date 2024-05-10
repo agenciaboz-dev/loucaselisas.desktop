@@ -43,7 +43,15 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
             <Box
                 ref={ref}
                 {...events}
-                sx={{ width: "76.25vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", gap: "0.5vw", px: "1.5vw", mx: "-1.5vw" }}
+                sx={{
+                    width: "76.25vw",
+                    overflowX: "scroll",
+                    height: "auto",
+                    scrollbarWidth: "none",
+                    gap: "0.5vw",
+                    px: "1.5vw",
+                    mx: "-1.5vw",
+                }}
             >
                 {skeletonLoading
                     ? skeletonCourse.map((_, index) => (
