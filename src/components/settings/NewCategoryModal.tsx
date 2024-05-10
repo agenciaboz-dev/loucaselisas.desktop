@@ -1,17 +1,29 @@
 import React from "react"
 import { Box, Button, Dialog, TextField, Typography } from "@mui/material"
 import { Avatar, FileInputButton } from "@files-ui/react"
+import { FormikErrors } from "formik"
+import { Category, CategoryForm } from "../../types/server/class/Category"
 
-interface NewCategoryModalProps {}
+interface NewCategoryModalProps {
+    formik: {
+        values: CategoryForm
+        handleChange: (e: React.ChangeEvent<any>) => void
+        handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
+    }
+    openModal: boolean
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+    imageSource: File | undefined
+    setImageSource: React.Dispatch<React.SetStateAction<File | undefined>>
+}
 
-export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({}) => {
+export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, setOpenModal, imageSource, setImageSource, formik }) => {
     return (
         <Dialog
             open={openModal}
             onClose={() => setOpenModal(!openModal)}
             PaperProps={{ sx: { width: "100%", maxWidth: "fit-content", padding: "1vw", gap: "1vw", borderRadius: "1.2vw" } }}
         >
-            <form onSubmit={formikCategories.handleSubmit}>
+            <form onSubmit={formik.handleSubmit}>
                 <Box>
                     <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
                         Adicionar Categoria
@@ -22,12 +34,7 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({}) => {
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome da Categoria</Typography>
-                            <TextField
-                                name="name"
-                                value={formikCategories.values.name}
-                                onChange={formikCategories.handleChange}
-                                sx={{ width: "20vw" }}
-                            />
+                            <TextField name="name" value={formik.values.name} onChange={formik.handleChange} sx={{ width: "20vw" }} />
                         </Box>
                         <Box sx={{ gap: "1vw", alignItems: "center", justifyContent: "space-between" }}>
                             <Typography>Adicionar a imagem a categoria</Typography>

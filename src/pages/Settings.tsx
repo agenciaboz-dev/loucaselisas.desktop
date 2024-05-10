@@ -6,12 +6,15 @@ import { useFormik } from "formik"
 import { Category, CategoryForm } from "../types/server/class/Category"
 import { Avatar, FileInputButton } from "@files-ui/react"
 import { api } from "../api/api"
+import { NewCategoryModal } from "../components/settings/NewCategoryModal"
 
 interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
     const [loading, setLoading] = useState(false)
     const [categories, setCategorys] = useState<Category[]>([])
+    const [imageSource, setImageSource] = useState<File>()
+    const [openModal, setOpenModal] = useState(false)
 
     const fetchCategories = async () => {
         if (loading) return
@@ -43,6 +46,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             try {
                 const response = await api.post("/category", formikCategories.values)
                 console.log(response.data)
+                setOpenModal(!openModal)
                 fetchCategories()
             } catch (error) {
                 console.log(error)
@@ -53,10 +57,6 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             }
         },
     })
-
-    const [imageSource, setImageSource] = useState<File>()
-
-    const [openModal, setOpenModal] = useState(false)
 
     return (
         <Box sx={{ flexDirection: "column", flex: 1 }}>
@@ -77,7 +77,13 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                             </Button>
                         </Box>
 
-                        {<Paper></Paper>}
+                        <NewCategoryModal
+                            formik={formikCategories}
+                            imageSource={imageSource}
+                            setImageSource={setImageSource}
+                            openModal={openModal}
+                            setOpenModal={setOpenModal}
+                        />
                     </Box>
                 </Grid>
                 <Grid item xs={1}>
