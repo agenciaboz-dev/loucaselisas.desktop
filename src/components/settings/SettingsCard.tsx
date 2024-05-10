@@ -8,10 +8,10 @@ interface SettingCardProps {
     name: string
     plan?: boolean
     openEditModal: React.Dispatch<React.SetStateAction<boolean>>
-    removeCategory?: () => void
+    removeItem?: () => void
 }
 
-export const SettingsCard: React.FC<SettingCardProps> = ({ image, name, openEditModal, removeCategory, plan = false }) => {
+export const SettingsCard: React.FC<SettingCardProps> = ({ image, name, openEditModal, removeItem, plan = false }) => {
     const [onHover, setOnHover] = useState(false)
 
     return (
@@ -26,7 +26,7 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ image, name, openEdit
                 <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}>
                     {onHover && (
                         <>
-                            <IconButton onClick={removeCategory}>
+                            <IconButton onClick={removeItem}>
                                 <DeleteIcon color="error" />
                             </IconButton>
                             <IconButton onClick={() => openEditModal(true)}>
