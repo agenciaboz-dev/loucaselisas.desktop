@@ -1,8 +1,10 @@
 import React from "react"
 import { Box, Button, Dialog, MenuItem, TextField, Typography } from "@mui/material"
+import { PlanForm } from "../../types/server/class/Plan"
 
 interface NewPlanModalProps {
-    formik?: {
+    formik: {
+        values: PlanForm
         handleChange: (e: React.ChangeEvent<any>) => void
         handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
     }
@@ -12,6 +14,15 @@ interface NewPlanModalProps {
 }
 
 export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModal, setOpenPlanModal }) => {
+    const planDuration = [
+        { type: "diario" },
+        { type: "semanal" },
+        { type: "mensal" },
+        { type: "trimestral" },
+        { type: "semestral" },
+        { type: "anual" },
+    ]
+
     return (
         <Dialog
             open={openPlanModal}
@@ -28,26 +39,34 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome do Plano</Typography>
-                            <TextField name="name" onChange={formik?.handleChange} sx={{ width: "30vw" }} />
+                            <TextField name="name" value={formik?.values.name} onChange={formik.handleChange} sx={{ width: "30vw" }} />
                         </Box>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Descrição do Plano</Typography>
-                            <TextField name="desciprition" onChange={formik?.handleChange} sx={{ width: "30vw" }} />
+                            <TextField name="description" value={formik?.values.description} onChange={formik.handleChange} sx={{ width: "30vw" }} />
                         </Box>
                         <Box sx={{ gap: "1vw", alignItems: "center" }}>
                             <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography>Valor</Typography>
-                                <TextField name="price" onChange={formik?.handleChange} sx={{ width: "13.5vw" }} />
+                                <TextField name="price" value={formik?.values.price} onChange={formik.handleChange} sx={{ width: "13.5vw" }} />
                             </Box>
                             <Typography variant="body1" component="p" sx={{ mt: "15px" }}>
                                 por
                             </Typography>
                             <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography>Periodo</Typography>
-                                <TextField select name="duration" onChange={formik?.handleChange} sx={{ width: "13.5vw" }}>
-                                    <MenuItem>teste1</MenuItem>
-                                    <MenuItem>teste2</MenuItem>
-                                    <MenuItem>teste3</MenuItem>
+                                <TextField
+                                    select
+                                    name="duration"
+                                    value={formik?.values.duration}
+                                    onChange={formik.handleChange}
+                                    sx={{ width: "13.5vw" }}
+                                >
+                                    {planDuration.map((plan) => (
+                                        <MenuItem value={plan.type} key={plan.type}>
+                                            {plan.type}
+                                        </MenuItem>
+                                    ))}
                                 </TextField>
                             </Box>
                         </Box>

@@ -8,7 +8,7 @@ import { Avatar, FileInputButton } from "@files-ui/react"
 import { api } from "../api/api"
 import { NewCategoryModal } from "../components/settings/NewCategoryModal"
 import { SettingsCard } from "../components/settings/SettingsCard"
-import { Plan } from "../types/server/class/Plan"
+import { PartialPlan, Plan, PlanForm } from "../types/server/class/Plan"
 import { NewPlanModal } from "../components/settings/NewPlanModal"
 import { StatisticGraphycs } from "../components/settings/StatisticGraphyc"
 
@@ -41,16 +41,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     useEffect(() => {
         fetchCategories()
-    }, [categories])
-
-    // const deleteCategories = async () => {
-    //     if (loading) return
-    //     setLoading(true)
-
-    //     try {
-    //         const response = await api.delete("/")
-    //     } catch (error) {}
-    // }
+    }, [])
 
     const fetchPlans = async () => {
         if (loading) return
@@ -71,6 +62,26 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     useEffect(() => {
         fetchPlans()
     }, [])
+
+    const formikPlans = useFormik<PlanForm>({
+        initialValues: { name: "", description: "", duration: "", price: 0 },
+        onSubmit: async () => {
+            if (loading) return
+            setLoading(true)
+
+            try {
+                formikPlans.values.price = Number(formikPlans.values.price)
+                const response = await api.post("/plan", formikPlans.values)
+                console.log(response.data)
+                setOpenPlanModal(!openPlanModal)
+                fetchPlans()
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setTimeout(() => setLoading(false), 500)
+            }
+        },
+    })
 
     const formikCategories = useFormik<CategoryForm>({
         initialValues: { name: "" },
@@ -161,7 +172,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 <SettingsCard key={plan.id} name={plan.name} openEditModal={setOpenPlanModal} plan />
                             ))}
                         </Box>
-                        <NewPlanModal openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} />
+                        <NewPlanModal formik={formikPlans} openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} />
                     </Box>
                 </Grid>
                 <Grid item xs={1}>
