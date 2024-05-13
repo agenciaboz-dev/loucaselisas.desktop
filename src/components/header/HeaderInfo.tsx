@@ -37,7 +37,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
         <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
             <Box sx={{ alignItems: "center", gap: "0.2vw", width: 1 }}>
                 {backButton && (
-                    <IconButton onClick={() => navigate("/cursos")}>
+                    <IconButton onClick={() => navigate(-1)}>
                         <ArrowBackIosIcon />
                     </IconButton>
                 )}
