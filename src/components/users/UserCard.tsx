@@ -10,9 +10,6 @@ interface UserCardProps {
 }
 
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {
-    // const navigate = useNavigate()
-    // console.log(user)
-
     return (
         <>
             <Grid item xs={1}>
