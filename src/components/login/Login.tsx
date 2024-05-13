@@ -107,7 +107,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
                 >
                     Esta área é exclusiva para administradores.
                 </Typography>
-                <Box sx={{ gap: "0vw", flexDirection: "column", w: 1 }}>
+                <Box sx={{ gap: "0vw", flexDirection: "column", width: 1 }}>
                     {isMobile ? (
                         <Button variant="contained" fullWidth>
                             Abrir Aplicativo

@@ -65,8 +65,8 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
             <HeaderInfo title={`Lição: ${lesson.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
-                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
+                    <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
+                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} />
                             {/* {showCarrosel && (
                                 <Carrousel
@@ -79,7 +79,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                             )} */}
                         </Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
-                            <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
+                            <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
                                 <Avatar src={course?.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
@@ -114,7 +114,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={5}>
-                    <Box sx={{ w: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
+                    <Box sx={{ width: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         {course && (
                             <FormAproveLesson name={lesson.name} type="lesson" id={lesson.id} status={lesson.status} onChangeStatus={fetchLesson} />
                         )}
@@ -123,7 +123,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                 flexDirection: "column",
                                 gap: "1vw",
                                 pb: "1vw",
-                                w: 1,
+                                width: 1,
                                 height: lesson.status === "pending" ? "28.3vw" : "32.7vw",
                                 overflowY: "scroll",
                                 mx: "-0.5vw",

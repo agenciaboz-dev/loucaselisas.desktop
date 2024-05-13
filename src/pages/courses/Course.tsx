@@ -81,8 +81,8 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
-                    <Box sx={{ w: 1, h: 1, flexDirection: "column", gap: "1vw" }}>
-                        <Box sx={{ w: 1, h: 1, position: "relative", flexDirection: "column" }}>
+                    <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
+                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>
                             <Media media={media} setShowCarrosel={setShowCarrosel} />
                             {showCarrosel && (
                                 <Carrousel
@@ -95,7 +95,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             )}
                         </Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
-                            <Box sx={{ w: 1, justifyContent: "space-between", alignItems: "center" }}>
+                            <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
                                 <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
@@ -132,7 +132,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 <Grid item xs={5} sx={{}}>
                     <Box
                         sx={{
-                            w: 1,
+                            width: 1,
                             flex: 1,
                             flexDirection: "column",
                             gap: "1vw",
@@ -157,7 +157,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 flexDirection: "column",
                                 gap: "1vw",
                                 pb: "1vw",
-                                w: 1,
+                                width: 1,
                             }}
                         >
                             {lessons.map((lesson) => (
