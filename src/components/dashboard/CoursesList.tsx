@@ -2,6 +2,7 @@ import React from "react"
 import { Avatar, Box, Grid, Paper, Typography } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { useNavigate } from "react-router-dom"
+import { slugify } from "../../tools/urlMask"
 
 interface CoursesListProps {
     course: Course
@@ -17,7 +18,7 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                 elevation={3}
                 component={Paper}
                 sx={{ flex: 1, p: "0.5vw", gap: "1vw", cursor: "pointer" }}
-                onClick={() => navigate("/cursos/${course.name}", { state: { data: course } })}
+                onClick={() => navigate(`/cursos/${slugify(course.name)}`, { state: { data: course } })}
             >
                 <Avatar variant="rounded" src={course.cover} alt="Capa do curso" sx={{ width: coverSize, height: coverSize, objectFit: "cover" }}>
                     <Avatar src="./placeholders/midia_1-1.webp" sx={{ width: "3.5vw", height: "3.5vw" }} />
