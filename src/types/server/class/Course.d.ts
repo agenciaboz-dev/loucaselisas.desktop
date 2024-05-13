@@ -16,6 +16,7 @@ export interface StatusForm {
     status: Status;
     declined_reason?: string;
     price?: number;
+    plans?: Plan[];
 }
 export declare const course_include: {
     categories: true;

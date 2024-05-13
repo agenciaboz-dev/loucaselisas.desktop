@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { PlanPurchaseForm } from "../types/shared/PlanPurchaseForm";
+import { WithoutFunctions } from "./helpers";
 export type PlanPrisma = Prisma.PlanGetPayload<{}>;
 export declare const plan_contract_include: {
     plan_data: true;
@@ -13,6 +14,10 @@ export declare const contract_log_include: {
 export type ContractLogPrisma = Prisma.ContractLogsGetPayload<{
     include: typeof contract_log_include;
 }>;
+export type PlanForm = Omit<WithoutFunctions<Plan>, "id">;
+export type PartialPlan = Partial<PlanForm> & {
+    id: number;
+};
 export declare class PlanContract {
     id: number;
     start_date: string;
@@ -35,9 +40,11 @@ export declare class Plan {
         description: string;
     }[]>;
     static purchase(data: PlanPurchaseForm): Promise<PlanContract>;
+    static new(data: PlanForm): Promise<Plan>;
     constructor(id: number, data?: PlanPrisma);
     load(data: PlanPrisma): void;
     init(): Promise<void>;
+    update(data: PartialPlan): Promise<void>;
 }
 export declare class ContractLog {
     id: number;

@@ -8,6 +8,9 @@ export type CategoryPrisma = Prisma.CategoryGetPayload<{
 export type CategoryForm = Omit<WithoutFunctions<Category>, "id" | "cover"> & {
     cover?: FileUpload;
 };
+export type PartialCategory = Partial<CategoryForm> & {
+    id: string;
+};
 export declare class Category {
     id: string;
     name: string;
@@ -19,4 +22,5 @@ export declare class Category {
     load(data: CategoryPrisma): void;
     updateCover(cover: FileUpload): Promise<void>;
     getCourses(): Promise<Course[]>;
+    update(data: PartialCategory): Promise<void>;
 }
