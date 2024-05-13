@@ -22,47 +22,6 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     const [openCategoryModal, setOpenCategoryModal] = useState(false)
     const [openPlanModal, setOpenPlanModal] = useState(false)
 
-    const fetchCategories = async () => {
-        if (loading) return
-        setLoading(true)
-
-        try {
-            const response = await api.get("/category/list")
-            setCategorys(response.data)
-            console.log(categories)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 500)
-        }
-    }
-
-    useEffect(() => {
-        fetchCategories()
-    }, [])
-
-    const fetchPlans = async () => {
-        if (loading) return
-        setLoading(true)
-
-        try {
-            const response = await api.get("/plan")
-            setPlans(response.data)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 500)
-        }
-    }
-
-    useEffect(() => {
-        fetchPlans()
-    }, [])
-
     const formikPlans = useFormik<PlanForm>({
         initialValues: { name: "", description: "", duration: "", price: 0 },
         onSubmit: async () => {
@@ -84,13 +43,19 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     })
 
     const formikCategories = useFormik<CategoryForm>({
-        initialValues: { name: "" },
-        onSubmit: async () => {
+        initialValues: { name: "", cover: undefined },
+        onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
 
             try {
-                const response = await api.post("/category", formikCategories.values)
+                const formData = new FormData()
+
+                formData.append("data", JSON.stringify(values))
+
+                if (imageSource) formData.append("file", imageSource)
+
+                const response = await api.post("/category", formData)
                 console.log(response.data)
                 setOpenCategoryModal(!openCategoryModal)
                 fetchCategories()
@@ -103,6 +68,44 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             }
         },
     })
+
+    const fetchCategories = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/category/list")
+            setCategorys(response.data)
+            console.log(categories)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+
+    const fetchPlans = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/plan")
+            setPlans(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+
+    useEffect(() => {
+        fetchPlans()
+        fetchCategories()
+    }, [])
 
     return (
         <Box sx={{ flexDirection: "column", flex: 1 }}>
