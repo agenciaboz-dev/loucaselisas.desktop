@@ -39,7 +39,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
     }
 
     return (
-        <Box sx={{ flexDirection: "column" }}>
+        <Box sx={{ flexDirection: "column", width: "29.3vw" }}>
             <Box sx={{ justifyContent: "space-between" }}>
                 <Box sx={{ alignItems: "center", gap: "0.3vw" }}>
                     <FormatedStatus.Icon />
@@ -72,7 +72,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                             variant="body1"
                             component="p"
                             sx={{
-                                width: "23.7vw",
+                                width: "22.7vw",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 whiteSpace: "normal",
