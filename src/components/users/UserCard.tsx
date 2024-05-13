@@ -11,6 +11,7 @@ interface UserCardProps {
 
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     // const navigate = useNavigate()
+    // console.log(user)
 
     return (
         <>
@@ -28,7 +29,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                                         <>
                                             <Typography>-</Typography>
                                             <Typography variant="body1" component="p">
-                                                {user.created_at}
+                                                {new Date(Number(user.created_at)).toLocaleDateString("pt-br")}
                                             </Typography>
                                         </>
                                     )}
