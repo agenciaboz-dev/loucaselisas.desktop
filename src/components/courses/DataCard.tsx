@@ -20,7 +20,7 @@ interface DataCardProps {
     views: number
     userName: string | undefined
     link: string
-    routerParam?: Course | Lesson
+    routerParam?: Course | Lesson | { lesson: Lesson }
 }
 
 export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName, link, routerParam }) => {

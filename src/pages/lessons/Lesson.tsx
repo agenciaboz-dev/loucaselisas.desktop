@@ -16,8 +16,7 @@ interface LessonPageProps {}
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const [lesson, setLesson] = useState(useLocation().state.data.lesson as Lesson | undefined)
     const [course, setCourse] = useState(useLocation().state.data.course as Course | undefined)
-    const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image"})
-
+    const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
 
