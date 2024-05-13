@@ -139,7 +139,8 @@ export declare class Course {
     views: number;
     downloads: number;
     constructor(id: string, data?: CoursePrisma);
-    static search(text: string): Promise<Course[]>;
+    static list(): Promise<Course[]>;
+    static search(role_id: number, text: string): Promise<Course[]>;
     static new(data: CourseForm, socket?: Socket): Promise<Course | undefined>;
     init(): Promise<void>;
     load(data: CoursePrisma): void;
@@ -149,4 +150,10 @@ export declare class Course {
     favorite(user_id: string, like?: boolean): Promise<void>;
     getLessons(): Promise<Lesson[]>;
     getLastMessage(): Promise<Message | undefined>;
+    getViews(): Promise<{
+        id: number;
+        datetime: string;
+        course_id: string;
+        user_id: string;
+    }[] | undefined>;
 }

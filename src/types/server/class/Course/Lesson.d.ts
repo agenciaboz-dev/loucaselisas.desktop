@@ -10,6 +10,7 @@ export declare const lesson_include: {
         select: {
             downloads: true;
             likes: true;
+            views: true;
         };
     };
 };
@@ -43,6 +44,7 @@ export declare class Lesson {
     status: Status;
     declined_reason: string | null;
     static new(data: LessonForm): Promise<Lesson>;
+    static list(): Promise<Lesson[]>;
     constructor(id: string, data?: LessonPrisma);
     init(): Promise<void>;
     load(data: LessonPrisma): void;
@@ -50,5 +52,11 @@ export declare class Lesson {
     updateThumb(thumb: FileUpload): Promise<void>;
     update(data: Partial<LessonForm>): Promise<void>;
     favorite(user_id: string, like?: boolean): Promise<void>;
-    addView(): Promise<void>;
+    addView(user_id: string): Promise<void>;
+    getViews(): Promise<{
+        id: number;
+        datetime: string;
+        lesson_id: string;
+        user_id: string;
+    }[] | undefined>;
 }
