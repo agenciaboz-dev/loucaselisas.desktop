@@ -89,8 +89,8 @@ export type CoverForm = {
 export type PartialCourse = Partial<Omit<WithoutFunctions<Course>, "favorited_by" | "cover" | "cover_type" | "owner" | "gallery" | "creators" | "chat" | "published" | "lessons" | "students" | "views">> & {
     id: string;
     cover?: CoverForm;
-    gallery: GalleryForm;
-    creators: {
+    gallery?: GalleryForm;
+    creators?: {
         id: string;
     }[];
 };
