@@ -1,64 +1,82 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Button, Dialog, DialogTitle, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
-import { Status } from "../../types/server/class/Course"
+import { PartialCourse, Status } from "../../types/server/class/Course"
 import { formatStatus } from "../../tools/formatStatus"
 import { Plan } from "../../types/server/class/Plan"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import { Role } from "../../types/server/class/Role"
 
 interface FormAproveCourseProps {
     options?: boolean
-    plans: Plan[]
     name: string
     type: "course" | "lesson"
     id: string
-    price: number
     status: Status
     onChangeStatus: () => Promise<void>
 }
 
-export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, plans, name, type, id, price, status, onChangeStatus }) => {
+export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = true, name, type, id, status, onChangeStatus }) => {
     const [loading, setLoading] = useState(false)
-
     const [openAproveModal, setOpenAproveModal] = useState(false)
     const [openReproveModal, setOpenReproveModal] = useState(false)
-
+    const [plans, setPlans] = useState<Plan[]>([])
+    const [userTypes, setUserTypes] = useState<Role[]>([])
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
 
     const FormatedStatus = formatStatus(status)
 
-    const selectOptions = [
-        {
-            value: "value1",
-            label: "label1",
-        },
-        {
-            value: "value2",
-            label: "label2",
-        },
-        {
-            value: "value3",
-            label: "label3",
-        },
-        {
-            value: "value4",
-            label: "label4",
-        },
-    ]
+    const fetchUsersTypes = async () => {
+        if (loading) return
+        setLoading(true)
 
-    const formik = useFormik<StatusForm>({
-        initialValues: { id: id, status: "active", price: price },
+        try {
+            const response = await api.get("/user/types")
+            setUserTypes(response.data)
+            console.log(userTypes)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+
+    const fetchPlans = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/plan")
+            setPlans(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => setLoading(true))
+        }
+    }
+
+    useEffect(() => {
+        fetchPlans()
+        fetchUsersTypes()
+    }, [])
+
+    const formik = useFormik<PartialCourse>({
+        initialValues: { id: id, status: "active", price: 0, plans: [], roles: [] },
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
 
             try {
+                values.price = Number(values.price)
                 const response = await api.patch("/course", values)
+                console.log(response.data)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
             } catch (error) {
@@ -89,7 +107,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
     }
 
     const onReprove = async (reason: string) => {
-        const data: StatusForm = { id: id, status: "declined", declined_reason: reason, price: price }
+        const data: StatusForm = { id: id, status: "declined", declined_reason: reason }
         if (loading) return
         setLoading(true)
 
@@ -131,12 +149,13 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                                 <TextField
                                     select
                                     placeholder="plano"
-                                    onChange={() => console.log("selecinando")}
-                                    value=""
-                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
+                                    name="plans"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.plans}
+                                    SelectProps={{ multiple: true, MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                                 >
                                     {plans.map((plan) => (
-                                        <MenuItem key={plan.id} value={plan.name || ""}>
+                                        <MenuItem key={plan.id} value={plan}>
                                             {plan.name}
                                         </MenuItem>
                                     ))}
@@ -148,19 +167,24 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ options = tr
                                         Valor
                                     </Typography>
                                 </Box>
-                                <TextField value={formik.values.price} onChange={formik.handleChange} />
+                                <TextField name="price" value={formik.values.price || ""} onChange={formik.handleChange} />
                             </Box>
                         </Box>
                     )}
 
                     <TextField
                         select
+                        name="roles"
+                        value={formik.values.roles}
+                        onChange={formik.handleChange}
                         helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
                         label="Selecione o tipo de usuário"
                         SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                     >
-                        {selectOptions.map((option) => (
-                            <MenuItem key={option.value}>{option.label}</MenuItem>
+                        {userTypes.map((type) => (
+                            <MenuItem value={type} key={type.id}>
+                                {type.name}
+                            </MenuItem>
                         ))}
                     </TextField>
 
