@@ -22,7 +22,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
-    const [plans, setPlans] = useState<Plan[]>([])
 
     const fetchCourse = async () => {
         if (loading) return
@@ -56,24 +55,6 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     useEffect(() => {
         fetchLessons()
-    }, [])
-
-    const fetchPlans = async () => {
-        if (loading) return
-        setLoading(true)
-
-        try {
-            const response = await api.get("/plan")
-            setPlans(response.data)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setTimeout(() => setLoading(true))
-        }
-    }
-
-    useEffect(() => {
-        fetchPlans()
     }, [])
 
     return (
@@ -143,15 +124,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             pt: "0.1vw",
                         }}
                     >
-                        <FormAproveCourse
-                            plans={plans}
-                            name={course.name}
-                            type="course"
-                            id={course.id}
-                            price={course.price}
-                            status={course.status}
-                            onChangeStatus={fetchCourse}
-                        />
+                        <FormAproveCourse name={course.name} type="course" id={course.id} status={course.status} onChangeStatus={fetchCourse} />
                         <Box
                             sx={{
                                 flexDirection: "column",
