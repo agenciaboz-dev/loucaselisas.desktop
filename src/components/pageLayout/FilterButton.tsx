@@ -1,4 +1,4 @@
-import { Button } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import React from "react"
 
 interface FilterButtonProps {
@@ -17,9 +17,20 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ active, content, onC
                     minWidth: "10vw",
                     width: "10vw",
                     borderRadius: "2vw",
+                    paddingX: "0.5vw",
                 }}
             >
-                {content}
+                <Box
+                    sx={{
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "8vw",
+                    }}
+                >
+                    {content}
+                </Box>
             </Button>
         </>
     )

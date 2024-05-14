@@ -27,6 +27,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                                 backgroundColor: "background.paper",
                                 p: "1.5vw",
                                 pt: "0.8vw",
+                                overflow: "hidden",
                             }}
                         >
                             <Box>{children}</Box>
