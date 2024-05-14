@@ -13,14 +13,18 @@ interface NewPlanModalProps {
     setOpenPlanModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const day = 1000 * 60 * 60 * 24
+
 export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModal, setOpenPlanModal }) => {
+    
+    
     const planDuration = [
-        { type: "diario" },
-        { type: "semanal" },
-        { type: "mensal" },
-        { type: "trimestral" },
-        { type: "semestral" },
-        { type: "anual" },
+        { type: "diario", timestamp: day.toString() },
+        { type: "semanal", timestamp: (day * 7).toString() },
+        { type: "mensal", timestamp: (day * 30).toString() },
+        { type: "trimestral", timestamp: (day * 90).toString() },
+        { type: "semestral", timestamp: (day * 180).toString() },
+        { type: "anual", timestamp: (day * 365).toString() },
     ]
 
     return (
@@ -63,7 +67,7 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                                     sx={{ width: "13.5vw" }}
                                 >
                                     {planDuration.map((plan) => (
-                                        <MenuItem value={plan.type} key={plan.type}>
+                                        <MenuItem value={plan.timestamp} key={plan.type}>
                                             {plan.type}
                                         </MenuItem>
                                     ))}
