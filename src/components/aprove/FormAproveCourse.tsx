@@ -10,6 +10,8 @@ import { formatStatus } from "../../tools/formatStatus"
 import { Plan } from "../../types/server/class/Plan"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { Role } from "../../types/server/class/Role"
+import { useCurrencyMask } from "burgos-masks"
+import { CurrencyText } from "../masks/CurrencyText"
 
 interface FormAproveCourseProps {
     course: Course
@@ -21,6 +23,8 @@ interface FormAproveCourseProps {
 }
 
 export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name, type, id, status, onChangeStatus }) => {
+    const currencyMask = useCurrencyMask()
+
     const [loading, setLoading] = useState(false)
     const [openAproveModal, setOpenAproveModal] = useState(false)
     const [openReproveModal, setOpenReproveModal] = useState(false)
@@ -38,7 +42,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         try {
             const response = await api.get("/user/types")
             setUserTypes(response.data)
-            console.log(userTypes)
         } catch (error) {
             console.log(error)
         } finally {
@@ -78,7 +81,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             try {
                 values.price = Number(values.price)
                 const response = await api.patch("/course", values)
-                console.log(response.data)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
             } catch (error) {
@@ -146,26 +148,35 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                     {status === "active" || status === "disabled" ? (
                         <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                             <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1.2rem" }}>
-                                Informações do Curso:
+                                Informações do Curso
                             </Typography>
                             <Box sx={{ gap: "0.5vw" }}>
-                                <Typography>Tipo de planos:</Typography>
+                                <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
+                                    Tipo de planos:
+                                </Typography>
                                 {course.plans.map((plan) => (
-                                    <>
-                                        <Typography key={plan.id}> {plan.name}</Typography>
-                                        <Typography>{plan.duration}</Typography>
-                                    </>
+                                    <Typography variant="body2" component="p" key={plan.id}>
+                                        {plan.name}
+                                    </Typography>
                                 ))}
                             </Box>
                             <Box sx={{ gap: "0.5vw" }}>
-                                <Typography>Tipo de Usuarios:</Typography>
+                                <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
+                                    Tipo de Usuarios:
+                                </Typography>
                                 {course.roles.map((role) => (
-                                    <Typography key={role.id}>{role.name}</Typography>
+                                    <Typography variant="body2" component="p" key={role.id}>
+                                        {role.name}
+                                    </Typography>
                                 ))}
                             </Box>
                             <Box sx={{ gap: "0.5vw" }}>
-                                <Typography>Valor:</Typography>
-                                <Typography>{course.price}</Typography>
+                                <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
+                                    Valor:
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    <CurrencyText value={course.price} />
+                                </Typography>
                             </Box>
                         </Box>
                     ) : (
@@ -184,7 +195,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         name="plans"
                                         onChange={formik.handleChange}
                                         value={formik.values.plans}
-                                        SelectProps={{ multiple: true, MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
+                                        SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
                                     >
                                         {plans.map((plan) => (
                                             <MenuItem key={plan.id} value={plan}>
