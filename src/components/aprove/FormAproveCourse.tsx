@@ -12,6 +12,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { Role } from "../../types/server/class/Role"
 import { useCurrencyMask } from "burgos-masks"
 import { CurrencyText } from "../masks/CurrencyText"
+import MaskedInput from "../masks/MaskedInput"
 
 interface FormAproveCourseProps {
     course: Course
@@ -210,7 +211,12 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                             Valor
                                         </Typography>
                                     </Box>
-                                    <TextField name="price" value={formik.values.price || ""} onChange={formik.handleChange} />
+                                    <TextField
+                                        name="price"
+                                        value={formik.values.price || ""}
+                                        onChange={formik.handleChange}
+                                        InputProps={{ inputComponent: MaskedInput, inputProps: { mask: currencyMask } }}
+                                    />
                                 </Box>
                             </Box>
                             <TextField
