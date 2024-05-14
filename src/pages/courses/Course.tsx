@@ -124,7 +124,14 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             pt: "0.1vw",
                         }}
                     >
-                        <FormAproveCourse name={course.name} type="course" id={course.id} status={course.status} onChangeStatus={fetchCourse} />
+                        <FormAproveCourse
+                            course={course}
+                            name={course.name}
+                            type="course"
+                            id={course.id}
+                            status={course.status}
+                            onChangeStatus={fetchCourse}
+                        />
                         <Box
                             sx={{
                                 flexDirection: "column",
