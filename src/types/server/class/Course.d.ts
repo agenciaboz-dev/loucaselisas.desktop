@@ -93,7 +93,7 @@ export type PartialCourse = Partial<Omit<WithoutFunctions<Course>, "favorited_by
     creators?: {
         id: string;
     }[];
-    plans: Partial<Plan>[];
+    plans: number[];
 };
 export type CourseForm = Omit<WithoutFunctions<Course>, "id" | "favorited_by" | "lessons" | "cover" | "cover_type" | "owner" | "gallery" | "categories" | "creators" | "chat" | "published" | "students" | "views" | "roles" | "likes" | "downloads" | "status" | "declined_reason" | "plans" | "price"> & {
     lessons: LessonForm[];
