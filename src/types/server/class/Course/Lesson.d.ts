@@ -51,7 +51,7 @@ export declare class Lesson {
     updateMedia(media: MediaForm): Promise<void>;
     updateThumb(thumb: FileUpload): Promise<void>;
     update(data: Partial<LessonForm>): Promise<void>;
-    favorite(user_id: string, like?: boolean): Promise<void>;
+    addLike(user_id: string, like?: boolean): Promise<void>;
     addView(user_id: string): Promise<void>;
     getViews(): Promise<{
         id: number;

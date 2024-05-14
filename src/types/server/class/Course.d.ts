@@ -86,13 +86,14 @@ export type CoverForm = {
     type: "image" | "video";
     url?: string;
 };
-export type PartialCourse = Partial<Omit<WithoutFunctions<Course>, "favorited_by" | "cover" | "cover_type" | "owner" | "gallery" | "creators" | "chat" | "published" | "lessons" | "students" | "views">> & {
+export type PartialCourse = Partial<Omit<WithoutFunctions<Course>, "favorited_by" | "cover" | "cover_type" | "owner" | "gallery" | "creators" | "chat" | "published" | "lessons" | "students" | "views" | "plans">> & {
     id: string;
     cover?: CoverForm;
     gallery?: GalleryForm;
     creators?: {
         id: string;
     }[];
+    plans: Partial<Plan>[];
 };
 export type CourseForm = Omit<WithoutFunctions<Course>, "id" | "favorited_by" | "lessons" | "cover" | "cover_type" | "owner" | "gallery" | "categories" | "creators" | "chat" | "published" | "students" | "views" | "roles" | "likes" | "downloads" | "status" | "declined_reason" | "plans" | "price"> & {
     lessons: LessonForm[];
@@ -147,7 +148,7 @@ export declare class Course {
     updateCover(cover: CoverForm): Promise<void>;
     update(data: PartialCourse): Promise<void>;
     viewer(user_id: string): Promise<void>;
-    favorite(user_id: string, like?: boolean): Promise<void>;
+    addLike(user_id: string, like?: boolean): Promise<void>;
     getLessons(): Promise<Lesson[]>;
     getLastMessage(): Promise<Message | undefined>;
     getViews(): Promise<{
