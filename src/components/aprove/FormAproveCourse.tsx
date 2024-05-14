@@ -13,6 +13,7 @@ import { Role } from "../../types/server/class/Role"
 import { useCurrencyMask } from "burgos-masks"
 import { CurrencyText } from "../masks/CurrencyText"
 import MaskedInput from "../masks/MaskedInput"
+import { unmaskCurrency } from "../../tools/unmask"
 
 interface FormAproveCourseProps {
     course: Course
@@ -80,7 +81,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             setLoading(true)
 
             try {
-                values.price = Number(values.price)
+                values.price = unmaskCurrency(values.price!)
                 const response = await api.patch("/course", values)
                 setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
@@ -199,7 +200,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
                                     >
                                         {plans.map((plan) => (
-                                            <MenuItem key={plan.id} value={plan}>
+                                            <MenuItem key={plan.id} value={plan.id}>
                                                 {plan.name}
                                             </MenuItem>
                                         ))}
@@ -229,7 +230,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                 SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                             >
                                 {userTypes.map((type) => (
-                                    <MenuItem value={type} key={type.id}>
+                                    <MenuItem value={type.id} key={type.id}>
                                         {type.name}
                                     </MenuItem>
                                 ))}
