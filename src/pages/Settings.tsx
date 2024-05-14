@@ -11,16 +11,26 @@ import { SettingsCard } from "../components/settings/SettingsCard"
 import { PartialPlan, Plan, PlanForm } from "../types/server/class/Plan"
 import { NewPlanModal } from "../components/settings/NewPlanModal"
 import { StatisticGraphycs } from "../components/settings/StatisticGraphyc"
+import * as Yup from "yup"
 
 interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
+    const required_message = "Campo obrigatório"
+    const categorySchema = Yup.object().shape({
+        name: Yup.string().required(required_message),
+    })
+
     const [loading, setLoading] = useState(false)
     const [categories, setCategorys] = useState<Category[]>([])
     const [plans, setPlans] = useState<Plan[]>([])
     const [imageSource, setImageSource] = useState<File>()
     const [openCategoryModal, setOpenCategoryModal] = useState(false)
     const [openPlanModal, setOpenPlanModal] = useState(false)
+
+
+
+
 
     const formikPlans = useFormik<PlanForm>({
         initialValues: { name: "", description: "", duration: "", price: 0 },
@@ -44,6 +54,9 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     const formikCategories = useFormik<CategoryForm>({
         initialValues: { name: "", cover: undefined },
+
+        validationSchema: categorySchema,
+
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
