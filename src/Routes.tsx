@@ -40,7 +40,9 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 src={backgroundVideo}
             ></video>
 
-            <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>v: {version}</Typography>
+            <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>
+                v: {version}
+            </Typography>
 
             <ReactRoutes>
                 {/* {!user ? (

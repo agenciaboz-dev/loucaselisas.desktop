@@ -7,14 +7,30 @@ import { api } from "../../api/api"
 
 interface GroupCardProps {
     course: Course
+    setExpanded: React.Dispatch<React.SetStateAction<Boolean>>
+    expandedChat: Boolean
+    setCourse: React.Dispatch<React.SetStateAction<Course | null>>
 }
 
-export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
+export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCourse }) => {
     const max_text_width = "16vw"
-
+    const [message, setMessage] = useState<Message | null>(null)
+    const [hover, setHover] = useState(false)
     const chat = course.chat
 
-    const [message, setMessage] = useState<Message | null>(null)
+    const defaultStyle = {
+        flexDirection: "column",
+        p: "0.7vw",
+        gap: "0.5vw",
+        borderRadius: "0.5vw",
+        flex: 1,
+        cursor: "pointer",
+    }
+
+    const hoverStyle = {
+        ...defaultStyle,
+        backgroundColor: "#E5E5E5", // Exemplo de cor quando o mouse está sobre o componente
+    }
 
     const getMessage = async () => {
         try {
@@ -32,7 +48,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course }) => {
     return (
         message && (
             <Grid item xs={1} sx={{}}>
-                <Paper sx={{ flexDirection: "column", p: "0.7vw", gap: "0.5vw", borderRadius: "0.5vw", flex: 1 }}>
+                <Paper
+                    sx={hover ? hoverStyle : defaultStyle}
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                    onClick={() => {
+                        setExpanded(true)
+                        setCourse(course)
+                    }}
+                >
                     <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
                         <Box sx={{ flexDirection: "column", justifyContent: "center" }}>
                             <Typography
