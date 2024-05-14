@@ -1,12 +1,14 @@
 import React from "react"
 import { Box, Button, Dialog, TextField, Typography } from "@mui/material"
 import { Avatar, FileInputButton } from "@files-ui/react"
-import { FormikErrors } from "formik"
+import { FormikErrors, FormikTouched } from "formik"
 import { Category, CategoryForm } from "../../types/server/class/Category"
 
 interface NewCategoryModalProps {
     formik: {
         values: CategoryForm
+        errors: FormikErrors<CategoryForm>
+        touched: FormikTouched<CategoryForm>
         handleChange: (e: React.ChangeEvent<any>) => void
         handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
     }
@@ -34,7 +36,14 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, s
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome da Categoria</Typography>
-                            <TextField name="name" value={formik.values.name} onChange={formik.handleChange} sx={{ width: "20vw" }} />
+                            <TextField
+                                name="name"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                sx={{ width: "20vw" }}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
+                            />
                         </Box>
                         <Box sx={{ gap: "1vw", alignItems: "center", justifyContent: "space-between" }}>
                             <Typography>Adicionar a imagem a categoria</Typography>
