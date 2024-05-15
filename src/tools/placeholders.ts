@@ -1,8 +1,8 @@
-import cover from "../../public/placeholders/capa.webp"
-import square from "../../public/placeholders/midia_1-1.webp"
-import landscape from "../../public/placeholders/midia_16-9.webp"
-import avatar from "../../public/placeholders/perfil.webp"
-import video from "../../public/placeholders/video.webp"
+import cover from "/placeholders/capa.webp"
+import square from "/placeholders/midia_1-1.webp"
+import landscape from "/placeholders/midia_16-9.webp"
+import avatar from "/placeholders/perfil.webp"
+import video from "/placeholders/video.webp"
 
 export default {
     cover,
