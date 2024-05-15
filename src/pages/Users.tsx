@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Grid } from "@mui/material"
+import { Box, Grid, Paper, Skeleton } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
@@ -10,6 +10,7 @@ import { UserCard } from "../components/users/UserCard"
 interface UsersProps {}
 
 export const Users: React.FC<UsersProps> = ({}) => {
+    const skeletonUserCards: number[] = new Array(20).fill(0).map((_, index) => index)
     const [loading, setloading] = useState<boolean>(false)
     const [users, setUsers] = useState<User[]>([])
     const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
@@ -69,9 +70,25 @@ export const Users: React.FC<UsersProps> = ({}) => {
                         }}
                     >
                         <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
-                            {users.map((user) => (
-                                <UserCard user={user} key={user.id} />
-                            ))}
+                            {loading
+                                ? skeletonUserCards.map((_, index) => (
+                                      <>
+                                          <Grid key={index} item xs={1}>
+                                              <Paper sx={{ position: "relative" }}>
+                                                  <Box sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}>
+                                                      <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
+                                                          <Skeleton variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
+                                                          <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                                                              <Skeleton variant="rectangular" sx={{ width: "8vw" }} />
+                                                              <Skeleton variant="rectangular" sx={{ width: "15vw" }} />
+                                                          </Box>
+                                                      </Box>
+                                                  </Box>
+                                              </Paper>
+                                          </Grid>
+                                      </>
+                                  ))
+                                : users.map((user) => <UserCard user={user} key={user.id} />)}
                         </Grid>
                     </Box>
                 </Box>

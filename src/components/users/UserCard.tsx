@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box, Chip, Grid, IconButton, MenuItem, Paper, Typography } from "@mui/material"
+import { Avatar, Box, Chip, Grid, IconButton, MenuItem, Paper, Skeleton, Typography } from "@mui/material"
 import { User } from "../../types/server/class"
 import { useNavigate } from "react-router-dom"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
