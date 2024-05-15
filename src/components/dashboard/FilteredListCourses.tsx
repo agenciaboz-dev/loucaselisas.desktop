@@ -3,6 +3,7 @@ import { Box, Grid, Paper, Skeleton } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { CoursesList } from "./CoursesList"
 import { SearchBar } from "../header/SearchBar"
+import { NoFeaturedContent } from "./NoFeaturedContent"
 
 interface FilteredListCoursesProps {
     loading: boolean
@@ -38,21 +39,33 @@ export const FilteredListCourses: React.FC<FilteredListCoursesProps> = ({ loadin
                     // scroll,
                 }}
             >
-                <Grid container columns={2} spacing={2}>
-                    {loading
-                        ? skeletonCourse.map((_, index) => (
-                              <Grid item key={index} xs={1}>
-                                  <Paper elevation={3} sx={{ flex: 1, p: "0.5vw", gap: "1vw" }}>
-                                      <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
-                                      <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
-                                          <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
-                                          <Skeleton variant="text" animation="wave" sx={{ width: "28.5vw", height: "4vw" }} />
-                                      </Box>
-                                  </Paper>
-                              </Grid>
-                          ))
-                        : filteredCourseList.map((course) => <CoursesList key={course.id} course={course} />)}
-                </Grid>
+                {filteredCourseList.length === 0 ? (
+                    <>
+                        <NoFeaturedContent
+                            title="Nenhum resultado encontrado"
+                            text="Não foi possivel encontrar cursos com essa requisição. Por favor, tente outra coisa."
+                            styles={{ height: "6vw" }}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <Grid container columns={2} spacing={2}>
+                            {loading
+                                ? skeletonCourse.map((_, index) => (
+                                      <Grid item key={index} xs={1}>
+                                          <Paper elevation={3} sx={{ flex: 1, p: "0.5vw", gap: "1vw" }}>
+                                              <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
+                                              <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
+                                                  <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
+                                                  <Skeleton variant="text" animation="wave" sx={{ width: "28.5vw", height: "4vw" }} />
+                                              </Box>
+                                          </Paper>
+                                      </Grid>
+                                  ))
+                                : filteredCourseList.map((course) => <CoursesList key={course.id} course={course} />)}
+                        </Grid>
+                    </>
+                )}
             </Box>
         </>
     )
