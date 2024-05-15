@@ -66,7 +66,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: "67vh",
+                            height: filteredUsers.length === 0 ? "65vh" : "67vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",
@@ -76,7 +76,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        {users.length === 0 ? (
+                        {filteredUsers.length === 0 ? (
                             <>
                                 <NoFeaturedContent />
                             </>
@@ -101,7 +101,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
                                                   </Grid>
                                               </>
                                           ))
-                                        : users.map((user) => <UserCard user={user} key={user.id} />)}
+                                        : filteredUsers.map((user) => <UserCard user={user} key={user.id} />)}
                                 </Grid>
                             </>
                         )}
