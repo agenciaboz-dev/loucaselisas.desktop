@@ -48,6 +48,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                 </Box>
 
                 {lesson.status !== "declined" && <Switch checked={lesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />}
+                {/* {lesson.status && <Switch checked={lesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />} */}
             </Box>
             <MenuItem
                 sx={{ flex: 1, maxHeight: "5vw", padding: 0, flexDirection: "column" }}
