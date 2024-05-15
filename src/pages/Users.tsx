@@ -45,7 +45,13 @@ export const Users: React.FC<UsersProps> = ({}) => {
     return (
         <>
             <Box sx={{ width: 1, flexDirection: "column" }}>
-                <HeaderInfo title="Usuários" loading={loading} refreshCallback={() => {}} />
+                <HeaderInfo
+                    title="Usuários"
+                    loading={loading}
+                    refreshCallback={() => {
+                        getUsers()
+                    }}
+                />
                 <Box
                     sx={{
                         flexDirection: "column",
