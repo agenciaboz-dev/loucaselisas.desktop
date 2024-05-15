@@ -39,7 +39,7 @@ export const FilteredListCourses: React.FC<FilteredListCoursesProps> = ({ loadin
                     // scroll,
                 }}
             >
-                {filteredCourseList.length === 0 ? (
+                {filteredCourseList.length === 0 && !loading ? (
                     <>
                         <NoFeaturedContent />
                     </>

@@ -56,7 +56,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                     mx: "-1.5vw",
                 }}
             >
-                {filteredCourses.length === 0 ? (
+                {filteredCourses.length === 0 && !loading ? (
                     <NoFeaturedContent
                         title="Categoria vazia"
                         text="Não há cursos disponíveis nessa categoria no momento. Por favor, volte mais tarde."

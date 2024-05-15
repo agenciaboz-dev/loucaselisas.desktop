@@ -95,7 +95,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        {filteredCourses.length === 0 ? (
+                        {filteredCourses.length === 0 && !loading ? (
                             <>
                                 <NoFeaturedContent />
                             </>
