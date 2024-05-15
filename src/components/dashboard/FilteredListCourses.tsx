@@ -41,11 +41,7 @@ export const FilteredListCourses: React.FC<FilteredListCoursesProps> = ({ loadin
             >
                 {filteredCourseList.length === 0 ? (
                     <>
-                        <NoFeaturedContent
-                            title="Nenhum resultado encontrado"
-                            text="Não foi possivel encontrar cursos com essa requisição. Por favor, tente outra coisa."
-                            styles={{ height: "6vw" }}
-                        />
+                        <NoFeaturedContent />
                     </>
                 ) : (
                     <>
