@@ -1,28 +1,42 @@
 import React from "react"
-import { Box, Typography } from "@mui/material"
+import { Box, SxProps, Typography } from "@mui/material"
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
 
-interface NoFeaturedContentProps {}
+interface NoFeaturedContentProps {
+    title: string
+    text: string
+    styles?: SxProps
+}
 
-export const NoFeaturedContent: React.FC<NoFeaturedContentProps> = ({}) => {
+export const NoFeaturedContent: React.FC<NoFeaturedContentProps> = ({ title, text, styles }) => {
     return (
         // {filteredCourses.length === 0 && (
         <Box
             sx={{
+                ...styles,
                 margin: "0.1vw 0",
-                height: "12.8vw",
                 width: 1,
+                backgroundColor: "#dddddd",
                 borderRadius: "1.2vw",
-                border: "0.25vw dotted black",
                 justifyContent: "center",
                 alignItems: "center",
                 pointerEvents: "none",
                 userSelect: "none",
                 touchAction: "none",
+                gap: "1vw",
             }}
         >
-            <Typography variant="h1" component="p" sx={{ pointerEvents: "none" }}>
-                Ainda não há cursos cadastrados nessa categoria
-            </Typography>
+            <Box>
+                <ErrorOutlineIcon sx={{ fontSize: "72px" }} />
+            </Box>
+            <Box sx={{ flexDirection: "column" }}>
+                <Typography variant="h5" component="p">
+                    {title}
+                </Typography>
+                <Typography variant="body1" component="p">
+                    {text}
+                </Typography>
+            </Box>
         </Box>
         // )}
     )
