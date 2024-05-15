@@ -75,6 +75,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             <FilterButton active={"recent" === active} content="Novos Cursos" onClickCategory={() => onClickCategory("recent")} />
             {categories.map((category) => (
                 <FilterButton
+                    loading={loading}
                     key={category.id}
                     active={category.id == active}
                     content={category.name}
