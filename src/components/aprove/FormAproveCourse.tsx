@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, CircularProgress, Dialog, DialogTitle, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, CircularProgress, Dialog, DialogTitle, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
@@ -14,6 +14,7 @@ import { useCurrencyMask } from "burgos-masks"
 import { CurrencyText } from "../masks/CurrencyText"
 import MaskedInput from "../masks/MaskedInput"
 import { unmaskCurrency } from "../../tools/unmask"
+import * as Yup from "yup"
 
 interface FormAproveCourseProps {
     course: Course
@@ -26,16 +27,25 @@ interface FormAproveCourseProps {
 
 export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name, type, id, status, onChangeStatus }) => {
     const currencyMask = useCurrencyMask()
+    const FormatedStatus = formatStatus(status)
+    const required_message = "Campo obrigatório"
+    const positive_message = "O valor do curso deve ser positivo"
+    const validateSchema = Yup.object().shape({
+        name: Yup.string().min(5).required(required_message),
+
+        plans: Yup.array().min(1, required_message),
+
+        roles: Yup.array().min(1, required_message),
+    })
 
     const [loading, setLoading] = useState(false)
     const [openAproveModal, setOpenAproveModal] = useState(false)
     const [openReproveModal, setOpenReproveModal] = useState(false)
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
+
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
-
-    const FormatedStatus = formatStatus(status)
 
     const fetchUsersTypes = async () => {
         if (loading) return
@@ -76,6 +86,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
 
     const formik = useFormik<PartialCourse>({
         initialValues: { id: id, status: "active", price: 0, plans: [], roles: [] },
+
+        validationSchema: validateSchema,
+
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
@@ -197,11 +210,22 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         name="plans"
                                         onChange={formik.handleChange}
                                         value={formik.values.plans}
-                                        SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
+                                        SelectProps={{
+                                            MenuProps: { MenuListProps: { sx: { width: 1 } } },
+                                            multiple: true,
+                                            renderValue: (selected: number[]) =>
+                                                plans
+                                                    .filter((item) => selected.includes(item.id))
+                                                    .map((item) => item.name)
+                                                    .join(", "),
+                                        }}
+                                        sx={{ maxWidth: "15vw" }}
+                                        error={formik.touched.plans && Boolean(formik.errors.plans)}
+                                        helperText={formik.touched.plans && formik.errors.plans}
                                     >
                                         {plans.map((plan) => (
                                             <MenuItem key={plan.id} value={plan.id}>
-                                                {plan.name}
+                                                <Checkbox checked={formik.values.plans.includes(plan.id)} /> {plan.name}
                                             </MenuItem>
                                         ))}
                                     </TextField>
@@ -217,6 +241,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         value={formik.values.price || ""}
                                         onChange={formik.handleChange}
                                         InputProps={{ inputComponent: MaskedInput, inputProps: { mask: currencyMask } }}
+                                        error={formik.touched.price && Boolean(formik.errors.price)}
+                                        helperText={formik.touched.price && formik.errors.price}
                                     />
                                 </Box>
                             </Box>
@@ -225,9 +251,11 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                 name="roles"
                                 value={formik.values.roles}
                                 onChange={formik.handleChange}
-                                helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
+                                // helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
                                 label="Selecione o tipo de usuário"
                                 SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
+                                error={formik.touched.roles && Boolean(formik.errors.roles)}
+                                helperText={formik.touched.roles && formik.errors.roles}
                             >
                                 {userTypes.map((type) => (
                                     <MenuItem value={type.id} key={type.id}>
