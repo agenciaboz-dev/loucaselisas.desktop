@@ -12,6 +12,7 @@ import { Carrousel } from "../../components/Carrousel"
 import { Media } from "../../components/media/Media"
 import { Plan } from "../../types/server/class/Plan"
 import { slugify } from "../../tools/urlMask"
+import placeholders from "../../tools/placeholders"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
@@ -77,7 +78,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                         </Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
-                                <Avatar src={course.owner.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
+                                <Avatar src={course.owner.image || placeholders.avatar} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
                                         {course.owner.user.name}

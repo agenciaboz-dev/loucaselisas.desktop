@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { Avatar, Box, MenuItem } from "@mui/material"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { useDraggable } from "react-use-draggable-scroll"
+import placeholders from "../tools/placeholders"
 
 interface CarrouselProps {
     gallery: { url: string | null; type: "image" | "video" }[]
@@ -40,15 +41,13 @@ export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia, onMouse
         >
             {gallery.map((media) => (
                 <MenuItem key={media.url} onClick={() => setMedia({ type: media.type, url: media.url })} sx={{ ...mediaDesign, userSelect: "none" }}>
-                    {media.type === "image" && (
-                        <Avatar src={media.url || "/placeholders/midia_1.1.webp"} sx={{ ...mediaDesign, pointerEvents: "none" }} />
-                    )}
+                    {media.type === "image" && <Avatar src={media.url || placeholders.landscape} sx={{ ...mediaDesign, pointerEvents: "none" }} />}
                     {media.type === "video" && (
                         <Box sx={{ ...mediaDesign, position: "relative", alignItems: "center", justifyContent: "center" }}>
                             {media.url ? (
                                 <video src={media.url} style={{ ...mediaDesign, pointerEvents: "none" }}></video>
                             ) : (
-                                <Avatar src={media.url || "/placeholders/midia_1.1.webp"} sx={{ ...mediaDesign, pointerEvents: "none" }} />
+                                <Avatar src={media.url || placeholders.landscape} sx={{ ...mediaDesign, pointerEvents: "none" }} />
                             )}
                             <PlayArrowIcon color="secondary" sx={{ position: "absolute", fontSize: "2.5rem" }} />
                         </Box>

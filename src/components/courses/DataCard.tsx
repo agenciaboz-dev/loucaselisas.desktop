@@ -9,6 +9,7 @@ import ChatIcon from "@mui/icons-material/Chat"
 import { useNavigate } from "react-router-dom"
 import { Course } from "../../types/server/class/Course"
 import { Lesson } from "../../types/server/class/Course/Lesson"
+import placeholders from "../../tools/placeholders"
 
 interface DataCardProps {
     image: string
@@ -31,7 +32,9 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
             <Grid item xs={1}>
                 <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw" }}>
                     <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
-                        <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }} />
+                        <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>
+                            <Avatar src={placeholders.square} sx={{ width: "3.5vw", height: "3.5vw" }} />
+                        </Avatar>
                         <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
                             <MenuItem sx={{ p: 0, m: 0 }} onClick={() => navigate(link, { state: { data: routerParam } })}>
                                 <Typography

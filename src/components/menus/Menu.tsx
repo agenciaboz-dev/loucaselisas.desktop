@@ -9,6 +9,7 @@ import ViewListIcon from "@mui/icons-material/ViewList"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { useUser } from "../../hooks/useUser"
 import { MenuItem } from "./MenuItem"
+import placeholders from "../../tools/placeholders"
 
 interface IMenuOptions {
     label: string
@@ -62,7 +63,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                             width: theme.spacing(12),
                             height: theme.spacing(12),
                         }}
-                        src={user?.image || "./placeholders/perfil.webp"}
+                        src={user?.image || placeholders.avatar}
                     />
                     <Typography variant="h3" component="h3" sx={{ textTransform: "uppercase" }}>
                         {user?.name}

@@ -4,6 +4,7 @@ import MoreVert from "@mui/icons-material/MoreVert"
 import { Course } from "../../types/server/class/Course"
 import { Message } from "../../types/server/class/Chat/Message"
 import { api } from "../../api/api"
+import placeholders from "../../tools/placeholders"
 
 interface GroupCardProps {
     course: Course
@@ -86,7 +87,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                 {course.description}
                             </Typography>
                         </Box>
-                        <Avatar src={course.cover} variant="rounded" sx={{ width: "3vw", height: "3vw" }} />
+                        <Avatar src={course.cover || placeholders.square} variant="rounded" sx={{ width: "3vw", height: "3vw" }} />
                     </Box>
                     <Divider />
                     <Box
@@ -107,11 +108,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                 gap: "0.5vw",
                             }}
                         >
-                            <Avatar
-                                src={message.user?.cover || "/placeholders/perfil.webp"}
-                                variant="circular"
-                                sx={{ width: "3vw", height: "3vw" }}
-                            />
+                            <Avatar src={message.user?.cover || placeholders.avatar} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
                             <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography variant="body2" component={"p"}>
                                     {message?.user?.name || "usuário indisponivel"}

@@ -1,5 +1,6 @@
 import React, { SetStateAction } from "react"
 import { Avatar, Paper } from "@mui/material"
+import placeholders from "../../tools/placeholders"
 
 interface MediaProps {
     setShowCarrosel?: React.Dispatch<SetStateAction<boolean>> | undefined
@@ -35,7 +36,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
                 {media.type === "image" && (
                     <Avatar
                         variant="rounded"
-                        src={media.url || "/placeholders/midia_1-1.webp"}
+                        src={media.url || placeholders.landscape}
                         sx={{ width: 1, height: 1, objectFit: "contain", borderRadius: "1vw" }}
                     />
                 )}

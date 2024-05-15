@@ -3,6 +3,7 @@ import { Box, Button, Dialog, TextField, Typography } from "@mui/material"
 import { Avatar, FileInputButton } from "@files-ui/react"
 import { FormikErrors, FormikTouched } from "formik"
 import { Category, CategoryForm } from "../../types/server/class/Category"
+import placeholders from "../../tools/placeholders"
 
 interface NewCategoryModalProps {
     formik: {
@@ -32,7 +33,7 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, s
                     </Typography>
                 </Box>
                 <Box sx={{ gap: "1vw", width: "100%" }}>
-                    <Avatar readOnly src={imageSource || "/placeholders/perfil.webp"} style={{ width: "135px", height: "135px" }} />
+                    <Avatar readOnly src={imageSource || placeholders.square} style={{ width: "135px", height: "135px" }} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome da Categoria</Typography>

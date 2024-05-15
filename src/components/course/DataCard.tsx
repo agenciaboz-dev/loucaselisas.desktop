@@ -6,6 +6,7 @@ import { Course, Status } from "../../types/server/class/Course"
 import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
 import { formatStatus } from "../../tools/formatStatus"
+import placeholders from "../../tools/placeholders"
 
 interface DataCardProps {
     lesson: Lesson
@@ -60,7 +61,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                 <Box sx={{ gap: "1vw" }}>
                     <Avatar
                         variant="rounded"
-                        src={lesson.thumb || "/placeholders/perfil.webp"}
+                        src={lesson.thumb || placeholders.square}
                         alt="Capa do curso"
                         sx={{ width: "5vw", height: "5vw", objectFit: "cover", borderRadius: "1vw" }}
                     />

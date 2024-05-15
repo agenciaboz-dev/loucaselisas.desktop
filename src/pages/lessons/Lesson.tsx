@@ -10,6 +10,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 import { DataCard } from "../../components/course/DataCard"
 import { slugify } from "../../tools/urlMask"
+import placeholders from "../../tools/placeholders"
 
 interface LessonPageProps {}
 
@@ -86,12 +87,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
-                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>
-                           {lesson && <Media media={media} />}
-                        </Box>
+                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>{lesson && <Media media={media} />}</Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
-                                <Avatar src={course?.owner?.image || "/placeholders/perfil.webp"} sx={{ width: "4vw", height: "4vw" }} />
+                                <Avatar src={course?.owner?.image || placeholders.avatar} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
                                         {course?.owner?.user.name}

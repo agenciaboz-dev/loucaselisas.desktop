@@ -41,12 +41,8 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
             >
                 {!same_message_above && (
                     <Box sx={{ flexDirection: "row", alignItems: "flex-end", gap: 0, marginBottom: 5 }}>
-                        {!!creators.find((item) => item.user_id == message.user_id) && (
-                            <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />
-                        )}
-                        <p style={{ paddingLeft: 5, paddingRight: 5 }}>
-                            {you ? "Você" : message.user?.name || "Usuário indisponível"}
-                        </p>
+                        {!!creators.find((item) => item.user_id == message.user_id) && <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />}
+                        <p style={{ paddingLeft: 5, paddingRight: 5 }}>{you ? "Você" : message.user?.name || "Usuário indisponível"}</p>
                     </Box>
                 )}
                 <Box

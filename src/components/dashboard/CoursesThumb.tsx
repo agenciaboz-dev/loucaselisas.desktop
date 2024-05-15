@@ -2,6 +2,7 @@ import React from "react"
 import { Avatar, Box, Paper, Typography } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { useNavigate } from "react-router-dom"
+import placeholders from "../../tools/placeholders"
 
 interface CoursersThumbProps {
     course: Course
@@ -30,7 +31,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                 variant="square"
                 sx={{ objectFit: "cover", width: 1, height: 1, pointerEvents: "none" }}
             >
-                <Avatar sx={{ width: "8vw", height: "8vw" }} variant="circular" src="./placeholders/midia_1-1.webp" />
+                <Avatar sx={{ width: "8vw", height: "8vw" }} variant="circular" src={placeholders.square} />
             </Avatar>
             <Box
                 sx={{
