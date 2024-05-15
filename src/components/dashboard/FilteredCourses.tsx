@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Skeleton } from "@mui/material"
+import { Box, Paper, Skeleton, Typography } from "@mui/material"
 import { Course } from "../../types/server/class/Course"
 import { FilterCourses } from "../pageLayout/FilterCourses"
 import { useDraggable } from "react-use-draggable-scroll"
 import { CoursersThumb } from "./CoursesThumb"
+import { NoFeaturedContent } from "./NoFeaturedContent"
 
 interface FilteredCoursesProps {
     courses: Course[]
@@ -40,6 +41,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
     return (
         <Box sx={{ flex: 1, flexDirection: "column", gap: "1vw" }}>
             <FilterCourses courses={courses} onFilter={onFilteredCourses} active={active} setActive={setActive} />
+
             <Box
                 ref={ref}
                 {...events}
@@ -48,26 +50,37 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                     overflowX: "scroll",
                     height: "auto",
                     scrollbarWidth: "none",
+                    pointerEvents: filteredCourses.length === 0 ? "none" : "auto",
                     gap: "0.5vw",
                     px: "1.5vw",
                     mx: "-1.5vw",
                 }}
             >
-                {skeletonLoading
-                    ? skeletonCourse.map((_, index) => (
-                          <Skeleton
-                              key={index}
-                              variant="rounded"
-                              animation="wave"
-                              sx={{
-                                  height: "13vw",
-                                  aspectRatio: "4/3",
-                                  flexShrink: 0,
-                                  borderRadius: "1.2vw",
-                              }}
-                          />
-                      ))
-                    : filteredCourses.map((course) => <CoursersThumb key={course.id} course={course} />)}
+                {filteredCourses.length === 0 ? (
+                    <NoFeaturedContent
+                        title="Categoria vazia"
+                        text="Não há cursos disponíveis nessa categoria no momento. Por favor, volte mais tarde."
+                        styles={{ height: "17vw" }}
+                    />
+                ) : (
+                    <>
+                        {skeletonLoading
+                            ? skeletonCourse.map((_, index) => (
+                                  <Skeleton
+                                      key={index}
+                                      variant="rounded"
+                                      animation="wave"
+                                      sx={{
+                                          height: "13vw",
+                                          aspectRatio: "4/3",
+                                          flexShrink: 0,
+                                          borderRadius: "1.2vw",
+                                      }}
+                                  />
+                              ))
+                            : filteredCourses.map((course) => <CoursersThumb key={course.id} course={course} />)}
+                    </>
+                )}
             </Box>
         </Box>
     )
