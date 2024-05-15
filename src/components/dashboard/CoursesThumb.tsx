@@ -13,9 +13,9 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
     const navigate = useNavigate()
     return (
         <Paper
-            elevation={2}
             sx={{
-                height: "13vw",
+                margin: "0.1vw 0",
+                height: "12.8vw",
                 aspectRatio: "4/3",
                 flexDirection: "column",
                 borderRadius: "1.2vw",
