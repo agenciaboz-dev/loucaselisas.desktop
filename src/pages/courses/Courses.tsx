@@ -8,6 +8,7 @@ import { SearchBar } from "../../components/header/SearchBar"
 import { DataCard } from "../../components/courses/DataCard"
 import { useDraggable } from "react-use-draggable-scroll"
 import { slugify } from "../../tools/urlMask"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 
 interface CourrsesProps {}
 
@@ -84,7 +85,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: "61.3vh",
+                            height: filteredCourses ? "59.3vh" : "61.3vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",
@@ -94,43 +95,51 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
-                            {skeletonLoading
-                                ? skeletonCourse.map((_, index) => (
-                                      <Grid item key={index} xs={1}>
-                                          <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw" }}>
-                                              <Box sx={{ justifyContent: "space-between" }}>
-                                                  <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
-                                                  <Box sx={{ flexDirection: "column" }}>
-                                                      <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
-                                                      <Skeleton variant="text" animation="wave" sx={{ width: "14.8vw", height: "4.8vw" }} />
-                                                  </Box>
-                                                  <Skeleton variant="rounded" animation="wave" sx={{ width: "1.5vw", height: "1.5vw" }} />
-                                              </Box>
-                                              <Divider sx={{ mt: "-0.8vw" }} />
-                                              <Box sx={{ justifyContent: "space-between" }}>
-                                                  <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
-                                                  <Skeleton variant="text" animation="wave" sx={{ width: "10vw", height: "1.6rem" }} />
-                                              </Box>
-                                          </Paper>
-                                      </Grid>
-                                  ))
-                                : filteredCourses.map((course) => (
-                                      <DataCard
-                                          key={course.id}
-                                          image={course.cover}
-                                          title={course.name}
-                                          description={course.description}
-                                          likes={course.likes}
-                                          downloads={course.downloads}
-                                          messages={course.chat?.messages}
-                                          views={course.views}
-                                          userName={course.owner.user.username}
-                                          link={`/cursos/${slugify(course.name)}`}
-                                          routerParam={course}
-                                      />
-                                  ))}
-                        </Grid>
+                        {filteredCourses.length === 0 ? (
+                            <>
+                                <NoFeaturedContent />
+                            </>
+                        ) : (
+                            <>
+                                <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
+                                    {skeletonLoading
+                                        ? skeletonCourse.map((_, index) => (
+                                              <Grid item key={index} xs={1}>
+                                                  <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw" }}>
+                                                      <Box sx={{ justifyContent: "space-between" }}>
+                                                          <Skeleton variant="rounded" animation="wave" sx={{ width: "5vw", height: "5vw" }} />
+                                                          <Box sx={{ flexDirection: "column" }}>
+                                                              <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
+                                                              <Skeleton variant="text" animation="wave" sx={{ width: "14.8vw", height: "4.8vw" }} />
+                                                          </Box>
+                                                          <Skeleton variant="rounded" animation="wave" sx={{ width: "1.5vw", height: "1.5vw" }} />
+                                                      </Box>
+                                                      <Divider sx={{ mt: "-0.8vw" }} />
+                                                      <Box sx={{ justifyContent: "space-between" }}>
+                                                          <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
+                                                          <Skeleton variant="text" animation="wave" sx={{ width: "10vw", height: "1.6rem" }} />
+                                                      </Box>
+                                                  </Paper>
+                                              </Grid>
+                                          ))
+                                        : filteredCourses.map((course) => (
+                                              <DataCard
+                                                  key={course.id}
+                                                  image={course.cover}
+                                                  title={course.name}
+                                                  description={course.description}
+                                                  likes={course.likes}
+                                                  downloads={course.downloads}
+                                                  messages={course.chat?.messages}
+                                                  views={course.views}
+                                                  userName={course.owner.user.username}
+                                                  link={`/cursos/${slugify(course.name)}`}
+                                                  routerParam={course}
+                                              />
+                                          ))}
+                                </Grid>
+                            </>
+                        )}
                     </Box>
                 </Box>
             </Box>
