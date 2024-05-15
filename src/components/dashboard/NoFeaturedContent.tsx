@@ -3,18 +3,22 @@ import { Box, SxProps, Typography } from "@mui/material"
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
 
 interface NoFeaturedContentProps {
-    title: string
-    text: string
+    title?: string
+    text?: string
     styles?: SxProps
 }
 
-export const NoFeaturedContent: React.FC<NoFeaturedContentProps> = ({ title, text, styles }) => {
+export const NoFeaturedContent: React.FC<NoFeaturedContentProps> = ({
+    title = "Nenhum resultado encontrado",
+    text = "Não foi possivel encontrar nenhum resultado com essa requisição. Por favor, tente outra coisa.",
+    styles,
+}) => {
     return (
         // {filteredCourses.length === 0 && (
         <Box
             sx={{
-                ...styles,
                 margin: "0.1vw 0",
+                height: 1,
                 width: 1,
                 backgroundColor: "#dddddd",
                 borderRadius: "1.2vw",
@@ -24,6 +28,7 @@ export const NoFeaturedContent: React.FC<NoFeaturedContentProps> = ({ title, tex
                 userSelect: "none",
                 touchAction: "none",
                 gap: "1vw",
+                ...styles,
             }}
         >
             <Box>
