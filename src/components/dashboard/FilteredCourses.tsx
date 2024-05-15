@@ -60,7 +60,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                     <NoFeaturedContent
                         title="Categoria vazia"
                         text="Não há cursos disponíveis nessa categoria no momento. Por favor, volte mais tarde."
-                        styles={{ height: "17vw" }}
+                        styles={{ height: "12.8vw" }}
                     />
                 ) : (
                     <>
