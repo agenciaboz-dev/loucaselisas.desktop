@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, Paper, TextField, Typography } from "@mui/material"
+import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, Paper, Skeleton, TextField, Typography } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { useFormik } from "formik"
@@ -16,6 +16,8 @@ import * as Yup from "yup"
 interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
+    const skeletonSettingsCard: number[] = new Array(20).fill(0).map((_, index) => index)
+
     const required_message = "Campo obrigatório"
     const categorySchema = Yup.object().shape({
         name: Yup.string().required(required_message),
@@ -27,10 +29,6 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     const [imageSource, setImageSource] = useState<File>()
     const [openCategoryModal, setOpenCategoryModal] = useState(false)
     const [openPlanModal, setOpenPlanModal] = useState(false)
-
-
-
-
 
     const formikPlans = useFormik<PlanForm>({
         initialValues: { name: "", description: "", duration: "", price: 0 },
@@ -147,9 +145,28 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 maxHeight: "61.8vh",
                             }}
                         >
-                            {categories.map((category) => (
-                                <SettingsCard key={category.id} image={category.cover} name={category.name} openEditModal={setOpenCategoryModal} />
-                            ))}
+                            {loading
+                                ? skeletonSettingsCard.map((_, index) => (
+                                      <>
+                                          <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
+                                              <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
+                                                  <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
+                                                      <Skeleton variant="circular" sx={{ width: "2.5vw", height: "2.5vw" }} />
+                                                      <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
+                                                  </Box>
+                                                  <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                              </Box>
+                                          </Paper>
+                                      </>
+                                  ))
+                                : categories.map((category) => (
+                                      <SettingsCard
+                                          key={category.id}
+                                          image={category.cover}
+                                          name={category.name}
+                                          openEditModal={setOpenCategoryModal}
+                                      />
+                                  ))}
                         </Box>
                         <NewCategoryModal
                             formik={formikCategories}
@@ -184,9 +201,20 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 maxHeight: "61.8vh",
                             }}
                         >
-                            {plans.map((plan) => (
-                                <SettingsCard key={plan.id} name={plan.name} openEditModal={setOpenPlanModal} plan />
-                            ))}
+                            {loading
+                                ? skeletonSettingsCard.map((_, index) => (
+                                      <>
+                                          <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
+                                              <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
+                                                  <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
+                                                      <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
+                                                  </Box>
+                                                  <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                              </Box>
+                                          </Paper>
+                                      </>
+                                  ))
+                                : plans.map((plan) => <SettingsCard key={plan.id} name={plan.name} openEditModal={setOpenPlanModal} plan />)}
                         </Box>
                         <NewPlanModal formik={formikPlans} openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} />
                     </Box>
