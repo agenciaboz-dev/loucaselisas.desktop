@@ -111,91 +111,6 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         console.log(expandedChat)
     }, [expandedChat])
 
-    // const [chatCourse, setChatCourse] = useState<ChatClass | undefined>(undefined)
-    // const [messages, setMessages] = useState<Message[]>([])
-    // const [refreshing, setRefreshing] = useState(true)
-
-    // const socket = useRef<Socket | null>(null)
-
-    // const [text, setText] = useState("")
-    // const listMessages = messages.sort((a, b) => Number(a.datetime) - Number(b.datetime))
-
-    // const onSubmitText = () => {
-    //     if (!chatCourse || !socket.current || !user || !text) return
-    //     if (chatCourse) {
-    //         const data: MessageForm = {
-    //             chat_id: chatCourse.id,
-    //             user_id: user.id,
-    //             text,
-    //             video_id: null,
-    //             video_timestamp: null,
-    //         }
-
-    //         socket.current?.emit("chat:message", data)
-    //         setText("")
-    //     }
-    // }
-
-    // const addMessage = (message: Message) => {
-    //     setMessages((messages) => [...messages, message])
-    // }
-
-    // const listenToEvents = () => {
-    //     if (!socket.current) return
-
-    //     socket.current.on("connect", () => {
-    //         console.log("socketio conected")
-    //     })
-    //     socket.current.on("disconnect", () => {
-    //         console.log("socketio disconnected")
-    //     })
-
-    //     socket.current.on("chat:join", (data: Message[]) => {
-    //         console.log("joined chat!")
-    //         console.log({ OQUECHEGA: data })
-    //         setMessages(data)
-    //         setTimeout(() => {
-    //             setRefreshing(false)
-    //         }, 2000)
-    //     })
-
-    //     socket.current.on("chat:message", (message: Message) => {
-    //         addMessage(message)
-    //     })
-
-    //     socket.current.on("chat:message:success", (message: Message) => {
-    //         addMessage(message)
-    //     })
-    // }
-
-    // const unListenEvents = () => {
-    //     if (!socket.current) return
-
-    //     socket.current.off("chat:join")
-    //     socket.current.off("chat:message")
-    //     socket.current.off("chat:message:success")
-    // }
-
-    // const socketConnect = () => {
-    //     socket.current = io(`ws${url}`)
-    //     listenToEvents()
-
-    //     console.log({ AQUIIIIII: chatCourse })
-    //     if (chatCourse) socket.current.emit("chat:join", chatCourse.id)
-    // }
-
-    // useEffect(() => {
-    //     if (course) setChatCourse(course.chat as ChatClass | undefined)
-    //     // useCallback(() => {
-
-    //     socketConnect()
-    //     return () => {
-    //         unListenEvents()
-    //         socket.current?.disconnect()
-    //     }
-    //     // }, [])
-    // }, [course])
-
     return (
         <Box sx={{ width: 1, gap: "0.95vw", height: 1 }}>
             <Box sx={{ width: expandedChat ? "32.55%" : "100%", flexDirection: "column", height: 1 }}>
@@ -303,7 +218,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                 </Box>
             </Box>
             {/* {expandedChat && <Chat setExpanded={setExpanded} course={course} messages={messages} refreshing={refreshing} />} */}
-            {expandedChat && <Chat setExpanded={setExpanded} course={course} user={user} />}
+            {user && expandedChat && <Chat setExpanded={setExpanded} course={course} user={user} />}
         </Box>
     )
 }
