@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, Paper, Skeleton, TextField, Typography } from "@mui/material"
+import { Box, Button, Grid, Paper, Skeleton, Typography } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { useFormik } from "formik"
 import { Category, CategoryForm } from "../types/server/class/Category"
-import { Avatar, FileInputButton } from "@files-ui/react"
 import { api } from "../api/api"
 import { NewCategoryModal } from "../components/settings/NewCategoryModal"
 import { SettingsCard } from "../components/settings/SettingsCard"
-import { PartialPlan, Plan, PlanForm } from "../types/server/class/Plan"
+import { Plan, PlanForm } from "../types/server/class/Plan"
 import { NewPlanModal } from "../components/settings/NewPlanModal"
 import { StatisticGraphycs } from "../components/settings/StatisticGraphyc"
 import * as Yup from "yup"
@@ -55,10 +54,6 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     const formikCategories = useFormik<CategoryForm>({
         initialValues: currentCategory ? { ...currentCategory, cover: undefined } : { name: "", cover: undefined, active: true },
-        // initialValues: currentCategory ? { name: currentCategory.name, cover: currentCategory.cover || undefined  } : { name: "", cover: undefined },
-        // initialValues: { name: currentCategory?.name || "", cover: currentCategory?.cover || undefined },
-        // initialValues: { name: "", cover: undefined },
-
         validationSchema: categorySchema,
 
         onSubmit: async (values) => {

@@ -3,8 +3,9 @@ import { Avatar, Box, IconButton, MenuItem, Paper, Switch, Typography } from "@m
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import placeholders from "../../tools/placeholders"
-import { Category } from "../../types/server/class/Category"
+import { Category, CategoryForm } from "../../types/server/class/Category"
 import { Plan } from "../../types/server/class/Plan"
+import { api } from "../../api/api"
 
 interface SettingCardProps {
     category?: Category
@@ -14,10 +15,25 @@ interface SettingCardProps {
     plan?: Plan
     setCurrentPlan?: React.Dispatch<React.SetStateAction<Plan>>
     openEditModal: React.Dispatch<React.SetStateAction<boolean>>
-    removeItem?: () => void
 }
 
-export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentCategory, image, name, openEditModal, removeItem, plan, setCurrentPlan }) => {
+export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentCategory, image, name, openEditModal, plan, setCurrentPlan }) => {
+    const onChangeCategoryStatus = async (checked: boolean) => {
+        const data: Partial<Category> = { active: checked ? true : false, id: category?.id }
+
+        const formData = new FormData()
+
+        formData.append("data", JSON.stringify(data))
+
+        try {
+            console.log(data)
+            const response = await api.patch("/category", formData)
+            console.log({ Response: response.data })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Paper sx={{ width: 1, height: "3.5vw", position: "relative" }}>
             <MenuItem
@@ -42,7 +58,7 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
                 </Box>
             </MenuItem>
             <Box sx={{ position: "absolute", right: 0, height: 1, width: "fit-content", alignItems: "center" }}>
-                <Switch />
+                <Switch checked={category?.active} onChange={(_, checked) => (category ? onChangeCategoryStatus(checked) : () => {})} />
             </Box>
         </Paper>
     )
