@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Avatar, Box, Skeleton } from "@mui/material"
+import { Avatar, Box, Paper, Skeleton } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
@@ -24,44 +24,84 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
     const same_message_above = !(!previous_message || previous_message.user_id != message.user_id)
     const same_message_bellow = !(!next_message || next_message.user_id != message.user_id)
 
-    useEffect(() => {
-        console.log(message.text)
-        console.log({ USER: user })
-    }, [message])
+    // useEffect(() => {
+    //     console.log(message.text)
+    //     console.log({ USER: user })
+    // }, [message])
     return user ? (
         !refreshing ? (
             <Box
-                sx={{ alignSelf: "flex-start" }}
-
-                // sx={[
-                //     { alignSelf: "flex-start" },
-                //     you && { alignSelf: "flex-end", alignItems: "flex-end" },
-                //     same_message_above && { marginTop: -12 },
-                // ]}
+                sx={{
+                    width: "50%",
+                    height: "fit-content",
+                    flexDirection: "column",
+                    gap: "2vw",
+                    alignSelf: you ? "flex-end" : "flex-start",
+                    alignItems: you ? "flex-end" : "",
+                    marginTop: same_message_above ? -1.3 : "",
+                    ml: "0.6vw",
+                }}
             >
                 {!same_message_above && (
-                    <Box sx={{ flexDirection: "row", alignItems: "flex-end", gap: 0, marginBottom: 5 }}>
-                        {!!creators.find((item) => item.user_id == message.user_id) && <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />}
-                        <p style={{ paddingLeft: 5, paddingRight: 5 }}>{you ? "Você" : message.user?.name || "Usuário indisponível"}</p>
+                    <Box sx={{ flexDirection: "row", alignItems: "flex-end", marginBottom: "-1.5vw" }}>
+                        {!!creators.find((item) => item.user_id == message.user_id) && (
+                            <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />
+                        )}
+                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>
+                            {you ? "Você" : message.user?.name || "Usuário indisponível"}
+                        </p>
                     </Box>
                 )}
-                <Box
-                    sx={{ padding: 10, borderRadius: 15, maxWidth: 300 }}
-                    // sx={[
-                    //     { padding: 10, borderRadius: 15, maxWidth: 300 },
-                    //     you && { backgroundColor: "green" },
-                    //     you && !same_message_bellow && { borderBottomRightRadius: 0 },
-
-                    //     !you && !same_message_bellow && { borderBottomLeftRadius: 0, alignSelf: "flex-start" },
-                    // ]}
+                <Paper
+                    elevation={1}
+                    sx={{
+                        width: "fit-content",
+                        padding: "0.8vw",
+                        borderRadius: "0.8vw",
+                        maxWidth: "fit-content",
+                        bgcolor: you ? "" : "",
+                        borderBottomRightRadius: you && !same_message_bellow ? "0" : "0.8vw",
+                    }}
                 >
                     <p>{message.text}</p>
-                </Box>
+                </Paper>
             </Box>
         ) : (
-            <Skeleton />
-            // <p>{message.text}</p>
+            <Box
+                sx={{
+                    width: "30%",
+                    height: "fit-content",
+                    flexDirection: "column",
+                    gap: "2vw",
+                    alignSelf: you ? "flex-end" : "flex-start",
+                    alignItems: you ? "flex-end" : "",
+                    marginTop: same_message_above ? -1.3 : "",
+                    ml: "0.6vw",
+                }}
+            >
+                {!same_message_above && (
+                    <Box sx={{ flexDirection: "row", alignItems: "flex-end", marginBottom: "-1.5vw" }}>
+                        {!!creators.find((item) => item.user_id == message.user_id) && (
+                            <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />
+                        )}
+                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>
+                            {you ? "Você" : message.user?.name || "Usuário indisponível"}
+                        </p>
+                    </Box>
+                )}
+                <Skeleton
+                    sx={{
+                        width: "fit-content",
+                        padding: "1vw",
+                        borderRadius: "0.8vw",
+                        maxWidth: "fit-content",
+                        bgcolor: you ? "" : "",
+                        borderBottomRightRadius: you && !same_message_bellow ? "0" : "0.8vw",
+                    }}
+                >
+                    <p>{message.text}</p>
+                </Skeleton>
+            </Box>
         )
     ) : null
-    // <p>{message.text}</p>
 }

@@ -8,24 +8,24 @@ import { Chat as ChatClass } from "../types/server/class/Chat/Chat"
 import { Socket, io } from "socket.io-client"
 import { url } from "../api/backend"
 import { MessageCard } from "../components/groups/MessageCard"
+import { User } from "../types/server/class"
 
 interface ChatProps {
     setExpanded: React.Dispatch<React.SetStateAction<Boolean>>
     course: Course | null
-    messages: Message[]
-    refreshing?: boolean
+    user: User | null
 }
 
 const input_style = {
     position: "relative",
     top: "66vh",
     "& .MuiInputLabel-root.Mui-focused ": {
-        color: "black", // Cor do label quando o TextField está em foco (digitando)
+        color: "black",
     },
 
     "& .MuiInputBase-root": {
         color: "#fff",
-        backgroundColor: "#f0f4f7",
+        backgroundColor: "#FFFF",
         borderRadius: "0.8vw",
     },
 
@@ -35,11 +35,11 @@ const input_style = {
 
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
-            border: "none", // Remove a borda quando o campo não está focado
+            border: "none",
         },
-        color: "black", // Garante que o texto digitado seja preto
+        color: "black",
         "&.Mui-focused fieldset": {
-            borderRadius: "15px", // Bordas arredondadas
+            borderRadius: "15px",
             border: "none", // Sem borda
         },
         "& .MuiInputBase-input": {
@@ -48,9 +48,94 @@ const input_style = {
     },
 }
 
-export const Chat: React.FC<ChatProps> = ({ setExpanded, course, messages, refreshing }) => {
+export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
+    const [chatCourse, setChatCourse] = useState<ChatClass | undefined>(undefined)
+    const [messages, setMessages] = useState<Message[]>([])
+    const [refreshing, setRefreshing] = useState(true)
+
+    const socket = useRef<Socket | null>(null)
+
+    const [text, setText] = useState("")
+    const listMessages = messages.sort((a, b) => Number(a.datetime) - Number(b.datetime))
+
+    const onSubmitText = () => {
+        if (!chatCourse || !socket.current || !user || !text) return
+        if (chatCourse) {
+            const data: MessageForm = {
+                chat_id: chatCourse.id,
+                user_id: user.id,
+                text,
+                video_id: null,
+                video_timestamp: null,
+            }
+
+            socket.current?.emit("chat:message", data)
+            setText("")
+        }
+    }
+
+    const addMessage = (message: Message) => {
+        setMessages((messages) => [...messages, message])
+    }
+
+    const listenToEvents = () => {
+        if (!socket.current) return
+
+        socket.current.on("connect", () => {
+            console.log("socketio conected")
+        })
+        socket.current.on("disconnect", () => {
+            console.log("socketio disconnected")
+        })
+
+        socket.current.on("chat:join", (data: Message[]) => {
+            console.log("joined chat!")
+            // console.log({ OQUECHEGA: data })
+            setMessages(data)
+            setTimeout(() => {
+                setRefreshing(false)
+            }, 2000)
+        })
+
+        socket.current.on("chat:message", (message: Message) => {
+            addMessage(message)
+        })
+
+        socket.current.on("chat:message:success", (message: Message) => {
+            addMessage(message)
+        })
+    }
+
+    const unListenEvents = () => {
+        if (!socket.current) return
+
+        socket.current.off("chat:join")
+        socket.current.off("chat:message")
+        socket.current.off("chat:message:success")
+    }
+
+    const socketConnect = () => {
+        socket.current = io(`ws${url}`)
+        listenToEvents()
+
+        console.log({ COURSE: course?.chat?.id, CHATE: chatCourse?.id })
+        if (chatCourse) socket.current.emit("chat:join", course?.chat?.id)
+    }
+
+    useEffect(() => {
+        if (course) setChatCourse(course.chat as ChatClass | undefined)
+        // useCallback(() => {
+
+        socketConnect()
+        return () => {
+            unListenEvents()
+            socket.current?.disconnect()
+        }
+        // }, [])
+    }, [course])
+
     return (
-        <Box sx={{ width: "66.5%", maxHeight: "98%", bgcolor: "#E5E5E5", borderRadius: "0.5vw", p: "1vw" }}>
+        <Box sx={{ width: "66.5%", maxHeight: "98%", bgcolor: "#E8E8E8", borderRadius: "0.5vw", p: "1vw" }}>
             <Box sx={{ position: "absolute", left: "44.5vw", top: "7.5vw", alignItems: "center", gap: "1vw" }}>
                 <IconButton
                     sx={{ bgcolor: "#fff" }}
@@ -71,16 +156,18 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, messages, refre
                     InputProps={{ endAdornment: <MdArrowForwardIos size={"1vw"} color="black" /> }}
                     fullWidth
                 />
-                <Box sx={{ flexDirection: "column-reverse" }}>
+                <Box sx={{ width: 1, height: "30vw", flexDirection: "column", gap: "1vw", overflowY: "auto", pb: "1vw" }}>
                     {course &&
-                        messages.map((item) => (
-                            <MessageCard
-                                message={item}
-                                list={messages}
-                                creators={[course.owner, ...course.creators]}
-                                refreshing={refreshing}
-                            />
-                        ))}
+                        messages
+                            .sort((a, b) => Number(a.datetime) - Number(b.datetime))
+                            .map((item) => (
+                                <MessageCard
+                                    message={item}
+                                    list={messages}
+                                    creators={[course.owner, ...course.creators]}
+                                    refreshing={refreshing}
+                                />
+                            ))}
                 </Box>
             </Box>
         </Box>
