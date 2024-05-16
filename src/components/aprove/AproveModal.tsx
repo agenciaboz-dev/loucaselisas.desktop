@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box, Button, Modal, Paper, Typography } from "@mui/material"
-
 
 interface AproveModalProps {
     name: string
@@ -12,7 +11,7 @@ interface AproveModalProps {
 
 export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
     return (
-        <Modal open={openAproveModal} onClose={handleOpenAproveModal}>
+        <Modal open={openAproveModal} onClose={() => handleOpenAproveModal()}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
                 <Paper
                     sx={{
@@ -43,10 +42,25 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                         Este conteúdo ficará disponível para todos os usuários cadastrados como estudantes. Deseja mesmo continuar?
                     </Typography>
                     <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
-                        <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenAproveModal}>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{ borderRadius: "3vw" }}
+                            onClick={() => {
+                                handleOpenAproveModal()
+                            }}
+                        >
                             Cancelar
                         </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onConfirm}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ borderRadius: "3vw" }}
+                            onClick={() => {
+                                handleOpenAproveModal()
+                                onConfirm()
+                            }}
+                        >
                             Aprovar
                         </Button>
                     </Box>

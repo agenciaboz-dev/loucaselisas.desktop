@@ -32,12 +32,14 @@ export declare class Plan {
     price: number;
     duration: string;
     description: string;
+    active: boolean;
     static list(): Promise<{
         id: number;
         name: string;
         price: number;
         duration: string;
         description: string;
+        active: boolean;
     }[]>;
     static purchase(data: PlanPurchaseForm): Promise<PlanContract>;
     static new(data: PlanForm): Promise<Plan>;

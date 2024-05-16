@@ -3,8 +3,11 @@ import { Avatar, Box, IconButton, Paper, Typography } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import placeholders from "../../tools/placeholders"
+import { Category } from "../../types/server/class/Category"
 
 interface SettingCardProps {
+    category?: Category
+    setCurrentCategory?: React.Dispatch<React.SetStateAction<Category>>
     image?: string
     name: string
     plan?: boolean
@@ -12,7 +15,7 @@ interface SettingCardProps {
     removeItem?: () => void
 }
 
-export const SettingsCard: React.FC<SettingCardProps> = ({ image, name, openEditModal, removeItem, plan = false }) => {
+export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentCategory, image, name, openEditModal, removeItem, plan = false }) => {
     const [onHover, setOnHover] = useState(false)
 
     return (
@@ -30,7 +33,14 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ image, name, openEdit
                             <IconButton onClick={removeItem}>
                                 <DeleteIcon color="error" />
                             </IconButton>
-                            <IconButton onClick={() => openEditModal(true)}>
+                            <IconButton
+                                onClick={() => {
+                                    if (category && setCurrentCategory) {
+                                        setCurrentCategory(category)
+                                    }
+                                    openEditModal(true)
+                                }}
+                            >
                                 <EditIcon color="primary" />
                             </IconButton>
                         </>

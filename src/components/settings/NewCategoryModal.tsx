@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Dialog, TextField, Typography } from "@mui/material"
+import { Box, Button, Dialog, TextField, Typography, Avatar as MuiAvatar } from "@mui/material"
 import { Avatar, FileInputButton } from "@files-ui/react"
 import { FormikErrors, FormikTouched } from "formik"
 import { Category, CategoryForm } from "../../types/server/class/Category"
@@ -17,9 +17,10 @@ interface NewCategoryModalProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
     imageSource: File | undefined
     setImageSource: React.Dispatch<React.SetStateAction<File | undefined>>
+    category?: Category
 }
 
-export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, setOpenModal, imageSource, setImageSource, formik }) => {
+export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, setOpenModal, imageSource, setImageSource, formik, category }) => {
     return (
         <Dialog
             open={openModal}
@@ -29,11 +30,11 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, s
             <form onSubmit={formik.handleSubmit}>
                 <Box>
                     <Typography variant="body1" component="p" sx={{ fontSize: "1.5rem" }}>
-                        Adicionar Categoria
+                        {category ? "Editar Categoria" : "Adicionar Categoria"}
                     </Typography>
                 </Box>
                 <Box sx={{ gap: "1vw", width: "100%" }}>
-                    <Avatar readOnly src={imageSource || placeholders.square} style={{ width: "135px", height: "135px" }} />
+                    <Avatar readOnly src={imageSource || category?.cover || placeholders.square} style={{ width: "135px", height: "135px" }} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome da Categoria</Typography>
@@ -68,7 +69,7 @@ export const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ openModal, s
                         Cancelar
                     </Button>
                     <Button type="submit" variant="contained" sx={{ flex: 1, borderRadius: "5vw" }}>
-                        Adicionar
+                        {category ? "Salvar" : "Adicionar"}
                     </Button>
                 </Box>
             </form>
