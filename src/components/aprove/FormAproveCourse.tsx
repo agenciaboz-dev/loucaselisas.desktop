@@ -94,6 +94,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             try {
                 values.price = unmaskCurrency(values.price!)
                 const response = await api.patch("/course", values)
+                formik.resetForm()
                 onChangeStatus()
             } catch (error) {
                 console.log(error)
@@ -103,6 +104,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                 }, 500)
             }
         },
+        enableReinitialize: true,
     })
 
     const onDisabled = async () => {
