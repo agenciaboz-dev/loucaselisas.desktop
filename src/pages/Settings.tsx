@@ -27,19 +27,20 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     const [categories, setCategorys] = useState<Category[]>([])
     const [currentCategory, setCurrentCategory] = useState<Category | undefined>(undefined)
     const [plans, setPlans] = useState<Plan[]>([])
+    const [currentPlan, setCurrentPlan] = useState<Plan | undefined>(undefined)
     const [imageSource, setImageSource] = useState<File>()
     const [openCategoryModal, setOpenCategoryModal] = useState(false)
     const [openPlanModal, setOpenPlanModal] = useState(false)
 
     const formikPlans = useFormik<PlanForm>({
-        initialValues: { name: "", description: "", duration: "", price: 0, active: true },
+        initialValues: currentPlan ? { ...currentPlan } : { name: "", description: "", duration: "", price: 0, active: true },
         onSubmit: async () => {
             if (loading) return
             setLoading(true)
 
             try {
                 formikPlans.values.price = Number(formikPlans.values.price)
-                const response = await api.post("/plan", formikPlans.values)
+                const response = currentPlan ? await api.patch("/plan", formikPlans.values) : await api.post("/plan", formikPlans.values)
                 console.log(response.data)
                 setOpenPlanModal(!openPlanModal)
                 fetchPlans()
@@ -49,6 +50,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 setTimeout(() => setLoading(false), 500)
             }
         },
+        enableReinitialize: true,
     })
 
     const formikCategories = useFormik<CategoryForm>({
@@ -229,9 +231,17 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                           </Paper>
                                       </>
                                   ))
-                                : plans.map((plan) => <SettingsCard key={plan.id} name={plan.name} openEditModal={setOpenPlanModal} plan />)}
+                                : plans.map((plan) => (
+                                      <SettingsCard
+                                          key={plan.id}
+                                          plan={plan}
+                                          setCurrentPlan={setCurrentPlan}
+                                          name={plan.name}
+                                          openEditModal={setOpenPlanModal}
+                                      />
+                                  ))}
                         </Box>
-                        <NewPlanModal formik={formikPlans} openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} />
+                        <NewPlanModal formik={formikPlans} openPlanModal={openPlanModal} setOpenPlanModal={setOpenPlanModal} plan={currentPlan} />
                     </Box>
                 </Grid>
                 <Grid item xs={1}>

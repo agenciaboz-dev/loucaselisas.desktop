@@ -1,6 +1,6 @@
 import React from "react"
 import { Box, Button, Dialog, MenuItem, TextField, Typography } from "@mui/material"
-import { PlanForm } from "../../types/server/class/Plan"
+import { Plan, PlanForm } from "../../types/server/class/Plan"
 
 interface NewPlanModalProps {
     formik: {
@@ -11,13 +11,12 @@ interface NewPlanModalProps {
 
     openPlanModal: boolean
     setOpenPlanModal: React.Dispatch<React.SetStateAction<boolean>>
+    plan?: Plan
 }
 
 const day = 1000 * 60 * 60 * 24
 
-export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModal, setOpenPlanModal }) => {
-    
-    
+export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModal, setOpenPlanModal, plan }) => {
     const planDuration = [
         { type: "diario", timestamp: day.toString() },
         { type: "semanal", timestamp: (day * 7).toString() },
@@ -36,7 +35,7 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
             <form onSubmit={formik?.handleSubmit}>
                 <Box>
                     <Typography variant="body1" component="p" sx={{ fontSize: "1.5rem" }}>
-                        Adicionar Plano
+                        {plan ? "Editar Plano" : "Adicionar Plano"}
                     </Typography>
                 </Box>
                 <Box sx={{ gap: "1vw", width: "100%" }}>
@@ -87,7 +86,7 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                         Cancelar
                     </Button>
                     <Button type="submit" variant="contained" sx={{ flex: 1, borderRadius: "5vw" }}>
-                        Adicionar
+                        {plan ? "Salvar" : "Adicionar"}
                     </Button>
                 </Box>
             </form>

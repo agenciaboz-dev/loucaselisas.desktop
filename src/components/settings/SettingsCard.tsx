@@ -4,18 +4,29 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import placeholders from "../../tools/placeholders"
 import { Category } from "../../types/server/class/Category"
+import { Plan } from "../../types/server/class/Plan"
 
 interface SettingCardProps {
     category?: Category
     setCurrentCategory?: React.Dispatch<React.SetStateAction<Category>>
     image?: string
     name: string
-    plan?: boolean
+    plan?: Plan
+    setCurrentPlan?: React.Dispatch<React.SetStateAction<Plan>>
     openEditModal: React.Dispatch<React.SetStateAction<boolean>>
     removeItem?: () => void
 }
 
-export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentCategory, image, name, openEditModal, removeItem, plan = false }) => {
+export const SettingsCard: React.FC<SettingCardProps> = ({
+    category,
+    setCurrentCategory,
+    image,
+    name,
+    openEditModal,
+    removeItem,
+    plan,
+    setCurrentPlan,
+}) => {
     const [onHover, setOnHover] = useState(false)
 
     return (
@@ -37,6 +48,9 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
                                 onClick={() => {
                                     if (category && setCurrentCategory) {
                                         setCurrentCategory(category)
+                                    }
+                                    if (plan && setCurrentPlan) {
+                                        setCurrentPlan(plan)
                                     }
                                     openEditModal(true)
                                 }}
