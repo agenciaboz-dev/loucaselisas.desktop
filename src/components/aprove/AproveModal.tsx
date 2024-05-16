@@ -5,13 +5,13 @@ interface AproveModalProps {
     name: string
     type: "course" | "lesson"
     openAproveModal: boolean
-    setClose: React.Dispatch<React.SetStateAction<boolean>>
+    handleOpenAproveModal: () => void
     onConfirm: () => void
 }
 
-export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, setClose, onConfirm }) => {
+export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
     return (
-        <Modal open={openAproveModal} onClose={() => setClose(false)}>
+        <Modal open={openAproveModal} onClose={() => handleOpenAproveModal()}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
                 <Paper
                     sx={{
@@ -47,7 +47,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                             variant="outlined"
                             sx={{ borderRadius: "3vw" }}
                             onClick={() => {
-                                setClose(false)
+                                handleOpenAproveModal()
                             }}
                         >
                             Cancelar
@@ -57,7 +57,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                             variant="contained"
                             sx={{ borderRadius: "3vw" }}
                             onClick={() => {
-                                setClose(false)
+                                handleOpenAproveModal()
                                 onConfirm()
                             }}
                         >
