@@ -1,9 +1,7 @@
-import React, { useState } from "react"
-import { Avatar, Box, IconButton, MenuItem, Paper, Switch, Typography } from "@mui/material"
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
+import React from "react"
+import { Avatar, Box, MenuItem, Paper, Switch, Typography } from "@mui/material"
 import placeholders from "../../tools/placeholders"
-import { Category, CategoryForm } from "../../types/server/class/Category"
+import { Category } from "../../types/server/class/Category"
 import { Plan } from "../../types/server/class/Plan"
 import { api } from "../../api/api"
 
@@ -34,6 +32,18 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
         }
     }
 
+    const onChangePlanStatus = async (checked: boolean) => {
+        const data: Partial<Plan> = { active: checked ? true : false, id: plan?.id }
+
+        try {
+            console.log(data)
+            const response = await api.patch("/plan", data)
+            console.log({ Response: response.data })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Paper sx={{ width: 1, height: "3.5vw", position: "relative" }}>
             <MenuItem
@@ -58,7 +68,10 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
                 </Box>
             </MenuItem>
             <Box sx={{ position: "absolute", right: 0, height: 1, width: "fit-content", alignItems: "center" }}>
-                <Switch checked={category?.active} onChange={(_, checked) => (category ? onChangeCategoryStatus(checked) : () => {})} />
+                <Switch
+                    checked={category ? category?.active : plan?.active}
+                    onChange={(_, checked) => (category ? onChangeCategoryStatus(checked) : onChangePlanStatus(checked))}
+                />
             </Box>
         </Paper>
     )
