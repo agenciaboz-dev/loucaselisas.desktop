@@ -1,18 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box, Button, Modal, Paper, Typography } from "@mui/material"
-
 
 interface AproveModalProps {
     name: string
     type: "course" | "lesson"
     openAproveModal: boolean
-    handleOpenAproveModal: () => void
+    setClose: React.Dispatch<React.SetStateAction<boolean>>
     onConfirm: () => void
 }
 
-export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
+export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, setClose, onConfirm }) => {
     return (
-        <Modal open={openAproveModal} onClose={handleOpenAproveModal}>
+        <Modal open={openAproveModal} onClose={() => setClose(false)}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
                 <Paper
                     sx={{
@@ -43,10 +42,25 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                         Este conteúdo ficará disponível para todos os usuários cadastrados como estudantes. Deseja mesmo continuar?
                     </Typography>
                     <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
-                        <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenAproveModal}>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{ borderRadius: "3vw" }}
+                            onClick={() => {
+                                setClose(false)
+                            }}
+                        >
                             Cancelar
                         </Button>
-                        <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={onConfirm}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ borderRadius: "3vw" }}
+                            onClick={() => {
+                                setClose(false)
+                                onConfirm()
+                            }}
+                        >
                             Aprovar
                         </Button>
                     </Box>

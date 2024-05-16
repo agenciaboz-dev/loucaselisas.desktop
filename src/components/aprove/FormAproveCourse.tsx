@@ -29,9 +29,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const currencyMask = useCurrencyMask()
     const FormatedStatus = formatStatus(status)
     const required_message = "Campo obrigatório"
-    const positive_message = "O valor do curso deve ser positivo"
     const validateSchema = Yup.object().shape({
-        name: Yup.string().min(5).required(required_message),
+        price: Yup.string().min(3, required_message).required(required_message),
 
         plans: Yup.array().min(1, required_message),
 
@@ -92,11 +91,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
-
             try {
                 values.price = unmaskCurrency(values.price!)
                 const response = await api.patch("/course", values)
-                setOpenAproveModal(!openAproveModal)
                 onChangeStatus()
             } catch (error) {
                 console.log(error)
@@ -129,7 +126,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         const data: StatusForm = { id: id, status: "declined", declined_reason: reason }
         if (loading) return
         setLoading(true)
-
+        setOpenAproveModal(false)
         try {
             const response = await api.patch("/course", data)
             setOpenReproveModal(!openReproveModal)
@@ -202,7 +199,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
                                             Tipo de Plano
                                         </Typography>
-                                        <Typography sx={{ color: "secondary.contrastText" }}>Sugerido: Valor a parte </Typography>
                                     </Box>
                                     <TextField
                                         select
@@ -231,11 +227,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     </TextField>
                                 </Box>
                                 <Box sx={{ flexDirection: "column", flex: 1 }}>
-                                    <Box sx={{ justifyContent: "space-between" }}>
-                                        <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
-                                            Valor
-                                        </Typography>
-                                    </Box>
+                                    <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                                        Valor
+                                    </Typography>
                                     <TextField
                                         name="price"
                                         value={formik.values.price || ""}
@@ -246,23 +240,27 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     />
                                 </Box>
                             </Box>
-                            <TextField
-                                select
-                                name="roles"
-                                value={formik.values.roles}
-                                onChange={formik.handleChange}
-                                // helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
-                                label="Selecione o tipo de usuário"
-                                SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
-                                error={formik.touched.roles && Boolean(formik.errors.roles)}
-                                helperText={formik.touched.roles && formik.errors.roles}
-                            >
-                                {userTypes.map((type) => (
-                                    <MenuItem value={type.id} key={type.id}>
-                                        {type.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            <Box sx={{ flexDirection: "column", flex: 1 }}>
+                                <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
+                                    Tipo de Usuário
+                                </Typography>
+                                <TextField
+                                    select
+                                    name="roles"
+                                    value={formik.values.roles}
+                                    onChange={formik.handleChange}
+                                    // helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
+                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
+                                    error={formik.touched.roles && Boolean(formik.errors.roles)}
+                                    helperText={formik.touched.roles && formik.errors.roles}
+                                >
+                                    {userTypes.map((type) => (
+                                        <MenuItem value={type.id} key={type.id}>
+                                            {type.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Box>
                             <Box sx={{ justifyContent: "space-between" }}>
                                 <MenuItem sx={{ pl: 0 }}>
                                     <Typography variant="body1" component="p">
@@ -293,8 +291,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     name={name}
                                     type={type}
                                     openAproveModal={openAproveModal}
-                                    handleOpenAproveModal={handleOpenAproveModal}
                                     onConfirm={formik.handleSubmit}
+                                    setClose={setOpenAproveModal}
                                 />
                                 <ReproveModal
                                     name={name}
