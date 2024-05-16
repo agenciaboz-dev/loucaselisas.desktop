@@ -44,6 +44,35 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
         if (courses.length && active) {
             let filteredCourses: Course[] = []
 
+            // if (active == "aproved") {
+            //     const statusPriority = {
+            //         active: 1,
+            //         pending: 2,
+            //         declined: 3,
+            //         disabled: 4,
+            //     }
+
+            //     filteredCourses = courses.sort((a, b) => {
+            //         return statusPriority[a.status] - statusPriority[b.status]
+            //     })
+            // }
+
+            // if (active == "reproved") {
+            //     const statusPriority = {
+            //         pending: 1,
+            //         active: 2,
+            //         declined: 3,
+            //         disabled: 4,
+            //     }
+            //     filteredCourses = courses.sort((a, b) => {
+            //         return statusPriority[a.status] - statusPriority[b.status]
+            //     })
+            // }
+
+            // if (active == "reproved") {
+            //     filteredCourses.filter((course) => course.status.find((course) => course.status === "pending"))
+            // }
+
             if (active == "popular") {
                 filteredCourses = courses.sort((a, b) => b.views - a.views)
             }
@@ -71,8 +100,10 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             {...events}
             sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
         >
-            <FilterButton active={"popular" === active} content="Mais Vistos" onClickCategory={() => onClickCategory("popular")} />
             <FilterButton active={"recent" === active} content="Novos Cursos" onClickCategory={() => onClickCategory("recent")} />
+            <FilterButton active={"popular" === active} content="Mais Vistos" onClickCategory={() => onClickCategory("popular")} />
+            <FilterButton active={"reproved" === active} content="Reprovados" onClickCategory={() => onClickCategory("reproved")} />
+            <FilterButton active={"aproved" === active} content="Aprovados" onClickCategory={() => onClickCategory("aproved")} />
             {categories.map((category) => (
                 <FilterButton
                     loading={loading}
