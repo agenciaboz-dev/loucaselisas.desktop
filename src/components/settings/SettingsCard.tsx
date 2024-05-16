@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Avatar, Box, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, Box, IconButton, MenuItem, Paper, Switch, Typography } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import placeholders from "../../tools/placeholders"
@@ -17,49 +17,32 @@ interface SettingCardProps {
     removeItem?: () => void
 }
 
-export const SettingsCard: React.FC<SettingCardProps> = ({
-    category,
-    setCurrentCategory,
-    image,
-    name,
-    openEditModal,
-    removeItem,
-    plan,
-    setCurrentPlan,
-}) => {
-    const [onHover, setOnHover] = useState(false)
-
+export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentCategory, image, name, openEditModal, removeItem, plan, setCurrentPlan }) => {
     return (
-        <Paper onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
-            <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
-                    {!plan && <Avatar src={image || placeholders.square} sx={{ width: "2.5vw", height: "2.5vw" }} />}
-                    <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
-                        {name}
-                    </Typography>
+        <Paper sx={{ width: 1, height: "3.5vw", position: "relative" }}>
+            <MenuItem
+                onClick={() => {
+                    if (category && setCurrentCategory) {
+                        setCurrentCategory(category)
+                    }
+                    if (plan && setCurrentPlan) {
+                        setCurrentPlan(plan)
+                    }
+                    openEditModal(true)
+                }}
+                sx={{ padding: "0.5vw", width: 1 }}
+            >
+                <Box sx={{ flex: 1, width: 1, justifyContent: "space-between", alignItems: "center" }}>
+                    <Box sx={{ gap: "0.5vw", alignItems: "center" }}>
+                        {!plan && <Avatar src={image || placeholders.square} sx={{ width: "2.5vw", height: "2.5vw" }} />}
+                        <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
+                            {name}
+                        </Typography>
+                    </Box>
                 </Box>
-                <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}>
-                    {onHover && (
-                        <>
-                            <IconButton onClick={removeItem}>
-                                <DeleteIcon color="error" />
-                            </IconButton>
-                            <IconButton
-                                onClick={() => {
-                                    if (category && setCurrentCategory) {
-                                        setCurrentCategory(category)
-                                    }
-                                    if (plan && setCurrentPlan) {
-                                        setCurrentPlan(plan)
-                                    }
-                                    openEditModal(true)
-                                }}
-                            >
-                                <EditIcon color="primary" />
-                            </IconButton>
-                        </>
-                    )}
-                </Box>
+            </MenuItem>
+            <Box sx={{ position: "absolute", right: 0, height: 1, width: "fit-content", alignItems: "center" }}>
+                <Switch />
             </Box>
         </Paper>
     )
