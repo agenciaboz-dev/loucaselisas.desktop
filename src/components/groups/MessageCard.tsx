@@ -40,6 +40,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     alignItems: you ? "flex-end" : "",
                     marginTop: same_message_above ? -1.3 : "",
                     ml: "0.6vw",
+                    mr: "1vw",
                 }}
             >
                 {!same_message_above && (
@@ -57,10 +58,10 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     sx={{
                         width: "fit-content",
                         padding: "0.8vw",
-                        borderRadius: "0.8vw",
+                        borderRadius: "1vw",
                         maxWidth: "fit-content",
                         bgcolor: you ? "" : "",
-                        borderBottomRightRadius: you && !same_message_bellow ? "0" : "0.8vw",
+                        borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
                     }}
                 >
                     <p>{message.text}</p>

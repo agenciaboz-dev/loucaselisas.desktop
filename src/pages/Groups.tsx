@@ -7,12 +7,8 @@ import { SearchBar } from "../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
 import { GroupCard } from "../components/groups/GroupCard"
 import { api } from "../api/api"
-import { Message as MessageYup } from "yup"
 import { Chat } from "./Chat"
-import { Socket, io } from "socket.io-client"
-import { url } from "../api/backend"
-import { Message, MessageForm } from "../types/server/class/Chat/Message"
-import { Chat as ChatClass } from "../types/server/class/Chat/Chat"
+import { Message } from "../types/server/class/Chat/Message"
 import { useUser } from "../hooks/useUser"
 
 interface GroupsProps {}
@@ -222,7 +218,6 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                     </Box>
                 </Box>
             </Box>
-            {/* {expandedChat && <Chat setExpanded={setExpanded} course={course} messages={messages} refreshing={refreshing} />} */}
             {user && expandedChat && <Chat setExpanded={setExpanded} course={course} user={user} />}
         </Box>
     )
