@@ -85,7 +85,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: filteredCourses ? "59.3vh" : "61.3vh",
+                            height: filteredCourses.length === 0 ? "59.3vh" : "61.3vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",

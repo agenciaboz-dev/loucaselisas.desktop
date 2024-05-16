@@ -72,7 +72,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: filteredLessons ? "65vh" : "67vh",
+                            height: filteredLessons.length === 0 ? "65vh" : "67vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",
