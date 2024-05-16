@@ -54,24 +54,23 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     const [refreshing, setRefreshing] = useState(true)
 
     const socket = useRef<Socket | null>(null)
-
+    const containerRef = useRef<HTMLDivElement>(null)
     const [text, setText] = useState("")
     const listMessages = messages.sort((a, b) => Number(a.datetime) - Number(b.datetime))
 
     const onSubmitText = () => {
         if (!chatCourse || !socket.current || !user || !text) return
-        if (chatCourse) {
-            const data: MessageForm = {
-                chat_id: chatCourse.id,
-                user_id: user.id,
-                text,
-                video_id: null,
-                video_timestamp: null,
-            }
 
-            socket.current?.emit("chat:message", data)
-            setText("")
+        const data: MessageForm = {
+            chat_id: chatCourse.id,
+            user_id: user.id,
+            text,
+            video_id: null,
+            video_timestamp: null,
         }
+
+        socket.current?.emit("chat:message", data)
+        setText("")
     }
 
     const addMessage = (message: Message) => {
@@ -90,7 +89,6 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
 
         socket.current.on("chat:join", (data: Message[]) => {
             console.log("joined chat!")
-            // console.log({ OQUECHEGA: data })
             setMessages(data)
             setTimeout(() => {
                 setRefreshing(false)
@@ -117,16 +115,18 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     const socketConnect = () => {
         socket.current = io(`ws${url}`)
         listenToEvents()
-
         console.log({ COURSE: course?.chat?.id, CHATE: chatCourse?.id })
         if (chatCourse) socket.current.emit("chat:join", course?.chat?.id)
     }
 
     useEffect(() => {
-        if (course) setChatCourse(course.chat as ChatClass | undefined)
+        if (course) {
+            setChatCourse(course.chat as ChatClass | undefined)
+            socketConnect()
+        }
         // useCallback(() => {
 
-        socketConnect()
+        // if (chatCourse) socketConnect()
         return () => {
             unListenEvents()
             socket.current?.disconnect()
@@ -134,6 +134,15 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
         // }, [])
     }, [course])
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === "Enter") {
+            event.preventDefault()
+            onSubmitText()
+        }
+    }
+    useEffect(() => {
+        containerRef.current?.scrollBy({ top: messages.length * 3954980, behavior: "smooth" })
+    }, [messages])
     return (
         <Box sx={{ width: "66.5%", maxHeight: "98%", bgcolor: "#E8E8E8", borderRadius: "0.5vw", p: "1vw" }}>
             <Box sx={{ position: "absolute", left: "44.5vw", top: "7.5vw", alignItems: "center", gap: "1vw" }}>
@@ -153,10 +162,26 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
                 <TextField
                     placeholder="Envie uma mensagem "
                     sx={input_style}
-                    InputProps={{ endAdornment: <MdArrowForwardIos size={"1vw"} color="black" /> }}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    InputProps={{
+                        endAdornment: (
+                            <MdArrowForwardIos
+                                type="submit"
+                                size={"1vw"}
+                                color="black"
+                                onClick={onSubmitText}
+                                style={{ cursor: "pointer" }}
+                            />
+                        ),
+                    }}
                     fullWidth
                 />
-                <Box sx={{ width: 1, height: "30vw", flexDirection: "column", gap: "1vw", overflowY: "auto", pb: "1vw" }}>
+                <Box
+                    ref={containerRef}
+                    sx={{ width: 1, height: "30vw", flexDirection: "column", gap: "1vw", overflowY: "auto", pb: "1vw" }}
+                >
                     {course &&
                         messages
                             .sort((a, b) => Number(a.datetime) - Number(b.datetime))
