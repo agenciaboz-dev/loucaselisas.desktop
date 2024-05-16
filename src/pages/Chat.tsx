@@ -49,7 +49,7 @@ const input_style = {
 }
 
 export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
-    const [chatCourse, setChatCourse] = useState<ChatClass | undefined>(undefined)
+    const chatCourse = course?.chat
     const [messages, setMessages] = useState<Message[]>([])
     const [refreshing, setRefreshing] = useState(true)
 
@@ -120,8 +120,8 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     }
 
     useEffect(() => {
+        console.log("BLABLABLABLABLABLA")
         if (course) {
-            setChatCourse(course.chat as ChatClass | undefined)
             socketConnect()
         }
         // useCallback(() => {
@@ -132,7 +132,7 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
             socket.current?.disconnect()
         }
         // }, [])
-    }, [course])
+    }, [course, chatCourse])
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === "Enter") {

@@ -32,7 +32,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
         !refreshing ? (
             <Box
                 sx={{
-                    width: "50%",
+                    width: "70%",
                     height: "fit-content",
                     flexDirection: "column",
                     gap: "2vw",
