@@ -62,7 +62,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         setActive(currentFilter)
     }, [courses])
 
-    const [lastMessages, setLastMessages] = useState<{ [key: string]: any | null }>({})
+    const [lastMessages, setLastMessages] = useState<{ [key: string]: Message | null }>({})
 
     const fetchMessages = async (courses: Course[]) => {
         try {
@@ -91,8 +91,8 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
 
                 const messageMatches =
                     (lastMessages[course.id] && lastMessages[course.id]?.text.toLowerCase().includes(lowerCaseValue)) ||
-                    lastMessages[course.id]?.user.name.toLowerCase().includes(lowerCaseValue) ||
-                    lastMessages[course.id]?.user.username.toLowerCase().includes(lowerCaseValue)
+                    lastMessages[course.id]?.user?.name.toLowerCase().includes(lowerCaseValue) ||
+                    lastMessages[course.id]?.user?.username.toLowerCase().includes(lowerCaseValue)
 
                 return courseMatches || messageMatches
             })
@@ -204,15 +204,20 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                           </Paper>
                                       </Grid>
                                   ))
-                                : filteredCourses.map((course) => (
-                                      <GroupCard
-                                          setCourse={setCourse}
-                                          course={course}
-                                          key={course.id}
-                                          setExpanded={setExpanded}
-                                          expandedChat={expandedChat}
-                                      />
-                                  ))}
+                                : filteredCourses
+                                      .sort(
+                                          (a, b) =>
+                                              Number(lastMessages[b.id]?.datetime) - Number(lastMessages[a.id]?.datetime)
+                                      )
+                                      .map((course) => (
+                                          <GroupCard
+                                              setCourse={setCourse}
+                                              course={course}
+                                              key={course.id}
+                                              setExpanded={setExpanded}
+                                              expandedChat={expandedChat}
+                                          />
+                                      ))}
                         </Grid>
                     </Box>
                 </Box>
