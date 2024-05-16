@@ -25,13 +25,14 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     const [loading, setLoading] = useState(false)
     const [categories, setCategorys] = useState<Category[]>([])
+    const [currentCategory, setCurrentCategory] = useState<Category | undefined>(undefined)
     const [plans, setPlans] = useState<Plan[]>([])
     const [imageSource, setImageSource] = useState<File>()
     const [openCategoryModal, setOpenCategoryModal] = useState(false)
     const [openPlanModal, setOpenPlanModal] = useState(false)
 
     const formikPlans = useFormik<PlanForm>({
-        initialValues: { name: "", description: "", duration: "", price: 0 },
+        initialValues: { name: "", description: "", duration: "", price: 0, active: true },
         onSubmit: async () => {
             if (loading) return
             setLoading(true)
@@ -51,7 +52,10 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     })
 
     const formikCategories = useFormik<CategoryForm>({
-        initialValues: { name: "", cover: undefined },
+        initialValues: currentCategory ? { ...currentCategory, cover: undefined } : { name: "", cover: undefined, active: true },
+        // initialValues: currentCategory ? { name: currentCategory.name, cover: currentCategory.cover || undefined  } : { name: "", cover: undefined },
+        // initialValues: { name: currentCategory?.name || "", cover: currentCategory?.cover || undefined },
+        // initialValues: { name: "", cover: undefined },
 
         validationSchema: categorySchema,
 
@@ -66,7 +70,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
                 if (imageSource) formData.append("file", imageSource)
 
-                const response = await api.post("/category", formData)
+                const response = currentCategory ? await api.patch("/category", formData) : await api.post("/category", formData)
                 console.log(response.data)
                 setOpenCategoryModal(!openCategoryModal)
                 fetchCategories()
@@ -78,6 +82,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 }, 500)
             }
         },
+        enableReinitialize: true,
     })
 
     const fetchCategories = async () => {
@@ -117,6 +122,13 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
         fetchPlans()
         fetchCategories()
     }, [])
+
+    useEffect(() => {
+        if (openCategoryModal == false) {
+            setCurrentCategory(undefined)
+            setImageSource(undefined)
+        }
+    }, [openCategoryModal])
 
     return (
         <Box sx={{ flexDirection: "column", flex: 1 }}>
@@ -162,6 +174,8 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 : categories.map((category) => (
                                       <SettingsCard
                                           key={category.id}
+                                          category={category}
+                                          setCurrentCategory={setCurrentCategory}
                                           image={category.cover}
                                           name={category.name}
                                           openEditModal={setOpenCategoryModal}
@@ -174,6 +188,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                             setImageSource={setImageSource}
                             openModal={openCategoryModal}
                             setOpenModal={setOpenCategoryModal}
+                            category={currentCategory}
                         />
                     </Box>
                 </Grid>
