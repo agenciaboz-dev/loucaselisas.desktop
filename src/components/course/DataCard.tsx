@@ -18,9 +18,10 @@ interface DataCardProps {
 
 export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus, routerParam }) => {
     const navigate = useNavigate()
-    const FormatedStatus = formatStatus(lesson.status)
 
     const [loading, setLoading] = useState(false)
+    const [thisLesson, setThisLesson] = useState(lesson)
+    const FormatedStatus = formatStatus(thisLesson.status)
 
     const onChangeStatus = async (checked: boolean) => {
         const data: StatusForm = { id: lesson.id, status: checked ? "active" : "pending" }
@@ -29,6 +30,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
 
         try {
             const response = await api.patch("/lesson", data)
+            setThisLesson(response.data)
             refreshStatus()
         } catch (error) {
             console.log(error)
@@ -47,8 +49,10 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                     <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                 </Box>
 
-                {lesson.status !== "declined" && <Switch checked={lesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />}
-                {/* {lesson.status && <Switch checked={lesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />} */}
+                {thisLesson.status !== "declined" && (
+                    <Switch checked={thisLesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />
+                )}
+                {/* {thisLesson.status && <Switch checked={thisLesson.status === "active"} onChange={(_, checked) => onChangeStatus(checked)} />} */}
             </Box>
             <MenuItem
                 sx={{ flex: 1, maxHeight: "5vw", padding: 0, flexDirection: "column" }}
@@ -62,13 +66,13 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                 <Box sx={{ gap: "1vw" }}>
                     <Avatar
                         variant="rounded"
-                        src={lesson.thumb || placeholders.square}
+                        src={thisLesson.thumb || placeholders.square}
                         alt="Capa do curso"
                         sx={{ width: "5vw", height: "5vw", objectFit: "cover", borderRadius: "1vw" }}
                     />
                     <Box sx={{ justifyContent: "space-between", flexDirection: "column" }}>
                         <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1rem" }}>
-                            {lesson.name}
+                            {thisLesson.name}
                         </Typography>
                         <Typography
                             variant="body1"
@@ -83,7 +87,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                                 WebkitBoxOrient: "vertical",
                             }}
                         >
-                            {lesson.info}
+                            {thisLesson.info}
                         </Typography>
                         <Box sx={{ gap: "1vw", alignItems: "center" }}>
                             <LinearProgress variant="determinate" value={65} sx={{ flex: 1 }} />
