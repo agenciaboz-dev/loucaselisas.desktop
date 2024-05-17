@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Button, Divider, Paper, Switch, Typography } from "@mui/material"
 import { useFormik } from "formik"
 import { StatusForm } from "../../types/statusForm"
@@ -32,7 +32,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
     const formik = useFormik<StatusForm>({
         initialValues: {
             id: id,
-            status: "active",
+            status: status,
         },
         onSubmit: async (values) => {
             if (loading) return
@@ -90,6 +90,10 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             }, 300)
         }
     }
+
+    useEffect(() => {
+        setCurrentLesson(lesson)
+    }, [lesson])
 
     return (
         <Box sx={{}}>

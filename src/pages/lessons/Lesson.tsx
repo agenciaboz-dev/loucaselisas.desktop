@@ -21,7 +21,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
-    const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
+    // const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
 
     const fetchLesson = async () => {
         if (loading || !lesson) return
@@ -147,16 +147,19 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                         >
                             {course &&
                                 lesson &&
-                                otherLessons.map((lesson) => (
-                                    <DataCard
-                                        key={lesson.id}
-                                        lesson={lesson}
-                                        refreshStatus={fetchLessons}
-                                        // refreshLesson={fetchLesson}
-                                        link={`/licoes/${slugify(lesson.name)}`}
-                                        routerParam={{ lesson, course }}
-                                    />
-                                ))}
+                                lessons
+                                    .filter((item) => item.id !== lesson?.id)
+                                    .sort((a, b) => Number(a.published) - Number(b.published))
+                                    .map((lesson) => (
+                                        <DataCard
+                                            key={lesson.id}
+                                            lesson={lesson}
+                                            refreshStatus={fetchLessons}
+                                            // refreshLesson={fetchLesson}
+                                            link={`/licoes/${slugify(lesson.name)}`}
+                                            routerParam={{ lesson, course }}
+                                        />
+                                    ))}
                         </Box>
                     </Box>
                 </Grid>
