@@ -43,7 +43,13 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
     }
 
     const handleSearch = (value: string) => {
-        setFilteredLessons(lessons.filter((lesson) => lesson.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
+        setFilteredLessons(
+            lessons.filter(
+                (lesson) =>
+                    lesson.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+                    lesson.course.name.toLowerCase().includes(value.toLowerCase())
+            )
+        )
     }
 
     useEffect(() => {
@@ -51,7 +57,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
     }, [])
 
     useEffect(() => {
-        setFilteredLessons(lessons)
+        setFilteredLessons(lessons.sort((a, b) => Number(b.published) - Number(a.published)))
     }, [lessons])
 
     return (

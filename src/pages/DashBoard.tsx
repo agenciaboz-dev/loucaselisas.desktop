@@ -18,7 +18,7 @@ export const DashBoard: React.FC = ({}) => {
         }
 
         setTimeout(() => {
-            setCourses(courses)
+            setCourses(courses.sort((a, b) => Number(b.published) - Number(a.published)))
         }, 300)
     }
 
