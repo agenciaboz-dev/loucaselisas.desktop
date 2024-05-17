@@ -27,8 +27,8 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, con
                         variant={active ? "contained" : "outlined"}
                         onClick={() => onClickFilter()}
                         sx={{
-                            minWidth: "10vw",
-                            width: "10vw",
+                            minWidth: "9.98vw",
+                            width: "9.98vw",
                             borderRadius: "2vw",
                             paddingX: "0.5vw",
                         }}
