@@ -20,7 +20,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
     const [lessons, setLessons] = useState<Lesson[]>([])
     const [active, setActive] = useState<string>("recent")
     const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(lessons)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     const getLessons = async () => {
         setLoading(true)
@@ -82,7 +82,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        {filteredLessons.length === 0 ? (
+                        {filteredLessons.length === 0 && !loading ? (
                             <>
                                 <NoFeaturedContent />
                             </>

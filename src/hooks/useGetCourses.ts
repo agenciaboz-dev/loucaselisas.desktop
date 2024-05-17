@@ -3,7 +3,7 @@ import { api } from "../api/api"
 import { Course } from "../types/server/class/Course"
 
 export const useGetCourses = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const getCourses = async () => {
         let courses: Course[] | undefined

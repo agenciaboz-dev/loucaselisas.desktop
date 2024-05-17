@@ -12,7 +12,7 @@ interface UsersProps {}
 
 export const Users: React.FC<UsersProps> = ({}) => {
     const skeletonUserCards: number[] = new Array(20).fill(0).map((_, index) => index)
-    const [loading, setloading] = useState<boolean>(false)
+    const [loading, setloading] = useState<boolean>(true)
     const [users, setUsers] = useState<User[]>([])
     const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
 
@@ -76,7 +76,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
                             flexDirection: "column",
                         }}
                     >
-                        {filteredUsers.length === 0 ? (
+                        {filteredUsers.length === 0 && !loading ? (
                             <>
                                 <NoFeaturedContent />
                             </>
