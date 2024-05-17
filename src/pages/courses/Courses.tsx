@@ -13,7 +13,7 @@ import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 interface CourrsesProps {}
 
 export const Courses: React.FC<CourrsesProps> = ({}) => {
-    const [active, setActive] = useState("popular")
+    const [active, setActive] = useState("recent")
     const [courses, setCourses] = useState<Course[]>([])
     const { getCourses, loading } = useGetCourses()
     const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
@@ -79,7 +79,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                         pt: "0.2vw",
                     }}
                 >
-                    <FilterCourses courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} />
+                    <FilterCourses courses={courses} active={active} onFilter={onFilteredCourses} setActive={setActive} optionalFilters />
                     <SearchBar handleSearch={(value) => handleSearch(value)} />
                     <Box
                         ref={ref}

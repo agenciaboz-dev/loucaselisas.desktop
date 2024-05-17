@@ -17,7 +17,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
     const skeletonCourse = new Array(20).fill(`course`)
 
     const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
-    const [active, setActive] = useState("popular")
+    const [active, setActive] = useState("recent")
     const [skeletonLoading, setSkeletonLoading] = useState(loading)
 
     const onFilteredCourses = (filtered_courses: Course[]) => {
