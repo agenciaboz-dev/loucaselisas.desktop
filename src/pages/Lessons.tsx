@@ -8,19 +8,19 @@ import { useDraggable } from "react-use-draggable-scroll"
 import { DataCard } from "../components/courses/DataCard"
 import { slugify } from "../tools/urlMask"
 import { NoFeaturedContent } from "../components/dashboard/NoFeaturedContent"
+import { FilterLessons } from "../components/pageLayout/FilterLessons"
 
 interface LessonsProps {}
 
 export const Lessons: React.FC<LessonsProps> = ({}) => {
-    const [loading, setLoading] = useState<boolean>(false)
     const skeletonLessons: number[] = new Array(20).fill(0).map((_, index) => index)
-
-    const [lessons, setLessons] = useState<Lesson[]>([])
-    const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(lessons)
-    // const [active, setActive] = useState<string>("aprovados")
-
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
+
+    const [lessons, setLessons] = useState<Lesson[]>([])
+    const [active, setActive] = useState<string>("aproved")
+    const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(lessons)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const getLessons = async () => {
         setLoading(true)
@@ -34,26 +34,25 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
         }
     }
 
-    useEffect(() => {
-        getLessons()
-    }, [])
+    const onFilteredLessons = (filteredLessons: Lesson[]) => {
+        setLoading(true)
+        setTimeout(() => {
+            setFilteredLessons(filteredLessons)
+            setLoading(false)
+        }, 200)
+    }
 
     const handleSearch = (value: string) => {
         setFilteredLessons(lessons.filter((lesson) => lesson.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
     }
 
     useEffect(() => {
+        getLessons()
+    }, [])
+
+    useEffect(() => {
         setFilteredLessons(lessons)
     }, [lessons])
-
-    // const onFilteredLessons = (filteredLessons: Lesson[]) => {
-    //     setLoading(true)
-
-    //     setTimeout(() => {
-    //         setFilteredLessons(filteredLessons)
-    //         setLoading(false)
-    //     }, 200)
-    // }
 
     return (
         <>
@@ -67,6 +66,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                         pt: "0.2vw",
                     }}
                 >
+                    <FilterLessons active={active} lessons={lessons} onFilter={onFilteredLessons} setActive={setActive} />
                     <SearchBar handleSearch={(value) => handleSearch(value)} />
                     <Box
                         ref={ref}
