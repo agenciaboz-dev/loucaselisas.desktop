@@ -21,7 +21,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
-    const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => (Number(b.published) - Number(a.published)) * -1)
+    const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
 
     const fetchLesson = async () => {
         if (loading || !lesson) return
