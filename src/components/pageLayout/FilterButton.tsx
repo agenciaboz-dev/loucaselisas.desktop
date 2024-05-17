@@ -4,11 +4,11 @@ import React from "react"
 interface FilterButtonProps {
     active?: boolean
     content: string
-    onClickCategory: () => void
+    onClickFilter: () => void
     loading?: boolean
 }
 
-export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, content, onClickCategory }) => {
+export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, content, onClickFilter }) => {
     return (
         <>
             {loading ? (
@@ -25,7 +25,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, con
                 <>
                     <Button
                         variant={active ? "contained" : "outlined"}
-                        onClick={() => onClickCategory()}
+                        onClick={() => onClickFilter()}
                         sx={{
                             minWidth: "10vw",
                             width: "10vw",

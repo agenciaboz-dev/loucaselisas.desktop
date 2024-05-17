@@ -84,13 +84,13 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             {...events}
             sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
         >
-            <FilterButton active={"recent" === active} content="Novos Cursos" onClickCategory={() => onClickCategory("recent")} />
-            <FilterButton active={"popular" === active} content="Mais Vistos" onClickCategory={() => onClickCategory("popular")} />
+            <FilterButton active={"recent" === active} content="Novos Cursos" onClickFilter={() => onClickCategory("recent")} />
+            <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickCategory("popular")} />
             {optionalFilters && (
                 <>
-                    <FilterButton active={"pending" === active} content="Em Análise" onClickCategory={() => onClickCategory("pending")} />
-                    <FilterButton active={"aproved" === active} content="Aprovados" onClickCategory={() => onClickCategory("aproved")} />
-                    <FilterButton active={"reproved" === active} content="Recusados" onClickCategory={() => onClickCategory("reproved")} />
+                    <FilterButton active={"pending" === active} content="Em Análise" onClickFilter={() => onClickCategory("pending")} />
+                    <FilterButton active={"aproved" === active} content="Aprovados" onClickFilter={() => onClickCategory("aproved")} />
+                    <FilterButton active={"reproved" === active} content="Recusados" onClickFilter={() => onClickCategory("reproved")} />
                 </>
             )}
             {categories.map((category) => (
@@ -99,7 +99,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
                     key={category.id}
                     active={category.id == active}
                     content={category.name}
-                    onClickCategory={() => onClickCategory(category.id)}
+                    onClickFilter={() => onClickCategory(category.id)}
                 />
             ))}
         </Box>
