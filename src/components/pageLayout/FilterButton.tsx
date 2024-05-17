@@ -1,4 +1,4 @@
-import { Box, Button, Skeleton, Typography } from "@mui/material"
+import { Box, Button, Skeleton } from "@mui/material"
 import React from "react"
 
 interface FilterButtonProps {
