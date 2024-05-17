@@ -13,15 +13,17 @@ import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 interface CourrsesProps {}
 
 export const Courses: React.FC<CourrsesProps> = ({}) => {
-    const [active, setActive] = useState("recent")
-    const [courses, setCourses] = useState<Course[]>([])
-    const { getCourses, loading } = useGetCourses()
-    const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
     const skeletonCourse: string[] = new Array(20).fill(`course`)
-    const [skeletonLoading, setSkeletonLoading] = useState<boolean>(loading)
-
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
+
+    const { getCourses, loading } = useGetCourses()
+
+    const [courses, setCourses] = useState<Course[]>([])
+    const [active, setActive] = useState("recent")
+    const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
+    const [skeletonLoading, setSkeletonLoading] = useState<boolean>(loading)
+
 
     const fetchCourses = async () => {
         const courses = await getCourses()
