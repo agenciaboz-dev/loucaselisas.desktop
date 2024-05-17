@@ -57,10 +57,8 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
             <MenuItem
                 sx={{ flex: 1, maxHeight: "5vw", padding: 0, flexDirection: "column" }}
                 onClick={() => {
-                    // {
-                    //     refreshLesson && refreshLesson()
-                    // }
                     navigate(link, { state: { data: routerParam } })
+                    // console.log(link, { state: { data: routerParam } })
                 }}
             >
                 <Box sx={{ gap: "1vw" }}>

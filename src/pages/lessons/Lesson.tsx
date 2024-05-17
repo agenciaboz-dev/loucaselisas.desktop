@@ -15,13 +15,13 @@ import placeholders from "../../tools/placeholders"
 interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
-    const [lesson, setLesson] = useState(useLocation().state.data.lesson as Lesson | undefined)
-    const [course, setCourse] = useState(useLocation().state.data.course as Course | undefined)
+    const locationState = useLocation().state
+    const [lesson, setLesson] = useState(locationState.data.lesson as Lesson | undefined)
+    const [course, setCourse] = useState(locationState.data.course as Course | undefined)
     const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
-
-    console.log(lesson)
+    const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => (Number(b.published) - Number(a.published)) * -1)
 
     const fetchLesson = async () => {
         if (loading || !lesson) return
@@ -76,12 +76,16 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     }
 
     useEffect(() => {
+        setLesson(locationState.data.lesson)
+    }, [locationState])
+
+    useEffect(() => {
         fetchLessons()
-    }, [])
+        setMedia({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
+    }, [lesson])
 
     // const [showCarrosel, setShowCarrosel] = useState(false)
 
-    const otherLessons = lessons.filter((item) => item.id !== lesson?.id)
     return (
         <Box sx={{ flexDirection: "column", gap: "1vw" }}>
             <HeaderInfo title={`Lição: ${lesson?.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
