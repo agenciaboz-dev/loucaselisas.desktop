@@ -9,7 +9,7 @@ interface CoursersThumbProps {
 }
 
 export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
-    const numAulas = course.lessons || 9999
+    const numAulas = course.lessons
     const navigate = useNavigate()
     return (
         <Paper
@@ -51,7 +51,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                     {course.name}
                 </Typography>
                 <Typography variant="body2" component="p" fontSize="0.8rem">
-                    {numAulas} Videos
+                    {numAulas} Lições
                 </Typography>
             </Box>
         </Paper>

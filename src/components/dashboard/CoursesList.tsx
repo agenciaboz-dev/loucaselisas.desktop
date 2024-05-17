@@ -44,7 +44,7 @@ export const CoursesList: React.FC<CoursesListProps> = ({ course }) => {
                         {course.description}
                     </Typography>
                     <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem" }}>
-                        {course.lessons || 5999} Aulas
+                        {course.lessons} Lições
                     </Typography>
                 </Box>
             </Box>
