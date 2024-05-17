@@ -15,10 +15,10 @@ interface FilterCoursesProps {
 }
 
 export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses, active, setActive, optionalFilters = false }) => {
-    const [categories, setCategories] = useState<Category[]>([])
-    const [loading, setLoading] = useState(false)
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
+    const [categories, setCategories] = useState<Category[]>([])
+    const [loading, setLoading] = useState(false)
 
     const getCategories = async () => {
         if (loading) return
