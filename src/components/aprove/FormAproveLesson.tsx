@@ -7,25 +7,27 @@ import { AproveModal } from "./AproveModal"
 import { ReproveModal } from "./ReproveModal"
 import { Status } from "../../types/server/class/Course"
 import { formatStatus } from "../../tools/formatStatus"
+import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface FormAproveLessonProps {
+    lesson: Lesson
     id: string
     name: string
     type: "course" | "lesson"
     status: Status
-    onChangeStatus: () => Promise<void>
 }
 
-export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, type, status, onChangeStatus }) => {
+export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, name, type, status }) => {
     const [loading, setLoading] = useState(false)
 
+    const [currentLesson, setCurrentLesson] = useState<Lesson>(lesson)
     const [openAproveModal, setopenAproveModal] = useState(false)
     const [openReproveModal, setOpenReproveModal] = useState(false)
 
     const handleOpenAproveModal = () => setopenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
 
-    const FormatedStatus = formatStatus(status)
+    const FormatedStatus = formatStatus(currentLesson.status)
 
     const formik = useFormik<StatusForm>({
         initialValues: {
@@ -38,8 +40,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
             try {
                 const response = await api.patch("/lesson", values)
-                setopenAproveModal(!setopenAproveModal)
-                onChangeStatus()
+                console.log(response.data)
+                setCurrentLesson(response.data)
+                handleOpenAproveModal()
             } catch (error) {
                 console.log(error)
             } finally {
@@ -48,6 +51,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                 }, 300)
             }
         },
+        enableReinitialize: true,
     })
 
     const onReprove = async (reason: string) => {
@@ -57,8 +61,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
         try {
             const response = await api.patch("/lesson", data)
-            setOpenReproveModal(!openReproveModal)
-            onChangeStatus()
+            setCurrentLesson(response.data)
+            console.log(response.data)
+            handleopenReproveModal()
         } catch (error) {
             console.log(error)
         } finally {
@@ -75,7 +80,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
 
         try {
             const response = await api.patch("/lesson", data)
-            onChangeStatus()
+            setCurrentLesson(response.data)
+            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -95,10 +101,10 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ id, name, ty
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
 
-                        {status !== "declined" && <Switch checked={status === "active"} onChange={() => onDisabled()} />}
+                        {currentLesson.status !== "declined" && <Switch checked={currentLesson.status === "active"} onChange={() => onDisabled()} />}
                     </Box>
-                    {status == "pending" && <Divider />}
-                    {status === "pending" && (
+                    {currentLesson.status == "pending" && <Divider />}
+                    {currentLesson.status === "pending" && (
                         <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                             <>
                                 <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
