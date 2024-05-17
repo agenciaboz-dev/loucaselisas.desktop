@@ -33,7 +33,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
         }
     }
 
-    const onClickCategory = (id: string) => {
+    const onClickFilter = (id: string) => {
         setActive(id)
     }
 
@@ -73,7 +73,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
                     .sort((a, b) => b.views - a.views)
             }
 
-            filteredCourses = filteredCourses.slice(0, 10)
+            // filteredCourses = filteredCourses.slice(0, 10)
             onFilter(filteredCourses)
         }
     }, [active])
@@ -84,13 +84,13 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             {...events}
             sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
         >
-            <FilterButton active={"recent" === active} content="Novos Cursos" onClickFilter={() => onClickCategory("recent")} />
-            <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickCategory("popular")} />
+            <FilterButton active={"recent" === active} content="Novos Cursos" onClickFilter={() => onClickFilter("recent")} />
+            <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("popular")} />
             {optionalFilters && (
                 <>
-                    <FilterButton active={"pending" === active} content="Em Análise" onClickFilter={() => onClickCategory("pending")} />
-                    <FilterButton active={"aproved" === active} content="Aprovados" onClickFilter={() => onClickCategory("aproved")} />
-                    <FilterButton active={"reproved" === active} content="Recusados" onClickFilter={() => onClickCategory("reproved")} />
+                    <FilterButton active={"pending" === active} content="Em Análise" onClickFilter={() => onClickFilter("pending")} />
+                    <FilterButton active={"aproved" === active} content="Aprovados" onClickFilter={() => onClickFilter("aproved")} />
+                    <FilterButton active={"reproved" === active} content="Recusados" onClickFilter={() => onClickFilter("reproved")} />
                 </>
             )}
             {categories.map((category) => (
@@ -99,7 +99,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
                     key={category.id}
                     active={category.id == active}
                     content={category.name}
-                    onClickFilter={() => onClickCategory(category.id)}
+                    onClickFilter={() => onClickFilter(category.id)}
                 />
             ))}
         </Box>
