@@ -31,7 +31,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
             const response = await api.get("/lesson", { params: { lesson_id: lesson.id } })
             const data = response.data as Lesson
             setLesson(data)
-            setMedia({url: data.media.url, type:data.media.type})
+            setMedia({ url: data.media.url, type: data.media.type })
         } catch (error) {
             console.log(error)
         } finally {
@@ -81,6 +81,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
 
     // const [showCarrosel, setShowCarrosel] = useState(false)
 
+    const otherLessons = lessons.filter((item) => item.id !== lesson?.id)
     return (
         <Box sx={{ flexDirection: "column", gap: "1vw" }}>
             <HeaderInfo title={`Lição: ${lesson?.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
@@ -142,7 +143,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                         >
                             {course &&
                                 lesson &&
-                                lessons.map((lesson) => (
+                                otherLessons.map((lesson) => (
                                     <DataCard
                                         key={lesson.id}
                                         lesson={lesson}
