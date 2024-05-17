@@ -18,7 +18,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
 
     const [lessons, setLessons] = useState<Lesson[]>([])
-    const [active, setActive] = useState<string>("aproved")
+    const [active, setActive] = useState<string>("recent")
     const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(lessons)
     const [loading, setLoading] = useState<boolean>(false)
 
