@@ -71,13 +71,13 @@ export const FilterLessons: React.FC<FilterLessonsProps> = ({ onFilter, lessons,
             {...events}
             sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
         >
-            <FilterButton active={"recent" === active} content="Novos Cursos" onClickFilter={() => onClickFilter("recent")} />
-            <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("popular")} />
-            <FilterButton active={"favorites" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("favorites")} />
-            <FilterButton active={"mostDownloaded" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("mostDownloaded")} />
+            <FilterButton active={"recent" === active} content="Novas Lições" onClickFilter={() => onClickFilter("recent")} />
+            <FilterButton active={"popular" === active} content="Mais Vistas" onClickFilter={() => onClickFilter("popular")} />
+            <FilterButton active={"favorites" === active} content="Mais Curtidas" onClickFilter={() => onClickFilter("favorites")} />
+            <FilterButton active={"mostDownloaded" === active} content="Mais Baixadas" onClickFilter={() => onClickFilter("mostDownloaded")} />
             <FilterButton active={"pending" === active} content="Em Análise" onClickFilter={() => onClickFilter("pending")} />
-            <FilterButton active={"aproved" === active} content="Aprovados" onClickFilter={() => onClickFilter("aproved")} />
-            <FilterButton active={"reproved" === active} content="Recusados" onClickFilter={() => onClickFilter("reproved")} />
+            <FilterButton active={"aproved" === active} content="Aprovadas" onClickFilter={() => onClickFilter("aproved")} />
+            <FilterButton active={"reproved" === active} content="Recusadas" onClickFilter={() => onClickFilter("reproved")} />
         </Box>
     )
 }
