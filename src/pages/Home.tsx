@@ -64,7 +64,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
                             src={destaque}
                             sx={{
                                 width: 1,
-                                height: 1,
+                                height: "auto",
                                 objectFit: "fill",
                             }}
                         />
