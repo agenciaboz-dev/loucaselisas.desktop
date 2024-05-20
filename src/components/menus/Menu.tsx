@@ -39,9 +39,9 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
     return (
         <Box sx={{}}>
             <Paper
-                elevation={3}
+                elevation={0}
                 sx={{
-                    width: "12vw",
+                    width: "15vw",
                     position: "relative",
                     top: 0,
                     left: 0,
@@ -51,9 +51,9 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                 <Box
                     sx={{
                         justifyContent: "center",
-                        m: "2.5vw 0 0.5vw",
+                        m: "2vw 0 0.5vw",
                         flexDirection: "column",
-                        gap: " 1vw",
+                        gap: "0.5vw",
                         alignItems: "center",
                     }}
                 >
@@ -68,7 +68,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                     <Typography variant="h3" component="h3" sx={{ textTransform: "uppercase" }}>
                         {user?.name}
                     </Typography>
-                    <Typography variant="h4" component="h4" mt="-1vw">
+                    <Typography variant="h4" component="h4" mt="-0.5vw">
                         {role}
                     </Typography>
                 </Box>

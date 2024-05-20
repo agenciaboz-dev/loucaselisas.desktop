@@ -9,7 +9,7 @@ interface PageLayoutProps {
 export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     return (
         <>
-            <Box sx={{ m: "4vw", flex: 1, height: "86vh", overflow: "hidden" }}>
+            <Box sx={{ m: "3vw", flex: 1, height: "87vh", overflow: "hidden" }}>
                 <Box
                     sx={{
                         width: 1,
@@ -17,9 +17,9 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                     }}
                 >
                     <MenuPrincipal />
-                    <Box sx={{ p: "1.8vw", flex: 1 }}>
+                    <Box sx={{ p: "1.5vw", flex: 1 }}>
                         <Paper
-                            elevation={3}
+                            elevation={0}
                             sx={{
                                 flex: 1,
                                 height: 1,

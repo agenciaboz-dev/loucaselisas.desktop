@@ -17,7 +17,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ menuOption }) => {
     const location = useLocation()
     const active = location.pathname.split("/")[1] == menuOption.path.split("/")[1]
     return (
-        <Box>
+        <Box sx={{ height: "3vw" }}>
             {active && <Box sx={{ height: "auto", width: "6px", backgroundColor: "primary.main", borderRadius: "0 5px 5px 0", zIndex: 100 }} />}
             <ListItemButton
                 key={menuOption.path}
@@ -26,7 +26,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ menuOption }) => {
             >
                 <ListItemIcon>{menuOption.icon}</ListItemIcon>
                 <ListItemText>
-                    <Typography variant="h2" component="h2" sx={{ ml: "-1vw", textTransform: "uppercase", fontSize:"1.2rem" }}>
+                    <Typography variant="h2" component="h2" sx={{ ml: "-1.5vw", textTransform: "uppercase", fontSize: "1rem" }}>
                         {menuOption.label}
                     </Typography>
                 </ListItemText>
