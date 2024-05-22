@@ -93,6 +93,7 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                                     name="duration"
                                     value={formik?.values.duration}
                                     onChange={formik.handleChange}
+                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                                     sx={{ width: "13.5vw" }}
                                     error={formik.touched.duration && Boolean(formik.errors.duration)}
                                     helperText={formik.touched.duration && formik.errors.duration}
