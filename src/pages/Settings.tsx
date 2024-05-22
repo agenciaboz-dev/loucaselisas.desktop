@@ -16,6 +16,7 @@ interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
     const skeletonSettingsCard: number[] = new Array(20).fill(0).map((_, index) => index)
+    console.log(skeletonSettingsCard)
 
     const required_message = "Campo obrigatório"
     const categorySchema = Yup.object().shape({
@@ -155,18 +156,16 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                             }}
                         >
                             {loading
-                                ? skeletonSettingsCard.map((_, index) => (
-                                      <>
-                                          <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
-                                              <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                                                  <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
-                                                      <Skeleton variant="circular" sx={{ width: "2.5vw", height: "2.5vw" }} />
-                                                      <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
-                                                  </Box>
-                                                  <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                ? skeletonSettingsCard.map((index) => (
+                                      <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
+                                          <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
+                                              <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
+                                                  <Skeleton variant="circular" sx={{ width: "2.5vw", height: "2.5vw" }} />
+                                                  <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
                                               </Box>
-                                          </Paper>
-                                      </>
+                                              <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                          </Box>
+                                      </Paper>
                                   ))
                                 : categories.map((category) => (
                                       <SettingsCard
@@ -214,17 +213,15 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                             }}
                         >
                             {loading
-                                ? skeletonSettingsCard.map((_, index) => (
-                                      <>
-                                          <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
-                                              <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                                                  <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
-                                                      <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
-                                                  </Box>
-                                                  <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                ? skeletonSettingsCard.map((index) => (
+                                      <Paper key={index} sx={{ width: 1, height: "3.5vw", p: "0.5vw" }}>
+                                          <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
+                                              <Box sx={{ gap: "0.5vw", flex: 1, alignItems: "center", width: "17.8vw" }}>
+                                                  <Skeleton variant="rectangular" sx={{ width: "10vw" }} />
                                               </Box>
-                                          </Paper>
-                                      </>
+                                              <Box sx={{ width: "5vw", height: 1, gap: "0.2vw", marginLeft: "auto" }}></Box>
+                                          </Box>
+                                      </Paper>
                                   ))
                                 : plans.map((plan) => (
                                       <SettingsCard
