@@ -111,7 +111,14 @@ export const DataCard: React.FC<DataCardProps> = ({
                         <Typography
                             variant="subtitle1"
                             component="p"
-                            sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "12.5vw" }}
+                            sx={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                maxWidth: "12.5vw",
+                                "&:hover": { textDecoration: "underline", cursor: "pointer" },
+                            }}
+                            onClick={() => {}}
                         >
                             @{userName}
                         </Typography>
