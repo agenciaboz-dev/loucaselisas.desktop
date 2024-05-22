@@ -31,7 +31,7 @@ export const Carrousel: React.FC<CarrouselProps> = ({ gallery, setMedia, onMouse
                 width: "42.5vw",
                 background: "linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.7) 40%, rgba(34, 34, 34, 0.7) 50%, rgba(34, 34, 34, 0) 100%)",
                 alignItems: "center",
-                pl: "1vw",
+                px: "1vw",
                 borderRadius: isVideo ? 0 : "0 0 1vw 1vw",
                 overflowX: "auto",
                 scrollbarWidth: "none",
