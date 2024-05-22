@@ -234,11 +234,13 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         error={formik.touched.plans && Boolean(formik.errors.plans)}
                                         helperText={formik.touched.plans && formik.errors.plans}
                                     >
-                                        {plans.map((plan) => (
-                                            <MenuItem key={plan.id} value={plan.id}>
-                                                <Checkbox checked={formik.values.plans.includes(plan.id)} /> {plan.name}
-                                            </MenuItem>
-                                        ))}
+                                        {plans
+                                            .filter((plan) => plan.active === true)
+                                            .map((plan) => (
+                                                <MenuItem key={plan.id} value={plan.id}>
+                                                    <Checkbox checked={formik.values.plans.includes(plan.id)} /> {plan.name}
+                                                </MenuItem>
+                                            ))}
                                     </TextField>
                                 </Box>
                                 <Box sx={{ flexDirection: "column", flex: 1 }}>
