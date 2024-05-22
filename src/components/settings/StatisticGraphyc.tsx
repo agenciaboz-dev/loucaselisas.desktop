@@ -42,7 +42,6 @@ export const StatisticGraphycs: React.FC<StatisticGraphycsProps> = ({}) => {
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
             </AreaChart>
         </Box>
     )
