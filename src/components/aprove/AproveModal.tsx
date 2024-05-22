@@ -57,6 +57,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                             variant="contained"
                             sx={{ borderRadius: "3vw" }}
                             onClick={() => {
+                                handleOpenAproveModal()
                                 onConfirm()
                             }}
                         >

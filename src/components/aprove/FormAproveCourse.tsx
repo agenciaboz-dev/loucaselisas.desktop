@@ -45,7 +45,9 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [openReproveModal, setOpenReproveModal] = useState(false)
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
-    const [currentCourse, setCurrentCourse] = useState<PartialCourse | undefined>(undefined)
+
+    const [currentPartialCourse, setCurrentPartialCourse] = useState<PartialCourse>()
+    console.log(currentPartialCourse)
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
@@ -88,7 +90,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     }, [])
 
     const formik = useFormik<PartialCourse>({
-        initialValues: currentCourse ? { ...currentCourse } : { id: id, status: "active", price: 0, plans: [], roles: [] },
+        initialValues: currentPartialCourse ? { ...currentPartialCourse } : { id: id, status: "active", price: 0, plans: [], roles: [] },
 
         validationSchema: validateSchema,
 
@@ -97,8 +99,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             setLoading(true)
             try {
                 values.price = unmaskCurrency(values.price!)
+
+                setCurrentPartialCourse(values)
                 const response = await api.patch("/course", values)
-                setCurrentCourse(response.data)
+                console.log({ Response: response.data })
                 formik.resetForm()
                 onChangeStatus()
             } catch (error) {
@@ -119,6 +123,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
 
         try {
             const response = await api.patch("/course", data)
+            // setCurrentCourse(response.data)
             onChangeStatus()
         } catch (error) {
             console.log(error)
@@ -136,7 +141,8 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         setOpenAproveModal(false)
         try {
             const response = await api.patch("/course", data)
-            setOpenReproveModal(!openReproveModal)
+            // setCurrentCourse(response.data)
+            handleopenReproveModal()
             onChangeStatus()
         } catch (error) {
             console.log(error)

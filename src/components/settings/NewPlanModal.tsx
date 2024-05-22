@@ -2,7 +2,6 @@ import React from "react"
 import { Box, Button, Dialog, MenuItem, TextField, Typography } from "@mui/material"
 import { Plan, PlanForm } from "../../types/server/class/Plan"
 import MaskedInput from "../masks/MaskedInput"
-import CurrencyFormat from "react-currency-format"
 import { useCurrencyMask } from "burgos-masks"
 import { FormikErrors, FormikState, FormikTouched } from "formik"
 
