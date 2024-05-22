@@ -30,7 +30,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const FormatedStatus = formatStatus(status)
     const required_message = "Campo obrigatório"
     const validateSchema = Yup.object().shape({
-        price: Yup.string().min(3, required_message).required(required_message),
+        price: Yup.string()
+            .min(3, required_message)
+            .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
+            .required(required_message),
 
         plans: Yup.array().min(1, required_message),
 
