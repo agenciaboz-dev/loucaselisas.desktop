@@ -52,7 +52,6 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 formikPlans.values.price = unmaskCurrency(formikPlans.values.price)
                 const response = currentPlan ? await api.patch("/plan", formikPlans.values) : await api.post("/plan", formikPlans.values)
                 console.log(response.data)
-                formikPlans.resetForm()
                 setOpenPlanModal(!openPlanModal)
                 fetchPlans()
             } catch (error) {
@@ -138,6 +137,12 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             setImageSource(undefined)
         }
     }, [openCategoryModal])
+
+    useEffect(() => {
+        if (openPlanModal == false) {
+            setCurrentPlan(undefined)
+        }
+    }, [openPlanModal])
 
     return (
         <Box sx={{ flexDirection: "column", flex: 1 }}>
