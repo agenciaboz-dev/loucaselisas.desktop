@@ -4,7 +4,7 @@ import { Plan, PlanForm } from "../../types/server/class/Plan"
 import MaskedInput from "../masks/MaskedInput"
 import CurrencyFormat from "react-currency-format"
 import { useCurrencyMask } from "burgos-masks"
-import { FormikErrors, FormikTouched } from "formik"
+import { FormikErrors, FormikState, FormikTouched } from "formik"
 
 interface NewPlanModalProps {
     formik: {
@@ -13,6 +13,7 @@ interface NewPlanModalProps {
         touched: FormikTouched<PlanForm>
         handleChange: (e: React.ChangeEvent<any>) => void
         handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
+        resetForm: (nextState?: Partial<FormikState<PlanForm>>) => void
     }
 
     openPlanModal: boolean
@@ -112,6 +113,7 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                         variant="outlined"
                         sx={{ flex: 1, borderRadius: "5vw" }}
                         onClick={() => {
+                            formik.resetForm()
                             setOpenPlanModal(false)
                         }}
                     >

@@ -207,7 +207,9 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 startIcon={<AddCircleOutlineIcon />}
                                 sx={{ borderRadius: "5vw", border: "1px dashed" }}
                                 onClick={() => {
+                                    formikPlans.resetForm()
                                     setOpenPlanModal(true)
+
                                     // console.log(openPlanModal)
                                 }}
                             >
