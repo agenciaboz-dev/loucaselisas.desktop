@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Grid, Paper, Skeleton, Typography } from "@mui/material"
+import { Box, Button, Grid, Paper, Skeleton, Typography, duration } from "@mui/material"
 import { HeaderInfo } from "../components/header/HeaderInfo"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { useFormik } from "formik"
@@ -11,16 +11,25 @@ import { Plan, PlanForm } from "../types/server/class/Plan"
 import { NewPlanModal } from "../components/settings/NewPlanModal"
 import { StatisticGraphycs } from "../components/settings/StatisticGraphyc"
 import * as Yup from "yup"
+import { unmaskCurrency } from "../tools/unmask"
 
 interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = ({}) => {
     const skeletonSettingsCard: number[] = new Array(20).fill(0).map((_, index) => index)
-    console.log(skeletonSettingsCard)
-
     const required_message = "Campo obrigatório"
     const categorySchema = Yup.object().shape({
-        name: Yup.string().required(required_message),
+        name: Yup.string().min(3, required_message).required(required_message),
+    })
+
+    const planSchema = Yup.object().shape({
+        name: Yup.string().min(3, required_message).required(required_message),
+        description: Yup.string().min(5, required_message).required(required_message),
+        price: Yup.string()
+            .min(3, required_message)
+            .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
+            .required(required_message),
+        duration: Yup.number().min(2).required(required_message),
     })
 
     const [loading, setLoading] = useState(false)
@@ -34,14 +43,16 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     const formikPlans = useFormik<PlanForm>({
         initialValues: currentPlan ? { ...currentPlan } : { name: "", description: "", duration: "", price: 0, active: true },
+        validationSchema: planSchema,
         onSubmit: async () => {
             if (loading) return
             setLoading(true)
 
             try {
-                formikPlans.values.price = Number(formikPlans.values.price)
+                formikPlans.values.price = unmaskCurrency(formikPlans.values.price)
                 const response = currentPlan ? await api.patch("/plan", formikPlans.values) : await api.post("/plan", formikPlans.values)
                 console.log(response.data)
+                formikPlans.resetForm()
                 setOpenPlanModal(!openPlanModal)
                 fetchPlans()
             } catch (error) {
@@ -197,7 +208,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                                 sx={{ borderRadius: "5vw", border: "1px dashed" }}
                                 onClick={() => {
                                     setOpenPlanModal(true)
-                                    console.log(openPlanModal)
+                                    // console.log(openPlanModal)
                                 }}
                             >
                                 Adicionar Planos

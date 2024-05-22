@@ -1,10 +1,16 @@
 import React from "react"
 import { Box, Button, Dialog, MenuItem, TextField, Typography } from "@mui/material"
 import { Plan, PlanForm } from "../../types/server/class/Plan"
+import MaskedInput from "../masks/MaskedInput"
+import CurrencyFormat from "react-currency-format"
+import { useCurrencyMask } from "burgos-masks"
+import { FormikErrors, FormikTouched } from "formik"
 
 interface NewPlanModalProps {
     formik: {
         values: PlanForm
+        errors: FormikErrors<PlanForm>
+        touched: FormikTouched<PlanForm>
         handleChange: (e: React.ChangeEvent<any>) => void
         handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
     }
@@ -17,6 +23,8 @@ interface NewPlanModalProps {
 const day = 1000 * 60 * 60 * 24
 
 export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModal, setOpenPlanModal, plan }) => {
+    const currencyMask = useCurrencyMask()
+
     const planDuration = [
         { type: "diario", timestamp: day.toString() },
         { type: "semanal", timestamp: (day * 7).toString() },
@@ -42,16 +50,38 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Nome do Plano</Typography>
-                            <TextField name="name" value={formik?.values.name} onChange={formik.handleChange} sx={{ width: "30vw" }} />
+                            <TextField
+                                name="name"
+                                value={formik?.values.name}
+                                onChange={formik.handleChange}
+                                sx={{ width: "30vw" }}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
+                            />
                         </Box>
                         <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                             <Typography>Descrição do Plano</Typography>
-                            <TextField name="description" value={formik?.values.description} onChange={formik.handleChange} sx={{ width: "30vw" }} />
+                            <TextField
+                                name="description"
+                                value={formik?.values.description}
+                                onChange={formik.handleChange}
+                                sx={{ width: "30vw" }}
+                                error={formik.touched.description && Boolean(formik.errors.description)}
+                                helperText={formik.touched.description && formik.errors.description}
+                            />
                         </Box>
                         <Box sx={{ gap: "1vw", alignItems: "center" }}>
                             <Box sx={{ flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography>Valor</Typography>
-                                <TextField name="price" value={formik?.values.price} onChange={formik.handleChange} sx={{ width: "13.5vw" }} />
+                                <TextField
+                                    name="price"
+                                    value={formik?.values.price}
+                                    onChange={formik.handleChange}
+                                    InputProps={{ inputComponent: MaskedInput, inputProps: { mask: currencyMask } }}
+                                    sx={{ width: "13.5vw" }}
+                                    error={formik.touched.price && Boolean(formik.errors.price)}
+                                    helperText={formik.touched.price && formik.errors.price}
+                                />
                             </Box>
                             <Typography variant="body1" component="p" sx={{ mt: "15px" }}>
                                 por
@@ -64,9 +94,11 @@ export const NewPlanModal: React.FC<NewPlanModalProps> = ({ formik, openPlanModa
                                     value={formik?.values.duration}
                                     onChange={formik.handleChange}
                                     sx={{ width: "13.5vw" }}
+                                    error={formik.touched.duration && Boolean(formik.errors.duration)}
+                                    helperText={formik.touched.duration && formik.errors.duration}
                                 >
                                     {planDuration.map((plan) => (
-                                        <MenuItem value={plan.timestamp} key={plan.type}>
+                                        <MenuItem value={plan.timestamp} key={plan.timestamp}>
                                             {plan.type}
                                         </MenuItem>
                                     ))}
