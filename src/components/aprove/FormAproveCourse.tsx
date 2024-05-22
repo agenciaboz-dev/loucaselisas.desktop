@@ -45,6 +45,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [openReproveModal, setOpenReproveModal] = useState(false)
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
+    const [currentCourse, setCurrentCourse] = useState<PartialCourse | undefined>(undefined)
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
@@ -87,7 +88,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     }, [])
 
     const formik = useFormik<PartialCourse>({
-        initialValues: { id: id, status: "active", price: 0, plans: [], roles: [] },
+        initialValues: currentCourse ? { ...currentCourse } : { id: id, status: "active", price: 0, plans: [], roles: [] },
 
         validationSchema: validateSchema,
 
@@ -97,6 +98,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             try {
                 values.price = unmaskCurrency(values.price!)
                 const response = await api.patch("/course", values)
+                setCurrentCourse(response.data)
                 formik.resetForm()
                 onChangeStatus()
             } catch (error) {
@@ -162,7 +164,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                         <Switch checked={status === "active"} disabled={status !== "active"} onChange={() => onDisabled()} />
                     </Box>
                     <Divider />
-                    {status === "active" || status === "disabled" ? (
+                    {status !== "pending" ? (
                         <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                             <Typography variant="subtitle1" component="h3" sx={{ fontSize: "1.2rem" }}>
                                 Informações do Curso
@@ -189,10 +191,18 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                             </Box>
                             <Box sx={{ gap: "0.5vw" }}>
                                 <Typography variant="body2" component="p" sx={{ fontSize: "1.1rem" }}>
-                                    Valor:
+                                    {status === "declined" ? course.declined_reason ? "Motivo:" : <></> : "Valor:"}
                                 </Typography>
                                 <Typography variant="body2" component="p">
-                                    <CurrencyText value={course.price} />
+                                    {status === "declined" ? (
+                                        course.declined_reason ? (
+                                            course.declined_reason
+                                        ) : (
+                                            <></>
+                                        )
+                                    ) : (
+                                        <CurrencyText value={course.price} />
+                                    )}
                                 </Typography>
                             </Box>
                         </Box>
