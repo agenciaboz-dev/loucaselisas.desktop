@@ -53,6 +53,7 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
         <Paper sx={{ width: 1, height: "3.5vw", position: "relative" }}>
             <MenuItem
                 onClick={() => {
+                    if (plan?.name === "Plano Gratuito") return
                     if (thisCategory && setCurrentCategory) {
                         setCurrentCategory(thisCategory)
                     }
@@ -73,10 +74,12 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
                 </Box>
             </MenuItem>
             <Box sx={{ position: "absolute", right: 0, height: 1, width: "fit-content", alignItems: "center" }}>
-                <Switch
-                    checked={thisCategory ? thisCategory?.active : thisPlan?.active}
-                    onChange={(_, checked) => (thisCategory ? onChangeCategoryStatus(checked) : onChangePlanStatus(checked))}
-                />
+                {plan?.name !== "Plano Gratuito" && (
+                    <Switch
+                        checked={thisCategory ? thisCategory?.active : thisPlan?.active}
+                        onChange={(_, checked) => (thisCategory ? onChangeCategoryStatus(checked) : onChangePlanStatus(checked))}
+                    />
+                )}
             </Box>
         </Paper>
     )
