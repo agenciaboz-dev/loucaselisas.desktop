@@ -46,8 +46,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
 
-    const [currentPartialCourse, setCurrentPartialCourse] = useState<PartialCourse>()
-    console.log(currentPartialCourse)
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
@@ -90,7 +88,13 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     }, [])
 
     const formik = useFormik<PartialCourse>({
-        initialValues: currentPartialCourse ? { ...currentPartialCourse } : { id: id, status: "active", price: 0, plans: [], roles: [] },
+        initialValues: {
+            plans: course.plans.map((plan) => plan.id),
+            id: id,
+            roles: course.roles,
+            price: course.price,
+            status: "active",
+        },
 
         validationSchema: validateSchema,
 
@@ -100,7 +104,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             try {
                 values.price = unmaskCurrency(values.price!)
 
-                setCurrentPartialCourse(values)
+                // setCurrentPartialCourse(values)
                 const response = await api.patch("/course", values)
                 console.log({ Response: response.data })
                 formik.resetForm()
@@ -270,7 +274,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                 <TextField
                                     select
                                     name="roles"
-                                    value={formik.values.roles}
+                                    value={formik.values.roles?.map((role) => role.id)}
                                     onChange={formik.handleChange}
                                     // helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
                                     SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
