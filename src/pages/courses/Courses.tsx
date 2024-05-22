@@ -127,6 +127,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                         : filteredCourses.map((course) => (
                                               <DataCard
                                                   key={course.id}
+                                                  course={course}
                                                   image={course.cover}
                                                   title={course.name}
                                                   description={course.description}

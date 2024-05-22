@@ -118,6 +118,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                                         : filteredLessons.map((lesson) => (
                                               <DataCard
                                                   key={lesson.id}
+                                                  lesson={lesson}
                                                   image={lesson.thumb || lesson.media.url}
                                                   title={lesson.name}
                                                   description={lesson.info}

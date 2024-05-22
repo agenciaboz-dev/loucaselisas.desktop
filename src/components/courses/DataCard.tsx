@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom"
 import { Course } from "../../types/server/class/Course"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import placeholders from "../../tools/placeholders"
+import { slugify } from "../../tools/urlMask"
 
 interface DataCardProps {
-    // lesson?: Lesson
-    // course?: Course
-    // isCourse?: boolean
+    lesson?: Lesson
+    course?: Course
     image: string
     title: string
     description: string
@@ -28,9 +28,8 @@ interface DataCardProps {
 }
 
 export const DataCard: React.FC<DataCardProps> = ({
-    // lesson,
-    // course,
-    // isCourse = false,
+    lesson,
+    course,
     image,
     title,
     description,
@@ -118,7 +117,11 @@ export const DataCard: React.FC<DataCardProps> = ({
                                 maxWidth: "12.5vw",
                                 "&:hover": { textDecoration: "underline", cursor: "pointer" },
                             }}
-                            onClick={() => {}}
+                            onClick={() => {
+                                course && navigate(`/users/${slugify(course?.owner_id)}`)
+
+                                lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { lessonId: lesson.course.id } })
+                            }}
                         >
                             @{userName}
                         </Typography>
