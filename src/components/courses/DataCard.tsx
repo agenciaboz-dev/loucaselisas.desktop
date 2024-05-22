@@ -12,6 +12,9 @@ import { Lesson } from "../../types/server/class/Course/Lesson"
 import placeholders from "../../tools/placeholders"
 
 interface DataCardProps {
+    // lesson?: Lesson
+    // course?: Course
+    // isCourse?: boolean
     image: string
     title: string
     description: string
@@ -24,19 +27,34 @@ interface DataCardProps {
     routerParam?: Course | Lesson | { lesson: Lesson }
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ image, title, description, likes, downloads, messages, views, userName, link, routerParam }) => {
+export const DataCard: React.FC<DataCardProps> = ({
+    // lesson,
+    // course,
+    // isCourse = false,
+    image,
+    title,
+    description,
+    likes,
+    downloads,
+    messages,
+    views,
+    userName,
+    link,
+    routerParam,
+}) => {
     const navigate = useNavigate()
 
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ flexDirection: "column", p: "0.5vw", gap: "0.5vw" }}>
-                    <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
-                        <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>
-                            <Avatar src={placeholders.square} sx={{ width: "3.5vw", height: "3.5vw" }} />
-                        </Avatar>
-                        <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
-                            <MenuItem sx={{ p: 0, m: 0 }} onClick={() => navigate(link, { state: { data: routerParam } })}>
+                <Paper sx={{ flexDirection: "column", position: "relative" }}>
+                    <MenuItem sx={{ w: 1, m: 0, p: "0.5vw", gap: "0.5vw" }} onClick={() => navigate(link, { state: { data: routerParam } })}>
+                        <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
+                            <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>
+                                <Avatar src={placeholders.square} sx={{ width: "3.5vw", height: "3.5vw" }} />
+                            </Avatar>
+                            <Box sx={{ flexDirection: "column", width: "14.8vw" }}>
+                                {/* <MenuItem sx={{ p: 0, m: 0 }} onClick={() => navigate(link, { state: { data: routerParam } })}> */}
                                 <Typography
                                     variant="subtitle1"
                                     component="h3"
@@ -48,30 +66,42 @@ export const DataCard: React.FC<DataCardProps> = ({ image, title, description, l
                                 >
                                     {title}
                                 </Typography>
-                            </MenuItem>
-                            <Typography
-                                variant="body1"
-                                component="p"
-                                sx={{
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "normal",
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 3,
-                                    WebkitBoxOrient: "vertical",
-                                }}
-                            >
-                                {description}
-                            </Typography>
+                                {/* </MenuItem> */}
+                                <Typography
+                                    variant="body1"
+                                    component="p"
+                                    sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "normal",
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 3,
+                                        WebkitBoxOrient: "vertical",
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            </Box>
                         </Box>
-                        <Box>
-                            <IconButton>
-                                <MoreVertIcon />
-                            </IconButton>
-                        </Box>
-                    </Box>
+                    </MenuItem>
+                    <IconButton
+                        onClick={() => {
+                            console.log("clicou em opções")
+                        }}
+                        sx={{
+                            position: "absolute",
+                            right: 0,
+                            top: "0.5vw",
+                            height: "2vw",
+                            p: "0.2vw",
+                            mr: "0.5vw",
+                            minHeight: 0,
+                        }}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
                     <Divider />
-                    <Box sx={{ justifyContent: "space-between" }}>
+                    <Box sx={{ justifyContent: "space-between", p: "0.5vw", gap: "0.5vw" }}>
                         <Box sx={{ gap: "1vw" }}>
                             <StatData stats={likes} Icon={FavoriteBorderIcon} />
                             <StatData stats={downloads} Icon={FileDownloadIcon} />
