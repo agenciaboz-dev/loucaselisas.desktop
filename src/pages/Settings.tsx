@@ -98,7 +98,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
         setLoading(true)
 
         try {
-            const response = await api.get("/category/list")
+            const response = await api.get("/category/list/admin")
             setCategorys(response.data)
             console.log(categories)
         } catch (error) {

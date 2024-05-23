@@ -24,7 +24,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/category/list")
+            const response = await api.get("/category/list/admin")
             setCategories(response.data)
         } catch (error) {
             console.log(error)
