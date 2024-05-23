@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Grid, Paper, Skeleton } from "@mui/material"
-import { HeaderInfo } from "../components/header/HeaderInfo"
-import { SearchBar } from "../components/header/SearchBar"
+import { HeaderInfo } from "../../components/header/HeaderInfo"
+import { SearchBar } from "../../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
-import { api } from "../api/api"
-import { User } from "../types/server/class"
-import { UserCard } from "../components/users/UserCard"
-import { NoFeaturedContent } from "../components/dashboard/NoFeaturedContent"
+import { api } from "../../api/api"
+import { User } from "../../types/server/class"
+import { UserCard } from "../../components/users/UserCard"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 
 interface UsersProps {}
 
