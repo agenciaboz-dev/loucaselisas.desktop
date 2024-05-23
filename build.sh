@@ -2,8 +2,8 @@
 
 ssh_profile="root@agencyboz"
 user="agenc4028"
-domain="agenciaboz.com.br"
-subdomain="loucaselisas.agenciaboz.com.br"
+domain="loucaseco.com.br"
+subdomain="painel.loucaseco.com.br"
 
 path="/home/${domain}/${subdomain}"
 
