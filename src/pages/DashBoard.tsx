@@ -27,13 +27,13 @@ export const DashBoard: React.FC = ({}) => {
     }, [])
 
     return (
-        <Box sx={{ width: 1, flexDirection: "column" }}>
+        <Box sx={{ width: "100%", flexDirection: "column" }}>
             <HeaderInfo title="painel de controle" loading={loading} refreshCallback={() => fetchCourses()} />
             <Box
                 sx={{
                     flexDirection: "column",
                     height: "72.8vh",
-                    width: "73.2vw",
+                    width: "100%",
                     gap: "0.8vw",
                     pt: "0.2vw",
                 }}

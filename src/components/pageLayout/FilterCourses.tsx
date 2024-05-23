@@ -82,7 +82,15 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
         <Box
             ref={ref}
             {...events}
-            sx={{ gap: "0.8vw", width: "74.7vw", overflowX: "scroll", height: "auto", scrollbarWidth: "none", flexShrink: 0, pr: "1vw" }}
+            sx={{
+                gap: "0.8vw",
+                overflowX: "scroll",
+                height: "auto",
+                scrollbarWidth: "none",
+                flexShrink: 0,
+                px: "1.5vw",
+                mx: "-1.5vw",
+            }}
         >
             <FilterButton active={"recent" === active} content="Novos Cursos" onClickFilter={() => onClickFilter("recent")} />
             <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("popular")} />
