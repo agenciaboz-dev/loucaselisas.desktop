@@ -41,7 +41,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
             <Paper
                 elevation={0}
                 sx={{
-                    width: "15vw",
+                    width: "12vw",
                     position: "relative",
                     top: 0,
                     left: 0,

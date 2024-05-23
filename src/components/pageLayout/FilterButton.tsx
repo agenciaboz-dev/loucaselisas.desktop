@@ -35,11 +35,11 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, con
                     >
                         <Box
                             sx={{
-                                justifyContent: "center",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 whiteSpace: "nowrap",
                                 maxWidth: "8vw",
+                                display: "inline-block",
                             }}
                         >
                             {content}

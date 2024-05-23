@@ -8,7 +8,7 @@ import { PageLayout } from "./pages/PageLayout"
 import { Courses } from "./pages/courses/Courses"
 import { Lessons } from "./pages/Lessons"
 import { Groups } from "./pages/Groups"
-import { Users } from "./pages/Users"
+import { Users } from "./pages/users/Users"
 import { Settings } from "./pages/Settings"
 import { DeleteAccount } from "./pages/DeleteAccount"
 import { useUser } from "./hooks/useUser"
@@ -18,6 +18,7 @@ import { ConfirmAccount } from "./pages/ConfirmAccount"
 import { CoursePage } from "./pages/courses/Course"
 import { LessonPage } from "./pages/lessons/Lesson"
 import { version } from "./tools/appVersion"
+import { UserPage } from "./pages/users/UserPage"
 
 interface RoutesProps {}
 
@@ -40,9 +41,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 src={backgroundVideo}
             ></video>
 
-            <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>
-                v: {version}
-            </Typography>
+            <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>v: {version}</Typography>
 
             <ReactRoutes>
                 {/* {!user ? (
@@ -61,7 +60,10 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <Route path="licoes/:id" element={<PageLayout children={<LessonPage />} />} />
 
                     <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
+
                     <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                    <Route path="/usuarios/:id" element={<PageLayout children={<UserPage />} />} />
+
                     <Route path="/tipos-usuarios" element={<PageLayout children={<TypeUsers />} />} />
                     <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
 

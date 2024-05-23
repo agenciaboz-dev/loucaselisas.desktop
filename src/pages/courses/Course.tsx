@@ -10,15 +10,16 @@ import { FormAproveCourse } from "../../components/aprove/FormAproveCourse"
 import { DataCard } from "../../components/course/DataCard"
 import { Carrousel } from "../../components/Carrousel"
 import { Media } from "../../components/media/Media"
-import { Plan } from "../../types/server/class/Plan"
 import { slugify } from "../../tools/urlMask"
 import placeholders from "../../tools/placeholders"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
-    const [course, setCourse] = useState(useLocation().state.data as Course)
-    const medias = [{ url: course.cover, type: course.cover_type }, ...course.gallery.media.map((item) => ({ url: item.url, type: item.type }))]
-    const [media, setMedia] = useState({ url: course.cover || null, type: course.cover_type })
+    const location = useLocation()
+    const courseId = location.state.courseId as Partial<Course> | undefined
+    const [course, setCourse] = useState(location.state.data as Course | undefined)
+    const id = course ? course?.id : courseId
+    const [media, setMedia] = useState({ url: course?.cover || "", type: course?.cover_type || "image" })
     const [showCarrosel, setShowCarrosel] = useState(false)
 
     const [loading, setLoading] = useState(false)
@@ -28,7 +29,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/course", { params: { course_id: course.id } })
+            const response = await api.get("/course", { params: { course_id: id } })
             setCourse(response.data)
         } catch (error) {
             console.log(error)
@@ -36,16 +37,11 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             setLoading(false)
         }
     }
-
-    useEffect(() => {
-        fetchCourse()
-    }, [])
-
     const fetchLessons = async () => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/lesson/course", { params: { course_id: course.id } })
+            const response = await api.get("/lesson/course", { params: { course_id: course?.id } })
             setLessons(response.data)
         } catch (error) {
             console.log(error)
@@ -55,10 +51,17 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     }
 
     useEffect(() => {
-        fetchLessons()
+        fetchCourse()
     }, [])
 
-    return (
+    useEffect(() => {
+        if (course) {
+            setMedia({ url: course.cover, type: course.cover_type })
+            fetchLessons()
+        }
+    }, [course])
+
+    return course ? (
         <Box sx={{ flexDirection: "column", gap: "1vw" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
             <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
@@ -70,7 +73,10 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 <Carrousel
                                     setMedia={setMedia}
                                     isVideo={media.type === "video"}
-                                    gallery={medias}
+                                    gallery={[
+                                        { url: course?.cover, type: course?.cover_type },
+                                        ...course.gallery.media.map((item) => ({ url: item.url, type: item.type })),
+                                    ]}
                                     onMouseEnter={() => setShowCarrosel(true)}
                                     onMouseLeave={() => setShowCarrosel(false)}
                                 />
@@ -155,5 +161,5 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 </Grid>
             </Grid>
         </Box>
-    )
+    ) : null
 }

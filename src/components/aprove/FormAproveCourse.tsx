@@ -247,7 +247,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                         {plans
                                             .filter((plan) => plan.active === true)
                                             .map((plan) => (
-                                                <MenuItem key={plan.id} value={plan.id}>
+                                                <MenuItem key={plan.id} value={plan.id} disabled={plan.id !== 1}>
                                                     <Checkbox checked={formik.values.plans.includes(plan.id)} /> {plan.name}
                                                 </MenuItem>
                                             ))}

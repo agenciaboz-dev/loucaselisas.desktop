@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Grid, Paper, Skeleton } from "@mui/material"
-import { HeaderInfo } from "../components/header/HeaderInfo"
-import { SearchBar } from "../components/header/SearchBar"
+import { HeaderInfo } from "../../components/header/HeaderInfo"
+import { SearchBar } from "../../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
-import { api } from "../api/api"
-import { User } from "../types/server/class"
-import { UserCard } from "../components/users/UserCard"
-import { NoFeaturedContent } from "../components/dashboard/NoFeaturedContent"
+import { api } from "../../api/api"
+import { User } from "../../types/server/class"
+import { UserCard } from "../../components/users/UserCard"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
+import { slugify } from "../../tools/urlMask"
+
 
 interface UsersProps {}
 
@@ -85,23 +87,23 @@ export const Users: React.FC<UsersProps> = ({}) => {
                                 <Grid container columns={3} spacing={2} sx={{ pb: "1vw" }}>
                                     {loading
                                         ? skeletonUserCards.map((_, index) => (
-                                              <>
-                                                  <Grid key={index} item xs={1}>
-                                                      <Paper sx={{ position: "relative" }}>
-                                                          <Box sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}>
-                                                              <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
-                                                                  <Skeleton variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
-                                                                  <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
-                                                                      <Skeleton variant="rectangular" sx={{ width: "8vw" }} />
-                                                                      <Skeleton variant="rectangular" sx={{ width: "15vw" }} />
-                                                                  </Box>
+                                              <Grid key={index} item xs={1}>
+                                                  <Paper sx={{ position: "relative" }}>
+                                                      <Box sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}>
+                                                          <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
+                                                              <Skeleton variant="circular" sx={{ width: "4.5vw", height: "4.5vw" }} />
+                                                              <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                                                                  <Skeleton variant="rectangular" sx={{ width: "8vw" }} />
+                                                                  <Skeleton variant="rectangular" sx={{ width: "15vw" }} />
                                                               </Box>
                                                           </Box>
-                                                      </Paper>
-                                                  </Grid>
-                                              </>
+                                                      </Box>
+                                                  </Paper>
+                                              </Grid>
                                           ))
-                                        : filteredUsers.map((user) => <UserCard user={user} key={user.id} />)}
+                                        : filteredUsers.map((user) => (
+                                              <UserCard user={user} key={user.id} link={`/usuarios/${slugify(user.name)}`} routerParam={user} />
+                                          ))}
                                 </Grid>
                             </>
                         )}

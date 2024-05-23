@@ -8,14 +8,22 @@ import placeholders from "../../tools/placeholders"
 
 interface UserCardProps {
     user: User
+    link: string
+    routerParam: User
 }
 
-export const UserCard: React.FC<UserCardProps> = ({ user }) => {
+export const UserCard: React.FC<UserCardProps> = ({ user, link, routerParam }) => {
+    const navigate = useNavigate()
     return (
         <>
             <Grid item xs={1}>
                 <Paper sx={{ position: "relative" }}>
-                    <MenuItem sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }} onClick={() => {}}>
+                    <MenuItem
+                        sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}
+                        onClick={() => {
+                            navigate(link, { state: { user: routerParam } })
+                        }}
+                    >
                         <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
                             <Avatar
                                 src={user.image || placeholders.avatar || undefined}
