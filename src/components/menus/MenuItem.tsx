@@ -26,7 +26,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ menuOption }) => {
             >
                 <ListItemIcon>{menuOption.icon}</ListItemIcon>
                 <ListItemText>
-                    <Typography variant="h2" component="h2" sx={{ ml: "-1.5vw", textTransform: "uppercase", fontSize: "1rem" }}>
+                    <Typography variant="h2" component="h2" sx={{ ml: "-1vw", textTransform: "uppercase", fontSize: "1rem" }}>
                         {menuOption.label}
                     </Typography>
                 </ListItemText>

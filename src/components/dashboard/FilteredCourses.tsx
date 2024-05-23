@@ -39,14 +39,14 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
     }, [courses])
 
     return (
-        <Box sx={{ flex: 1, flexDirection: "column", gap: "1vw" }}>
+        <Box sx={{ flexDirection: "column", gap: "1vw" }}>
             <FilterCourses courses={courses} onFilter={onFilteredCourses} active={active} setActive={setActive} />
 
             <Box
                 ref={ref}
                 {...events}
                 sx={{
-                    width: "76.25vw",
+                    flex: 1,
                     overflowX: "scroll",
                     height: "auto",
                     scrollbarWidth: "none",
@@ -60,7 +60,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                     <NoFeaturedContent
                         title="Categoria vazia"
                         text="Não há cursos disponíveis nessa categoria no momento. Por favor, volte mais tarde."
-                        styles={{ height: "12.8vw" }}
+                        styles={{ height: "10vw" }}
                     />
                 ) : (
                     <>
@@ -71,7 +71,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                                       variant="rounded"
                                       animation="wave"
                                       sx={{
-                                          height: "13vw",
+                                          height: "10vw",
                                           aspectRatio: "4/3",
                                           flexShrink: 0,
                                           borderRadius: "1.2vw",

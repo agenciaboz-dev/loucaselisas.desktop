@@ -15,7 +15,7 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
         <Paper
             sx={{
                 margin: "0.1vw 0",
-                height: "12.8vw",
+                height: "10vw",
                 aspectRatio: "4/3",
                 flexDirection: "column",
                 borderRadius: "1.2vw",
@@ -33,7 +33,8 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
             >
                 <Avatar sx={{ width: "8vw", height: "8vw" }} variant="circular" src={placeholders.square} />
             </Avatar>
-            <Box
+            <Paper
+                elevation={3}
                 sx={{
                     flexDirection: "column",
                     position: "absolute",
@@ -42,18 +43,19 @@ export const CoursersThumb: React.FC<CoursersThumbProps> = ({ course }) => {
                     width: "88%",
                     borderRadius: "0.3vw",
                     justifyContent: "flex-end",
-                    padding: "0.2vw 1vw",
+                    padding: "0.2vw 0.5vw",
                     backgroundColor: "background.paper",
                     userSelect: "none",
+                    gap: "0.2vw",
                 }}
             >
-                <Typography variant="body1" component="p" sx={{ fontWeight: "600" }}>
+                <Typography variant="body1" component="p" fontSize="1rem" sx={{ fontWeight: "600", lineHeight: 1 }}>
                     {course.name}
                 </Typography>
                 <Typography variant="body2" component="p" fontSize="0.8rem">
-                    {numAulas} Lições
+                    {numAulas} lições
                 </Typography>
-            </Box>
+            </Paper>
         </Paper>
     )
 }
