@@ -120,7 +120,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                             onClick={() => {
                                 course && navigate(`/users/${slugify(course?.owner_id)}`)
 
-                                lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { lessonId: lesson.course.id } })
+                                lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { courseId: lesson.course.id } })
                             }}
                         >
                             @{userName}
