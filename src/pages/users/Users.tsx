@@ -9,6 +9,7 @@ import { UserCard } from "../../components/users/UserCard"
 import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 import { slugify } from "../../tools/urlMask"
 
+
 interface UsersProps {}
 
 export const Users: React.FC<UsersProps> = ({}) => {
