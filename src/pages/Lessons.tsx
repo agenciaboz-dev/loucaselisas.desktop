@@ -67,6 +67,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                 <Box
                     sx={{
                         flexDirection: "column",
+                        height: "72.8vh",
                         width: 1,
                         gap: "0.8vw",
                         pt: "0.2vw",
@@ -78,7 +79,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                         ref={ref}
                         {...events}
                         sx={{
-                            height: filteredLessons.length === 0 ? "65vh" : "67vh",
+                            height: filteredLessons.length === 0 ? "59.3vh" : "61.3vh",
                             pt: "0.2vw",
                             overflowY: "scroll",
                             scrollbarWidth: "none",
