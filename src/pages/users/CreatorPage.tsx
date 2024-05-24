@@ -11,6 +11,8 @@ import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
 import { StatisticsView } from "./StatisticsView"
 import { Role } from "../../types/server/class/Role"
+import { Message } from "../../types/server/class/Chat/Message"
+import { MessageCard } from "./MessageCard"
 
 interface CreatorPageProps {}
 
@@ -25,13 +27,21 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
 
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
     const [userTypes, setUserTypes] = useState<Role[]>([])
+    const [messages, setMessages] = useState<Message[]>([])
 
     const fetchMessages = async () => {
+        if (loading) return
+        setLoading(true)
         try {
             const response = await api.get("/user/message", { params: { user_id: user.id } })
+            setMessages(response.data)
             console.log(response.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            })
         }
     }
 
@@ -78,7 +88,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
             <Box sx={{ gap: "1vw", height: 1 }}>
-                <Box sx={{ height: 1, width: "25vw", maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw" }}>
+                <Box sx={{ height: 1, maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw" }}>
                     <Typography variant="body1" component="p" sx={{ fontSize: "1.3rem" }}>
                         Nome: {creator?.nickname}
                     </Typography>
@@ -153,7 +163,14 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 </Box>
                 <Grid container spacing={3} columns={2} sx={{}}>
                     <Grid item xs={1}>
-                        <Box sx={{ flex: 1, border: "1px solid red" }}></Box>
+                        <Box sx={{ height: "71.6vh", flexDirection: "column", padding: "0 0.1vw", gap: "0.5vw", overflow: "scroll" }}>
+                            <Typography variant="body1" component="p" sx={{ fontSize: "1.3rem" }}>
+                                Ultímos Comentários
+                            </Typography>
+                            {messages.map((message) => (
+                                <MessageCard key={message.id} message={message} user={user} />
+                            ))}
+                        </Box>
                     </Grid>
                     <Grid item xs={1}>
                         <Box sx={{ flex: 1, border: "1px solid red" }}></Box>
