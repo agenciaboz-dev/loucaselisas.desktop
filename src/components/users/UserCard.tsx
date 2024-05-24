@@ -17,20 +17,20 @@ export const UserCard: React.FC<UserCardProps> = ({ user, link, routerParam }) =
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ position: "relative" }}>
+                <Paper sx={{ position: "relative", height: "100%" }}>
                     <MenuItem
                         sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}
                         onClick={() => {
                             navigate(link, { state: { user: routerParam } })
                         }}
                     >
-                        <Box sx={{ alignItems: "center", gap: "0.5vw" }}>
+                        <Box sx={{ alignItems: "center", gap: "0.5vw", width: "100%" }}>
                             <Avatar
                                 src={user.image || placeholders.avatar || undefined}
                                 variant="circular"
                                 sx={{ width: "4.5vw", height: "4.5vw" }}
                             />
-                            <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                            <Box sx={{ flexDirection: "column", gap: "0.5vw", width: "100%" }}>
                                 <Box sx={{ gap: "0.3vw", alignItems: "center" }}>
                                     <Typography variant="subtitle1" component="h4">
                                         {user.name}
@@ -44,7 +44,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, link, routerParam }) =
                                         </>
                                     )}
                                 </Box>
-                                <Box sx={{ gap: "0.3vw" }}>
+                                <Box sx={{ gap: "0.3vw", flexWrap: "wrap", maxWidth: "70%" }}>
                                     {user.admin && <Chip label="ADM" variant="outlined" sx={{ px: "0.5vw" }} />}
                                     {user.creator && <Chip label="Criador de Conteudo" variant="outlined" sx={{ px: "0.5vw" }} />}
                                     {user.student && <Chip label="Estudante" variant="outlined" sx={{ px: "0.5vw" }} />}
