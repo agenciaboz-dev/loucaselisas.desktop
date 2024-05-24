@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, Grid, IconButton, Paper, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
@@ -10,21 +10,34 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined"
 import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
 import { StatisticsView } from "./StatisticsView"
+import { Role } from "../../types/server/class/Role"
 
 interface CreatorPageProps {}
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const location = useLocation()
     const [user, setuser] = useState(location.state.user as User)
+
+    console.log(user.id)
     const creator = user.creator
 
-    const [loading, setloading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
+    const [userTypes, setUserTypes] = useState<Role[]>([])
+
+    const fetchMessages = async () => {
+        try {
+            const response = await api.get("/user/message", { params: { user_id: user.id } })
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const fetchStatistic = async () => {
         if (loading) return
-        setloading(true)
+        setLoading(true)
 
         try {
             const response = await api.get("/creator/statistics", { params: { creator_id: creator?.id } })
@@ -34,13 +47,31 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             console.log(error)
         } finally {
             setTimeout(() => {
-                setloading(false)
+                setLoading(false)
             }, 300)
+        }
+    }
+
+    const fetchUsersTypes = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/user/types")
+            setUserTypes(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
         }
     }
 
     useEffect(() => {
         fetchStatistic()
+        fetchMessages()
+        fetchUsersTypes()
     }, [])
 
     return (
@@ -67,7 +98,17 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             <Avatar src={placeholders.avatar} />
                         </Avatar>
                         <Box sx={{ marginLeft: "auto", marginTop: "-3.5vw", gap: "0.5vw", alignItems: "center" }}>
-                            <TextField InputProps={{ sx: { height: "1.7vw", width: "9vw" } }} sx={{}} />
+                            <TextField //todo finalizar a função de seleção
+                                InputProps={{ sx: { height: "1.7vw", width: "9vw" } }}
+                                SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiline: true }}
+                                select
+                            >
+                                {userTypes.map((type) => (
+                                    <MenuItem value={type.id} key={type.id}>
+                                        {type.name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                             <Button variant="contained" sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}>
                                 Salvar
                             </Button>
@@ -76,7 +117,23 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             </IconButton>
                         </Box>
                         <Box>
-                            <Typography sx={{ textAlign: "right", maxWidth: "23.6vw", flex: 1 }}>{creator?.description}</Typography>
+                            <Typography
+                                sx={{
+                                    textAlign: "right",
+                                    maxWidth: "23.6vw",
+                                    flex: 1,
+                                    height: "13vw",
+                                    maxHeight: "10.8vw",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "normal",
+                                    display: "-webkit-box",
+                                    WebkitBoxOrient: "vertical",
+                                    WebkitLineClamp: 9,
+                                }}
+                            >
+                                {creator?.description}
+                            </Typography>
                         </Box>
                     </Box>
                     <Paper sx={{ flexDirection: "column", gap: "1vw", height: "6vw", marginTop: "auto" }}>
