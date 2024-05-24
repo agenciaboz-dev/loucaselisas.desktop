@@ -4,27 +4,32 @@ import { useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
+import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined"
 import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
+import { StatisticsView } from "./StatisticsView"
 
-interface UserPageProps {}
+interface CreatorPageProps {}
 
-export const UserPage: React.FC<UserPageProps> = ({}) => {
+export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const location = useLocation()
     const [user, setuser] = useState(location.state.user as User)
     const creator = user.creator
 
     const [loading, setloading] = useState(false)
 
-    const [statistic, setStatistic] = useState([])
+    const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
 
     const fetchStatistic = async () => {
         if (loading) return
         setloading(true)
 
         try {
-            const response = await api.get("/creator/statistics", { params: { creator_id: creator!.id } })
+            const response = await api.get("/creator/statistics", { params: { creator_id: creator?.id } })
             setStatistic(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -78,14 +83,14 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         <Typography
                             variant="body1"
                             component="p"
-                            sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem" }}
+                            sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem", fontWeight: 500 }}
                         >
                             Estatísticas
                         </Typography>
                         <Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw" }}></Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw" }}></Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw" }}></Box>
+                            <StatisticsView statistic={statistic?.views} icon={<VisibilityOutlinedIcon />} text="Visualizados" />
+                            <StatisticsView statistic={statistic?.likes} icon={<FavoriteBorderOutlinedIcon />} text="Favoritados" />
+                            <StatisticsView statistic={statistic?.messages} icon={<MessageOutlinedIcon />} text="Mensagens" />
                         </Box>
                     </Paper>
                 </Box>

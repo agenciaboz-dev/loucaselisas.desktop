@@ -87,7 +87,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                 <Avatar src={course.owner.image || placeholders.avatar} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
-                                        {course.owner.user.name}
+                                        {course.owner.nickname}
                                     </Typography>
                                     <Typography
                                         variant="body1"
