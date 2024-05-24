@@ -10,7 +10,7 @@ export const useGetCourses = () => {
         setLoading(true)
 
         try {
-            const response = await api.get("/course")
+            const response = await api.get("/course/all")
             courses = response.data
         } catch (error) {
             console.error(error)
