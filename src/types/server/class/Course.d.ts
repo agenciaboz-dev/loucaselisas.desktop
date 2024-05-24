@@ -32,6 +32,7 @@ export declare const course_include: {
                     messages: true;
                 };
             };
+            course: true;
         };
     };
     creators: {
