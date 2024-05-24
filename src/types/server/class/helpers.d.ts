@@ -4,7 +4,7 @@ export declare type WithoutFunctions<T> = {
 export declare interface FileUpload {
     file?: ArrayBuffer | File;
     data?: ArrayBuffer;
-    base64?: string;
+    base64?: string | null;
     name: string;
 }
 export type Diff<T extends keyof any, U extends keyof any> = {
