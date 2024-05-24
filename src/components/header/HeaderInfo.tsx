@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useUser } from "../../hooks/useUser"
 import { IoMdAddCircleOutline } from "react-icons/io"
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
 import ChatIcon from "@mui/icons-material/Chat"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 interface HeaderInfoProps {
@@ -18,6 +18,7 @@ interface HeaderInfoProps {
     backButton?: boolean
     chatButton?: boolean
     menuButton?: boolean
+    handleClick?: () => void
 }
 
 export const HeaderInfo: React.FC<HeaderInfoProps> = ({
@@ -30,6 +31,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
     backButton = false,
     chatButton = false,
     menuButton = false,
+    handleClick,
 }) => {
     const { onLogout } = useUser()
     const navigate = useNavigate()
@@ -45,7 +47,13 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                     <Typography
                         variant="h1"
                         component="h1"
-                        sx={{ textTransform: "uppercase", maxWidth: "25vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                        sx={{
+                            textTransform: "uppercase",
+                            maxWidth: "25vw",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                        }}
                     >
                         {title}
                     </Typography>
@@ -53,7 +61,11 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                     {refreshButton && <RefreshButton loading={loading} callBack={refreshCallback} />}
 
                     {dashButton && (
-                        <Button variant="outlined" sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw" }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw" }}
+                            onClick={handleClick}
+                        >
                             Adicionar novo usuário
                             <IoMdAddCircleOutline size={"1.3vw"} />
                         </Button>

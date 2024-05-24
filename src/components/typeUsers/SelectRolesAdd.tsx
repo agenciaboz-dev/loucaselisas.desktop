@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Box, Checkbox, FormControlLabel, TextField } from "@mui/material"
 import { Role } from "../../types/server/class/Role"
 
-interface SelectRolesProps {
+interface SelectRolesAddProps {
     roles: Role[]
     selectedPermissions: string[] // Permissões selecionadas
     onSelectPermission: (permissions: string[]) => void // Função para selecionar uma permissão
@@ -28,7 +28,7 @@ const menuGroups = {
     student: ["menuStudent"],
     creator: ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"],
 }
-export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermissions, onSelectPermission, menu }) => {
+export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ roles, selectedPermissions, onSelectPermission, menu }) => {
     const [localSelectedPermissions, setLocalSelectedPermissions] = useState<string[]>(selectedPermissions)
 
     useEffect(() => {
@@ -54,7 +54,7 @@ export const SelectRoles: React.FC<SelectRolesProps> = ({ roles, selectedPermiss
                 SelectProps={{
                     MenuProps: {
                         MenuListProps: { sx: { width: "100%", height: "100%", bgcolor: "#E5E5E5" } },
-                        sx: { maxHeight: "29vh", borderRadius: "1vw" }, 
+                        sx: { maxHeight: "29vh", borderRadius: "1vw" },
                     },
                 }}
             >

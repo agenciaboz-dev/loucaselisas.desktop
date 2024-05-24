@@ -17,6 +17,7 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({ title, handleClick
             sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "2vw", ...style }}
             onClick={handleClick}
             type={type}
+            href=""
         >
             <Icon />
             {title}

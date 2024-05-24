@@ -71,7 +71,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
 
     useEffect(() => {
         setUsersRole(users.filter((item) => item.role.id === role.id).length)
-    }, [users])
+    }, [role])
     return (
         <form onSubmit={formik.handleSubmit} action="">
             <Paper
@@ -82,7 +82,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
                         Role ID
                     </Typography>
                     <Typography component={"p"} fontSize={"1.1rem"}>
-                        {role.name}
+                        {role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()}
                     </Typography>
                 </Box>
                 <Divider />

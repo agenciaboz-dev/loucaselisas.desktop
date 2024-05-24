@@ -6,11 +6,14 @@ import { TypeUserCard } from "../components/typeUsers/TypeUserCard"
 import { RoleInfo } from "../components/typeUsers/RoleInfo"
 import { api } from "../api/api"
 import { Role } from "../types/server/class/Role"
+import { AddTypeUserModal } from "../components/typeUsers/AddTypeUserModal"
 
 interface TypeUsersProps {}
 
 export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     const skeletonCourse: string[] = new Array(6).fill(`course`)
+    const [openModal, setopenModal] = useState(false)
+
     const [roles, setRoles] = useState<Role[]>([])
     const [skeletonLoading, setSkeletonLoading] = useState<boolean>(false)
     const [selectedRole, setSelectedRole] = useState<Role | null>(null)
@@ -37,7 +40,15 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
 
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
-            <HeaderInfo title="Tipos de Usuários" refreshButton={false} refreshCallback={() => {}} dashButton />
+            <HeaderInfo
+                title="Tipos de Usuários"
+                refreshButton={false}
+                refreshCallback={() => {}}
+                dashButton
+                handleClick={() => {
+                    setopenModal(true)
+                }}
+            />
             <Box
                 sx={{
                     flexDirection: "column",
@@ -98,6 +109,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                             selectedRole && <RoleInfo roles={roles} role={selectedRole} />
                         )}
                     </Box>
+                    <AddTypeUserModal openModal={openModal} setOpenModal={setopenModal} roles={roles} />
                 </Box>
             </Box>
         </Box>

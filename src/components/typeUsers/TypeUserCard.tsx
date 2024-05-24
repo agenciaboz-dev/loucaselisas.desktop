@@ -42,7 +42,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
                     setSelectedRole(role)
                 }}
             >
-                {role.name}
+                {role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()}
                 <Box>
                     <IconButton
                         aria-controls={open ? "basic-menu" : undefined}
