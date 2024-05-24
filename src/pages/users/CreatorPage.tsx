@@ -9,6 +9,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined"
 import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
+import { StatisticsView } from "./StatisticsView"
 
 interface CreatorPageProps {}
 
@@ -82,29 +83,14 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         <Typography
                             variant="body1"
                             component="p"
-                            sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem" }}
+                            sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem", fontWeight: 500 }}
                         >
                             Estatísticas
                         </Typography>
                         <Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw", flexDirection: "column", alignItems: "center" }}>
-                                <Box sx={{ gap: "0.5vw" }}>
-                                    <Typography>{statistic?.views}</Typography> <VisibilityOutlinedIcon />
-                                </Box>
-                                <Typography>Visualizados</Typography>
-                            </Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw", flexDirection: "column", alignItems: "center" }}>
-                                <Box sx={{ gap: "0.5vw" }}>
-                                    <Typography>{statistic?.likes}</Typography> <FavoriteBorderOutlinedIcon />
-                                </Box>
-                                <Typography>Favoritados</Typography>
-                            </Box>
-                            <Box sx={{ flex: 1, border: "1px solid red", height: "3vw", flexDirection: "column", alignItems: "center" }}>
-                                <Box sx={{ gap: "0.5vw" }}>
-                                    <Typography>{statistic?.messages}</Typography> <MessageOutlinedIcon />
-                                </Box>
-                                <Typography>Mensagens</Typography>
-                            </Box>
+                            <StatisticsView statistic={statistic?.views} icon={<VisibilityOutlinedIcon />} text="Visualizados" />
+                            <StatisticsView statistic={statistic?.likes} icon={<FavoriteBorderOutlinedIcon />} text="Favoritados" />
+                            <StatisticsView statistic={statistic?.messages} icon={<MessageOutlinedIcon />} text="Mensagens" />
                         </Box>
                     </Paper>
                 </Box>
