@@ -25,8 +25,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                             width: "75vw",
                             flexDirection: "column",
                             backgroundColor: "background.paper",
-                            p: "1.5vw",
-                            pt: "0.8vw",
+                            p: "1vw 1.5vw 0",
                             overflow: "hidden",
                         }}
                     >
