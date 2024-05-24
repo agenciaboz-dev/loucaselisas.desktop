@@ -46,7 +46,7 @@ export const DataCard: React.FC<DataCardProps> = ({
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ flexDirection: "column", position: "relative" }}>
+                <Paper sx={{ flexDirection: "column", position: "relative", height: "100%" }}>
                     <MenuItem sx={{ w: 1, m: 0, p: "0.5vw", gap: "0.5vw" }} onClick={() => navigate(link, { state: { data: routerParam } })}>
                         <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
                             <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>

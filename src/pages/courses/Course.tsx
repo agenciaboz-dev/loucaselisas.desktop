@@ -62,9 +62,9 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     }, [course])
 
     return course ? (
-        <Box sx={{ flexDirection: "column", gap: "1vw" }}>
+        <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
-            <Grid container spacing={3} sx={{ width: "75vw", height: "74vh" }}>
+            <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>
@@ -126,9 +126,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             gap: "1vw",
                             maxHeight: "71vh",
                             overflowY: "scroll",
-                            mx: "-0.5vw",
                             px: "0.5vw",
-                            pt: "0.1vw",
                         }}
                     >
                         <FormAproveCourse
@@ -143,7 +141,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                             sx={{
                                 flexDirection: "column",
                                 gap: "1vw",
-                                pb: "1vw",
+                                pb: "3vw",
                                 width: 1,
                             }}
                         >
