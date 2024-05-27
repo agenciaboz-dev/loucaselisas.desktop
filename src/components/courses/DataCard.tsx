@@ -121,7 +121,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                                     "&:hover": { textDecoration: "underline", cursor: "pointer" },
                                 }}
                                 onClick={() => {
-                                    course && navigate(`/usuarios/${slugify(course.owner.user.name!)}`, { state: { userId: course.owner.user_id } })
+                                    course && navigate(`/usuarios/${slugify(course.owner.user.name!)}`, { state: { user: course.owner.user } })
                                     lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { courseId: lesson.course.id } })
                                 }}
                             >
