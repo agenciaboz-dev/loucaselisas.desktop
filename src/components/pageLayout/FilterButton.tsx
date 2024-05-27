@@ -24,9 +24,11 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ active, loading, con
             ) : (
                 <>
                     <Button
+                        disableElevation
                         variant={active ? "contained" : "outlined"}
                         onClick={() => onClickFilter()}
                         sx={{
+                            backgroundColor: active ? "#88827C" : "",
                             minWidth: "9.98vw",
                             width: "9.98vw",
                             borderRadius: "2vw",
