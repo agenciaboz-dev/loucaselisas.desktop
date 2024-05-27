@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box, Divider, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, Box, Divider, IconButton, Paper, SxProps, Typography } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { User } from "../../types/server/class"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -8,13 +8,14 @@ import { Course } from "../../types/server/class/Course"
 interface MessageCardProps {
     message: Message
     course: Course
+    sx?: SxProps
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, course }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx }) => {
     const textCard = { maxWidth: "20.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
 
     return (
-        <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column" }}>
+        <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column", ...sx }}>
             <Box sx={{ gap: "0.5vw" }}>
                 <Box sx={{ flexDirection: "column" }}>
                     <Typography sx={textCard}>{course.name}</Typography>
