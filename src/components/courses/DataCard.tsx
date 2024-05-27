@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box, Divider, Grid, IconButton, MenuItem, Paper, Typography } from "@mui/material"
+import { Avatar, Box, Divider, Grid, IconButton, MenuItem, Paper, SxProps, Typography } from "@mui/material"
 import { StatData } from "./StatData"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
@@ -22,9 +22,10 @@ interface DataCardProps {
     downloads: number
     messages?: number
     views: number
-    userName: string | undefined
+    userName?: string
     link: string
     routerParam?: Course | Lesson | { lesson: Lesson }
+    sx?: SxProps
 }
 
 export const DataCard: React.FC<DataCardProps> = ({
@@ -40,13 +41,14 @@ export const DataCard: React.FC<DataCardProps> = ({
     userName,
     link,
     routerParam,
+    sx,
 }) => {
     const navigate = useNavigate()
 
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ flexDirection: "column", position: "relative", height: "100%" }}>
+                <Paper sx={{ flexDirection: "column", position: "relative", height: "100%", ...sx }}>
                     <MenuItem sx={{ w: 1, m: 0, p: "0.5vw", gap: "0.5vw" }} onClick={() => navigate(link, { state: { data: routerParam } })}>
                         <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
                             <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>
@@ -107,23 +109,25 @@ export const DataCard: React.FC<DataCardProps> = ({
                             <StatData stats={messages} Icon={ChatIcon} />
                             <StatData stats={views} Icon={VisibilityOutlinedIcon} />
                         </Box>
-                        <Typography
-                            variant="subtitle1"
-                            component="p"
-                            sx={{
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                                maxWidth: "12.5vw",
-                                "&:hover": { textDecoration: "underline", cursor: "pointer" },
-                            }}
-                            onClick={() => {
-                                course && navigate(`/users/${slugify(course?.owner_id)}`)
-                                lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { courseId: lesson.course.id } })
-                            }}
-                        >
-                            @{userName}
-                        </Typography>
+                        {userName && (
+                            <Typography
+                                variant="subtitle1"
+                                component="p"
+                                sx={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    maxWidth: "12.5vw",
+                                    "&:hover": { textDecoration: "underline", cursor: "pointer" },
+                                }}
+                                onClick={() => {
+                                    course && navigate(`/users/${slugify(course?.owner_id)}`)
+                                    lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { courseId: lesson.course.id } })
+                                }}
+                            >
+                                @{userName}
+                            </Typography>
+                        )}
                     </Box>
                 </Paper>
             </Grid>
