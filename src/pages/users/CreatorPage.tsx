@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, Tab, Tabs, TextField, Typography } from "@mui/material"
 import { useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { Creator, User } from "../../types/server/class"
@@ -28,11 +28,13 @@ interface MessageItem {
 
 type Messages = MessageItem[]
 
+// type data = [...Course[], ...Lesson[]]
+
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const gridColumnStyle = {
-        height: "71.6vh",
+        height: "69.5vh",
         flexDirection: "column",
-        padding: "0 0.1vw",
+        padding: "0.1vw 0.2vw 0.7vw",
         gap: "0.5vw",
         overflow: "scroll",
     }
@@ -51,8 +53,9 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
     const [userTypes, setUserTypes] = useState<Role[]>([])
     const [messages, setMessages] = useState<Messages>([])
-    const [coursesById, setCoursesById] = useState<Course[]>([])
-    const [lesson, setLesson] = useState<Lesson[]>([])
+    const [courses, setCourses] = useState<Course[]>([])
+    const [lessons, setLessons] = useState<Lesson[]>([])
+    const [currentTab, setCurrentTab] = useState(1)
 
     const fetchUser = async (id: string | undefined) => {
         try {
@@ -110,12 +113,12 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         }
     }
 
-    const fetchCoursesByUserId = async () => {
+    const fetchCourses = async () => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/course/user", { params: { user_id: id } })
-            setCoursesById(response.data)
+            const response = await api.get("/course/owner", { params: { owner_id: creator?.id } })
+            setCourses(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -124,6 +127,23 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             }, 300)
         }
     }
+
+    const fetchLessons = async () => {
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.get("/creator/lessons", { params: { creator_id: creator?.id } })
+            setLessons(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
+        }
+    }
+
     useEffect(() => {
         fetchUser(id)
     }, [])
@@ -132,7 +152,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         if (user) {
             fetchMessages()
             fetchUsersTypes()
-            fetchCoursesByUserId()
             setCreator(user.creator)
         }
     }, [user])
@@ -140,6 +159,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     useEffect(() => {
         if (creator) {
             fetchStatistic()
+            fetchCourses()
+            fetchLessons()
         }
     }, [creator])
 
@@ -220,35 +241,60 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 </Box>
                 <Grid container spacing={3} columns={2} sx={{}}>
                     <Grid item xs={1}>
-                        <Box sx={gridColumnStyle}>
-                            <ColumnTitle prop="Ultímos Comentários" />
+                        <ColumnTitle prop="Ultímos Comentários" />
+                        <Box sx={{ ...gridColumnStyle }}>
                             {messages.map((item) => (
-                                <MessageCard key={item.message.id} message={item.message} course={item.course} />
+                                <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
                             ))}
                         </Box>
                     </Grid>
                     <Grid item xs={1}>
+                        <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
+                            <Tab value={1} label="Cursos" />
+                            <Tab value={2} label="Lessons" />
+                        </Tabs>
                         <Box
                             sx={{
                                 ...gridColumnStyle,
+                                pt: "0.2vw",
+                                pb: "1.6vw",
                             }}
                         >
-                            <ColumnTitle prop="Cursos e Lições" />
-                            {coursesById.map((course) => (
-                                <DataCard
-                                    key={course.id}
-                                    description={course.description}
-                                    downloads={course.downloads}
-                                    image={course.cover}
-                                    likes={course.likes}
-                                    title={course.name}
-                                    views={course.views}
-                                    messages={course.chat?.messages}
-                                    link={`/cursos/${slugify(course.name)}`}
-                                    routerParam={course}
-                                    sx={{ width: "24.55vw" }}
-                                />
-                            ))}
+                            {currentTab === 1 &&
+                                courses.map((course) => (
+                                    <DataCard
+                                        key={course.id}
+                                        course={course}
+                                        image={course.cover}
+                                        title={course.name}
+                                        description={course.description}
+                                        likes={course.likes}
+                                        downloads={course.downloads}
+                                        messages={course.chat?.messages}
+                                        views={course.views}
+                                        userName={course.owner.user.username}
+                                        link={`/cursos/${slugify(course.name)}`}
+                                        routerParam={course}
+                                        sx={{ width: "24.4vw" }}
+                                    />
+                                ))}
+                            {currentTab === 2 &&
+                                lessons.map((lesson) => (
+                                    <DataCard
+                                        key={lesson.id}
+                                        lesson={lesson}
+                                        image={lesson.thumb || lesson.media.url}
+                                        title={lesson.name}
+                                        description={lesson.info}
+                                        likes={lesson.likes}
+                                        downloads={lesson.downloads}
+                                        views={lesson.views}
+                                        userName={lesson.course.name}
+                                        link={`/licoes/${slugify(lesson.name)}`}
+                                        routerParam={{ lesson }}
+                                        sx={{ width: "24.4vw" }}
+                                    />
+                                ))}
                         </Box>
                     </Grid>
                 </Grid>
