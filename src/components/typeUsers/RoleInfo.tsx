@@ -74,9 +74,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
     }, [role])
     return (
         <form onSubmit={formik.handleSubmit} action="">
-            <Paper
-                sx={{ borderRadius: "1vw", width: 0.28, height: "100%", p: "1vw", flexDirection: "column", gap: "0.5vw" }}
-            >
+            <Paper sx={{ borderRadius: "1vw", flex: 1, height: "100%", p: "1vw", flexDirection: "column", gap: "0.5vw" }}>
                 <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
                     <Typography component={"h2"} fontSize={"1.3rem"}>
                         Role ID
@@ -100,8 +98,8 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
                         Descrição
                     </Typography>
                     <Typography component={"p"} fontSize={"1rem"}>
-                        Facilisi etiam dignissim diam quis enim lobortis. Gravida arcu ac tortor dignissim convallis aenean
-                        et. Bibendum enim facilisis gravida neque convallis. Malesuada fames ac turpis egestas integer.
+                        Facilisi etiam dignissim diam quis enim lobortis. Gravida arcu ac tortor dignissim convallis aenean et. Bibendum enim
+                        facilisis gravida neque convallis. Malesuada fames ac turpis egestas integer.
                     </Typography>
                 </Box>
                 <Divider />
@@ -137,13 +135,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
                         roles={roles}
                     />
                 </Box>
-                <OutlineButton
-                    type="submit"
-                    title="Editar"
-                    handleClick={() => {}}
-                    Icon={FaEdit}
-                    style={{ alignSelf: "end" }}
-                />
+                <OutlineButton type="submit" title="Editar" handleClick={() => {}} Icon={FaEdit} style={{ alignSelf: "end", padding: "2px 10px" }} />
             </Paper>
         </form>
     )
