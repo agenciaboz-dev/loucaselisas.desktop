@@ -272,7 +272,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                         downloads={course.downloads}
                                         messages={course.chat?.messages}
                                         views={course.views}
-                                        userName={course.owner.user.username}
                                         link={`/cursos/${slugify(course.name)}`}
                                         routerParam={course}
                                         sx={{ width: "24.4vw" }}
