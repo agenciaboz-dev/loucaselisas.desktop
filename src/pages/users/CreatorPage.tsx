@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
-import { User } from "../../types/server/class"
+import { Creator, User } from "../../types/server/class"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
@@ -17,8 +17,16 @@ import { Course } from "../../types/server/class/Course"
 import { ColumnTitle } from "./ColumnTitle"
 import { DataCard } from "../../components/courses/DataCard"
 import { slugify } from "../../tools/urlMask"
+import { Lesson } from "../../types/server/class/Course/Lesson"
 
 interface CreatorPageProps {}
+
+interface MessageItem {
+    message: Message
+    course: Course
+}
+
+type Messages = MessageItem[]
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const gridColumnStyle = {
@@ -31,17 +39,29 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
 
     const location = useLocation()
     const userId = location.state.userId as string | undefined
-    const [user, setuser] = useState(location.state.user as User)
+    const [user, setuser] = useState(location.state.user as User | undefined)
     const id = user ? user?.id : userId
-
-    const creator = user.creator
+    const [creator, setCreator] = useState(user?.creator)
+    // console.log({ User: user })
+    // console.log({ Creator: creator })
+    // console.log(creator?.id)
 
     const [loading, setLoading] = useState(false)
 
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
     const [userTypes, setUserTypes] = useState<Role[]>([])
-    const [messages, setMessages] = useState<Message[]>([])
+    const [messages, setMessages] = useState<Messages>([])
     const [coursesById, setCoursesById] = useState<Course[]>([])
+    const [lesson, setLesson] = useState<Lesson[]>([])
+
+    const fetchUser = async (id: string | undefined) => {
+        try {
+            const response = await api.get("/user", { params: { id: id } })
+            setuser(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const fetchUsersTypes = async () => {
         if (loading) return
@@ -66,7 +86,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         try {
             const response = await api.get("/creator/statistics", { params: { creator_id: creator?.id } })
             setStatistic(response.data)
-            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -80,9 +99,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/user/message", { params: { user_id: user.id } })
+            const response = await api.get("/user/messages", { params: { user_id: id } })
             setMessages(response.data)
-            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -106,30 +124,26 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             }, 300)
         }
     }
-
-    const fetchUser = async (id: string | undefined) => {
-        try {
-            const response = await api.get("/user", { params: { id: id } })
-            setuser(response.data)
-            console.log(user)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     useEffect(() => {
-        fetchStatistic()
-        fetchMessages()
-        fetchUsersTypes()
-        fetchCoursesByUserId()
         fetchUser(id)
     }, [])
 
-    // useEffect(() => {
-    //     if (user) setUser
-    // }, [user])
+    useEffect(() => {
+        if (user) {
+            fetchMessages()
+            fetchUsersTypes()
+            fetchCoursesByUserId()
+            setCreator(user.creator)
+        }
+    }, [user])
 
-    return (
+    useEffect(() => {
+        if (creator) {
+            fetchStatistic()
+        }
+    }, [creator])
+
+    return user ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
             <Box sx={{ gap: "1vw", height: 1 }}>
@@ -151,7 +165,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             <Avatar src={placeholders.avatar} />
                         </Avatar>
                         <Box sx={{ marginLeft: "auto", marginTop: "-3.5vw", gap: "0.5vw", alignItems: "center" }}>
-                            <TextField //todo finalizar a função de seleção
+                            {/* <TextField //todo finalizar a função de seleção
                                 InputProps={{ sx: { height: "1.7vw", width: "9vw" } }}
                                 SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiline: true }}
                                 select
@@ -161,7 +175,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                         {type.name}
                                     </MenuItem>
                                 ))}
-                            </TextField>
+                            </TextField> */}
                             <Button variant="contained" sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}>
                                 Salvar
                             </Button>
@@ -208,8 +222,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                     <Grid item xs={1}>
                         <Box sx={gridColumnStyle}>
                             <ColumnTitle prop="Ultímos Comentários" />
-                            {messages.map((message) => (
-                                <MessageCard key={message.id} message={message} user={user} />
+                            {messages.map((item) => (
+                                <MessageCard key={item.message.id} message={item.message} course={item.course} />
                             ))}
                         </Box>
                     </Grid>
@@ -221,33 +235,24 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         >
                             <ColumnTitle prop="Cursos e Lições" />
                             {coursesById.map((course) => (
-                                <Box key={course.id} sx={{ flexDirection: "column", gap: "1vw" }}>
-                                    <DataCard
-                                        // key={course.id}
-                                        description={course.description}
-                                        downloads={course.downloads}
-                                        image={course.cover}
-                                        likes={course.likes}
-                                        title={course.name}
-                                        views={course.views}
-                                        messages={course.chat?.messages}
-                                        link={`/cursos/${slugify(course.name)}`}
-                                        routerParam={course}
-                                        sx={{ width: "24.55vw" }}
-                                    />
-                                    {/* <Button
-                                        onClick={() => {
-                                            fetchUser(course.owner.user_id)
-                                        }}
-                                    >
-                                        buscar
-                                    </Button> */}
-                                </Box>
+                                <DataCard
+                                    key={course.id}
+                                    description={course.description}
+                                    downloads={course.downloads}
+                                    image={course.cover}
+                                    likes={course.likes}
+                                    title={course.name}
+                                    views={course.views}
+                                    messages={course.chat?.messages}
+                                    link={`/cursos/${slugify(course.name)}`}
+                                    routerParam={course}
+                                    sx={{ width: "24.55vw" }}
+                                />
                             ))}
                         </Box>
                     </Grid>
                 </Grid>
             </Box>
         </Box>
-    )
+    ) : null
 }
