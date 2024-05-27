@@ -3,6 +3,7 @@ import { Avatar, Box, List, Paper, Typography, useTheme } from "@mui/material"
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn"
 import AutoStoriesIcon from "@mui/icons-material/AutoStories"
 import GroupIcon from "@mui/icons-material/Group"
+import BadgeIcon from "@mui/icons-material/Badge"
 import GroupsIcon from "@mui/icons-material/Groups"
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo"
 import ViewListIcon from "@mui/icons-material/ViewList"
@@ -27,7 +28,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
         { label: "Lições", icon: <AutoStoriesIcon />, path: "/licoes" },
         // { label: "Aprovar", icon: <AssignmentTurnedInIcon />, path: "/aprovar" },
         { label: "Usuários", icon: <GroupIcon />, path: "/usuarios" },
-        { label: "Tipos de Usuários", icon: <GroupIcon />, path: "/tipos-usuarios" },
+        { label: "Tipos de Usuários", icon: <BadgeIcon />, path: "/tipos-usuarios" },
         { label: "Grupos", icon: <GroupsIcon />, path: "/grupos" },
     ]
 

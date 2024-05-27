@@ -60,10 +60,10 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
 
                     {refreshButton && <RefreshButton loading={loading} callBack={refreshCallback} />}
 
-                    {dashButton && (
+                    {dashButton && !loading && (
                         <Button
                             variant="outlined"
-                            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw" }}
+                            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw", padding: "2px 10px" }}
                             onClick={handleClick}
                         >
                             Adicionar novo usuário

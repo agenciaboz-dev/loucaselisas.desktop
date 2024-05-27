@@ -31,6 +31,15 @@ export const SearchBar: React.FC<ISearchBar> = ({ handleSearch }) => {
                         gap: "1vw",
                         borderRadius: "2vw",
                         backgroundColor: "secondary.main",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "transparent",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#88827C",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#88827C",
+                        },
                     },
                 }}
             />
