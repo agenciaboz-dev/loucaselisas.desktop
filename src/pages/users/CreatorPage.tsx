@@ -30,7 +30,9 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     }
 
     const location = useLocation()
+    const userId = location.state.userId as string | undefined
     const [user, setuser] = useState(location.state.user as User)
+    const id = user ? user?.id : userId
 
     const creator = user.creator
 
@@ -80,7 +82,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         try {
             const response = await api.get("/user/message", { params: { user_id: user.id } })
             setMessages(response.data)
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -94,7 +96,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/course/user", { params: { user_id: user.id } })
+            const response = await api.get("/course/user", { params: { user_id: id } })
             setCoursesById(response.data)
         } catch (error) {
             console.log(error)
@@ -105,12 +107,27 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         }
     }
 
+    const fetchUser = async (id: string | undefined) => {
+        try {
+            const response = await api.get("/user", { params: { id: id } })
+            setuser(response.data)
+            console.log(user)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         fetchStatistic()
         fetchMessages()
         fetchUsersTypes()
         fetchCoursesByUserId()
+        fetchUser(id)
     }, [])
+
+    // useEffect(() => {
+    //     if (user) setUser
+    // }, [user])
 
     return (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
@@ -204,19 +221,28 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         >
                             <ColumnTitle prop="Cursos e Lições" />
                             {coursesById.map((course) => (
-                                <DataCard
-                                    key={course.id}
-                                    description={course.description}
-                                    downloads={course.downloads}
-                                    image={course.cover}
-                                    likes={course.likes}
-                                    title={course.name}
-                                    views={course.views}
-                                    messages={course.chat?.messages}
-                                    link={`/cursos/${slugify(course.name)}`}
-                                    routerParam={course}
-                                    sx={{ width: "24.55vw" }}
-                                />
+                                <Box key={course.id} sx={{ flexDirection: "column", gap: "1vw" }}>
+                                    <DataCard
+                                        // key={course.id}
+                                        description={course.description}
+                                        downloads={course.downloads}
+                                        image={course.cover}
+                                        likes={course.likes}
+                                        title={course.name}
+                                        views={course.views}
+                                        messages={course.chat?.messages}
+                                        link={`/cursos/${slugify(course.name)}`}
+                                        routerParam={course}
+                                        sx={{ width: "24.55vw" }}
+                                    />
+                                    {/* <Button
+                                        onClick={() => {
+                                            fetchUser(course.owner.user_id)
+                                        }}
+                                    >
+                                        buscar
+                                    </Button> */}
+                                </Box>
                             ))}
                         </Box>
                     </Grid>
