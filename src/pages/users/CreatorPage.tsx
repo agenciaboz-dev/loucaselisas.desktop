@@ -13,14 +13,25 @@ import { StatisticsView } from "./StatisticsView"
 import { Role } from "../../types/server/class/Role"
 import { Message } from "../../types/server/class/Chat/Message"
 import { MessageCard } from "./MessageCard"
+import { Course } from "../../types/server/class/Course"
+import { ColumnTitle } from "./ColumnTitle"
+import { DataCard } from "../../components/courses/DataCard"
+import { slugify } from "../../tools/urlMask"
 
 interface CreatorPageProps {}
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
+    const gridColumnStyle = {
+        height: "71.6vh",
+        flexDirection: "column",
+        padding: "0 0.1vw",
+        gap: "0.5vw",
+        overflow: "scroll",
+    }
+
     const location = useLocation()
     const [user, setuser] = useState(location.state.user as User)
 
-    console.log(user.id)
     const creator = user.creator
 
     const [loading, setLoading] = useState(false)
@@ -28,20 +39,21 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
     const [userTypes, setUserTypes] = useState<Role[]>([])
     const [messages, setMessages] = useState<Message[]>([])
+    const [coursesById, setCoursesById] = useState<Course[]>([])
 
-    const fetchMessages = async () => {
+    const fetchUsersTypes = async () => {
         if (loading) return
         setLoading(true)
+
         try {
-            const response = await api.get("/user/message", { params: { user_id: user.id } })
-            setMessages(response.data)
-            console.log(response.data)
+            const response = await api.get("/user/types")
+            setUserTypes(response.data)
         } catch (error) {
             console.log(error)
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            })
+            }, 500)
         }
     }
 
@@ -62,19 +74,34 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         }
     }
 
-    const fetchUsersTypes = async () => {
+    const fetchMessages = async () => {
         if (loading) return
         setLoading(true)
-
         try {
-            const response = await api.get("/user/types")
-            setUserTypes(response.data)
+            const response = await api.get("/user/message", { params: { user_id: user.id } })
+            setMessages(response.data)
+            console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            }, 500)
+            })
+        }
+    }
+
+    const fetchCoursesByUserId = async () => {
+        if (loading) return
+        setLoading(true)
+        try {
+            const response = await api.get("/course/user", { params: { user_id: user.id } })
+            setCoursesById(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
         }
     }
 
@@ -82,6 +109,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         fetchStatistic()
         fetchMessages()
         fetchUsersTypes()
+        fetchCoursesByUserId()
     }, [])
 
     return (
@@ -89,9 +117,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
             <Box sx={{ gap: "1vw", height: 1 }}>
                 <Box sx={{ height: 1, maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw" }}>
-                    <Typography variant="body1" component="p" sx={{ fontSize: "1.3rem" }}>
-                        Nome: {creator?.nickname}
-                    </Typography>
+                    <ColumnTitle prop="Nome:" value={creator?.nickname} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
                             <Avatar
@@ -163,17 +189,36 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 </Box>
                 <Grid container spacing={3} columns={2} sx={{}}>
                     <Grid item xs={1}>
-                        <Box sx={{ height: "71.6vh", flexDirection: "column", padding: "0 0.1vw", gap: "0.5vw", overflow: "scroll" }}>
-                            <Typography variant="body1" component="p" sx={{ fontSize: "1.3rem" }}>
-                                Ultímos Comentários
-                            </Typography>
+                        <Box sx={gridColumnStyle}>
+                            <ColumnTitle prop="Ultímos Comentários" />
                             {messages.map((message) => (
                                 <MessageCard key={message.id} message={message} user={user} />
                             ))}
                         </Box>
                     </Grid>
                     <Grid item xs={1}>
-                        <Box sx={{ flex: 1, border: "1px solid red" }}></Box>
+                        <Box
+                            sx={{
+                                ...gridColumnStyle,
+                            }}
+                        >
+                            <ColumnTitle prop="Cursos e Lições" />
+                            {coursesById.map((course) => (
+                                <DataCard
+                                    key={course.id}
+                                    description={course.description}
+                                    downloads={course.downloads}
+                                    image={course.cover}
+                                    likes={course.likes}
+                                    title={course.name}
+                                    views={course.views}
+                                    messages={course.chat?.messages}
+                                    link={`/cursos/${slugify(course.name)}`}
+                                    routerParam={course}
+                                    sx={{ width: "24.55vw" }}
+                                />
+                            ))}
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
