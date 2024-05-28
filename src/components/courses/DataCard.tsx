@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Avatar, Box, Divider, Grid, IconButton, MenuItem, Paper, SxProps, Typography } from "@mui/material"
 import { StatData } from "./StatData"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -11,6 +11,8 @@ import { Course } from "../../types/server/class/Course"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import placeholders from "../../tools/placeholders"
 import { slugify } from "../../tools/urlMask"
+import { User } from "../../types/server/class"
+import { api } from "../../api/api"
 
 interface DataCardProps {
     lesson?: Lesson
@@ -44,6 +46,28 @@ export const DataCard: React.FC<DataCardProps> = ({
     sx,
 }) => {
     const navigate = useNavigate()
+
+    const [user, setuser] = useState<User>()
+    const [loading, setLoading] = useState(false)
+
+    const fetchUser = async () => {
+        if (loading) return
+        setLoading(true)
+        try {
+            const response = await api.get("/user", { params: { id: course?.owner.user.id } })
+            setuser(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
 
     return (
         <>
@@ -121,7 +145,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                                     "&:hover": { textDecoration: "underline", cursor: "pointer" },
                                 }}
                                 onClick={() => {
-                                    course && navigate(`/usuarios/${slugify(course.owner.user.name!)}`, { state: { user: course.owner.user } })
+                                    course && navigate(`/usuarios/${slugify(course.owner.user.name!)}`, { state: { user: user } })
                                     lesson && navigate(`/cursos/${slugify(lesson.course.name)}`, { state: { courseId: lesson.course.id } })
                                 }}
                             >
