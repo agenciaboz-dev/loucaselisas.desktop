@@ -1,12 +1,13 @@
 import React from "react"
-import { Fade, IconButton, Menu, MenuItem, Typography } from "@mui/material"
+import { Fade, IconButton, Menu, MenuItem, SxProps, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 
 interface OptionsMenuProps {
     paths: { link: string; title: string; icon: React.ReactNode }[]
+    sx?: SxProps
 }
 
-export const OptionsMenu: React.FC<OptionsMenuProps> = ({ paths }) => {
+export const OptionsMenu: React.FC<OptionsMenuProps> = ({ paths, sx }) => {
     const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorElement)
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -18,7 +19,7 @@ export const OptionsMenu: React.FC<OptionsMenuProps> = ({ paths }) => {
 
     return (
         <>
-            <IconButton id="fade-button" onClick={handleClick} color="secondary">
+            <IconButton id="fade-button" onClick={handleClick} sx={sx}>
                 <MoreVertIcon />
             </IconButton>
             <Menu id="fade-menu" anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade}>
