@@ -13,8 +13,11 @@ import placeholders from "../../tools/placeholders"
 import { slugify } from "../../tools/urlMask"
 import { User } from "../../types/server/class"
 import { api } from "../../api/api"
+import { OptionsMenu } from "../menus/OptionsMenu"
+import { Paths } from "../../types/paths"
 
 interface DataCardProps {
+    paths?: Paths
     lesson?: Lesson
     course?: Course
     image: string
@@ -31,6 +34,7 @@ interface DataCardProps {
 }
 
 export const DataCard: React.FC<DataCardProps> = ({
+    paths,
     lesson,
     course,
     image,
@@ -109,7 +113,19 @@ export const DataCard: React.FC<DataCardProps> = ({
                             </Box>
                         </Box>
                     </MenuItem>
-                    <IconButton
+                    <OptionsMenu
+                        paths={paths}
+                        sx={{
+                            position: "absolute",
+                            right: 0,
+                            top: "0.5vw",
+                            height: "2vw",
+                            p: "0.2vw",
+                            mr: "0.5vw",
+                            minHeight: 0,
+                        }}
+                    />
+                    {/* <IconButton
                         onClick={() => {
                             console.log("clicou em opções")
                         }}
@@ -124,7 +140,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                         }}
                     >
                         <MoreVertIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <Divider />
                     <Box sx={{ justifyContent: "space-between", p: "0.5vw", gap: "0.5vw" }}>
                         <Box sx={{ gap: "1vw" }}>
