@@ -58,12 +58,18 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
     const [lessons, setLessons] = useState<Lesson[]>([])
     const [currentTab, setCurrentTab] = useState(1)
 
-    const fetchUser = async (id: string | undefined) => {
+    const fetchUser = async () => {
+        if (loading) return
+        setLoading(true)
         try {
             const response = await api.get("/user", { params: { id: id } })
             setuser(response.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
         }
     }
 
@@ -79,7 +85,7 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            }, 500)
+            }, 300)
         }
     }
 
@@ -110,7 +116,7 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            })
+            }, 300)
         }
     }
 
@@ -132,7 +138,6 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
     const fetchLessons = async () => {
         if (loading) return
         setLoading(true)
-
         try {
             const response = await api.get("/creator/lessons", { params: { creator_id: creator?.id } })
             setLessons(response.data)
@@ -146,7 +151,7 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
     }
 
     useEffect(() => {
-        fetchUser(id)
+        fetchUser()
     }, [])
 
     useEffect(() => {
