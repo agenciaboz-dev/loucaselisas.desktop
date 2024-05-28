@@ -96,7 +96,7 @@ export const FilterCourses: React.FC<FilterCoursesProps> = ({ onFilter, courses,
             <FilterButton active={"popular" === active} content="Mais Vistos" onClickFilter={() => onClickFilter("popular")} />
             {optionalFilters && (
                 <>
-                    <FilterButton active={"pending" === active} content="Em Análise" onClickFilter={() => onClickFilter("pending")} />
+                    <FilterButton active={"pending" === active} content="Pendente" onClickFilter={() => onClickFilter("pending")} />
                     <FilterButton active={"aproved" === active} content="Aprovados" onClickFilter={() => onClickFilter("aproved")} />
                     <FilterButton active={"reproved" === active} content="Recusados" onClickFilter={() => onClickFilter("reproved")} />
                 </>
