@@ -6,13 +6,13 @@ import { paths } from "../../paths"
 interface MenuMobileDropProps {}
 
 export const MenuMobileDrop: React.FC<MenuMobileDropProps> = ({}) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-    const open = Boolean(anchorEl)
+    const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(null)
+    const open = Boolean(anchorElement)
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget)
+        setAnchorElement(event.currentTarget)
     }
     const handleClose = () => {
-        setAnchorEl(null)
+        setAnchorElement(null)
     }
 
     return (
@@ -20,7 +20,7 @@ export const MenuMobileDrop: React.FC<MenuMobileDropProps> = ({}) => {
             <IconButton id="fade-button" onClick={handleClick} color="secondary">
                 <MenuIcon />
             </IconButton>
-            <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade}>
+            <Menu id="fade-menu" anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade}>
                 {paths.map((path) => (
                     <MenuItem key={path.link} onClick={() => window.open(path.link, "_blank")} sx={{ justifyContent: "right" }}>
                         <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
