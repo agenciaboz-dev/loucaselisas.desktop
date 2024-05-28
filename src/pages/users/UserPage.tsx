@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, Tab, Tabs, TextField, Typography } from "@mui/material"
-import { useLocation } from "react-router-dom"
+import { Avatar, Box, Button, Grid, IconButton, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
+import { Form, useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -19,7 +19,9 @@ import { DataCard } from "../../components/courses/DataCard"
 import { slugify } from "../../tools/urlMask"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
-
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import { PartialUser } from "../../types/server/class/User"
 interface CreatorPageProps {}
 
 interface MessageItem {
@@ -57,6 +59,32 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
     const [courses, setCourses] = useState<Course[]>([])
     const [lessons, setLessons] = useState<Lesson[]>([])
     const [currentTab, setCurrentTab] = useState(1)
+
+    const required_message = "Campo obrigatório"
+    const validateSchema = Yup.object().shape({
+        role: Yup.number().min(1, required_message),
+    })
+
+    const formik = useFormik<PartialUser>({
+        initialValues: { id: user!.id, role: user?.role.id },
+        onSubmit: async (values) => {
+            if (loading) return
+            setLoading(true)
+
+            try {
+                console.log(values)
+                const response = await api.patch("/user", values)
+                console.log(response.data)
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 300)
+            }
+        },
+        validationSchema: validateSchema,
+    })
 
     const fetchUser = async () => {
         if (loading) return
@@ -190,27 +218,39 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Avatar
-                            src={(creator ? creator.image : user.image) || placeholders.avatar}
-                            sx={{ width: "6vw", height: "6vw", marginTop: "-4vw" }}
-                        >
-                            <Avatar src={placeholders.avatar} />
-                        </Avatar>
-                        <Box sx={{ marginLeft: "auto", marginTop: "-3.5vw", gap: "0.5vw", alignItems: "center" }}>
-                            {/* <TextField //todo finalizar a função de seleção
-                                InputProps={{ sx: { height: "1.7vw", width: "9vw" } }}
-                                SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiline: true }}
-                                select
-                            >
-                                {userTypes.map((type) => (
-                                    <MenuItem value={type.id} key={type.id}>
-                                        {type.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
-                            <Button variant="contained" sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}>
-                                Salvar
-                            </Button>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-2.5vw" }}>
+                            <Avatar src={(creator ? creator.image : user.image) || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
+                                <Avatar src={placeholders.avatar} />
+                            </Avatar>
+                            <Box sx={{ alignItems: "center", justifyContent: "end" }}>
+                                <Typography variant="body1" component="p">
+                                    Tornar um usuário um criador de conteúdo
+                                </Typography>
+                                <Switch />
+                            </Box>
+                        </Box>
+                        <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
+                            <form onSubmit={formik.handleSubmit}>
+                                <TextField //todo finalizar a função de seleção
+                                    name="role"
+                                    value={formik.values.role}
+                                    onChange={formik.handleChange}
+                                    InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
+                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiline: true }}
+                                    select
+                                    error={formik.touched.role && Boolean(formik.errors.role)}
+                                    helperText={formik.touched.role && formik.errors.role}
+                                >
+                                    {userTypes.map((type) => (
+                                        <MenuItem value={type.id} key={type.id}>
+                                            {type.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                <Button type="submit" variant="contained" sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}>
+                                    Salvar
+                                </Button>
+                            </form>
                         </Box>
                         <Box>
                             <Typography
