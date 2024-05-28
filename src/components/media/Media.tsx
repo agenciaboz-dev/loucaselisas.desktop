@@ -14,7 +14,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
     return (
         <>
             <Paper
-                sx={{ borderRadius: "1vw", width: "42.5vw", aspectRatio: "16/9" }}
+                sx={{ borderRadius: "1vw", width: "42.5vw", height: "23.9vw" }}
                 onMouseEnter={() => {
                     setShowCarrosel && setShowCarrosel(true)
                 }}
@@ -29,7 +29,8 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
                         style={{
                             borderRadius: "1vw",
                             width: "100%",
-                            height: "100%",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
                         }}
                     />
                 )}
