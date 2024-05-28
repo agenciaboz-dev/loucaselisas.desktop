@@ -12,14 +12,14 @@ interface MessageCardProps {
 }
 
 export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx }) => {
-    const textCard = { maxWidth: "20.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
+    const textCard = { maxWidth: "19.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
 
     return (
         <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column", ...sx }}>
-            <Box sx={{ gap: "0.5vw" }}>
+            <Box sx={{ gap: "0.5vw", justifyContent: "space-between" }}>
                 <Box sx={{ flexDirection: "column" }}>
                     <Typography sx={textCard}>{course.name}</Typography>
-                    <Typography sx={textCard}>{course.description}</Typography>
+                    <Typography sx={{ ...textCard }}>{course.description}</Typography>
                 </Box>
                 <Box>
                     <Avatar src={course.cover} variant="rounded" sx={{ width: "2.5vw", height: "2.5vw" }}></Avatar>
