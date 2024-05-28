@@ -151,16 +151,25 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 <Grid item xs={1}>
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Typography>Categorias</Typography>
-                        <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
-                            <Button
-                                startIcon={<AddCircleOutlineIcon />}
-                                sx={{ borderRadius: "5vw", border: "1px dashed" }}
-                                onClick={() => {
-                                    setOpenCategoryModal(!openCategoryModal)
-                                }}
-                            >
-                                Adicionar Categoria
-                            </Button>
+                        <Box sx={{ flexDirection: "column" }}>
+                            {loading ? (
+                                <Skeleton
+                                    sx={{
+                                        borderRadius: "5vw",
+                                        height: "3vw",
+                                    }}
+                                />
+                            ) : (
+                                <Button
+                                    startIcon={<AddCircleOutlineIcon />}
+                                    sx={{ borderRadius: "5vw", border: "1px dashed" }}
+                                    onClick={() => {
+                                        setOpenCategoryModal(!openCategoryModal)
+                                    }}
+                                >
+                                    Adicionar Categoria
+                                </Button>
+                            )}
                         </Box>
                         <Box
                             sx={{
@@ -207,19 +216,23 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 <Grid item xs={1}>
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Typography>Planos</Typography>
-                        <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
-                            <Button
-                                startIcon={<AddCircleOutlineIcon />}
-                                sx={{ borderRadius: "5vw", border: "1px dashed" }}
-                                onClick={() => {
-                                    formikPlans.resetForm()
-                                    setOpenPlanModal(true)
+                        <Box sx={{ flexDirection: "column" }}>
+                            {loading ? (
+                                <Skeleton sx={{ borderRadius: "5vw", height: "3vw" }} />
+                            ) : (
+                                <Button
+                                    startIcon={<AddCircleOutlineIcon />}
+                                    sx={{ borderRadius: "5vw", border: "1px dashed" }}
+                                    onClick={() => {
+                                        formikPlans.resetForm()
+                                        setOpenPlanModal(true)
 
-                                    // console.log(openPlanModal)
-                                }}
-                            >
-                                Adicionar Planos
-                            </Button>
+                                        // console.log(openPlanModal)
+                                    }}
+                                >
+                                    Adicionar Planos
+                                </Button>
+                            )}
                         </Box>
                         <Box
                             sx={{
@@ -256,8 +269,8 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 </Grid>
                 <Grid item xs={1}>
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
-                        <Typography>Graficos</Typography>
-                        <StatisticGraphycs />
+                        <Typography>Gráficos</Typography>
+                        {loading ? <Skeleton sx={{ height: "15vw" }} /> : <StatisticGraphycs />}
                     </Box>
                 </Grid>
             </Grid>
