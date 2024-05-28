@@ -208,7 +208,7 @@ export const UserPage: React.FC<CreatorPageProps> = ({}) => {
             />
             <Box sx={{ gap: "1vw", height: 1 }}>
                 <Box sx={{ height: 1, maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw", flex: 1 }}>
-                    <ColumnTitle prop="Nome:" value={creator ? creator?.nickname : user.name} />
+                    <ColumnTitle prop="Nome:" value={creator ? creator?.nickname : user.username} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
                             <Avatar
