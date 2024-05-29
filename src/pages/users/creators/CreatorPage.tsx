@@ -43,7 +43,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
 
     const location = useLocation()
     const userId = location.state.userId as string | undefined
-    const [user, setuser] = useState(location.state.user as User | undefined)
+    const [user, setUser] = useState(location.state.user as User | undefined)
     const id = user ? user?.id : userId
     const [creator, setCreator] = useState(user?.creator)
     // console.log({ User: user })
@@ -60,12 +60,12 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [currentTab, setCurrentTab] = useState(1)
 
     const required_message = "Campo obrigatório"
-    const validateSchema = Yup.object().shape({
-        role: Yup.number().min(1, required_message),
-    })
+    // const validateSchema = Yup.object().shape({
+    //     role: Yup.number().min(1, required_message),
+    // })
 
     const formik = useFormik<PartialUser>({
-        initialValues: { id: user!.id, role: user?.role.id },
+        initialValues: { id: user!.id, role: user?.role },
         onSubmit: async (values) => {
             if (loading) return
             setLoading(true)
@@ -74,6 +74,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 console.log(values)
                 const response = await api.patch("/user", values)
                 console.log(response.data)
+                setUser(response.data)
             } catch (error) {
                 console.log(error)
             } finally {
@@ -82,7 +83,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 }, 300)
             }
         },
-        validationSchema: validateSchema,
+        // validationSchema: validateSchema,
+        enableReinitialize: true,
     })
 
     const fetchUser = async () => {
@@ -90,7 +92,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         setLoading(true)
         try {
             const response = await api.get("/user", { params: { id: id } })
-            setuser(response.data)
+            setUser(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -224,10 +226,10 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             <form onSubmit={formik.handleSubmit}>
                                 <TextField //todo finalizar a função de seleção
                                     name="role"
-                                    value={formik.values.role}
+                                    value={formik.values.role?.id}
                                     onChange={formik.handleChange}
                                     InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
-                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiline: true }}
+                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
                                     select
                                     error={formik.touched.role && Boolean(formik.errors.role)}
                                     helperText={formik.touched.role && formik.errors.role}
