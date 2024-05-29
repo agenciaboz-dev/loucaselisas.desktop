@@ -33,7 +33,7 @@ type Messages = MessageItem[]
 
 // type data = [...Course[], ...Lesson[]]
 
-export const UserPage: React.FC<CreatorPageProps> = ({}) => {
+export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const gridColumnStyle = {
         height: "69.5vh",
         flexDirection: "column",
