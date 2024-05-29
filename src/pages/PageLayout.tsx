@@ -25,11 +25,11 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                             width: "75vw",
                             flexDirection: "column",
                             backgroundColor: "background.paper",
-                            p: "1vw 1.5vw 0",
+                            p: "1vw 1.5vw",
                             overflow: "hidden",
                         }}
                     >
-                        <Box sx={{ width: "100%" }}>{children}</Box>
+                        <Box sx={{ width: "100%", height: "100%" }}>{children}</Box>
                     </Paper>
                 </Box>
             </Box>

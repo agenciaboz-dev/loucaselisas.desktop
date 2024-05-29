@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { Box, IconButton, TextField } from "@mui/material"
+import { Box, Divider, IconButton, TextField } from "@mui/material"
 import { MdArrowForwardIos } from "react-icons/md"
 import { Course } from "../types/server/class/Course"
 import { Message, MessageForm } from "../types/server/class/Chat/Message"
@@ -17,15 +17,13 @@ interface ChatProps {
 }
 
 const input_style = {
-    position: "relative",
-    top: "66vh",
     "& .MuiInputLabel-root.Mui-focused ": {
         color: "black",
     },
 
     "& .MuiInputBase-root": {
         color: "#fff",
-        backgroundColor: "#FFFF",
+        backgroundColor: "#fff",
         borderRadius: "0.8vw",
     },
 
@@ -37,13 +35,16 @@ const input_style = {
         "& fieldset": {
             border: "none",
         },
+        "&:hover fieldset": {
+            border: "1px solid #88827C",
+        },
         color: "black",
         "&.Mui-focused fieldset": {
             borderRadius: "15px",
-            border: "none", // Sem borda
+            border: "1px solid #88827C",
         },
         "& .MuiInputBase-input": {
-            color: "black", // Garante que o texto digitado e o placeholder sejam preto
+            color: "black",
         },
     },
 }
@@ -144,56 +145,61 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
         containerRef.current?.scrollBy({ top: messages.length * 3954980, behavior: "smooth" })
     }, [messages])
     return (
-        <Box sx={{ width: "66.5%", maxHeight: "98%", bgcolor: "#E8E8E8", borderRadius: "0.5vw", p: "1vw" }}>
-            <Box sx={{ position: "absolute", left: "44.5vw", top: "7.5vw", alignItems: "center", gap: "1vw" }}>
+        <Box sx={{ bgcolor: "#E8E8E8", borderRadius: "1vw", p: "0.5vw", flexDirection: "column", flex: 1, height: "95%" }}>
+            <Box sx={{ alignItems: "center", gap: "1vw" }}>
                 <IconButton
-                    sx={{ bgcolor: "#fff" }}
-                    size="medium"
+                    sx={{ bgcolor: "#fff", width: "1.75rem", height: "1.75rem" }}
+                    // size="small"
                     onClick={() => {
                         setExpanded(false)
                     }}
                 >
                     <MdArrowForwardIos size={"1vw"} color="black" />
                 </IconButton>
-                <p style={{ fontSize: "1.3rem" }}>Grupo - {course?.name}</p>
+                <p style={{ fontSize: "1.3rem" }}>Grupo: {course?.name}</p>
             </Box>
 
-            <Box sx={{ width: 1, height: 1, flexDirection: "column" }}>
+            <Box sx={{ width: 1, flex: 1, flexDirection: "column", justifyContent: "space-between" }}>
+                <Box sx={{ flexDirection: "column", margin: "auto 0" }}>
+                    <Divider />
+                    <Box
+                        ref={containerRef}
+                        sx={{
+                            width: 1,
+                            height: "52vh",
+                            flexDirection: "column",
+                            gap: "1vw",
+                            overflowY: "auto",
+                            p: "1vw",
+                        }}
+                    >
+                        {course &&
+                            messages
+                                .sort((a, b) => Number(a.datetime) - Number(b.datetime))
+                                .map((item) => (
+                                    <MessageCard
+                                        message={item}
+                                        list={messages}
+                                        creators={[course.owner, ...course.creators]}
+                                        refreshing={refreshing}
+                                    />
+                                ))}
+                    </Box>
+                    <Divider />
+                </Box>
                 <TextField
-                    placeholder="Envie uma mensagem "
+                    placeholder="Envie uma mensagem"
                     sx={input_style}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={handleKeyDown}
                     InputProps={{
                         endAdornment: (
-                            <MdArrowForwardIos
-                                type="submit"
-                                size={"1vw"}
-                                color="black"
-                                onClick={onSubmitText}
-                                style={{ cursor: "pointer" }}
-                            />
+                            <MdArrowForwardIos type="submit" size={"1vw"} color="black" onClick={onSubmitText} style={{ cursor: "pointer" }} />
                         ),
                     }}
                     fullWidth
                 />
-                <Box
-                    ref={containerRef}
-                    sx={{ width: 1, height: "30vw", flexDirection: "column", gap: "1vw", overflowY: "auto", pb: "1vw" }}
-                >
-                    {course &&
-                        messages
-                            .sort((a, b) => Number(a.datetime) - Number(b.datetime))
-                            .map((item) => (
-                                <MessageCard
-                                    message={item}
-                                    list={messages}
-                                    creators={[course.owner, ...course.creators]}
-                                    refreshing={refreshing}
-                                />
-                            ))}
-                </Box>
             </Box>
         </Box>
     )

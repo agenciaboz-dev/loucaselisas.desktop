@@ -108,117 +108,118 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
     }, [expandedChat])
 
     return (
-        <Box sx={{ width: 1, gap: "0.95vw", height: 1 }}>
-            <Box sx={{ width: expandedChat ? "32.55%" : "100%", flexDirection: "column", height: 1 }}>
+        <Box sx={{ width: 1, height: 1 }}>
+            <Box sx={{ flex: 1, flexDirection: "column", height: 1 }}>
                 <HeaderInfo title="Grupos" refreshCallback={() => fetchCourses()} loading={loading} />
                 <Box
                     sx={{
-                        flexDirection: "column",
-                        height: "72.8vh",
-                        width: 1,
-                        gap: "0.8vw",
-                        pt: "0.2vw",
+                        gap: "0.5vw",
+                        flex: 1,
+                        height: 1,
                     }}
                 >
-                    <SearchBar handleSearch={(value) => handleSearch(value)} key={"name"} />
-
                     <Box
-                        ref={ref}
-                        {...events}
                         sx={{
-                            height: "66.8vh",
-                            pt: "0.2vw",
-                            overflowY: "scroll",
-                            gap: "0.5vw",
-                            pr: "0.7vw",
-                            // mr: "1.8vw",
                             flexDirection: "column",
+                            height: "72.8vh",
+                            flex: expandedChat ? 0.33 : 1,
+                            // width: expandedChat ? 0.33 : 1,
+                            gap: "0.8vw",
+                            pt: "0.2vw",
                         }}
                     >
-                        <Grid container columns={expandedChat ? 1 : 3} spacing={2} sx={{ pb: "1vw" }}>
-                            {skeletonLoading
-                                ? skeletonCourse.map((_, index) => (
-                                      <Grid item xs={1} key={index}>
-                                          <Paper
-                                              sx={{
-                                                  flexDirection: "column",
-                                                  p: "0.7vw",
-                                                  gap: "0.5vw",
-                                                  borderRadius: "1vw",
-                                                  flex: 1,
-                                              }}
-                                          >
-                                              <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                                                  <Box
-                                                      sx={{
-                                                          flexDirection: "column",
-                                                          justifyContent: "space-between",
-                                                          gap: "0.3vw",
-                                                      }}
-                                                  >
-                                                      <Skeleton
-                                                          variant="rounded"
-                                                          animation="wave"
-                                                          sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
-                                                      />
-                                                      <Skeleton
-                                                          variant="rounded"
-                                                          animation="wave"
-                                                          sx={{ width: "18vw", height: "0.8vw", maxWidth: "16vw" }}
-                                                      />
-                                                  </Box>
-                                                  <Skeleton
-                                                      variant="rounded"
-                                                      animation="wave"
-                                                      sx={{ width: "3vw", height: "3vw" }}
-                                                  />
-                                              </Box>
-                                              <Divider />
-                                              <Box
+                        <SearchBar handleSearch={(value) => handleSearch(value)} key={"name"} />
+                        <Box
+                            ref={ref}
+                            {...events}
+                            sx={{
+                                height: "66.8vh",
+                                pt: "0.2vw",
+                                overflowY: "scroll",
+                                gap: "0.5vw",
+                                pr: "0.7vw",
+                                // mr: "1.8vw",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <Grid container columns={expandedChat ? 1 : 3} spacing={2} sx={{ pb: "1vw" }}>
+                                {skeletonLoading
+                                    ? skeletonCourse.map((_, index) => (
+                                          <Grid item xs={1} key={index}>
+                                              <Paper
                                                   sx={{
-                                                      width: 1,
-                                                      minHeight: "5vw",
-                                                      flexDirection: "row",
+                                                      flexDirection: "column",
+                                                      p: "0.7vw",
                                                       gap: "0.5vw",
-                                                      alignItems: "center",
+                                                      borderRadius: "1vw",
+                                                      flex: 1,
                                                   }}
                                               >
-                                                  <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
-                                                  <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.4vw" }}>
-                                                      <Skeleton
-                                                          variant="rounded"
-                                                          animation="wave"
-                                                          sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
-                                                      />
-                                                      <Skeleton
-                                                          variant="rounded"
-                                                          animation="wave"
-                                                          sx={{ width: "16vw", height: "2vw", maxWidth: "16vw" }}
-                                                      />
+                                                  <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                                                      <Box
+                                                          sx={{
+                                                              flexDirection: "column",
+                                                              justifyContent: "space-between",
+                                                              gap: "0.3vw",
+                                                          }}
+                                                      >
+                                                          <Skeleton
+                                                              variant="rounded"
+                                                              animation="wave"
+                                                              sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
+                                                          />
+                                                          <Skeleton
+                                                              variant="rounded"
+                                                              animation="wave"
+                                                              sx={{ width: "18vw", height: "0.8vw", maxWidth: "16vw" }}
+                                                          />
+                                                      </Box>
+                                                      <Skeleton variant="rounded" animation="wave" sx={{ width: "3vw", height: "3vw" }} />
                                                   </Box>
-                                              </Box>
-                                          </Paper>
-                                      </Grid>
-                                  ))
-                                : filteredCourses
-                                      .sort(
-                                          (a, b) =>
-                                              Number(lastMessages[b.id]?.datetime) - Number(lastMessages[a.id]?.datetime)
-                                      )
-                                      .map((course) => (
-                                          <GroupCard
-                                              setCourse={setCourse}
-                                              course={course}
-                                              key={course.id}
-                                              setExpanded={setExpanded}
-                                              expandedChat={expandedChat}
-                                          />
-                                      ))}
-                        </Grid>
+                                                  <Divider />
+                                                  <Box
+                                                      sx={{
+                                                          width: 1,
+                                                          minHeight: "5vw",
+                                                          flexDirection: "row",
+                                                          gap: "0.5vw",
+                                                          alignItems: "center",
+                                                      }}
+                                                  >
+                                                      <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                                                      <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.4vw" }}>
+                                                          <Skeleton
+                                                              variant="rounded"
+                                                              animation="wave"
+                                                              sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
+                                                          />
+                                                          <Skeleton
+                                                              variant="rounded"
+                                                              animation="wave"
+                                                              sx={{ width: "16vw", height: "2vw", maxWidth: "16vw" }}
+                                                          />
+                                                      </Box>
+                                                  </Box>
+                                              </Paper>
+                                          </Grid>
+                                      ))
+                                    : filteredCourses
+                                          .sort((a, b) => Number(lastMessages[b.id]?.datetime) - Number(lastMessages[a.id]?.datetime))
+                                          .map((course) => (
+                                              <GroupCard
+                                                  setCourse={setCourse}
+                                                  course={course}
+                                                  key={course.id}
+                                                  setExpanded={setExpanded}
+                                                  expandedChat={expandedChat}
+                                              />
+                                          ))}
+                            </Grid>
+                        </Box>
                     </Box>
+                    {user && expandedChat && <Chat setExpanded={setExpanded} course={course} user={user} />}
                 </Box>
             </Box>
-            {user && expandedChat && <Chat setExpanded={setExpanded} course={course} user={user} />}
         </Box>
     )
 }
