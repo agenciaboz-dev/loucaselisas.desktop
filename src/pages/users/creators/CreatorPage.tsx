@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, Grid, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
 import { useLocation } from "react-router-dom"
 import { HeaderInfo } from "../../../components/header/HeaderInfo"
 import { User } from "../../../types/server/class"
@@ -17,10 +17,6 @@ import { ColumnTitle } from "../ColumnTitle"
 import { DataCard } from "../../../components/courses/DataCard"
 import { slugify } from "../../../tools/urlMask"
 import { Lesson } from "../../../types/server/class/Course/Lesson"
-import { NoFeaturedContent } from "../../../components/dashboard/NoFeaturedContent"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import { PartialUser } from "../../../types/server/class/User"
 interface CreatorPageProps {}
 
 interface MessageItem {
@@ -29,8 +25,6 @@ interface MessageItem {
 }
 
 type Messages = MessageItem[]
-
-// type data = [...Course[], ...Lesson[]]
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const gridColumnStyle = {
@@ -46,9 +40,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [user, setUser] = useState(location.state.user as User | undefined)
     const id = user ? user?.id : userId
     const [creator, setCreator] = useState(user?.creator)
-    // console.log({ User: user })
-    // console.log({ Creator: creator })
-    // console.log(creator?.id)
 
     const [loading, setLoading] = useState(false)
 
@@ -59,33 +50,25 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [lessons, setLessons] = useState<Lesson[]>([])
     const [currentTab, setCurrentTab] = useState(1)
 
-    const required_message = "Campo obrigatório"
-    // const validateSchema = Yup.object().shape({
-    //     role: Yup.number().min(1, required_message),
-    // })
+    const [selectedRole, setSelectedRole] = useState<Role>()
 
-    const formik = useFormik<PartialUser>({
-        initialValues: { id: user!.id, role: user?.role },
-        onSubmit: async (values) => {
-            if (loading) return
-            setLoading(true)
+    const onSubmit = async (value: Role) => {
+        if (loading) return
+        setLoading(true)
 
-            try {
-                console.log(values)
-                const response = await api.patch("/user", values)
-                console.log(response.data)
-                setUser(response.data)
-            } catch (error) {
-                console.log(error)
-            } finally {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 300)
-            }
-        },
-        // validationSchema: validateSchema,
-        enableReinitialize: true,
-    })
+        try {
+            console.log(value)
+            const response = await api.patch("/user", { role: value, id: user?.id })
+            console.log(response.data)
+            setUser(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
+        }
+    }
 
     const fetchUser = async () => {
         if (loading) return
@@ -188,6 +171,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             fetchMessages()
             fetchUsersTypes()
             setCreator(user.creator)
+            setSelectedRole(user.role)
         }
     }, [user])
 
@@ -223,27 +207,35 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             </Box>
                         </Box>
                         <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
-                            <form onSubmit={formik.handleSubmit}>
-                                <TextField //todo finalizar a função de seleção
-                                    name="role"
-                                    value={formik.values.role?.id}
-                                    onChange={formik.handleChange}
-                                    InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
-                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } } }}
-                                    select
-                                    error={formik.touched.role && Boolean(formik.errors.role)}
-                                    helperText={formik.touched.role && formik.errors.role}
-                                >
-                                    {userTypes.map((type) => (
-                                        <MenuItem value={type.id} key={type.id}>
-                                            {type.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                                <Button type="submit" variant="contained" sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}>
-                                    Salvar
-                                </Button>
-                            </form>
+                            {selectedRole && (
+                                <>
+                                    <TextField
+                                        name="selectedRole"
+                                        value={selectedRole}
+                                        onChange={(e) => setSelectedRole(userTypes.find((item) => item.id.toString() == e.target.value))}
+                                        InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
+                                        SelectProps={{
+                                            MenuProps: { MenuListProps: { sx: { width: 1 } } },
+                                            renderValue: (selected: Role) => selected.name,
+                                        }}
+                                        select
+                                    >
+                                        {userTypes.map((type) => (
+                                            <MenuItem value={type.id} key={type.id}>
+                                                {type.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                    <Button
+                                        onClick={() => onSubmit(selectedRole)}
+                                        variant="contained"
+                                        sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}
+                                    >
+                                        {loading ? <CircularProgress /> : "Salvar"}
+                                    </Button>
+                                </>
+                            )}
+                            {/* </form> */}
                         </Box>
                         <Box>
                             <Typography
