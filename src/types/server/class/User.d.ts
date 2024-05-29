@@ -8,6 +8,7 @@ import { Creator, CreatorForm, Student } from "./index";
 import { Role } from "./Role";
 import { PlanContract } from "./Plan";
 import { Lesson } from "./Course/Lesson";
+import { Message } from "./Chat/Message";
 export declare const user_include: {
     creator: {
         include: {
@@ -63,9 +64,14 @@ export declare const user_include: {
                     };
                     lessons: {
                         include: {
+                            media: true;
+                            likes: true;
+                            course: true;
                             _count: {
                                 select: {
                                     downloads: true;
+                                    likes: true;
+                                    views: true;
                                 };
                             };
                         };
@@ -166,56 +172,6 @@ export declare class User {
     static login(data: LoginForm & {
         admin?: boolean;
     }, socket?: Socket): Promise<User | null>;
-    getMessages(): Promise<({
-        media: {
-            id: string;
-            url: string;
-            type: import(".prisma/client").$Enums.MediaType;
-            position: number;
-            width: number;
-            height: number;
-            gallery_id: string | null;
-            lesson_id: string | null;
-        } | null;
-        chat: {
-            id: string;
-            course_id: string;
-            description: string | null;
-            media_id: string;
-        };
-        user: {
-            id: string;
-            username: string;
-            email: string;
-            created_at: string;
-            password: string;
-            name: string;
-            cpf: string;
-            birth: string;
-            phone: string;
-            pronoun: string;
-            uf: string;
-            admin: boolean;
-            instagram: string | null;
-            tiktok: string | null;
-            profession: string | null;
-            image: string | null;
-            cover: string | null;
-            bio: string | null;
-            google_id: string | null;
-            google_token: string | null;
-            role_id: number;
-        } | null;
-    } & {
-        id: string;
-        text: string;
-        datetime: string;
-        user_id: string | null;
-        video_id: string | null;
-        video_timestamp: string | null;
-        chat_id: string;
-        media_id: string | null;
-    })[]>;
     load(data: UserPrisma): void;
     update(data: Partial<User>, socket?: Socket): Promise<string | undefined>;
     updateImage(data: UserImageForm, socket?: Socket): Promise<void>;
@@ -223,4 +179,5 @@ export declare class User {
         lessons: Lesson[];
         courses: Course[];
     }>;
+    getMessages(): Promise<Message[]>;
 }

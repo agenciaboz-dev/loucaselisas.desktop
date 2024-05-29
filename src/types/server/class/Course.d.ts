@@ -62,9 +62,14 @@ export declare const course_include: {
     };
     lessons: {
         include: {
+            media: true;
+            likes: true;
+            course: true;
             _count: {
                 select: {
                     downloads: true;
+                    likes: true;
+                    views: true;
                 };
             };
         };
@@ -109,6 +114,7 @@ export type CourseForm = Omit<WithoutFunctions<Course>, "id" | "favorited_by" | 
     owner_id: string;
     id?: string;
     declined_reason?: string;
+    status?: Status;
 };
 export declare class Course {
     id: string;
@@ -135,13 +141,15 @@ export declare class Course {
     }[];
     status: Status;
     declined_reason: string | null;
+    primitive_lessons: Lesson[];
     likes: number;
     lessons: number;
     students: number;
     views: number;
     downloads: number;
     constructor(id: string, data?: CoursePrisma);
-    static list(): Promise<Course[]>;
+    static getFromChat(id: string): Promise<Course>;
+    static list(all?: boolean): Promise<Course[]>;
     static search(role_id: number, text: string): Promise<Course[]>;
     static new(data: CourseForm, socket?: Socket): Promise<Course | undefined>;
     init(): Promise<void>;
