@@ -15,7 +15,6 @@ interface UsersProps {}
 export const Users: React.FC<UsersProps> = ({}) => {
     const skeletonUserCards: number[] = new Array(20).fill(0).map((_, index) => index)
     const [loading, setloading] = useState<boolean>(true)
-    const [allUsers, setAllUsers] = useState<User[]>([])
     const [users, setUsers] = useState<User[]>([])
     const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
 
@@ -26,7 +25,7 @@ export const Users: React.FC<UsersProps> = ({}) => {
         setloading(true)
         try {
             const response = await api.get("/user/all")
-            setAllUsers(response.data)
+            setUsers(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -41,12 +40,6 @@ export const Users: React.FC<UsersProps> = ({}) => {
     const handleSearch = (value: string) => {
         setFilteredUsers(users.filter((user) => user.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())))
     }
-
-    useEffect(() => {
-        if (allUsers) {
-            setUsers(allUsers.filter((user) => !user.creator))
-        }
-    }, [allUsers])
 
     useEffect(() => {
         setFilteredUsers(users)
