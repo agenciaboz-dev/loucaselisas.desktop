@@ -235,7 +235,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                     </Button>
                                 </>
                             )}
-                            {/* </form> */}
                         </Box>
                         <Box>
                             <Typography
