@@ -8,11 +8,12 @@ import placeholders from "../../tools/placeholders"
 
 interface UserCardProps {
     user: User
+    creator?: boolean
     link: string
     routerParam: User
 }
 
-export const UserCard: React.FC<UserCardProps> = ({ user, link, routerParam }) => {
+export const UserCard: React.FC<UserCardProps> = ({ creator = false, user, link, routerParam }) => {
     const navigate = useNavigate()
     return (
         <>
@@ -26,14 +27,14 @@ export const UserCard: React.FC<UserCardProps> = ({ user, link, routerParam }) =
                     >
                         <Box sx={{ alignItems: "center", gap: "0.5vw", width: "100%" }}>
                             <Avatar
-                                src={user.image || placeholders.avatar || undefined}
+                                src={(creator ? user.creator?.image : user.image) || placeholders.avatar || undefined}
                                 variant="circular"
                                 sx={{ width: "4.5vw", height: "4.5vw" }}
                             />
                             <Box sx={{ flexDirection: "column", gap: "0.5vw", width: "100%" }}>
                                 <Box sx={{ gap: "0.3vw", alignItems: "center" }}>
                                     <Typography variant="subtitle1" component="h4">
-                                        {user.name}
+                                        {creator ? user.creator?.nickname : user.name}
                                     </Typography>
                                     {user.created_at && (
                                         <>
