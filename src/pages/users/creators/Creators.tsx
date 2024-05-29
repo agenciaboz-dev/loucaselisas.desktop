@@ -111,6 +111,7 @@ export const Creators: React.FC<CreatorsProps> = ({}) => {
                                           ))
                                         : filteredCreators.map((creators) => (
                                               <UserCard
+                                                  creator
                                                   user={creators}
                                                   key={creators.id}
                                                   link={`/criadores/${slugify(creators.name)}`}
