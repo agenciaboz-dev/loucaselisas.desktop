@@ -35,6 +35,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     const [messages, setMessages] = useState<Messages>([])
 
     const [selectedRole, setSelectedRole] = useState<Role>()
+    const [creatorFlag, setCreatorFlag] = useState(!!user?.creator?.active)
 
     const onSubmit = async (value: Role) => {
         if (loading) return
@@ -54,6 +55,24 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         }
     }
 
+    const onSwitch = async (e: boolean) => {
+        const data = { user_id: user?.id, creator_flag: e }
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.post("/user/creator", data)
+            setUser(response.data)
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+
     const fetchUser = async () => {
         if (loading) return
         setLoading(true)
@@ -70,33 +89,20 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     }
 
     const fetchUsersTypes = async () => {
-        if (loading) return
-        setLoading(true)
-
         try {
             const response = await api.get("/user/types")
             setUserTypes(response.data)
         } catch (error) {
             console.log(error)
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 300)
         }
     }
 
     const fetchMessages = async () => {
-        if (loading) return
-        setLoading(true)
         try {
             const response = await api.get("/user/messages", { params: { user_id: id } })
             setMessages(response.data)
         } catch (error) {
             console.log(error)
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 300)
         }
     }
 
@@ -109,6 +115,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
             fetchMessages()
             fetchUsersTypes()
             setSelectedRole(user.role)
+            setCreatorFlag(!!user.creator?.active)
         }
     }, [user])
 
@@ -132,7 +139,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 <Typography variant="body1" component="p">
                                     Tornar um usuário um criador de conteúdo
                                 </Typography>
-                                <Switch />
+                                <Switch checked={creatorFlag} onChange={(e, checked) => onSwitch(checked)} />
                             </Box>
                         </Box>
                         <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
@@ -160,7 +167,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                         variant="contained"
                                         sx={{ height: "1.7vw", padding: 0, borderRadius: "3vw" }}
                                     >
-                                        {loading ? <CircularProgress /> : "Salvar"}
+                                        {loading ? <CircularProgress size={20} color="secondary" /> : "Salvar"}
                                     </Button>
                                 </>
                             )}
