@@ -58,7 +58,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                         setCourse(course)
                     }}
                 >
-                    <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                    <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between", gap: "0.5vw" }}>
                         <Box sx={{ flexDirection: "column", justifyContent: "center" }}>
                             <Typography
                                 variant="body2"
@@ -101,7 +101,6 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                     >
                         <Box
                             sx={{
-                                width: 0.8,
                                 flexDirection: "row",
                                 alignItems: "center",
                                 minHeight: "4.2vw",
@@ -110,8 +109,12 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                         >
                             <Avatar src={message.user?.cover || placeholders.avatar} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
                             <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
-                                <Typography variant="body2" component={"p"}>
-                                    {message?.user?.name || "usuário indisponivel"}
+                                <Typography
+                                    variant="body2"
+                                    component={"p"}
+                                    sx={{ width: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+                                >
+                                    {message?.user?.name || "Usuário indisponivel"}
                                 </Typography>
                                 <Typography
                                     variant="body2"
