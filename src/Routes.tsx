@@ -18,7 +18,9 @@ import { ConfirmAccount } from "./pages/ConfirmAccount"
 import { CoursePage } from "./pages/courses/Course"
 import { LessonPage } from "./pages/lessons/Lesson"
 import { version } from "./tools/appVersion"
-import { CreatorPage } from "./pages/users/CreatorPage"
+import { CreatorPage } from "./pages/users/creators/CreatorPage"
+import { UserPage } from "./pages/users/UserPage"
+import { Creators } from "./pages/users/creators/Creators"
 
 interface RoutesProps {}
 
@@ -62,7 +64,10 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
 
                     <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
-                    <Route path="/usuarios/:id" element={<PageLayout children={<CreatorPage />} />} />
+                    <Route path="/usuarios/:id" element={<PageLayout children={<UserPage />} />} />
+
+                    <Route path="/criadores" element={<PageLayout children={<Creators />} />} />
+                    <Route path="/criadores/:id" element={<PageLayout children={<CreatorPage />} />} />
 
                     <Route path="/tipos-usuarios" element={<PageLayout children={<TypeUsers />} />} />
                     <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
