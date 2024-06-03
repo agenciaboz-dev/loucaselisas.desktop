@@ -49,6 +49,10 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
             <ReactRoutes>
                 {!user ? (
                     <>
+                        <Route path="/delete-account" element={<DeleteAccount />} />
+                        <Route path="/confirmacao-de-conta" element={<ConfirmAccount />} />
+                        <Route path="redefinir-senha/:user_id/:timestamp" element={<ResetPassword />} />
+
                         <Route path="*" element={<Home />} />
                         {/* <Route path="*" element={<Page404 />} /> */}
                     </>
