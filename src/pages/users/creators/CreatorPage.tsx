@@ -192,7 +192,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                 <Typography variant="body1" component="p">
                                     Tornar um usuário um criador de conteúdo
                                 </Typography>
-                                <Switch checked={creatorFlag} onChange={(e, checked) => onSwitch(checked)} />
+                                <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} />
                             </Box>
                         </Box>
                         <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
