@@ -5,12 +5,9 @@ import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
 import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
-import { useFormik } from "formik"
-import * as Yup from "yup"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Course } from "../../types/server/class/Course"
 import { Role } from "../../types/server/class/Role"
-import { PartialUser } from "../../types/server/class/User"
 import { ColumnTitle } from "./ColumnTitle"
 import { MessageCard } from "./MessageCard"
 import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
@@ -139,7 +136,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 <Typography variant="body1" component="p">
                                     Tornar um usuário um criador de conteúdo
                                 </Typography>
-                                <Switch checked={creatorFlag} onChange={(e, checked) => onSwitch(checked)} />
+                                <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} />
                             </Box>
                         </Box>
                         <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
