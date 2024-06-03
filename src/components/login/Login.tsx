@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Box, Button, CircularProgress, IconButton, TextField, Typography, useMediaQuery } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, IconButton, TextField, Typography, useMediaQuery } from "@mui/material"
 import { Form } from "./Form"
 import { useFormik } from "formik"
 import { LoginForm } from "../../types/server/login"
@@ -13,6 +13,7 @@ import { api } from "../../api/api"
 import { User } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
 import { useNavigate } from "react-router-dom"
+import { KeepSession } from "./KeepSession"
 
 interface LoginProps {}
 
@@ -22,9 +23,11 @@ export const Login: React.FC<LoginProps> = ({}) => {
     const { onLogin } = useUser()
     const navigate = useNavigate()
     const [errorLogin, setErrorLogin] = useState(false)
+    const [keepSession, setKeepSession] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const required_message = "Campo obrigatório"
-
     const SignupSchema = Yup.object().shape({
         login: Yup.string()
             .required(required_message)
@@ -64,12 +67,17 @@ export const Login: React.FC<LoginProps> = ({}) => {
                 const response = await api.post("/login/admin", data)
                 const user = response.data as User | null
 
-                if (!user) {
+                if (user) {
+                    onLogin(user)
+                    if (keepSession) {
+                        localStorage.setItem("session", JSON.stringify(user))
+                    } else {
+                        localStorage.setItem("session", JSON.stringify(null))
+                    }
+                } else {
                     setErrorLogin(true)
                     return
                 }
-
-                onLogin(user)
             } catch (error) {
                 console.error("Erro ao buscar os dados:", error)
             } finally {
@@ -78,11 +86,32 @@ export const Login: React.FC<LoginProps> = ({}) => {
         },
     })
 
-    const [showPassword, setShowPassword] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const handleStayConnected = async (value: boolean) => {
+        localStorage.setItem("stay_connected", JSON.stringify(value))
+        setKeepSession(value)
+    }
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("session")
+        if (storedUser) {
+            const user = JSON.parse(storedUser || "null") as User | null
+            if (user) {
+                formik.setFieldValue("login", user.email)
+                formik.setFieldValue("password", user.password)
+            }
+        }
+
+        console.log(JSON.parse(localStorage.getItem("stay_connected") || "null"))
+
+        const stayConnected = JSON.parse(localStorage.getItem("stay_connected") || "null")
+        if (stayConnected) {
+            setKeepSession(stayConnected)
+        }
+    }, [])
 
     return (
         <>
+            <KeepSession setLoading={setLoading} />
             <Box
                 sx={{
                     height: 1,
@@ -157,13 +186,19 @@ export const Login: React.FC<LoginProps> = ({}) => {
                                 </Typography>
                             )}
                             <Box sx={{ justifyContent: "space-between", alignItems: "center" }}>
-                                <Button variant="text" onClick={() => navigate("/confirmacao-de-conta")}>
-                                    Esqueci a minha senha
-                                </Button>
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={keepSession} onChange={(_, checked) => handleStayConnected(checked)} />}
+                                        label="Manter Conectado"
+                                    />
+                                </FormGroup>
                                 <Button type="submit" variant="contained" sx={{ borderRadius: 0, width: "30%" }}>
                                     {loading ? <CircularProgress size={"1.5rem"} color="inherit" /> : "Entrar"}
                                 </Button>
                             </Box>
+                            <Button variant="text" onClick={() => navigate("/confirmacao-de-conta")}>
+                                Esqueci a minha senha
+                            </Button>
                         </Form>
                     )}
                 </Box>
