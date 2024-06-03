@@ -4,9 +4,11 @@ import logoWide from "../assets/login/logo_wide.svg"
 import { SocialMediaFooter } from "./social-medias/SocialMediaFooter"
 import { useNavigate } from "react-router-dom"
 
-interface Page404Props {}
+interface Page404Props {
+    text?: string
+}
 
-export const Page404: React.FC<Page404Props> = ({}) => {
+export const Page404: React.FC<Page404Props> = ({ text = "Erro 404, para retornar à página principal clique no botão abaixo" }) => {
     const isMobile: boolean = useMediaQuery("(orientation:portrait)")
     const navigate = useNavigate()
 
@@ -45,7 +47,7 @@ export const Page404: React.FC<Page404Props> = ({}) => {
                         Pagina não encontrada
                     </Typography>
                     <Typography variant="body1" component="p" sx={{ fontSize: isMobile ? "1rem" : "1.2rem", textAlign: "center" }}>
-                        Erro 404, para retornar à página principal clique no botão abaixo
+                        {text}
                     </Typography>
                     <Button variant="contained" sx={{ fontSize: "1.1rem" }} onClick={() => navigate("/")}>
                         Voltar à página principal
