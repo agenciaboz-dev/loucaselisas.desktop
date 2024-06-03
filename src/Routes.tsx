@@ -21,6 +21,7 @@ import { version } from "./tools/appVersion"
 import { CreatorPage } from "./pages/users/creators/CreatorPage"
 import { UserPage } from "./pages/users/UserPage"
 import { Creators } from "./pages/users/creators/Creators"
+import { Page404 } from "./pages/Page404"
 
 interface RoutesProps {}
 
@@ -49,6 +50,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                 {!user ? (
                     <>
                         <Route path="*" element={<Home />} />
+                        {/* <Route path="*" element={<Page404 />} /> */}
                     </>
                 ) : (
                     <>
@@ -74,6 +76,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                         <Route path="/delete-account" element={<DeleteAccount />} />
                         <Route path="/confirmacao-de-conta" element={<ConfirmAccount />} />
                         <Route path="redefinir-senha/:user_id/:timestamp" element={<ResetPassword />} />
+                        <Route path="*" element={<Page404 />} />
                     </>
                 )}
             </ReactRoutes>
