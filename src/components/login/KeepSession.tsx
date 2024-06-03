@@ -23,7 +23,7 @@ export const KeepSession: React.FC<KeepSessionProps> = ({ setLoading }) => {
                     const user = response.data
 
                     if (user) {
-                        onLogin(user)
+                        onLogin(user, keepsession)
                     } else {
                         console.log("Não foi possível recuperar a sessão. Faça o login novamente")
                     }
