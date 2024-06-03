@@ -4,6 +4,7 @@ import logoWide from "../assets/login/logo_wide.svg"
 import { useFormik } from "formik"
 import { api } from "../api/api"
 import { Form } from "../components/login/Form"
+import { SocialMediaFooter } from "./social-medias/SocialMediaFooter"
 interface ConfirmAccountProps {}
 
 export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
@@ -111,6 +112,7 @@ export const ConfirmAccount: React.FC<ConfirmAccountProps> = ({}) => {
                     </>
                 )}
             </Paper>
+            <SocialMediaFooter sx={{ marginTop: "2vw" }} />
         </Box>
     )
 }
