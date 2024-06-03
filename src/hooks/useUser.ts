@@ -13,6 +13,8 @@ export const useUser = () => {
     }
 
     const onLogout = () => {
+        localStorage.setItem("session", JSON.stringify(null))
+        localStorage.setItem("stay_connected", JSON.stringify(null))
         context.setUser(null)
         navigate("/")
     }
