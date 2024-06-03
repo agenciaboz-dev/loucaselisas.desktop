@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
-import { useLocation } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { Media } from "../../components/media/Media"
 import { api } from "../../api/api"
@@ -16,11 +16,13 @@ interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const locationState = useLocation().state
+    const [search] = useSearchParams()
     const [lesson, setLesson] = useState(locationState.data.lesson as Lesson | undefined)
     const [course, setCourse] = useState(locationState.data.course as Course | undefined)
     const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
+    const lessonId = lesson ? lesson.id : search.get("id")
     // const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
 
     const fetchLesson = async () => {
@@ -28,7 +30,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
         setLoading(true)
 
         try {
-            const response = await api.get("/lesson", { params: { lesson_id: lesson.id } })
+            const response = await api.get("/lesson", { params: { lesson_id: lessonId } })
             const data = response.data as Lesson
             setLesson(data)
             setMedia({ url: data.media.url, type: data.media.type })
