@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material"
-import { useLocation } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import { Course } from "../../types/server/class/Course"
 import { api } from "../../api/api"
 import { Lesson } from "../../types/server/class/Course/Lesson"
@@ -12,13 +12,15 @@ import { Carrousel } from "../../components/Carrousel"
 import { Media } from "../../components/media/Media"
 import { slugify } from "../../tools/urlMask"
 import placeholders from "../../tools/placeholders"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 interface CourseProps {}
 
 export const CoursePage: React.FC<CourseProps> = ({}) => {
     const location = useLocation()
-    const courseId = location.state.courseId as Partial<Course> | undefined
-    const [course, setCourse] = useState(location.state.data as Course | undefined)
-    const id = course ? course?.id : courseId
+    const courseId = location.state?.courseId as Partial<Course> | undefined
+    const [search] = useSearchParams()
+    const [course, setCourse] = useState(location.state?.data as Course | undefined)
+    const id = (course ? course?.id : courseId) || search.get("id")
     const [media, setMedia] = useState({ url: course?.cover || "", type: course?.cover_type || "image" })
     const [showCarrosel, setShowCarrosel] = useState(false)
 
@@ -60,6 +62,18 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             fetchLessons()
         }
     }, [course])
+
+    if (!id)
+        return (
+            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+                <HeaderInfo title={`Curso não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <NoFeaturedContent
+                    styles={{ height: "37vw" }}
+                    title="O link que você tentou acessar parece estar quebrado ou não existe."
+                    text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+                />
+            </Box>
+        )
 
     return course ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
@@ -150,7 +164,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                                     key={lesson.id}
                                     lesson={lesson}
                                     refreshStatus={fetchLessons}
-                                    link={`/licoes/${slugify(lesson.name)}`}
+                                    link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
                                     routerParam={{ lesson, course }}
                                 />
                             ))}
