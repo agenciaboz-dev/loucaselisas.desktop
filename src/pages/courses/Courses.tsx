@@ -136,7 +136,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                                   messages={course.chat?.messages}
                                                   views={course.views}
                                                   userName={course.owner.user.username}
-                                                  link={`/cursos/${slugify(course.name)}`}
+                                                  link={`/cursos/${slugify(course.name)}?id=${course.id}`}
                                                   routerParam={course}
                                               />
                                           ))}
