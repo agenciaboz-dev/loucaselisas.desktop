@@ -7,9 +7,11 @@ export const useUser = () => {
     const context = useContext(UserContext)
     const navigate = useNavigate()
 
-    const onLogin = (user: User) => {
+    const onLogin = (user: User, keepSession?: boolean) => {
         context.setUser(user)
-        navigate("/dashboard")
+        {
+            !keepSession && navigate("/dashboard")
+        }
     }
 
     const onLogout = () => {
