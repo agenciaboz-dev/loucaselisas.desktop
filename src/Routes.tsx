@@ -46,37 +46,36 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
             <Typography sx={{ position: "fixed", bottom: "8px", right: "8px", color: "#ff0000", fontSize: "1.2rem" }}>v: {version}</Typography>
 
             <ReactRoutes>
-                {/* {!user ? (
+                {!user ? (
                     <>
-
-                    <Route path="*" element={<Home />} />
+                        <Route path="*" element={<Home />} />
                     </>
-                ) : ( */}
-                <>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
-                    <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
-                    <Route path="/cursos/:id" element={<PageLayout children={<CoursePage />} />} />
+                ) : (
+                    <>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
+                        <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
+                        <Route path="/cursos/:id" element={<PageLayout children={<CoursePage />} />} />
 
-                    <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
-                    <Route path="licoes/:id" element={<PageLayout children={<LessonPage />} />} />
+                        <Route path="/licoes" element={<PageLayout children={<Lessons />} />} />
+                        <Route path="licoes/:id" element={<PageLayout children={<LessonPage />} />} />
 
-                    <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
+                        <Route path="/grupos" element={<PageLayout children={<Groups />} />} />
 
-                    <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
-                    <Route path="/usuarios/:id" element={<PageLayout children={<UserPage />} />} />
+                        <Route path="/usuarios" element={<PageLayout children={<Users />} />} />
+                        <Route path="/usuarios/:id" element={<PageLayout children={<UserPage />} />} />
 
-                    <Route path="/criadores" element={<PageLayout children={<Creators />} />} />
-                    <Route path="/criadores/:id" element={<PageLayout children={<CreatorPage />} />} />
+                        <Route path="/criadores" element={<PageLayout children={<Creators />} />} />
+                        <Route path="/criadores/:id" element={<PageLayout children={<CreatorPage />} />} />
 
-                    <Route path="/tipos-usuarios" element={<PageLayout children={<TypeUsers />} />} />
-                    <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
+                        <Route path="/tipos-usuarios" element={<PageLayout children={<TypeUsers />} />} />
+                        <Route path="/configuracoes" element={<PageLayout children={<Settings />} />} />
 
-                    <Route path="/delete-account" element={<DeleteAccount />} />
-                    <Route path="/confirmacao-de-conta" element={<ConfirmAccount />} />
-                    <Route path="redefinir-senha/:user_id/:timestamp" element={<ResetPassword />} />
-                </>
-                {/* )} */}
+                        <Route path="/delete-account" element={<DeleteAccount />} />
+                        <Route path="/confirmacao-de-conta" element={<ConfirmAccount />} />
+                        <Route path="redefinir-senha/:user_id/:timestamp" element={<ResetPassword />} />
+                    </>
+                )}
             </ReactRoutes>
         </Box>
     )
