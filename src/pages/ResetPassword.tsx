@@ -10,6 +10,7 @@ import { Form } from "../components/login/Form"
 import KeyIcon from "@mui/icons-material/Key"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import { SocialMediaFooter } from "./social-medias/SocialMediaFooter"
 
 interface ResetPasswordProps {}
 
@@ -180,6 +181,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
                     </>
                 )}
             </Paper>
+            <SocialMediaFooter sx={{ marginTop: "2vw" }} />
         </Box>
     )
 }
