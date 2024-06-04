@@ -109,13 +109,13 @@ export const Creators: React.FC<CreatorsProps> = ({}) => {
                                                   </Paper>
                                               </Grid>
                                           ))
-                                        : filteredCreators.map((creators) => (
+                                        : filteredCreators.map((user) => (
                                               <UserCard
                                                   creator
-                                                  user={creators}
-                                                  key={creators.id}
-                                                  link={`/criadores/${slugify(creators.name)}?id=${creators.id}`}
-                                                  routerParam={creators}
+                                                  user={user}
+                                                  key={user.id}
+                                                  link={`/criadores/${slugify(user.creator!.nickname)}?id=${user.id}`}
+                                                  routerParam={user}
                                               />
                                           ))}
                                 </Grid>
