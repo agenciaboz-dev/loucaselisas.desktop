@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
-import { useLocation } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import { HeaderInfo } from "../../../components/header/HeaderInfo"
 import { User } from "../../../types/server/class"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
@@ -17,6 +17,7 @@ import { ColumnTitle } from "../ColumnTitle"
 import { DataCard } from "../../../components/courses/DataCard"
 import { slugify } from "../../../tools/urlMask"
 import { Lesson } from "../../../types/server/class/Course/Lesson"
+import { NoFeaturedContent } from "../../../components/dashboard/NoFeaturedContent"
 interface CreatorPageProps {}
 
 interface MessageItem {
@@ -36,9 +37,10 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     }
 
     const location = useLocation()
-    const userId = location.state.userId as string | undefined
-    const [user, setUser] = useState(location.state.user as User | undefined)
-    const id = user ? user?.id : userId
+    const userId = location.state?.userId as string | undefined
+    const [user, setUser] = useState(location.state?.user as User | undefined)
+    const [search] = useSearchParams()
+    const id = (user ? user?.id : userId) || search.get("id")
     const [creator, setCreator] = useState(user?.creator)
 
     const [loading, setLoading] = useState(false)
@@ -172,7 +174,28 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         }
     }, [creator])
 
-    return user ? (
+    if (!id)
+        return (
+            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+                <HeaderInfo title={`Criador não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <NoFeaturedContent
+                    styles={{ height: "37vw" }}
+                    title="O link que você tentou acessar parece estar quebrado ou não existe."
+                    text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+                />
+            </Box>
+        )
+
+    return user === undefined ? (
+        <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+            <HeaderInfo title={`Criador não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <NoFeaturedContent
+                styles={{ height: "37vw" }}
+                title="O link que você tentou acessar parece estar quebrado ou não existe."
+                text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+            />
+        </Box>
+    ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
             <Box sx={{ gap: "1vw", height: 1 }}>
@@ -320,5 +343,5 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 </Grid>
             </Box>
         </Box>
-    ) : null
+    )
 }
