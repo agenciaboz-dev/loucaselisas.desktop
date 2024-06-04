@@ -114,7 +114,7 @@ export const Creators: React.FC<CreatorsProps> = ({}) => {
                                                   creator
                                                   user={creators}
                                                   key={creators.id}
-                                                  link={`/criadores/${slugify(creators.name)}`}
+                                                  link={`/criadores/${slugify(creators.name)}?id=${creators.id}`}
                                                   routerParam={creators}
                                               />
                                           ))}
