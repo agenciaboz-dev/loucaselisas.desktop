@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, CircularProgress, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
 import { useLocation, useSearchParams } from "react-router-dom"
 import { HeaderInfo } from "../../../components/header/HeaderInfo"
 import { User } from "../../../types/server/class"
@@ -28,7 +28,7 @@ interface MessageItem {
 type Messages = MessageItem[]
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
-    const gridColumnStyle = {
+    const cardsColumnStyle = {
         height: "69.5vh",
         flexDirection: "column",
         padding: "0.5vw 0.5vw 5vw",
@@ -304,7 +304,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 </Box>
                 <Box sx={{ flexDirection: "column", width: "33%" }}>
                     <ColumnTitle prop="Ultímos Comentários" />
-                    <Box sx={{ ...gridColumnStyle, marginTop: "0.5vw" }}>
+                    <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
                         {messages.map((item) => (
                             <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
                         ))}
@@ -317,7 +317,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                     </Tabs>
                     <Box
                         sx={{
-                            ...gridColumnStyle,
+                            ...cardsColumnStyle,
                         }}
                     >
                         {currentTab === 1 &&
@@ -332,7 +332,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                     downloads={course.downloads}
                                     messages={course.chat?.messages}
                                     views={course.views}
-                                    link={`/cursos/${slugify(course.name)}`}
+                                    link={`/cursos/${slugify(course.name)}?id=${course.id}`}
                                     routerParam={course}
                                     sx={{ width: "24.4vw" }}
                                 />
@@ -349,7 +349,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                     downloads={lesson.downloads}
                                     views={lesson.views}
                                     userName={lesson.course.name}
-                                    link={`/licoes/${slugify(lesson.name)}`}
+                                    link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
                                     routerParam={{ lesson }}
                                     sx={{ width: "24.4vw" }}
                                 />
