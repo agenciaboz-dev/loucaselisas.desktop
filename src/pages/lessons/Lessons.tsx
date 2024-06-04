@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Divider, Grid, Paper, Skeleton } from "@mui/material"
-import { Lesson } from "../types/server/class/Course/Lesson"
-import { api } from "../api/api"
-import { HeaderInfo } from "../components/header/HeaderInfo"
-import { SearchBar } from "../components/header/SearchBar"
+import { Lesson } from "../../types/server/class/Course/Lesson"
+import { api } from "../../api/api"
+import { HeaderInfo } from "../../components/header/HeaderInfo"
+import { SearchBar } from "../../components/header/SearchBar"
 import { useDraggable } from "react-use-draggable-scroll"
-import { DataCard } from "../components/courses/DataCard"
-import { slugify } from "../tools/urlMask"
-import { NoFeaturedContent } from "../components/dashboard/NoFeaturedContent"
-import { FilterLessons } from "../components/pageLayout/FilterLessons"
+import { DataCard } from "../../components/courses/DataCard"
+import { slugify } from "../../tools/urlMask"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
+import { FilterLessons } from "../../components/pageLayout/FilterLessons"
+import { LessonPaths } from "./LessonPaths"
 
 interface LessonsProps {}
 
@@ -116,21 +117,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                                                   </Paper>
                                               </Grid>
                                           ))
-                                        : filteredLessons.map((lesson) => (
-                                              <DataCard
-                                                  key={lesson.id}
-                                                  lesson={lesson}
-                                                  image={lesson.thumb || lesson.media.url}
-                                                  title={lesson.name}
-                                                  description={lesson.info}
-                                                  likes={lesson.likes}
-                                                  downloads={lesson.downloads}
-                                                  views={lesson.views}
-                                                  userName={lesson.course.name}
-                                                  link={`/licoes/${slugify(lesson.name)}?id:${lesson.id}`}
-                                                  routerParam={{ lesson }}
-                                              />
-                                          ))}
+                                        : filteredLessons.map((lesson) => <LessonPaths key={lesson.id} lesson={lesson} />)}
                                 </Grid>
                             </>
                         )}
