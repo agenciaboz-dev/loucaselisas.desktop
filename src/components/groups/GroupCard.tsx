@@ -5,16 +5,19 @@ import { Course } from "../../types/server/class/Course"
 import { Message } from "../../types/server/class/Chat/Message"
 import { api } from "../../api/api"
 import placeholders from "../../tools/placeholders"
+import { useNavigate } from "react-router-dom"
 
 interface GroupCardProps {
     course: Course
     setExpanded: React.Dispatch<React.SetStateAction<Boolean>>
     expandedChat: Boolean
     setCourse: React.Dispatch<React.SetStateAction<Course | null>>
+    setCourseId: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCourse }) => {
+export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCourse, setCourseId }) => {
     const max_text_width = "16vw"
+    const navigate = useNavigate()
     const [message, setMessage] = useState<Message | null>(null)
     const [hover, setHover] = useState(false)
     const chat = course.chat
@@ -56,6 +59,8 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                     onClick={() => {
                         setExpanded(true)
                         setCourse(course)
+                        // setCourseId(course.id)
+                        navigate(`/grupos?id=${course.id}`)
                     }}
                 >
                     <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between", gap: "0.5vw" }}>
