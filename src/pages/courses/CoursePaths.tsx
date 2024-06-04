@@ -44,6 +44,13 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
                           id: user.id,
                           onClick: () => navigate(`/criadores/${slugify(creator.nickname)}?id=${user.id}`),
                       },
+                      {
+                          link: `/grupos/id=${user.id}`,
+                          title: "Ver Chat",
+                          icon: <VisibilityOutlined />,
+                          id: user.id,
+                          onClick: () => navigate(`/grupos?id=${course.id}`),
+                      },
                   ]
                 : [],
         [user]
