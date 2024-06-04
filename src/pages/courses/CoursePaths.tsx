@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { Paths } from "../../types/paths"
 import { slugify } from "../../tools/urlMask"
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import { DataCard } from "../../components/courses/DataCard"
 
 interface CoursePathsProps {
@@ -47,7 +48,7 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
                       {
                           link: `/grupos/id=${user.id}`,
                           title: "Ver Chat",
-                          icon: <VisibilityOutlined />,
+                          icon: <ChatOutlinedIcon />,
                           id: user.id,
                           onClick: () => navigate(`/grupos?id=${course.id}`),
                       },
