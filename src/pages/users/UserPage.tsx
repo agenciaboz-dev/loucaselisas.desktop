@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
-import { useLocation } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
 import placeholders from "../../tools/placeholders"
@@ -21,10 +21,11 @@ interface MessageItem {
 type Messages = MessageItem[]
 
 export const UserPage: React.FC<UserPageProps> = ({}) => {
+    const [search] = useSearchParams()
     const location = useLocation()
-    const userId = location.state.userId as string | undefined
-    const [user, setUser] = useState(location.state.user as User | undefined)
-    const id = user ? user?.id : userId
+    const userId = location.state?.userId as string | undefined
+    const [user, setUser] = useState(location.state?.user as User | undefined)
+    const id = (user ? user?.id : userId) || search.get("id")
 
     const [loading, setLoading] = useState(false)
 
@@ -116,7 +117,28 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         }
     }, [user])
 
-    return user ? (
+    if (!id)
+        return (
+            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+                <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <NoFeaturedContent
+                    styles={{ height: "37vw" }}
+                    title="O link que você tentou acessar parece estar quebrado ou não existe."
+                    text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+                />
+            </Box>
+        )
+
+    return user === undefined ? (
+        <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+            <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <NoFeaturedContent
+                styles={{ height: "37vw" }}
+                title="O link que você tentou acessar parece estar quebrado ou não existe."
+                text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+            />
+        </Box>
+    ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do usuário`} refreshButton={false} exitButton={false} backButton />
             <Box sx={{ gap: "1vw", height: 1 }}>
@@ -210,5 +232,5 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                 {/* )} */}
             </Box>
         </Box>
-    ) : null
+    )
 }
