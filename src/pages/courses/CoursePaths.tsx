@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { Creator, User } from "../../types/server/class"
+import { User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import { useNavigate } from "react-router-dom"
