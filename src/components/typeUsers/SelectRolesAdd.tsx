@@ -1,107 +1,69 @@
-import React, { useEffect, useState } from "react"
-import { Box, Checkbox, FormControlLabel, TextField } from "@mui/material"
+import React, { useState } from "react"
+import { Checkbox, MenuItem, TextField, Typography } from "@mui/material"
 import { Role } from "../../types/server/class/Role"
+import { PermissionsOption } from "../../types/PermissionsOption"
+import { FormikErrors, FormikTouched } from "formik"
 
 interface SelectRolesAddProps {
-    roles: Role[]
-    selectedPermissions: string[] // Permissões selecionadas
-    onSelectPermission: (permissions: string[]) => void // Função para selecionar uma permissão
-    menu: string
+    permissions: PermissionsOption[] // Permissões selecionadas
+    title: string
+    formik: {
+        initialValues: Partial<Role>
+        values: Partial<Role>
+        errors: FormikErrors<Partial<Role>>
+        touched: FormikTouched<Partial<Role>>
+        handleChange: (e: React.ChangeEvent<any>) => void
+        handleBlur: {
+            (e: React.FocusEvent<any, Element>): void
+            <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void
+        }
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<Partial<Role>>>
+    }
 }
 
-interface PermissionLabels {
-    [key: string]: string
-}
+export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, title, formik }) => {
+    const [selected, setSelected] = useState<string[]>([])
 
-const permissionLabels: PermissionLabels = {
-    panelTab: "Painel",
-    creatorTab: "Criador",
-    searchTab: "Pesquisa",
-    favoritesTab: "Favoritos",
-    configTab: "Configuração",
-    menuAdmin: "Menu Administrador",
-    menuStudent: "Menu Estudante",
-}
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedPermissions = event.target.value as unknown as string[]
+        setSelected(selectedPermissions)
 
-const menuGroups = {
-    admin: ["menuAdmin"],
-    student: ["menuStudent"],
-    creator: ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"],
-}
-export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ roles, selectedPermissions, onSelectPermission, menu }) => {
-    const [localSelectedPermissions, setLocalSelectedPermissions] = useState<string[]>(selectedPermissions)
+        const new_permissions = { ...formik.values.permissions! }
+        Object.entries(formik.values.permissions!).map(([key, value]) => {
+            if (!permissions.find((item) => item.value == key)) return
 
-    useEffect(() => {
-        setLocalSelectedPermissions(selectedPermissions)
-    }, [selectedPermissions])
-
-    const handleChange = (permission: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newSelectedPermissions = event.target.checked
-            ? [...localSelectedPermissions, permission]
-            : localSelectedPermissions.filter((p) => p !== permission)
-
-        setLocalSelectedPermissions(newSelectedPermissions)
-        onSelectPermission(newSelectedPermissions) // Propaga as mudanças para o componente pai
+            // @ts-ignore
+            new_permissions[key] = selectedPermissions.includes(key)
+        })
+        formik.setFieldValue("permissions", new_permissions)
     }
 
     return (
         <>
+            <Typography>{title}</Typography>
             <TextField
                 select
+                value={selected}
+                onChange={handleChange}
                 InputProps={{
                     sx: { height: "2vw" }, // Define a altura do input
                 }}
                 SelectProps={{
+                    multiple: true,
+                    renderValue: (value: string[]) =>
+                        value.map((item) => permissions.find((permission) => permission.value == item)?.label).join(", "),
                     MenuProps: {
                         MenuListProps: { sx: { width: "100%", height: "100%", bgcolor: "#E5E5E5" } },
                         sx: { maxHeight: "29vh", borderRadius: "1vw" },
                     },
                 }}
             >
-                <Box sx={{ flexDirection: "column", display: "flex" }}>
-                    {menu === "admin" &&
-                        menuGroups.admin.map((permission) => (
-                            <FormControlLabel
-                                key={permission}
-                                label={permissionLabels[permission]}
-                                control={
-                                    <Checkbox
-                                        checked={localSelectedPermissions.includes(permission)}
-                                        onChange={handleChange(permission)}
-                                    />
-                                }
-                                sx={{ p: "0 1vw" }}
-                            />
-                        ))}
-                    {menu === "student" &&
-                        menuGroups[menu].map((permission) => (
-                            <FormControlLabel
-                                key={permission}
-                                label={permissionLabels[permission]}
-                                control={
-                                    <Checkbox
-                                        checked={localSelectedPermissions.includes(permission)}
-                                        onChange={handleChange(permission)}
-                                    />
-                                }
-                                sx={{ p: "0 1vw" }}
-                            />
-                        ))}
-                    {menu === "creator" &&
-                        menuGroups.creator.map((permission) => (
-                            <FormControlLabel
-                                key={permission}
-                                label={permissionLabels[permission]}
-                                control={
-                                    <Checkbox
-                                        checked={localSelectedPermissions.includes(permission)}
-                                        onChange={handleChange(permission)}
-                                    />
-                                }
-                                sx={{ p: "0 1vw" }}
-                            />
-                        ))}
-                </Box>
+                {permissions.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                        <Checkbox checked={selected.includes(item.value)} />
+                        {item.label}
+                    </MenuItem>
+                ))}
             </TextField>
         </>
     )

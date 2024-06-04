@@ -5,6 +5,7 @@ import { Role } from "../../types/server/class/Role"
 import { useFormik } from "formik"
 import { api } from "../../api/api"
 import { User } from "../../types/server/class"
+import { PermissionsOption } from "../../types/PermissionsOption"
 
 interface AddTypeUserModalProps {
     openModal: boolean
@@ -48,10 +49,17 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                 // const response = await api.post("/role", values)
             } catch (error) {}
         },
+        enableReinitialize: true,
     })
-    const menuAdmin = ["outros"]
-    const menuStudent = ["searchTab"]
-    const menuCreator = ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"]
+    const menuAdmin: PermissionsOption[] = []
+    const menuStudent: PermissionsOption[] = [
+        { label: "Pesquisa", value: "searchTab" },
+        { label: "Painel", value: "panelTab" },
+        { label: "Favoritos", value: "favoritesTab" },
+        { label: "Configurações", value: "configTab" },
+    ]
+    const menuCreator: PermissionsOption[] = [{ label: "Criador", value: "creatorTab" }]
+
     const getUsers = async () => {
         try {
             const response = await api.get("/user/all")
@@ -60,21 +68,6 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
         } catch (error) {
             console.log(error)
         }
-    }
-
-    const selectedMenu = (typeUser: string) => {
-        const menu = roles
-            .filter((role) => role.permissions) // Garante que o role tem um objeto de permissões
-            .flatMap((role) => Object.entries(role.permissions))
-            .filter(([permission, isActive]) =>
-                typeUser == "admin"
-                    ? menuAdmin.includes(permission) && isActive
-                    : typeUser == "student"
-                    ? menuStudent.includes(permission) && isActive
-                    : typeUser === "creator" && menuCreator.includes(permission) && isActive
-            )
-            .map(([permission]) => permission) // Extrai o nome da permissão
-        return menu
     }
 
     useEffect(() => {
@@ -98,9 +91,7 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                     </Box>
                     <Box sx={{ width: 1, flexDirection: "row", gap: "1vw" }}>
                         <Box sx={{ gap: "1vw", width: "47%" }}>
-                            <Box
-                                sx={{ flexDirection: "column", gap: "1vw", width: "100%", justifyContent: "space-between" }}
-                            >
+                            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%", justifyContent: "space-between" }}>
                                 <Box sx={{ width: "100%", flexDirection: "column", gap: "0.5vw" }}>
                                     <Typography>Nome</Typography>
                                     <TextField
@@ -138,27 +129,9 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                                 {/* <Typography component={"p"} fontSize={"1.1rem"}>
                                     Menus Disponíveis
                                 </Typography> */}
-                                <Typography>Administrador</Typography>
-                                <SelectRolesAdd
-                                    selectedPermissions={selectedMenu("admin")}
-                                    onSelectPermission={(permission) => console.log(permission)}
-                                    roles={roles}
-                                    menu={"admin"}
-                                />
-                                <Typography>Estudante</Typography>
-                                <SelectRolesAdd
-                                    selectedPermissions={selectedMenu("student")}
-                                    onSelectPermission={(permission) => console.log(permission)}
-                                    roles={roles}
-                                    menu="student"
-                                />
-                                <Typography>Criador de conteúdo</Typography>
-                                <SelectRolesAdd
-                                    selectedPermissions={selectedMenu("creator")}
-                                    onSelectPermission={(permission) => console.log(permission)}
-                                    menu="creator"
-                                    roles={roles}
-                                />
+                                <SelectRolesAdd permissions={menuAdmin} title={"Administrador"} formik={formik} />
+                                <SelectRolesAdd permissions={menuStudent} title={"Estudante"} formik={formik} />
+                                <SelectRolesAdd permissions={menuCreator} title={"Criador"} formik={formik} />
                             </Box>
                         </Box>
                     </Box>
