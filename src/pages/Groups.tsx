@@ -10,6 +10,7 @@ import { api } from "../api/api"
 import { Chat } from "./Chat"
 import { Message } from "../types/server/class/Chat/Message"
 import { useUser } from "../hooks/useUser"
+import { useSearchParams } from "react-router-dom"
 
 interface GroupsProps {}
 interface LastMessages {
@@ -18,6 +19,8 @@ interface LastMessages {
 
 export const Groups: React.FC<GroupsProps> = ({}) => {
     const { user } = useUser()
+    const [search] = useSearchParams()
+    const [courseId, setCourseId] = useState(search.get("id"))
 
     const [active, setActive] = useState("popular")
     const { getCourses, loading } = useGetCourses()
@@ -31,11 +34,27 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
 
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>
     const { events } = useDraggable(ref, { applyRubberBandEffect: true })
+
+    const fetchCourse = async () => {
+        try {
+            const response = await api.get("/course", { params: { course_id: courseId } })
+            console.log({ Resposta: response.data })
+            setCourse(response.data)
+            setExpanded(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const fetchCourses = async () => {
         const courses = await getCourses()
         if (!courses) {
             console.log("erro ao carregar cursos")
             return
+        }
+
+        if (courseId) {
+            fetchCourse()
         }
 
         await fetchMessages(courses)
@@ -82,8 +101,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         setFilteredCourses(
             courses.filter((course) => {
                 const courseMatches =
-                    course.name.toLowerCase().includes(lowerCaseValue) ||
-                    course.owner.user.username?.toLowerCase().includes(lowerCaseValue)
+                    course.name.toLowerCase().includes(lowerCaseValue) || course.owner.user.username?.toLowerCase().includes(lowerCaseValue)
 
                 const messageMatches =
                     (lastMessages[course.id] && lastMessages[course.id]?.text.toLowerCase().includes(lowerCaseValue)) ||
@@ -106,6 +124,10 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
     useEffect(() => {
         console.log(expandedChat)
     }, [expandedChat])
+
+    // useEffect(() => {
+    //     fetchCourse()
+    // }, [courseId])
 
     return (
         <Box sx={{ width: 1, height: 1 }}>
@@ -208,6 +230,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                           .map((course) => (
                                               <GroupCard
                                                   setCourse={setCourse}
+                                                  setCourseId={setCourseId}
                                                   course={course}
                                                   key={course.id}
                                                   setExpanded={setExpanded}
