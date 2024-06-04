@@ -75,7 +75,18 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
             </Box>
         )
 
-    return course ? (
+    // todo Fazer outra condição para quando o id do curso nao for encontrado
+
+    return course === undefined ? (
+        <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+            <HeaderInfo title={`Curso não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <NoFeaturedContent
+                styles={{ height: "37vw" }}
+                title="O link que você tentou acessar parece estar quebrado ou não existe."
+                text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+            />
+        </Box>
+    ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
             <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
             <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
@@ -173,5 +184,5 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                 </Grid>
             </Grid>
         </Box>
-    ) : null
+    )
 }

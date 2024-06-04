@@ -127,7 +127,7 @@ export const Lessons: React.FC<LessonsProps> = ({}) => {
                                                   downloads={lesson.downloads}
                                                   views={lesson.views}
                                                   userName={lesson.course.name}
-                                                  link={`/licoes/${slugify(lesson.name)}`}
+                                                  link={`/licoes/${slugify(lesson.name)}?id:${lesson.id}`}
                                                   routerParam={{ lesson }}
                                               />
                                           ))}
