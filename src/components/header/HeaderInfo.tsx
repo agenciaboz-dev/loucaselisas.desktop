@@ -49,7 +49,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                         component="h1"
                         sx={{
                             textTransform: "uppercase",
-                            maxWidth: "25vw",
+                            maxWidth: "50vw",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
