@@ -293,7 +293,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                         downloads={course.downloads}
                                         messages={course.chat?.messages}
                                         views={course.views}
-                                        link={`/cursos/${slugify(course.name)}`}
+                                        link={`/cursos/${slugify(course.name)}?id=${course.id}`}
                                         routerParam={course}
                                         sx={{ width: "24.4vw" }}
                                     />
@@ -310,7 +310,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                         downloads={lesson.downloads}
                                         views={lesson.views}
                                         userName={lesson.course.name}
-                                        link={`/licoes/${slugify(lesson.name)}`}
+                                        link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
                                         routerParam={{ lesson }}
                                         sx={{ width: "24.4vw" }}
                                     />
