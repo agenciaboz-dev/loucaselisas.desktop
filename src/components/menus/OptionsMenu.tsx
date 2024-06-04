@@ -1,7 +1,7 @@
 import React from "react"
 import { Fade, IconButton, Menu, MenuItem, SxProps, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { CourseLessonPaths, Paths } from "../../types/paths"
+import { Paths } from "../../types/paths"
 
 interface OptionsMenuProps {
     paths: Paths | undefined
