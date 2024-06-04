@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { User } from "../../types/server/class"
+import { Creator, User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import { useNavigate } from "react-router-dom"
@@ -14,11 +14,12 @@ interface CoursePathsProps {
 
 export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
     const [user, setUser] = useState<User>()
+    const [creator, setCreator] = useState(user?.creator)
     const navigate = useNavigate()
 
     const fetchUser = async () => {
         try {
-            const response = await api.get("/creator", { params: { id: course.owner_id } })
+            const response = await api.get("/user", { params: { id: course.owner.user.id } })
             setUser(response.data)
         } catch (error) {
             console.log(error)
@@ -27,7 +28,7 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
 
     const paths: Paths = useMemo(
         () =>
-            user
+            user && creator
                 ? [
                       {
                           link: `/cursos/${slugify(course.name)}?id=${course.id}`,
@@ -37,11 +38,11 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
                           onClick: () => navigate(`/cursos/${slugify(course.name)}?id=${course.id}`),
                       },
                       {
-                          link: `/usuarios/${slugify(user.creator!.nickname)}?id=${user.creator!.id}`,
+                          link: `/usuarios/${slugify(creator.nickname)}?id=${user.id}`,
                           title: "Ver Usuario",
                           icon: <VisibilityOutlined />,
                           id: user.id,
-                          onClick: () => navigate(`/criadores/${slugify(user.creator!.nickname)}?id=${user.creator!.id}`),
+                          onClick: () => navigate(`/criadores/${slugify(creator.nickname)}?id=${user.id}`),
                       },
                   ]
                 : [],
@@ -53,6 +54,12 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
     useEffect(() => {
         fetchUser()
     }, [])
+
+    useEffect(() => {
+        if (user) {
+            setCreator(user.creator)
+        }
+    }, [user])
 
     return (
         <DataCard
