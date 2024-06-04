@@ -76,8 +76,8 @@ export const DataCard: React.FC<DataCardProps> = ({
     return (
         <>
             <Grid item xs={1}>
-                <Paper sx={{ flexDirection: "column", position: "relative", height: "100%", ...sx }}>
-                    <MenuItem sx={{ w: 1, m: 0, p: "0.5vw", gap: "0.5vw" }} onClick={() => navigate(link, { state: { data: routerParam } })}>
+                <Paper sx={{ flexDirection: "column", position: "relative", height: "100%", padding: "0.5vw", gap: "0.5vw", ...sx }}>
+                    <MenuItem sx={{ w: 1, m: 0, p: 0, gap: "0.5vw" }} onClick={() => navigate(link, { state: { data: routerParam } })}>
                         <Box sx={{ gap: "0.5vw", alignItems: "flex-start", justifyContent: "space-between" }}>
                             <Avatar src={image} variant="rounded" sx={{ width: "5vw", height: "5vw" }}>
                                 <Avatar src={placeholders.square} sx={{ width: "3.5vw", height: "3.5vw" }} />
@@ -142,7 +142,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                         <MoreVertIcon />
                     </IconButton> */}
                     <Divider />
-                    <Box sx={{ justifyContent: "space-between", p: "0.5vw", gap: "0.5vw" }}>
+                    <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                         <Box sx={{ gap: "1vw" }}>
                             <StatData stats={likes} Icon={FavoriteBorderIcon} />
                             <StatData stats={downloads} Icon={FileDownloadIcon} />
