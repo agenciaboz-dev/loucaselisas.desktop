@@ -30,7 +30,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const gridColumnStyle = {
         height: "69.5vh",
         flexDirection: "column",
-        padding: "0.1vw 0.2vw 0.7vw",
+        padding: "0.5vw 0.5vw 5vw",
         gap: "0.5vw",
         overflow: "scroll",
     }
@@ -175,27 +175,37 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     return user ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
-            <Box sx={{ gap: "1vw", height: 1 }}>
-                <Box sx={{ height: 1, maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw", flex: 1 }}>
+            <Box sx={{ gap: "0.5vw", height: 1 }}>
+                <Box
+                    sx={{
+                        height: 1,
+                        maxWidth: "33%",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        gap: "0.5vw",
+                        overflowY: "scroll",
+                        padding: "0 0.5vw",
+                    }}
+                >
                     <ColumnTitle prop="Nome:" value={creator?.nickname} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
-                            <Avatar src={creator?.cover || placeholders.landscape} sx={{ width: "23.6vw", height: "13.27vw", borderRadius: "1vw" }}>
+                            <Avatar src={creator?.cover || placeholders.landscape} sx={{ width: "100%", height: "13.27vw", borderRadius: "1vw" }}>
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-2.5vw" }}>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-1.5vw", flex: 1 }}>
                             <Avatar src={creator?.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
                                 <Avatar src={placeholders.avatar} />
                             </Avatar>
-                            <Box sx={{ alignItems: "center", justifyContent: "end" }}>
+                            <Box sx={{ alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
                                 <Typography variant="body1" component="p">
-                                    Tornar um usuário um criador de conteúdo
+                                    Tornar o usuário um criador de conteúdo
                                 </Typography>
-                                <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} />
+                                <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} sx={{}} />
                             </Box>
                         </Box>
-                        <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
+                        <Box sx={{ marginTop: "-1.5vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
                             {selectedRole && (
                                 <>
                                     <TextField
@@ -230,8 +240,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                 sx={{
                                     maxWidth: "23.6vw",
                                     flex: 1,
-                                    height: "13vw",
-                                    maxHeight: "10.8vw",
+                                    height: "fit-content",
+                                    // maxHeight: "10.8vw",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "normal",
@@ -244,7 +254,16 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Paper sx={{ flexDirection: "column", gap: "1vw", height: "6vw", marginTop: "auto" }}>
+                    <Paper
+                        sx={{
+                            flexDirection: "column",
+                            gap: "1vw",
+                            height: "fit-content",
+                            marginTop: "auto",
+                            marginBottom: "2vw",
+                            paddingBottom: "1vw",
+                        }}
+                    >
                         <Typography
                             variant="body1"
                             component="p"
@@ -260,64 +279,60 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         </Box>
                     </Paper>
                 </Box>
-                <Grid container spacing={3} columns={2} sx={{}}>
-                    <Grid item xs={1}>
-                        <ColumnTitle prop="Ultímos Comentários" />
-                        <Box sx={{ ...gridColumnStyle }}>
-                            {messages.map((item) => (
-                                <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
+                <Box sx={{ flexDirection: "column", width: "33%" }}>
+                    <ColumnTitle prop="Ultímos Comentários" />
+                    <Box sx={{ ...gridColumnStyle, marginTop: "0.5vw" }}>
+                        {messages.map((item) => (
+                            <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
+                        ))}
+                    </Box>
+                </Box>
+                <Box sx={{ flexDirection: "column", width: "33%" }}>
+                    <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
+                        <Tab value={1} label="Cursos" />
+                        <Tab value={2} label="Lessons" />
+                    </Tabs>
+                    <Box
+                        sx={{
+                            ...gridColumnStyle,
+                        }}
+                    >
+                        {currentTab === 1 &&
+                            courses.map((course) => (
+                                <DataCard
+                                    key={course.id}
+                                    course={course}
+                                    image={course.cover}
+                                    title={course.name}
+                                    description={course.description}
+                                    likes={course.likes}
+                                    downloads={course.downloads}
+                                    messages={course.chat?.messages}
+                                    views={course.views}
+                                    link={`/cursos/${slugify(course.name)}`}
+                                    routerParam={course}
+                                    sx={{ width: "24.4vw" }}
+                                />
                             ))}
-                        </Box>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
-                            <Tab value={1} label="Cursos" />
-                            <Tab value={2} label="Lessons" />
-                        </Tabs>
-                        <Box
-                            sx={{
-                                ...gridColumnStyle,
-                                pt: "0.2vw",
-                                pb: "1.6vw",
-                            }}
-                        >
-                            {currentTab === 1 &&
-                                courses.map((course) => (
-                                    <DataCard
-                                        key={course.id}
-                                        course={course}
-                                        image={course.cover}
-                                        title={course.name}
-                                        description={course.description}
-                                        likes={course.likes}
-                                        downloads={course.downloads}
-                                        messages={course.chat?.messages}
-                                        views={course.views}
-                                        link={`/cursos/${slugify(course.name)}`}
-                                        routerParam={course}
-                                        sx={{ width: "24.4vw" }}
-                                    />
-                                ))}
-                            {currentTab === 2 &&
-                                lessons.map((lesson) => (
-                                    <DataCard
-                                        key={lesson.id}
-                                        lesson={lesson}
-                                        image={lesson.thumb || lesson.media.url}
-                                        title={lesson.name}
-                                        description={lesson.info}
-                                        likes={lesson.likes}
-                                        downloads={lesson.downloads}
-                                        views={lesson.views}
-                                        userName={lesson.course.name}
-                                        link={`/licoes/${slugify(lesson.name)}`}
-                                        routerParam={{ lesson }}
-                                        sx={{ width: "24.4vw" }}
-                                    />
-                                ))}
-                        </Box>
-                    </Grid>
-                </Grid>
+                        {currentTab === 2 &&
+                            lessons.map((lesson) => (
+                                <DataCard
+                                    key={lesson.id}
+                                    lesson={lesson}
+                                    image={lesson.thumb || lesson.media.url}
+                                    title={lesson.name}
+                                    description={lesson.info}
+                                    likes={lesson.likes}
+                                    downloads={lesson.downloads}
+                                    views={lesson.views}
+                                    userName={lesson.course.name}
+                                    link={`/licoes/${slugify(lesson.name)}`}
+                                    routerParam={{ lesson }}
+                                    sx={{ width: "24.4vw" }}
+                                />
+                            ))}
+                    </Box>
+                </Box>
             </Box>
         </Box>
     ) : null
