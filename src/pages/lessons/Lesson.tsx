@@ -11,14 +11,15 @@ import { FormAproveLesson } from "../../components/aprove/FormAproveLesson"
 import { DataCard } from "../../components/course/DataCard"
 import { slugify } from "../../tools/urlMask"
 import placeholders from "../../tools/placeholders"
+import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
 
 interface LessonPageProps {}
 
 export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const locationState = useLocation().state
     const [search] = useSearchParams()
-    const [lesson, setLesson] = useState(locationState.data.lesson as Lesson | undefined)
-    const [course, setCourse] = useState(locationState.data.course as Course | undefined)
+    const [lesson, setLesson] = useState(locationState?.data.lesson as Lesson | undefined)
+    const [course, setCourse] = useState(locationState?.data.course as Course | undefined)
     const [media, setMedia] = useState({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
@@ -78,7 +79,9 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     }
 
     useEffect(() => {
-        setLesson(locationState.data.lesson)
+        if (locationState) {
+            setLesson(locationState.data.lesson)
+        }
     }, [locationState])
 
     useEffect(() => {
@@ -88,7 +91,28 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
 
     // const [showCarrosel, setShowCarrosel] = useState(false)
 
-    return (
+    if (!lessonId)
+        return (
+            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+                <HeaderInfo title={`Lição não encontrada`} refreshButton={false} exitButton={false} backButton />
+                <NoFeaturedContent
+                    styles={{ height: "37vw" }}
+                    title="O link que você tentou acessar parece estar quebrado ou não existe."
+                    text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+                />
+            </Box>
+        )
+
+    return lesson === undefined ? (
+        <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
+            <HeaderInfo title={`Lição não encontrada`} refreshButton={false} exitButton={false} backButton />
+            <NoFeaturedContent
+                styles={{ height: "37vw" }}
+                title="O link que você tentou acessar parece estar quebrado ou não existe."
+                text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
+            />
+        </Box>
+    ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
             <HeaderInfo title={`Lição: ${lesson?.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
             <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
@@ -157,7 +181,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                             lesson={lesson}
                                             refreshStatus={fetchLessons}
                                             // refreshLesson={fetchLesson}
-                                            link={`/licoes/${slugify(lesson.name)}`}
+                                            link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
                                             routerParam={{ lesson, course }}
                                         />
                                     ))}
