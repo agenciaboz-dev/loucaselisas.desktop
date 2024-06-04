@@ -102,7 +102,12 @@ export const Users: React.FC<UsersProps> = ({}) => {
                                               </Grid>
                                           ))
                                         : filteredUsers.map((user) => (
-                                              <UserCard user={user} key={user.id} link={`/usuarios/${slugify(user.name)}`} routerParam={user} />
+                                              <UserCard
+                                                  user={user}
+                                                  key={user.id}
+                                                  link={`/usuarios/${slugify(user.name)}?id=${user.id}`}
+                                                  routerParam={user}
+                                              />
                                           ))}
                                 </Grid>
                             </>
