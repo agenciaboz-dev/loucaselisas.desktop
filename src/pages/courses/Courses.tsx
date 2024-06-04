@@ -9,6 +9,7 @@ import { DataCard } from "../../components/courses/DataCard"
 import { useDraggable } from "react-use-draggable-scroll"
 import { slugify } from "../../tools/urlMask"
 import { NoFeaturedContent } from "../../components/dashboard/NoFeaturedContent"
+import { CoursePaths } from "./CoursePaths"
 
 interface CourrsesProps {}
 
@@ -23,7 +24,6 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
     const [active, setActive] = useState("recent")
     const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
     const [skeletonLoading, setSkeletonLoading] = useState<boolean>(loading)
-
 
     const fetchCourses = async () => {
         const courses = await getCourses()
@@ -124,22 +124,7 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                                   </Paper>
                                               </Grid>
                                           ))
-                                        : filteredCourses.map((course) => (
-                                              <DataCard
-                                                  key={course.id}
-                                                  course={course}
-                                                  image={course.cover}
-                                                  title={course.name}
-                                                  description={course.description}
-                                                  likes={course.likes}
-                                                  downloads={course.downloads}
-                                                  messages={course.chat?.messages}
-                                                  views={course.views}
-                                                  userName={course.owner.user.username}
-                                                  link={`/cursos/${slugify(course.name)}?id=${course.id}`}
-                                                  routerParam={course}
-                                              />
-                                          ))}
+                                        : filteredCourses.map((course) => <CoursePaths key={course.id} course={course} />)}
                                 </Grid>
                             </>
                         )}
