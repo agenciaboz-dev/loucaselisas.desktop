@@ -11,11 +11,12 @@ interface MessageCardProps {
     message: Message
     course: Course
     sx?: SxProps
+    messageIndex: number
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx, messageIndex }) => {
     const textCard = { maxWidth: "19.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
-    const { messagePaths } = useGetPaths()
+    const { messagePaths } = useGetPaths({ course, messageIndex })
 
     return (
         <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column", ...sx }}>
