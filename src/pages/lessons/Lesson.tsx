@@ -24,10 +24,12 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
     const lessonId = lesson ? lesson.id : search.get("id")
+
+    console.log(lessonId)
     // const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
 
     const fetchLesson = async () => {
-        if (loading || !lesson) return
+        if (loading) return
         setLoading(true)
 
         try {
@@ -43,11 +45,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     }
 
     const fetchCourse = async () => {
-        if (loading || !lesson) return
+        if (loading) return
         setLoading(true)
 
         try {
-            const response = await api.get("/course", { params: { course_id: lesson.course_id } })
+            const response = await api.get("/course", { params: { course_id: lesson?.course_id } })
             setCourse(response.data)
         } catch (error) {
             console.log(error)
@@ -58,18 +60,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
         }
     }
 
-    useEffect(() => {
-        fetchLesson()
-        if (!course) {
-            fetchCourse()
-        }
-    }, [])
-
     const fetchLessons = async () => {
-        if (loading || !lesson) return
+        if (loading) return
         setLoading(true)
         try {
-            const response = await api.get("/lesson/course", { params: { course_id: lesson.course_id } })
+            const response = await api.get("/lesson/course", { params: { course_id: lesson?.course_id } })
             setLessons(response.data)
         } catch (error) {
             console.log(error)
@@ -85,8 +80,15 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     }, [locationState])
 
     useEffect(() => {
-        fetchLessons()
-        setMedia({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
+        fetchLesson()
+    }, [])
+
+    useEffect(() => {
+        if (lesson) {
+            fetchCourse()
+            fetchLessons()
+            setMedia({ url: lesson?.media.url || "", type: lesson?.media.type || "image" })
+        }
     }, [lesson])
 
     // const [showCarrosel, setShowCarrosel] = useState(false)
