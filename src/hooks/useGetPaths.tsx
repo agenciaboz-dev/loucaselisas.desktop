@@ -88,14 +88,14 @@ export const useGetPaths = (user?: User | undefined, course?: Course | undefined
                           title: "Ver mensagem",
                           icon: <VisibilityOutlined />,
                           id: course.id,
-                          onClick: () => navigate(`/grupos/${slugify(course.name)}?id=${course.id}`),
+                          onClick: () => navigate(`/grupos?id=${course.id}`),
                       },
                       {
                           link: `/grupos?id=${course.id}`,
                           title: "Ver Chat",
                           icon: <VisibilityOutlined />,
                           id: course.id,
-                          onClick: () => navigate(`/grupos/${slugify(course.name)}?id=${course.id}`),
+                          onClick: () => navigate(`/grupos?id=${course.id}`),
                       },
                   ]
                 : [],
