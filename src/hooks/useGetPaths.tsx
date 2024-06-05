@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react"
-import { Creator, User } from "../types/server/class"
+import { useMemo } from "react"
+import { User } from "../types/server/class"
 import { Paths } from "../types/paths"
 import { slugify } from "../tools/urlMask"
 import { Course } from "../types/server/class/Course"
@@ -8,7 +8,15 @@ import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import { Lesson } from "../types/server/class/Course/Lesson"
 
-export const useGetPaths = (user?: User | undefined, course?: Course | undefined, lesson?: Lesson | undefined) => {
+interface Options {
+    user?: User | undefined
+    course?: Course | undefined
+    lesson?: Lesson | undefined
+    messageIndex?: number | undefined
+}
+
+export const useGetPaths = (options: Options) => {
+    const { course, lesson, user, messageIndex } = options
     const navigate = useNavigate()
     const creator = user?.creator
 
@@ -88,7 +96,7 @@ export const useGetPaths = (user?: User | undefined, course?: Course | undefined
                           title: "Ver mensagem",
                           icon: <VisibilityOutlined />,
                           id: course.id,
-                          onClick: () => navigate(`/grupos?id=${course.id}`),
+                          onClick: () => navigate(`/grupos?id=${course.id}&messageIndex=${messageIndex}`),
                       },
                       {
                           link: `/grupos?id=${course.id}`,
