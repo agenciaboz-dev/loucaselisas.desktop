@@ -9,6 +9,7 @@ import { Socket, io } from "socket.io-client"
 import { url } from "../api/backend"
 import { MessageCard } from "../components/groups/MessageCard"
 import { User } from "../types/server/class"
+import { useSearchParams } from "react-router-dom"
 
 interface ChatProps {
     setExpanded: React.Dispatch<React.SetStateAction<Boolean>>
@@ -51,6 +52,9 @@ const input_style = {
 
 export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     const chatCourse = course?.chat
+    const [search] = useSearchParams()
+    const messageIndex = Number(search.get("messageIndex"))
+    console.log({ INDEX: messageIndex })
     const [messages, setMessages] = useState<Message[]>([])
     const [refreshing, setRefreshing] = useState(true)
 
@@ -144,6 +148,22 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     useEffect(() => {
         containerRef.current?.scrollBy({ top: messages.length * 3954980, behavior: "smooth" })
     }, [messages])
+
+    useEffect(() => {
+        if (messageIndex && messages.length > 0) {
+            if (containerRef.current) {
+                const messageElement = containerRef.current.children[messageIndex] as HTMLElement
+                containerRef.current.scrollTo({
+                    top: messageElement.offsetTop,
+                    behavior: "smooth",
+                })
+
+                //todo fazer um wheumnn na mensagem
+                messageElement.style.color = "#ff0000"
+            }
+        }
+    }, [messageIndex, messages])
+
     return (
         <Box sx={{ bgcolor: "#E8E8E8", borderRadius: "1vw", p: "0.5vw", flexDirection: "column", flex: 1, height: "95%" }}>
             <Box sx={{ alignItems: "center", gap: "1vw" }}>
