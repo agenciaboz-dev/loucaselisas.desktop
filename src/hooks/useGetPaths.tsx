@@ -92,7 +92,7 @@ export const useGetPaths = (options: Options) => {
             course
                 ? [
                       {
-                          link: `/grupos?id=${course.id}`,
+                          link: `/grupos?id=${course.id}&messageIndex=${messageIndex}`,
                           title: "Ver mensagem",
                           icon: <VisibilityOutlined />,
                           id: course.id,
