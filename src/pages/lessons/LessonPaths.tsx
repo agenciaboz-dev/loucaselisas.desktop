@@ -10,6 +10,7 @@ import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import { Course } from "../../types/server/class/Course"
 import { Box } from "@mui/material"
+import { useGetPaths } from "../../hooks/useGetPaths"
 
 interface LessonPathsProps {
     lesson: Lesson
@@ -20,6 +21,7 @@ export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
     const [course, setCourse] = useState<Course>()
     const [user, setUser] = useState<User>()
     const [creator, setCreator] = useState(user?.creator)
+    const { allPaths } = useGetPaths(user, course, lesson)
 
     const fetchCourse = async () => {
         try {
@@ -51,43 +53,6 @@ export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
         if (user) setCreator(user.creator)
     }, [user])
 
-    const paths: Paths = useMemo(
-        () =>
-            user && creator && course
-                ? [
-                      {
-                          link: `/licoes/${slugify(lesson.name)}?id=${lesson.id}`,
-                          title: "Ver Lição",
-                          icon: <VisibilityOutlined />,
-                          id: lesson.id,
-                          onClick: () => navigate(`/licoes/${slugify(lesson.name)}?id=${lesson.id}`),
-                      },
-                      {
-                          link: `/cursos/${slugify(course.name)}?id=${course.id}`,
-                          title: "Ver Curso",
-                          icon: <VisibilityOutlined />,
-                          id: course.id,
-                          onClick: () => navigate(`/cursos/${slugify(course.name)}?id=${course.id}`),
-                      },
-                      {
-                          link: `/usuarios/${slugify(creator.nickname)}?id=${user.id}`,
-                          title: "Ver Usuario",
-                          icon: <VisibilityOutlined />,
-                          id: user.id,
-                          onClick: () => navigate(`/criadores/${slugify(creator.nickname)}?id=${user.id}`),
-                      },
-                      {
-                          link: `/grupos/id=${user.id}`,
-                          title: "Ver Chat",
-                          icon: <ChatOutlinedIcon />,
-                          id: user.id,
-                          onClick: () => navigate(`/grupos?id=${course.id}`),
-                      },
-                  ]
-                : [],
-        [user]
-    )
-
     useEffect(() => {
         fetchUser()
     }, [])
@@ -101,7 +66,7 @@ export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
     return (
         <DataCard
             key={lesson.id}
-            paths={paths}
+            paths={allPaths}
             lesson={lesson}
             image={lesson.thumb || lesson.media.url}
             title={lesson.name}
