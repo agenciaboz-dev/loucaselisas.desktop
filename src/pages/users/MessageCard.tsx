@@ -4,6 +4,8 @@ import { Message } from "../../types/server/class/Chat/Message"
 import { User } from "../../types/server/class"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { Course } from "../../types/server/class/Course"
+import { OptionsMenu } from "../../components/menus/OptionsMenu"
+import { useGetPaths } from "../../hooks/useGetPaths"
 
 interface MessageCardProps {
     message: Message
@@ -13,6 +15,7 @@ interface MessageCardProps {
 
 export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx }) => {
     const textCard = { maxWidth: "19.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
+    const { messagePaths } = useGetPaths()
 
     return (
         <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column", ...sx }}>
@@ -44,9 +47,11 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx })
                         {message.text}
                     </Typography>
                 </Box>
-                <IconButton>
+                <OptionsMenu paths={messagePaths} sx={{}} />
+                {/* <IconButton>
+
                     <MoreVertIcon />
-                </IconButton>
+                </IconButton> */}
             </Box>
         </Paper>
     )
