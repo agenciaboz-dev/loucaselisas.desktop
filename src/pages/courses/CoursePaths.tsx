@@ -8,6 +8,7 @@ import { slugify } from "../../tools/urlMask"
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import { DataCard } from "../../components/courses/DataCard"
+import { useGetPaths } from "../../hooks/useGetPaths"
 
 interface CoursePathsProps {
     course: Course
@@ -27,35 +28,7 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
         }
     }
 
-    const paths: Paths = useMemo(
-        () =>
-            user && creator
-                ? [
-                      {
-                          link: `/cursos/${slugify(course.name)}?id=${course.id}`,
-                          title: "Ver Curso",
-                          icon: <VisibilityOutlined />,
-                          id: course.id,
-                          onClick: () => navigate(`/cursos/${slugify(course.name)}?id=${course.id}`),
-                      },
-                      {
-                          link: `/usuarios/${slugify(creator.nickname)}?id=${user.id}`,
-                          title: "Ver Usuario",
-                          icon: <VisibilityOutlined />,
-                          id: user.id,
-                          onClick: () => navigate(`/criadores/${slugify(creator.nickname)}?id=${user.id}`),
-                      },
-                      {
-                          link: `/grupos/id=${user.id}`,
-                          title: "Ver Chat",
-                          icon: <ChatOutlinedIcon />,
-                          id: user.id,
-                          onClick: () => navigate(`/grupos?id=${course.id}`),
-                      },
-                  ]
-                : [],
-        [user]
-    )
+    const { coursePaths } = useGetPaths(user, course)
 
     useEffect(() => {
         fetchUser()
@@ -70,7 +43,7 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
     return (
         <DataCard
             key={course.id}
-            paths={paths}
+            paths={coursePaths}
             course={course}
             image={course.cover}
             title={course.name}
