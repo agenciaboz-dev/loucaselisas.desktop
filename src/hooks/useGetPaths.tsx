@@ -42,5 +42,42 @@ export const useGetPaths = (user?: User | undefined, course?: Course | undefined
         [user]
     )
 
-    return { coursePaths }
+    const allPaths: Paths = useMemo(
+        () =>
+            user && creator && lesson && course
+                ? [
+                      {
+                          link: `/licoes/${slugify(lesson.name)}?id=${lesson.id}`,
+                          title: "Ver Lição",
+                          icon: <VisibilityOutlined />,
+                          id: lesson.id,
+                          onClick: () => navigate(`/licoes/${slugify(lesson.name)}?id=${lesson.id}`),
+                      },
+                      {
+                          link: `/cursos/${slugify(course.name)}?id=${course.id}`,
+                          title: "Ver Curso",
+                          icon: <VisibilityOutlined />,
+                          id: course.id,
+                          onClick: () => navigate(`/cursos/${slugify(course.name)}?id=${course.id}`),
+                      },
+                      {
+                          link: `/usuarios/${slugify(creator.nickname)}?id=${user.id}`,
+                          title: "Ver Usuario",
+                          icon: <VisibilityOutlined />,
+                          id: user.id,
+                          onClick: () => navigate(`/criadores/${slugify(creator.nickname)}?id=${user.id}`),
+                      },
+                      {
+                          link: `/grupos/id=${user.id}`,
+                          title: "Ver Chat",
+                          icon: <ChatOutlinedIcon />,
+                          id: user.id,
+                          onClick: () => navigate(`/grupos?id=${course.id}`),
+                      },
+                  ]
+                : [],
+        [user]
+    )
+
+    return { coursePaths, allPaths }
 }
