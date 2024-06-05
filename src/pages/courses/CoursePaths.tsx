@@ -57,8 +57,6 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
         [user]
     )
 
-    console.log(paths)
-
     useEffect(() => {
         fetchUser()
     }, [])
