@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Avatar, Box, Paper, Skeleton } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
@@ -45,12 +45,8 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
             >
                 {!same_message_above && (
                     <Box sx={{ flexDirection: "row", alignItems: "flex-end", marginBottom: "-1.5vw" }}>
-                        {!!creators.find((item) => item.user_id == message.user_id) && (
-                            <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />
-                        )}
-                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>
-                            {you ? "Você" : message.user?.name || "Usuário indisponível"}
-                        </p>
+                        {!!creators.find((item) => item.user_id == message.user_id) && <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />}
+                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>{you ? "Você" : message.user?.name || "Usuário indisponível"}</p>
                     </Box>
                 )}
                 <Paper
@@ -82,12 +78,8 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
             >
                 {!same_message_above && (
                     <Box sx={{ flexDirection: "row", alignItems: "flex-end", marginBottom: "-1.5vw" }}>
-                        {!!creators.find((item) => item.user_id == message.user_id) && (
-                            <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />
-                        )}
-                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>
-                            {you ? "Você" : message.user?.name || "Usuário indisponível"}
-                        </p>
+                        {!!creators.find((item) => item.user_id == message.user_id) && <Avatar src={logo_without} sx={{ width: 20, height: 20 }} />}
+                        <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>{you ? "Você" : message.user?.name || "Usuário indisponível"}</p>
                     </Box>
                 )}
                 <Skeleton
