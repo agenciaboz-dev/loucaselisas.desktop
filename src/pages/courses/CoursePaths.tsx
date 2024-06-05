@@ -1,12 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
-import { useNavigate } from "react-router-dom"
-import { Paths } from "../../types/paths"
 import { slugify } from "../../tools/urlMask"
-import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import { DataCard } from "../../components/courses/DataCard"
 import { useGetPaths } from "../../hooks/useGetPaths"
 
@@ -16,8 +12,6 @@ interface CoursePathsProps {
 
 export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
     const [user, setUser] = useState<User>()
-    const [creator, setCreator] = useState(user?.creator)
-    const navigate = useNavigate()
 
     const fetchUser = async () => {
         try {
@@ -28,17 +22,11 @@ export const CoursePaths: React.FC<CoursePathsProps> = ({ course }) => {
         }
     }
 
-    const { coursePaths } = useGetPaths(user, course)
+    const { coursePaths } = useGetPaths({ user, course })
 
     useEffect(() => {
         fetchUser()
     }, [])
-
-    useEffect(() => {
-        if (user) {
-            setCreator(user.creator)
-        }
-    }, [user])
 
     return (
         <DataCard
