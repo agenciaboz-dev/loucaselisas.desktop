@@ -11,7 +11,7 @@ export type CreatorPrisma = Prisma.CreatorGetPayload<{
     include: typeof creator_include;
 }>;
 export type CreatorType = WithoutFunctions<Creator>;
-export type CreatorForm = Omit<WithoutFunctions<Creator>, "active" | "courses" | "id">;
+export type CreatorForm = Omit<WithoutFunctions<Creator>, "active" | "courses" | "id" | "favorited_by" | "need_send_data">;
 export type PartialCreator = Partial<Creator> & {
     id: string;
 };
@@ -30,6 +30,7 @@ export declare class Creator {
     favorited_by: number;
     cover: string | null;
     image: string | null;
+    need_send_data: boolean;
     constructor(id: string, data?: CreatorPrisma);
     init(): Promise<void>;
     static list(socket?: Socket): Promise<Creator[]>;

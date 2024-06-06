@@ -9,6 +9,7 @@ import { Role } from "./Role";
 import { PlanContract } from "./Plan";
 import { Lesson } from "./Course/Lesson";
 import { Message } from "./Chat/Message";
+import { Notification } from "./Notification";
 export declare const user_include: {
     creator: {
         include: {
@@ -106,6 +107,7 @@ export declare const user_include: {
             plan_data: true;
         };
     };
+    notifications: boolean;
     _count: {
         select: {
             lessons_likes: true;
@@ -120,7 +122,7 @@ export interface UserImageForm {
     image?: FileUpload | null;
     cover?: FileUpload | null;
 }
-export type UserForm = Omit<WithoutFunctions<User>, "id" | "plan" | "plan_history" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards" | "liked_lessons" | "created_at"> & {
+export type UserForm = Omit<WithoutFunctions<User>, "id" | "plan" | "plan_history" | "admin" | "favorite_creators" | "favorite_courses" | "payment_cards" | "creator" | "student" | "role" | "cover" | "image" | "payment_cards" | "liked_lessons" | "created_at" | "notifications"> & {
     image: FileUpload | null;
     cover: FileUpload | null;
     student: boolean;
@@ -151,6 +153,7 @@ export declare class User {
     bio: string | null;
     google_id: string | null;
     google_token: string | null;
+    expoPushToken: string | null;
     favorite_creators: string[];
     favorite_courses: {
         id: string;
@@ -161,8 +164,10 @@ export declare class User {
     plan: PlanContract | null;
     role: Role;
     liked_lessons: number;
+    notifications: Notification[];
     constructor(id: string, user_prisma?: UserPrisma);
     init(): Promise<void>;
+    static getAdmins(): Promise<User[]>;
     static update(data: PartialUser, socket: Socket): Promise<void>;
     static updateImage(data: UserImageForm & {
         id: string;
@@ -180,4 +185,6 @@ export declare class User {
         courses: Course[];
     }>;
     getMessages(): Promise<Message[]>;
+    getWatchedTime(lesson_id: string): Promise<any>;
+    saveWatchedTime(lesson_id: string, watchedTime: number): Promise<any>;
 }
