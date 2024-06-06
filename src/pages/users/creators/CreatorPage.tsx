@@ -28,12 +28,22 @@ interface MessageItem {
 type Messages = MessageItem[]
 
 export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
-    const cardsColumnStyle = {
-        height: "69.5vh",
+    const pageColumnStyle = {
+        flex: 1,
+        maxWidth: "33%",
         flexDirection: "column",
-        padding: "0.5vw 0.5vw 5vw",
+        justifyContent: "space-between",
         gap: "0.5vw",
-        overflow: "scroll",
+        overflowY: "scroll",
+        padding: "0 0.5vw 1vw",
+    }
+
+    const cardsColumnStyle = {
+        flex: 1,
+        flexDirection: "column",
+        paddingTop: "0.5vw",
+        paddingBottom: "0.1vw",
+        gap: "0.5vw",
     }
 
     const location = useLocation()
@@ -198,18 +208,8 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
-            <Box sx={{ gap: "0.5vw", height: 1 }}>
-                <Box
-                    sx={{
-                        height: 1,
-                        maxWidth: "33%",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        gap: "0.5vw",
-                        overflowY: "scroll",
-                        padding: "0 0.5vw",
-                    }}
-                >
+            <Box sx={{ gap: "0.5vw", height: 1, flex: 1 }}>
+                <Box sx={pageColumnStyle}>
                     <ColumnTitle prop="Nome:" value={creator?.nickname} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
@@ -283,7 +283,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             gap: "1vw",
                             height: "fit-content",
                             marginTop: "auto",
-                            marginBottom: "2vw",
                             paddingBottom: "1vw",
                         }}
                     >
@@ -302,7 +301,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         </Box>
                     </Paper>
                 </Box>
-                <Box sx={{ flexDirection: "column", width: "33%" }}>
+                <Box sx={pageColumnStyle}>
                     <ColumnTitle prop="Ultímos Comentários" />
                     <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
                         {messages.map((item) => (
@@ -310,7 +309,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                         ))}
                     </Box>
                 </Box>
-                <Box sx={{ flexDirection: "column", width: "33%" }}>
+                <Box sx={pageColumnStyle}>
                     <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
                         <Tab value={1} label="Cursos" />
                         <Tab value={2} label="Lessons" />
