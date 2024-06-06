@@ -32,6 +32,11 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
     //     console.log(message.text)
     //     console.log({ USER: user })
     // }, [message])
+
+    {
+        console.log({ VideoID: message.video_id })
+    }
+
     return user ? (
         !refreshing ? (
             <Box
@@ -76,6 +81,20 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                                 sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.9vw" }}
                                 onClick={() => setIsOpen(true)}
                             />
+                        </Box>
+                    )}
+                    {message.video_id && (
+                        <Box>
+                            <Avatar
+                                src={"/placeholders/video.webp"}
+                                sx={{
+                                    borderRadius: "0.5vw",
+                                    width: "3vw",
+                                    height: "3vw",
+                                }}
+                            />
+                            <Box></Box>
+                            <Typography></Typography>
                         </Box>
                     )}
                     {message.text && (
