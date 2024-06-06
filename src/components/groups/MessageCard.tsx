@@ -58,11 +58,14 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     elevation={1}
                     sx={{
                         width: "fit-content",
-                        padding: "0.8vw",
+                        padding: message.media ? "0.3vw" : "0.6vw",
+                        paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
                         borderRadius: "1vw",
                         maxWidth: "fit-content",
-                        bgcolor: deleted ? "" : "",
+                        bgcolor: you ? "" : "",
                         borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
+                        flexDirection: "column",
+                        gap: "0.5vw",
                     }}
                 >
                     {message.media && (
@@ -70,14 +73,23 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                             <Avatar
                                 src={message.media?.url}
                                 variant="rounded"
-                                sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.5vw" }}
+                                sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.9vw" }}
                                 onClick={() => setIsOpen(true)}
                             />
                         </Box>
                     )}
-                    <p style={{ color: deleted ? "#00000060" : "", wordBreak: "break-word", textDecoration: deleted ? "line-through" : "" }}>
-                        {message.text}
-                    </p>
+                    {message.text && (
+                        <p
+                            style={{
+                                color: deleted ? "#00000060" : "",
+                                wordBreak: "break-word",
+                                textDecoration: deleted ? "line-through" : "",
+                                marginLeft: message.media ? "0.3vw" : "",
+                            }}
+                        >
+                            {message.text}
+                        </p>
+                    )}
                 </Paper>
                 <Dialog
                     open={isOpen}
