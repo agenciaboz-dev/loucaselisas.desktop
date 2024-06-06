@@ -151,7 +151,6 @@ export declare class User {
     bio: string | null;
     google_id: string | null;
     google_token: string | null;
-    expoPushToken: string | null;
     favorite_creators: string[];
     favorite_courses: {
         id: string;
@@ -181,12 +180,4 @@ export declare class User {
         courses: Course[];
     }>;
     getMessages(): Promise<Message[]>;
-    getWatchedTime(lesson_id: string): Promise<string | undefined>;
-    saveWatchedTime(lesson_id: string, watchedTime: number): Promise<{
-        id: number;
-        watchedTime: string;
-        lesson_id: string;
-        user_id: string;
-    }>;
-    sendNotification(body: string, data?: any): Promise<(import("expo-server-sdk").ExpoPushTicket[] | undefined)[] | undefined>;
 }

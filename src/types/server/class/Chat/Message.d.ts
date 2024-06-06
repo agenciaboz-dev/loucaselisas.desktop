@@ -24,7 +24,6 @@ export declare class Message {
     video_timestamp: string | null;
     media_id: string | null;
     media: Media | null;
-    deleted: boolean;
     static new(data: MessageForm, socket: Socket): Promise<void>;
     constructor(data: MessagePrisma);
 }

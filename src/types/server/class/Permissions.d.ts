@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { WithoutFunctions } from "./helpers";
-export type PermissionsPrisma = Prisma.PermissionsGetPayload<{}>;
-export type PermissionsForm = Omit<WithoutFunctions<Permissions>, "id">;
-export type PartialPermissions = Partial<Permissions> & {
-    id: string;
-};
+export type PermissionsPrimsa = Prisma.PermissionsGetPayload<{}>;
 export declare class Permissions {
     id: number;
     role_id: number | null;
@@ -14,5 +9,5 @@ export declare class Permissions {
     favoritesTab: boolean;
     configTab: boolean;
     static createDefault(): Promise<Permissions>;
-    constructor(data: PermissionsPrisma);
+    constructor(data: PermissionsPrimsa);
 }
