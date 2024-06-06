@@ -21,6 +21,15 @@ interface MessageItem {
 type Messages = MessageItem[]
 
 export const UserPage: React.FC<UserPageProps> = ({}) => {
+    const userColumnStyle = {
+        maxWidth: "33%",
+        height: "70vh",
+        flexDirection: "column",
+        gap: "0.5vw",
+        overflowY: "scroll",
+        padding: "0 0.5vw 1vw",
+    }
+
     const [search] = useSearchParams()
     const location = useLocation()
     const userId = location.state?.userId as string | undefined
@@ -141,8 +150,8 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
             <HeaderInfo title={`Informações do usuário`} refreshButton={false} exitButton={false} backButton />
-            <Box sx={{ gap: "1vw", height: 1 }}>
-                <Box sx={{ height: 1, maxWidth: "23.6vw", flexDirection: "column", justifyContent: "space-between", gap: "0.5vw", flex: 1 }}>
+            <Box sx={{ gap: "0.5vw", height: 1, flex: 1 }}>
+                <Box sx={userColumnStyle}>
                     <ColumnTitle prop="Nome:" value={user.username || user.name} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
@@ -150,18 +159,18 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-2.5vw" }}>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-1.5vw", flex: 1 }}>
                             <Avatar src={user.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
                                 <Avatar src={placeholders.avatar} />
                             </Avatar>
-                            <Box sx={{ alignItems: "center", justifyContent: "end" }}>
+                            <Box sx={{ alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
                                 <Typography variant="body1" component="p">
-                                    Tornar um usuário um criador de conteúdo
+                                    Tornar o usuário um criador de conteúdo
                                 </Typography>
                                 <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} />
                             </Box>
                         </Box>
-                        <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center", marginTop: "-3vw" }}>
+                        <Box sx={{ marginTop: "-1.5vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
                             {selectedRole && (
                                 <>
                                     <TextField
@@ -196,8 +205,8 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 sx={{
                                     maxWidth: "23.6vw",
                                     flex: 1,
-                                    height: "13vw",
-                                    maxHeight: "10.8vw",
+                                    height: "fit-content",
+                                    // maxHeight: "10.8vw",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "normal",
@@ -210,12 +219,10 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box sx={{ flexDirection: "column", gap: "1vw", height: "6vw", marginTop: "auto" }}></Box>
                 </Box>
-
-                <Box sx={{ flexDirection: "column", gap: "0.5vw" }}>
+                <Box sx={{ flexDirection: "column", gap: "0.5vw", overflowY: "auto", overflowX: "hidden", width: "66%", padding: "0 0.5vw 1vw" }}>
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
-                    <Grid container spacing={3} sx={{ width: "53vw" }}>
+                    <Grid container spacing={2}>
                         {messages.length > 0 ? (
                             messages.map((item) => (
                                 <Grid item xs={6}>
@@ -235,7 +242,6 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         )}
                     </Grid>
                 </Box>
-                {/* )} */}
             </Box>
         </Box>
     )
