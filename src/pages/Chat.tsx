@@ -67,6 +67,7 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
 
         const data: MessageForm = {
             chat_id: chatCourse.id,
+            admin: true,
             user_id: user.id,
             text,
             video_id: null,
