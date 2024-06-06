@@ -126,12 +126,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                     component={"p"}
                                     fontSize={"0.8rem"}
                                     sx={{
-                                        width: 1,
+                                        width: "15vw",
                                         overflow: "hidden",
                                         display: "-webkit-box",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "normal",
                                         WebkitLineClamp: 2,
                                         WebkitBoxOrient: "vertical",
                                         textAlign: "justify",
+                                        wordBreak: "break-word",
                                     }}
                                 >
                                     {message?.text}
