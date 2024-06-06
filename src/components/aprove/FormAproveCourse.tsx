@@ -24,18 +24,36 @@ interface FormAproveCourseProps {
     status: Status
     onChangeStatus: () => Promise<void>
 }
+// price: Yup.string()
+//     .min(3, required_message)
+//     .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
+//     .required(required_message),
+
+// price: Yup.string().when("plans", {
+//     is: (plans: Plan[]) => plans.find((plan) => plan.id === 1), // Verifica se nenhum dos planos tem id igual a 1
+//     then: Yup.string().notRequired(),
+
+//     otherwise: Yup.string()
+//         .min(3, required_message)
+//         .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
+//         .required(required_message), // Não requerido se algum plano tem id igual a 1
+// }),
 
 export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name, type, id, status, onChangeStatus }) => {
     const currencyMask = useCurrencyMask()
     const FormatedStatus = formatStatus(status)
     const required_message = "Campo obrigatório"
     const validateSchema = Yup.object().shape({
-        price: Yup.string()
-            .min(3, required_message)
-            .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
-            .required(required_message),
-
         plans: Yup.array().min(1, required_message),
+
+        // price: Yup.string().when("plans", {
+        //     is: (plans: Plan[]) => !!plans.find((plan) => plan.id === 1), // Corrigido para retornar um booleano
+        //     then: Yup.string().notRequired(),
+        //     otherwise: Yup.string()
+        //         .min(3, required_message)
+        //         .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
+        //         .required(required_message),
+        // }),
 
         roles: Yup.array().min(1, required_message),
     })
@@ -45,7 +63,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [openReproveModal, setOpenReproveModal] = useState(false)
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
-
+    const [priceError, setPriceError] = useState("")
 
     const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
     const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
@@ -99,7 +117,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         validationSchema: validateSchema,
 
         onSubmit: async (values) => {
-            if (loading) return
+            if (loading || !!priceError) return
             setLoading(true)
             try {
                 values.price = unmaskCurrency(values.price!)
@@ -135,6 +153,16 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
             setTimeout(() => {
                 setLoading(false)
             }, 500)
+        }
+    }
+
+    const onPriceBlur = () => {
+        if (formik.values.plans.includes(1)) return
+
+        if (!!formik.values.price) {
+            setPriceError("")
+        } else {
+            setPriceError("Esse campo é obrigatório e o valor deve ser maior que 0")
         }
     }
 
@@ -259,11 +287,13 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     </Typography>
                                     <TextField
                                         name="price"
+                                        disabled={formik.values.plans.includes(1)}
                                         value={formik.values.price || ""}
                                         onChange={formik.handleChange}
+                                        onBlur={onPriceBlur}
                                         InputProps={{ inputComponent: MaskedInput, inputProps: { mask: currencyMask } }}
-                                        error={formik.touched.price && Boolean(formik.errors.price)}
-                                        helperText={formik.touched.price && formik.errors.price}
+                                        error={formik.touched.price && Boolean(priceError)}
+                                        helperText={formik.touched.price && priceError}
                                     />
                                 </Box>
                             </Box>
