@@ -191,7 +191,6 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
                             gap: "1vw",
                             overflowY: "auto",
                             p: "1vw",
-                            position: "relative",
                         }}
                     >
                         {course &&
