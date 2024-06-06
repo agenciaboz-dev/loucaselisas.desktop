@@ -12,11 +12,11 @@ interface Options {
     user?: User | undefined
     course?: Course | undefined
     lesson?: Lesson | undefined
-    messageIndex?: number | undefined
+    messageId?: string | undefined
 }
 
 export const useGetPaths = (options: Options) => {
-    const { course, lesson, user, messageIndex } = options
+    const { course, lesson, user, messageId } = options
     const navigate = useNavigate()
     const creator = user?.creator
 
@@ -92,11 +92,11 @@ export const useGetPaths = (options: Options) => {
             course
                 ? [
                       {
-                          link: `/grupos?id=${course.id}&messageIndex=${messageIndex}`,
+                          link: `/grupos?id=${course.id}&messageId=${messageId}`,
                           title: "Ver mensagem",
                           icon: <VisibilityOutlined />,
                           id: course.id,
-                          onClick: () => navigate(`/grupos?id=${course.id}&messageIndex=${messageIndex}`),
+                          onClick: () => navigate(`/grupos?id=${course.id}&messageId=${messageId}`),
                       },
                       {
                           link: `/grupos?id=${course.id}`,

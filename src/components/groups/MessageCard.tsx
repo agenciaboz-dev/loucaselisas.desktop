@@ -50,6 +50,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     </Box>
                 )}
                 <Paper
+                    id={message.id}
                     elevation={1}
                     sx={{
                         width: "fit-content",

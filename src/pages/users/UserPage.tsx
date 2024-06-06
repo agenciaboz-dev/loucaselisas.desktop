@@ -217,11 +217,11 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
                     <Grid container spacing={3} sx={{ width: "53vw" }}>
                         {messages.length > 0 ? (
-                            messages.map((item, messageIndex) => (
+                            messages.map((item) => (
                                 <Grid item xs={6}>
                                     <MessageCard
                                         key={item.message.id}
-                                        messageIndex={messageIndex}
+                                        messageId={item.message.id}
                                         message={item.message}
                                         course={item.course}
                                         sx={{ height: "100%" }}
