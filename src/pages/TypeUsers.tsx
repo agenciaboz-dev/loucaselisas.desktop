@@ -70,7 +70,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                     sx={{
                         height: "66.9vh",
                         pt: "0.2vw",
-                        overflowY: "scroll",
+                        overflowY: "hidden",
                         scrollbarWidth: "none",
                         gap: "0vw",
                         px: "1.5vw",
@@ -78,9 +78,9 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                         flexDirection: "column",
                     }}
                 >
-                    <Box sx={{ width: 1, gap: "1vw", height: "95%" }}>
+                    <Box sx={{ width: 1, gap: "1vw", height: "95%", overflowY: "auto" }}>
                         <Box sx={{ width: 0.7, height: "fit-content", justifyContent: "center" }}>
-                            <Grid container columns={2} spacing={2} sx={{ pb: "1vw", width: 1 }}>
+                            <Grid container columns={4} spacing={2} sx={{ pb: "1vw", width: 1 }}>
                                 {loading
                                     ? skeletonCourse.map((_, index) => (
                                           <Grid item xs={1} key={index}>
@@ -115,11 +115,22 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                               </Paper>
                                           </Grid>
                                       ))
-                                    : roles.map((role, index) => <TypeUserCard key={index} role={role} setSelectedRole={setSelectedRole} />)}
+                                    : roles.map((role, index) => (
+                                          <TypeUserCard key={index} role={role} setSelectedRole={setSelectedRole} />
+                                      ))}
                             </Grid>
                         </Box>
                         {loading ? (
-                            <Paper sx={{ borderRadius: "1vw", flexDirection: "column", flex: 1, height: "100%", padding: "1vw", gap: "1vw" }}>
+                            <Paper
+                                sx={{
+                                    borderRadius: "1vw",
+                                    flexDirection: "column",
+                                    flex: 1,
+                                    height: "100%",
+                                    padding: "1vw",
+                                    gap: "1vw",
+                                }}
+                            >
                                 <Box
                                     sx={{
                                         flexDirection: "column",
@@ -236,7 +247,12 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                             selectedRole && <RoleInfo roles={roles} role={selectedRole} />
                         )}
                     </Box>
-                    <AddTypeUserModal openModal={openModal} setOpenModal={setopenModal} roles={roles} />
+                    <AddTypeUserModal
+                        openModal={openModal}
+                        setOpenModal={setopenModal}
+                        roles={roles}
+                        fetchRoles={fetchRoles}
+                    />
                 </Box>
             </Box>
         </Box>

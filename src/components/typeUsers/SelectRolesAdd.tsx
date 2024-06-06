@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Checkbox, MenuItem, TextField, Typography } from "@mui/material"
-import { Role } from "../../types/server/class/Role"
+import { Box, Checkbox, MenuItem, TextField, Typography } from "@mui/material"
+import { Role, RoleForm } from "../../types/server/class/Role"
 import { PermissionsOption } from "../../types/PermissionsOption"
 import { FormikErrors, FormikTouched } from "formik"
 
@@ -8,7 +8,7 @@ interface SelectRolesAddProps {
     permissions: PermissionsOption[] // Permissões selecionadas
     title: string
     formik: {
-        initialValues: Partial<Role>
+        initialValues: RoleForm
         values: Partial<Role>
         errors: FormikErrors<Partial<Role>>
         touched: FormikTouched<Partial<Role>>
@@ -17,7 +17,11 @@ interface SelectRolesAddProps {
             (e: React.FocusEvent<any, Element>): void
             <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void
         }
-        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<Partial<Role>>>
+        setFieldValue: (
+            field: string,
+            value: any,
+            shouldValidate?: boolean | undefined
+        ) => Promise<void> | Promise<FormikErrors<Partial<Role>>>
     }
 }
 
@@ -39,7 +43,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
     }
 
     return (
-        <>
+        <Box sx={{ flexDirection: "column", gap: "0.1vw", width: "100%" }}>
             <Typography>{title}</Typography>
             <TextField
                 select
@@ -65,6 +69,6 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
                     </MenuItem>
                 ))}
             </TextField>
-        </>
+        </Box>
     )
 }

@@ -1,37 +1,22 @@
 import React, { useEffect, useState } from "react"
 import { Box, Button, Dialog, TextField, Typography } from "@mui/material"
 import { SelectRolesAdd } from "./SelectRolesAdd"
-import { Role } from "../../types/server/class/Role"
+import { Role, RoleForm } from "../../types/server/class/Role"
 import { useFormik } from "formik"
 import { api } from "../../api/api"
-import { User } from "../../types/server/class"
 import { PermissionsOption } from "../../types/PermissionsOption"
+import { User } from "../../types/server/class"
 
 interface AddTypeUserModalProps {
     openModal: boolean
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
     roles: Role[]
-
-    // imageSource: File | undefined
-}
-interface Permissions {
-    configTab: boolean
-    creatorTab: boolean
-    favoritesTab: boolean
-    panelTab: boolean
-    searchTab: boolean
+    fetchRoles: () => Promise<void>
 }
 
-export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
-    openModal,
-    setOpenModal,
-    roles,
-    // formik,
-}) => {
+export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({ openModal, setOpenModal, fetchRoles }) => {
     const [users, setUsers] = useState<User[]>([])
-    const [usersRole, setUsersRole] = useState(0)
-
-    const formik = useFormik<Partial<Role>>({
+    const formik = useFormik<RoleForm>({
         initialValues: {
             name: "",
             permissions: {
@@ -43,10 +28,16 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                 searchTab: false,
             },
         },
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             try {
                 console.log({ DATA: values })
-                // const response = await api.post("/role", values)
+                const response = await api.post("/role", values)
+                console.log(response)
+                if (response) {
+                    setOpenModal(false)
+                    fetchRoles()
+                    resetForm()
+                }
             } catch (error) {}
         },
         enableReinitialize: true,
@@ -91,8 +82,10 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                     </Box>
                     <Box sx={{ width: 1, flexDirection: "row", gap: "1vw" }}>
                         <Box sx={{ gap: "1vw", width: "47%" }}>
-                            <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%", justifyContent: "space-between" }}>
-                                <Box sx={{ width: "100%", flexDirection: "column", gap: "0.5vw" }}>
+                            <Box
+                                sx={{ flexDirection: "column", gap: "1vw", width: "100%", justifyContent: "space-between" }}
+                            >
+                                <Box sx={{ width: "100%", flexDirection: "column", gap: "0.1vw" }}>
                                     <Typography>Nome</Typography>
                                     <TextField
                                         name="name"
@@ -108,7 +101,7 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                                     <Typography>Descrição</Typography>
                                     <TextField
                                         multiline
-                                        minRows={4}
+                                        minRows={2}
                                         name="description"
                                         // value={formik.values.description}
                                         onChange={formik.handleChange}
@@ -116,23 +109,10 @@ export const AddTypeUserModal: React.FC<AddTypeUserModalProps> = ({
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ width: "50%" }}>
-                            <Box
-                                sx={{
-                                    flexDirection: "column",
-                                    textAlign: "justify",
-                                    width: 1,
-                                    gap: "0.3vw",
-                                    justifyContent: "space-between",
-                                }}
-                            >
-                                {/* <Typography component={"p"} fontSize={"1.1rem"}>
-                                    Menus Disponíveis
-                                </Typography> */}
-                                <SelectRolesAdd permissions={menuAdmin} title={"Administrador"} formik={formik} />
-                                <SelectRolesAdd permissions={menuStudent} title={"Estudante"} formik={formik} />
-                                <SelectRolesAdd permissions={menuCreator} title={"Criador"} formik={formik} />
-                            </Box>
+                        <Box sx={{ width: "50%", flexDirection: "column", textAlign: "justify", gap: "1vw" }}>
+                            {/* <SelectRolesAdd permissions={menuAdmin} title={"Administrador"} formik={formik} /> */}
+                            <SelectRolesAdd permissions={menuStudent} title={"Estudante"} formik={formik} />
+                            <SelectRolesAdd permissions={menuCreator} title={"Criador"} formik={formik} />
                         </Box>
                     </Box>
                     <Box sx={{ gap: "1vw" }}>
