@@ -24,20 +24,6 @@ interface FormAproveCourseProps {
     status: Status
     onChangeStatus: () => Promise<void>
 }
-// price: Yup.string()
-//     .min(3, required_message)
-//     .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
-//     .required(required_message),
-
-// price: Yup.string().when("plans", {
-//     is: (plans: Plan[]) => plans.find((plan) => plan.id === 1), // Verifica se nenhum dos planos tem id igual a 1
-//     then: Yup.string().notRequired(),
-
-//     otherwise: Yup.string()
-//         .min(3, required_message)
-//         .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
-//         .required(required_message), // Não requerido se algum plano tem id igual a 1
-// }),
 
 export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name, type, id, status, onChangeStatus }) => {
     const currencyMask = useCurrencyMask()
@@ -45,15 +31,6 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const required_message = "Campo obrigatório"
     const validateSchema = Yup.object().shape({
         plans: Yup.array().min(1, required_message),
-
-        // price: Yup.string().when("plans", {
-        //     is: (plans: Plan[]) => !!plans.find((plan) => plan.id === 1), // Corrigido para retornar um booleano
-        //     then: Yup.string().notRequired(),
-        //     otherwise: Yup.string()
-        //         .min(3, required_message)
-        //         .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
-        //         .required(required_message),
-        // }),
 
         roles: Yup.array().min(1, required_message),
     })
@@ -162,7 +139,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         if (!!formik.values.price) {
             setPriceError("")
         } else {
-            setPriceError("Esse campo é obrigatório e o valor deve ser maior que 0")
+            setPriceError("Esse campo é obrigatório")
         }
     }
 
