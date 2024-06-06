@@ -5,9 +5,15 @@ import { WithoutFunctions } from "./helpers"
 export declare const role_include: {
     permissions: true
 }
-export type RolePrisma = Prisma.RoleGetPayload<{ include: typeof role_include }>
-export type RoleForm = Omit<WithoutFunctions<Role>, "id"> & { permissions: PermissionsForm }
-export type PartialRole = Partial<WithoutFunctions<Role>> & { id: string }
+export type RolePrisma = Prisma.RoleGetPayload<{
+    include: typeof role_include
+}>
+export type PartialRole = Partial<WithoutFunctions<Role>> & {
+    id: string
+}
+export type RoleForm = Omit<WithoutFunctions<Role>, "id"> & {
+    permissions: PermissionsForm
+}
 export declare class Role {
     id: number
     name: string
