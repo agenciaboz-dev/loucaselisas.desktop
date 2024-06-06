@@ -53,8 +53,7 @@ const input_style = {
 export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     const chatCourse = course?.chat
     const [search] = useSearchParams()
-    const messageIndex = Number(search.get("messageIndex"))
-    console.log({ INDEX: messageIndex })
+    const messageId = search.get("messageId")
     const [messages, setMessages] = useState<Message[]>([])
     const [refreshing, setRefreshing] = useState(true)
 
@@ -146,23 +145,43 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
         }
     }
     useEffect(() => {
-        containerRef.current?.scrollBy({ top: messages.length * 3954980, behavior: "smooth" })
+        containerRef.current?.scroll({ top: messages.length * 3954980, behavior: "smooth" })
     }, [messages])
 
+    // useEffect(() => {
+    //     if (messageId && messages.length > 0) {
+    //         if (containerRef.current) {
+    //             const messageElement = containerRef.current.children[messageId] as HTMLElement
+    //             containerRef.current.scrollTo({
+    //                 top: messageElement.offsetTop,
+    //                 behavior: "smooth",
+    //             })
+
+    //             //todo fazer um wheumnn na mensagem
+    //         }
+    //     }
+    // }, [messageId, messages])
+
     useEffect(() => {
-        if (messageIndex && messages.length > 0) {
-            if (containerRef.current) {
-                const messageElement = containerRef.current.children[messageIndex] as HTMLElement
-                containerRef.current.scrollTo({
-                    top: messageElement.offsetTop,
+        if (messageId && messages.length > 0) {
+
+            const messageElement = document.getElementById(messageId)
+
+
+            if (messageElement) {
+                messageElement.scrollIntoView({
                     behavior: "smooth",
+                    block: "center", // ou 'start', 'center', 'end', dependendo de como você quer alinhar o elemento
                 })
 
-                //todo fazer um wheumnn na mensagem
-                // messageElement.style.color = "#ff0000"
+                messageElement.style.backgroundColor = "#00000033"
+
+                setTimeout(() => {
+                    messageElement.style.backgroundColor = "#f5f5f5"
+                }, 2000)
             }
         }
-    }, [messageIndex, messages])
+    }, [messageId, messages, refreshing])
 
     return (
         <Box sx={{ bgcolor: "#E8E8E8", borderRadius: "1vw", p: "0.5vw", flexDirection: "column", flex: 1, height: "95%" }}>
