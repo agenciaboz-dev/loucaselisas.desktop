@@ -159,7 +159,7 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
                 })
 
                 //todo fazer um wheumnn na mensagem
-                messageElement.style.color = "#ff0000"
+                // messageElement.style.color = "#ff0000"
             }
         }
     }, [messageIndex, messages])
@@ -198,6 +198,7 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
                                 .sort((a, b) => Number(a.datetime) - Number(b.datetime))
                                 .map((item) => (
                                     <MessageCard
+                                        key={item.id}
                                         message={item}
                                         list={messages}
                                         creators={[course.owner, ...course.creators]}
