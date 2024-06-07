@@ -5,6 +5,9 @@ import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
 import logo_without from "../../assets/logo_without_text.svg"
 import CloseIcon from "@mui/icons-material/Close"
+import { MessageText } from "./MessageText"
+import { MessageVideo } from "./MessageVideo"
+import { MessageImage } from "./MessageImage"
 
 interface MessageCardProps {
     message: Message
@@ -73,42 +76,9 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                         gap: "0.5vw",
                     }}
                 >
-                    {message.media && (
-                        <Box>
-                            <Avatar
-                                src={message.media?.url}
-                                variant="rounded"
-                                sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.9vw" }}
-                                onClick={() => setIsOpen(true)}
-                            />
-                        </Box>
-                    )}
-                    {message.video_id && (
-                        <Box>
-                            <Avatar
-                                src={"/placeholders/video.webp"}
-                                sx={{
-                                    borderRadius: "0.5vw",
-                                    width: "3vw",
-                                    height: "3vw",
-                                }}
-                            />
-                            <Box></Box>
-                            <Typography></Typography>
-                        </Box>
-                    )}
-                    {message.text && (
-                        <p
-                            style={{
-                                color: deleted ? "#00000060" : "",
-                                wordBreak: "break-word",
-                                textDecoration: deleted ? "line-through" : "",
-                                marginLeft: message.media ? "0.3vw" : "",
-                            }}
-                        >
-                            {message.text}
-                        </p>
-                    )}
+                    {message.media && <MessageImage message={message} setIsOpen={setIsOpen} />}
+                    {message.video_id && <MessageVideo />}
+                    {message.text && <MessageText deleted={deleted} message={message} />}
                 </Paper>
                 <Dialog
                     open={isOpen}
