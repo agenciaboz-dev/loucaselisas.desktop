@@ -34,7 +34,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
     //     .filter(([key, value]) => value === true)
     //     .map(([key, value]) => key)
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, permissionValue: string) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, permissionValue: string) => {
         // const selectedPermissions = edit ? truePermissions : (event.target.value as unknown as string[])
         // setSelected(selectedPermissions)
 
@@ -60,6 +60,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
             <TextField
                 select
                 value={selectedValues}
+                //@ts-ignore
                 onChange={view ? () => {} : (e) => handleChange(e, e.target.value)}
                 InputProps={{
                     sx: { height: "2vw" }, // Define a altura do input
