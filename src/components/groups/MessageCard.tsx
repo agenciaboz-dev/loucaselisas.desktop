@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Dialog, Divider, Icon, IconButton, Modal, Paper, Skeleton, Typography } from "@mui/material"
+import { Avatar, Box, Dialog, Divider, IconButton, Paper, Skeleton } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
@@ -10,6 +10,7 @@ import { MessageVideo } from "./MessageVideo"
 import { MessageImage } from "./MessageImage"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { api } from "../../api/api"
+
 
 interface MessageCardProps {
     message: Message
@@ -22,7 +23,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
     const deleted = message.deleted
     const { user } = useUser()
     const you = message.user_id == user?.id
-    const skeletonWidth = message.text.length * 14 * 0.55 + 20
+    // const skeletonWidth = message.text.length * 14 * 0.55 + 20
 
     const index = list.findIndex((item) => item.id == message.id)
     const previous_message = index > 0 ? list[index - 1] : null
