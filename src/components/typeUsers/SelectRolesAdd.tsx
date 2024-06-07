@@ -8,6 +8,7 @@ interface SelectRolesAddProps {
     permissions: PermissionsOption[] // Permissões selecionadas
     title: string
     edit: boolean
+    view?: boolean
     formik: {
         initialValues: RoleForm
         values: Partial<Role>
@@ -26,14 +27,14 @@ interface SelectRolesAddProps {
     }
 }
 
-export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, title, formik }) => {
+export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, title, formik, view }) => {
     const [selected, setSelected] = useState<string[]>([])
 
     // const truePermissions = Object.entries(formik.values.permissions!)
     //     .filter(([key, value]) => value === true)
     //     .map(([key, value]) => key)
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, permissionValue: string) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, permissionValue: string) => {
         // const selectedPermissions = edit ? truePermissions : (event.target.value as unknown as string[])
         // setSelected(selectedPermissions)
 
@@ -59,7 +60,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
             <TextField
                 select
                 value={selectedValues}
-                onChange={(e) => handleChange(e, e.target.value)}
+                onChange={view ? () => {} : (e) => handleChange(e, e.target.value)}
                 InputProps={{
                     sx: { height: "2vw" }, // Define a altura do input
                 }}
@@ -81,7 +82,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
                         <Checkbox
                             //@ts-ignore
                             checked={formik.values.permissions[item.value] ?? false}
-                            onChange={(e) => handleChange(e, item.value)}
+                            onChange={view ? () => {} : (e) => handleChange(e, item.value)}
                             name={item.value}
                         />
                         {item.label}
