@@ -96,7 +96,7 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
             open={openModal}
             onClose={() => setOpenModal(!openModal)}
             PaperProps={{
-                sx: { width: "100%", maxWidth: "40%", padding: "1vw", gap: "1vw", borderRadius: "1.2vw" },
+                sx: { width: "100%", maxWidth: "30%", padding: "1vw", gap: "1vw", borderRadius: "1.2vw" },
             }}
         >
             <form onSubmit={formik.handleSubmit}>
@@ -107,7 +107,7 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
                         </Typography>
                     </Box>
                     <Box sx={{ width: 1, flexDirection: "row", gap: "1vw" }}>
-                        <Box sx={{ gap: "1vw", width: "47%" }}>
+                        <Box sx={{ gap: "1vw", width: "100%" }}>
                             <Box
                                 sx={{ flexDirection: "column", gap: "1vw", width: "100%", justifyContent: "space-between" }}
                             >
@@ -127,7 +127,7 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
                                     <Typography>Descrição</Typography>
                                     <TextField
                                         multiline
-                                        minRows={2}
+                                        minRows={3}
                                         maxRows={5}
                                         name="description"
                                         value={formik.values.description}
@@ -136,23 +136,23 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ width: "50%", flexDirection: "column", textAlign: "justify", gap: "1vw" }}>
-                            {/* <SelectRolesAdd permissions={menuAdmin} title={"Administrador"} formik={formik} /> */}
+                        {/* <Box sx={{ width: "50%", flexDirection: "column", textAlign: "justify", gap: "1vw" }}>
+                            <SelectRolesAdd permissions={menuAdmin} title={"Administrador"} formik={formik} />
                             <SelectRolesAdd permissions={menuStudent} title={"Estudante"} formik={formik} edit={edit} />
                             <SelectRolesAdd permissions={menuCreator} title={"Criador"} formik={formik} edit={edit} />
-                        </Box>
+                        </Box> */}
                     </Box>
                     <Box sx={{ gap: "1vw" }}>
                         <Button
                             variant="outlined"
-                            sx={{ flex: 1, borderRadius: "5vw" }}
+                            sx={{ width: 0.5, borderRadius: "5vw" }}
                             onClick={() => {
                                 setOpenModal(!openModal)
                             }}
                         >
                             Cancelar
                         </Button>
-                        <Button type="submit" variant="contained" sx={{ flex: 1, borderRadius: "5vw" }}>
+                        <Button type="submit" variant="contained" sx={{ width: 0.5, borderRadius: "5vw" }}>
                             {edit ? "Editar" : "Adicionar"}
                         </Button>
                     </Box>

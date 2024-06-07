@@ -130,7 +130,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, set
                 )}
             </Box>
             <Divider />
-            <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.4vw" }}>
+            {/* <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.4vw" }}>
                 <Typography component={"p"} fontSize={"1.1rem"}>
                     Menus Disponíveis
                 </Typography>
@@ -146,7 +146,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, set
                         <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
                     </Box>
                 )}
-            </Box>
+            </Box> */}
             {role && role.name !== "padrão" && (
                 <OutlineButton
                     type="submit"
