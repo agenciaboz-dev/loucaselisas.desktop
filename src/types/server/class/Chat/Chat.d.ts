@@ -20,7 +20,7 @@ export declare class Chat {
     media: Gallery;
     messages: number;
     static join(socket: Socket, chat_id: string, platform: "app" | "admin"): Promise<void>;
-    static deleteMessages(socket: Socket, messages: Message[], chat_id: string): Promise<void>;
+    static deleteMessages(messages: Message[], chat_id: string, socket?: Socket): Promise<void>;
     constructor(data: ChatPrisma);
-    deleteMessages(socket: Socket, messages: Message[]): Promise<void>;
+    deleteMessages(messages: Message[], socket?: Socket): Promise<void>;
 }

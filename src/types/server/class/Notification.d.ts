@@ -13,7 +13,11 @@ export declare class Notification {
     target_route: string;
     target_param: any;
     user_id: string;
-    expoPushToken: string;
+    expoPushToken: string[];
+    image: string;
+    title: string;
+    static findById(id: string): Promise<Notification>;
     static new(forms: NotificationForm[]): Promise<(import("expo-server-sdk").ExpoPushTicket[] | undefined)[]>;
     constructor(data: NotificationPrisma);
+    view(): Promise<void>;
 }
