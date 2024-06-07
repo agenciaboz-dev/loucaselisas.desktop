@@ -11,12 +11,8 @@ export declare const student_include: {
                             media: true;
                         };
                     };
-                    _count: {
-                        select: {
-                            messages: true;
-                        };
-                    };
                     course: true;
+                    messages: true;
                 };
             };
             creators: {
@@ -48,7 +44,11 @@ export declare const student_include: {
                 include: {
                     media: true;
                     likes: true;
-                    course: true;
+                    course: {
+                        include: {
+                            favorited_by: true;
+                        };
+                    };
                     _count: {
                         select: {
                             downloads: true;
