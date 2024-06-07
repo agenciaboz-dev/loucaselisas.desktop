@@ -5,16 +5,20 @@ import { SearchBar } from "../components/header/SearchBar"
 import { TypeUserCard } from "../components/typeUsers/TypeUserCard"
 import { RoleInfo } from "../components/typeUsers/RoleInfo"
 import { api } from "../api/api"
-import { Role } from "../types/server/class/Role"
+import { Role, RoleForm } from "../types/server/class/Role"
 import { TypeUserModal } from "../components/typeUsers/TypeUserModal"
+import { useSearchParams } from "react-router-dom"
 
 interface TypeUsersProps {}
 
 export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     const skeletonCourse: string[] = new Array(6).fill(`course`)
     const [openModal, setopenModal] = useState(false)
+    const [search] = useSearchParams()
 
     const [roles, setRoles] = useState<Role[]>([])
+    const [filteredRoles, setFilteredRoles] = useState<Role[]>(roles)
+
     const [loading, setLoading] = useState<boolean>(false)
     const [selectedRole, setSelectedRole] = useState<Role | null>(null)
     const fetchRoles = async () => {
@@ -33,13 +37,22 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     useEffect(() => {
         fetchRoles()
     }, [])
-    // useEffect(() => {
-    //     if (roles.length !== 0) setSelectedRole(roles[0])
-    // }, [roles])
 
     useEffect(() => {
         console.log(roles)
+        setFilteredRoles(roles)
     }, [roles])
+
+    const handleSearch = (value: string) => {
+        const lowerCaseValue = value.toLowerCase()
+        setFilteredRoles(
+            roles.filter((role) => {
+                const courseMatches = role.name.toLowerCase().includes(lowerCaseValue)
+
+                return courseMatches
+            })
+        )
+    }
 
     return (
         <Box sx={{ width: "100%", flexDirection: "column" }}>
@@ -60,9 +73,10 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                     width: 1,
                     gap: "0.8vw",
                     pt: "0.2vw",
+                    overflow: "hidden",
                 }}
             >
-                <SearchBar handleSearch={() => {}} key={"name"} />
+                <SearchBar handleSearch={(value) => handleSearch(value)} key={"name"} />
 
                 <Box
                     // ref={ref}
@@ -78,8 +92,16 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                         flexDirection: "column",
                     }}
                 >
-                    <Box sx={{ width: 1, gap: "1vw", height: "95%", overflowY: "auto" }}>
-                        <Box sx={{ width: 0.7, height: "fit-content", justifyContent: "center" }}>
+                    <Box sx={{ width: 1, gap: "1vw", height: "100%", overflowY: "auto", pt: "0.5vw", overflow: "hidden" }}>
+                        <Box
+                            sx={{
+                                width: 0.75,
+                                height: "fit-content",
+                                maxHeight: "100%",
+                                justifyContent: "center",
+                                overflowY: "auto",
+                            }}
+                        >
                             <Grid container columns={3} spacing={2} sx={{ pb: "1vw", width: 1, pt: "1vw" }}>
                                 {loading
                                     ? skeletonCourse.map((_, index) => (
@@ -115,7 +137,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                               </Paper>
                                           </Grid>
                                       ))
-                                    : roles.map((role, index) => (
+                                    : filteredRoles.map((role, index) => (
                                           <TypeUserCard
                                               key={index}
                                               role={role}
@@ -249,7 +271,14 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                 />
                             </Paper>
                         ) : (
-                            <RoleInfo roles={roles} role={selectedRole} fetchRoles={fetchRoles} />
+                            <Box sx={{ width: 0.34 }}>
+                                <RoleInfo
+                                    roles={roles}
+                                    role={selectedRole}
+                                    fetchRoles={fetchRoles}
+                                    setSelectedRole={setSelectedRole}
+                                />
+                            </Box>
                         )}
                     </Box>
                     <TypeUserModal

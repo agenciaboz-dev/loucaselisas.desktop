@@ -12,11 +12,19 @@ interface TypeUserModalProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
     roles: Role[]
     role: Role | null
+    setSelectedRole?: React.Dispatch<React.SetStateAction<Role | null>>
     fetchRoles: () => Promise<void>
     edit: boolean
 }
 
-export const TypeUserModal: React.FC<TypeUserModalProps> = ({ openModal, setOpenModal, fetchRoles, role, edit }) => {
+export const TypeUserModal: React.FC<TypeUserModalProps> = ({
+    openModal,
+    setOpenModal,
+    fetchRoles,
+    role,
+    edit,
+    setSelectedRole,
+}) => {
     const [users, setUsers] = useState<User[]>([])
 
     const formik = useFormik<RoleForm>({
@@ -39,9 +47,8 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({ openModal, setOpen
             try {
                 if (!edit) {
                     console.log({ DATA: values })
-
                     const response = await api.post("/role", values)
-                    console.log(response)
+                    console.log({ Add_Response: response })
                     if (response) {
                         setOpenModal(false)
                         fetchRoles()
@@ -49,9 +56,13 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({ openModal, setOpen
                     }
                 } else {
                     console.log({ EDIT: values })
-
-                    // const response = await api.post("/role", values)
-                    // console.log(response)
+                    const response = await api.post("/role/update", values)
+                    console.log({ Edit_response: response })
+                    if (response) {
+                        setSelectedRole && setSelectedRole(response.data)
+                        setOpenModal(false)
+                        fetchRoles()
+                    }
                 }
             } catch (error) {}
         },

@@ -15,12 +15,14 @@ interface RoleInfoProps {
     roles: Role[]
     role: Role | null
     fetchRoles: () => Promise<void>
+    setSelectedRole?: React.Dispatch<React.SetStateAction<Role | null>>
 }
 
-export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) => {
+export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, setSelectedRole }) => {
     const [users, setUsers] = useState<User[]>([])
     const [usersRole, setUsersRole] = useState(0)
     const [openModalEdit, setopenModalEdit] = useState(false)
+    const [roleCurrent, setRoleCurrent] = useState<Role | null>(null)
 
     const getUsers = async () => {
         try {
@@ -65,13 +67,18 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
 
     useEffect(() => {
         setUsersRole(users.filter((item) => item.role.id === role?.id).length)
+    }, [role, roles, users])
+
+    useEffect(() => {
+        setRoleCurrent(role)
+        console.log(role)
     }, [role])
     return (
         <Paper
             sx={{
                 borderRadius: "1vw",
-                flex: 1,
-                height: "100%",
+                width: 0.68,
+                height: 0.99,
                 p: "1vw",
                 flexDirection: "column",
                 gap: "0.5vw",
@@ -100,13 +107,23 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
                 </Typography>
             </Box>
             <Divider />
-            <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.5vw" }}>
+            <Box
+                sx={{
+                    flexDirection: "column",
+                    textAlign: "justify",
+                    width: 1,
+                    gap: "0.5vw",
+                    maxHeight: "13vw",
+                    height: "fit-content",
+                    overflow: "hidden",
+                }}
+            >
                 <Typography component={"p"} fontSize={"1.1rem"}>
                     Descrição
                 </Typography>
                 {role ? (
-                    <Typography component={"p"} fontSize={"1rem"}>
-                        {role.description}
+                    <Typography component={"p"} fontSize={"1rem"} sx={{ overflowX: "hidden", pr: "0.6vw" }}>
+                        {role?.description}
                     </Typography>
                 ) : (
                     <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "4vw" }} />
@@ -145,7 +162,8 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
                 openModal={openModalEdit}
                 setOpenModal={setopenModalEdit}
                 roles={roles}
-                role={role}
+                setSelectedRole={setSelectedRole}
+                role={roleCurrent}
                 fetchRoles={fetchRoles}
                 edit={true}
             />

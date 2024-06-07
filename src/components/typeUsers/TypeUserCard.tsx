@@ -2,10 +2,11 @@ import React, { useState } from "react"
 import { Box, Grid, IconButton, Menu, MenuItem, Paper, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { useNavigate } from "react-router-dom"
-import { Role } from "../../types/server/class/Role"
+import { Role, RoleForm } from "../../types/server/class/Role"
 import { api } from "../../api/api"
 import { useSnackbar } from "burgos-snackbar"
 import { DeleteConfirm } from "./DeleteConfirm"
+import { DuplicateConfirm } from "./DuplicateConfirm"
 interface TypeUserCardProps {
     role: Role
     setSelectedRole: React.Dispatch<React.SetStateAction<Role | null>>
@@ -19,6 +20,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
     const open = Boolean(anchorEl)
     const [hover, setHover] = useState(false)
     const [openModal, setopenModal] = useState(false)
+    const [openModalDuplicate, setopenModalDuplicate] = useState(false)
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
@@ -46,6 +48,34 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
             console.log(error)
         }
     }
+
+    const handleDuplicate = async () => {
+        const values: RoleForm = {
+            name: role?.name + " cópia",
+            description: role?.description,
+            permissions: {
+                role_id: null,
+                configTab: role?.permissions.configTab,
+                creatorTab: role?.permissions.creatorTab,
+                favoritesTab: role?.permissions.favoritesTab,
+                panelTab: role?.permissions.panelTab,
+                searchTab: role?.permissions.searchTab,
+            },
+        }
+        try {
+            if (values) {
+                console.log({ DATA: values })
+                fetchRoles()
+                const response = await api.post("/role", values)
+                console.log({ Add_Response: response })
+                if (response) {
+                    setopenModalDuplicate(false)
+                    fetchRoles()
+                }
+            }
+        } catch (error) {}
+    }
+
     const defaultStyle = {
         flexDirection: "row",
         p: "0.5vw",
@@ -79,31 +109,38 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
                         aria-haspopup="true"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClick}
+                        disabled={role.name !== "padrão" ? false : true}
                     >
                         <MoreVertIcon />
                     </IconButton>
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                        }}
-                    >
-                        <MenuItem onClick={click}>Ver usuários</MenuItem>
-                        {role.name !== "padrão" && <MenuItem onClick={click}>Editar</MenuItem>}
-                        {role.name !== "padrão" && (
+                    {role.name !== "padrão" && (
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                "aria-labelledby": "basic-button",
+                            }}
+                        >
+                            <MenuItem onClick={() => setopenModalDuplicate(true)}>Duplicar</MenuItem>
+
                             <MenuItem onClick={() => setopenModal(true)} sx={{ color: "red" }}>
                                 Deletar
                             </MenuItem>
-                        )}
-                    </Menu>
+                        </Menu>
+                    )}
                 </Box>
                 <DeleteConfirm
                     name={role.name}
                     openDeleteConfirm={openModal}
                     setopenModal={setopenModal}
                     onConfirm={handleDelete}
+                />
+                <DuplicateConfirm
+                    name={role.name}
+                    openDuplicateConfirm={openModalDuplicate}
+                    setopenModal={setopenModalDuplicate}
+                    onConfirm={handleDuplicate}
                 />
             </Paper>
         </Grid>
