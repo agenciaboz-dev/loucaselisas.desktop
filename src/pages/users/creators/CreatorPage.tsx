@@ -318,7 +318,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                 <Box sx={pageColumnStyle}>
                     <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
                         <Tab value={1} label="Cursos" />
-                        <Tab value={2} label="Lessons" />
+                        <Tab value={2} label="Lições" />
                     </Tabs>
                     <Box
                         sx={{
