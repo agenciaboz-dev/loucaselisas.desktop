@@ -1188,7 +1188,7 @@ burgos-masks@^1.2.3:
 
 burgos-snackbar@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.npmjs.org/burgos-snackbar/-/burgos-snackbar-2.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/burgos-snackbar/-/burgos-snackbar-2.1.0.tgz#156aec377af4c0bc337f704dc336da73f1bcfbd3"
   integrity sha512-Gu0QKDEehjRtPp2YvEc7Q7WNNFnZRWEe3huBg42ExL5fLgMAmJPfCCJP0yPRmwvbNfZEaTCg6tJ+07RuDcK5Iw==
 
 callsites@^3.0.0:
@@ -2441,6 +2441,11 @@ slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
+
+snackbar@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/snackbar/-/snackbar-1.1.0.tgz#08615013ec16a8220e6218284938a3b15a01a6b0"
+  integrity sha512-gU03hDQqfIZEcfcUZtMwmVTjy0g3FSNhWlO2L7z78JK6rS487GPPQ8wfprD0fY9DBfUjHPqjfj2CT6lvdD7Lkg==
 
 socket.io-adapter@~2.5.2:
   version "2.5.4"

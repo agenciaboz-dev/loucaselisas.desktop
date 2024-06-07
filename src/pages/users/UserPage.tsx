@@ -155,7 +155,10 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                     <ColumnTitle prop="Nome:" value={user.username || user.name} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
-                            <Avatar src={user.cover || placeholders.landscape} sx={{ width: "23.6vw", height: "13.27vw", borderRadius: "1vw" }}>
+                            <Avatar
+                                src={user.cover || placeholders.landscape}
+                                sx={{ width: "23.6vw", height: "13.27vw", borderRadius: "1vw" }}
+                            >
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
@@ -176,7 +179,9 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                     <TextField
                                         name="selectedRole"
                                         value={selectedRole}
-                                        onChange={(e) => setSelectedRole(userTypes.find((item) => item.id.toString() == e.target.value))}
+                                        onChange={(e) =>
+                                            setSelectedRole(userTypes.find((item) => item.id.toString() == e.target.value))
+                                        }
                                         InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
                                         SelectProps={{
                                             MenuProps: { MenuListProps: { sx: { width: 1 } } },
@@ -186,7 +191,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                     >
                                         {userTypes.map((type) => (
                                             <MenuItem value={type.id} key={type.id}>
-                                                {type.name}
+                                                {type.name.charAt(0).toUpperCase() + type.name.slice(1).toLowerCase()}
                                             </MenuItem>
                                         ))}
                                     </TextField>
@@ -220,7 +225,16 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ flexDirection: "column", gap: "0.5vw", overflowY: "auto", overflowX: "hidden", width: "66%", padding: "0 0.5vw 1vw" }}>
+                <Box
+                    sx={{
+                        flexDirection: "column",
+                        gap: "0.5vw",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                        width: "66%",
+                        padding: "0 0.5vw 1vw",
+                    }}
+                >
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
                     <Grid container spacing={2}>
                         {messages.length > 0 ? (

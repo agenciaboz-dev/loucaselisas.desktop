@@ -116,7 +116,12 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                           </Grid>
                                       ))
                                     : roles.map((role, index) => (
-                                          <TypeUserCard key={index} role={role} setSelectedRole={setSelectedRole} />
+                                          <TypeUserCard
+                                              key={index}
+                                              role={role}
+                                              setSelectedRole={setSelectedRole}
+                                              fetchRoles={fetchRoles}
+                                          />
                                       ))}
                             </Grid>
                         </Box>

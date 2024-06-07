@@ -105,16 +105,28 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                             <Typography>Status do conteúdo: {FormatedStatus.text} </Typography>
                         </Box>
 
-                        {currentLesson.status !== "declined" && <Switch checked={currentLesson.status === "active"} onChange={() => onDisabled()} />}
+                        {currentLesson.status !== "declined" && (
+                            <Switch checked={currentLesson.status === "active"} onChange={() => onDisabled()} />
+                        )}
                     </Box>
                     {currentLesson.status == "pending" && <Divider />}
                     {currentLesson.status === "pending" && (
                         <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                             <>
-                                <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={{ borderRadius: "2vw" }}
+                                    onClick={handleopenReproveModal}
+                                >
                                     Reprovar
                                 </Button>
-                                <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ borderRadius: "2vw" }}
+                                    onClick={handleOpenAproveModal}
+                                >
                                     Aprovar
                                 </Button>
                             </>

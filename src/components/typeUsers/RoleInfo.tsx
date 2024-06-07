@@ -117,15 +117,6 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
                 <Typography component={"p"} fontSize={"1.1rem"}>
                     Menus Disponíveis
                 </Typography>
-                {/* <Typography component={"p"} fontSize={"1rem"}>
-                        Administrador
-                    </Typography>
-                    <SelectRoles
-                        selectedPermissions={selectedMenu("admin")}
-                        onSelectPermission={(permission) => console.log(permission)}
-                        roles={roles}
-                        menu={"admin"}
-                    /> */}
 
                 {role ? (
                     <Box sx={{ flexDirection: "column", gap: "1vw", width: 1 }}>
@@ -139,7 +130,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
                     </Box>
                 )}
             </Box>
-            {role && (
+            {role && role.name !== "padrão" && (
                 <OutlineButton
                     type="submit"
                     title="Editar"

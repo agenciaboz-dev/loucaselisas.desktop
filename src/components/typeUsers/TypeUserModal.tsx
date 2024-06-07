@@ -117,6 +117,7 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({ openModal, setOpen
                                     <TextField
                                         multiline
                                         minRows={2}
+                                        maxRows={5}
                                         name="description"
                                         value={formik.values.description}
                                         onChange={formik.handleChange}

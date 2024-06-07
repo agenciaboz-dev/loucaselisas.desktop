@@ -3,17 +3,23 @@ import { Box, Grid, IconButton, Menu, MenuItem, Paper, Typography } from "@mui/m
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { useNavigate } from "react-router-dom"
 import { Role } from "../../types/server/class/Role"
-
+import { api } from "../../api/api"
+import { useSnackbar } from "burgos-snackbar"
+import { DeleteConfirm } from "./DeleteConfirm"
 interface TypeUserCardProps {
     role: Role
     setSelectedRole: React.Dispatch<React.SetStateAction<Role | null>>
+    fetchRoles: () => Promise<void>
 }
 
-export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRole }) => {
+export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRole, fetchRoles }) => {
+    const { snackbar } = useSnackbar()
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const [hover, setHover] = useState(false)
+    const [openModal, setopenModal] = useState(false)
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
     }
@@ -24,6 +30,21 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
     const click = () => {
         navigate("")
         handleClose()
+    }
+
+    const handleDelete = async () => {
+        try {
+            if (role) {
+                const response = await api.get(`/role/delete?id=${role.id}`)
+                console.log(response)
+                // snackbar({ text: "Deletado com sucesso!", severity: "success" })
+            } else {
+                // snackbar({ text: "Erro ao deletar", severity: "error" })
+            }
+            fetchRoles()
+        } catch (error) {
+            console.log(error)
+        }
     }
     const defaultStyle = {
         flexDirection: "row",
@@ -69,10 +90,21 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem onClick={click}>Editar</MenuItem>
                         <MenuItem onClick={click}>Ver usuários</MenuItem>
+                        {role.name !== "padrão" && <MenuItem onClick={click}>Editar</MenuItem>}
+                        {role.name !== "padrão" && (
+                            <MenuItem onClick={() => setopenModal(true)} sx={{ color: "red" }}>
+                                Deletar
+                            </MenuItem>
+                        )}
                     </Menu>
                 </Box>
+                <DeleteConfirm
+                    name={role.name}
+                    openDeleteConfirm={openModal}
+                    setopenModal={setopenModal}
+                    onConfirm={handleDelete}
+                />
             </Paper>
         </Grid>
     )
