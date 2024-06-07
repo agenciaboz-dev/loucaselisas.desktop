@@ -20,7 +20,7 @@ export const MessageVideo: React.FC<MessageVideoProps> = ({ message, lesson }) =
         <Box sx={{ gap: "1vw", alignItems: "flex-start", justifyContent: "space-between" }}>
             <Box sx={{ gap: "1vw" }}>
                 <Avatar
-                    src={lesson.media.url || placeholders.video}
+                    src={lesson.thumb || placeholders.video}
                     sx={{
                         borderRadius: "0.5vw",
                         width: "3.75vw",
