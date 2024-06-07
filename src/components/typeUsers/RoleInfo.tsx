@@ -3,11 +3,13 @@ import { Box, Checkbox, Divider, FormControlLabel, MenuItem, Paper, Skeleton, Te
 import { OutlineButton } from "./OutlineButtom"
 import { FaEdit } from "react-icons/fa"
 import { SelectRoles } from "./SelectRoles"
-import { Role } from "../../types/server/class/Role"
+import { Role, RoleForm } from "../../types/server/class/Role"
 import { User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { useFormik } from "formik"
 import { TypeUserModal } from "./TypeUserModal"
+import { SelectRolesAdd } from "./SelectRolesAdd"
+import { PermissionsOption } from "../../types/PermissionsOption"
 
 interface RoleInfoProps {
     roles: Role[]
@@ -20,9 +22,6 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
     const [usersRole, setUsersRole] = useState(0)
     const [openModalEdit, setopenModalEdit] = useState(false)
 
-    const menuAdmin = ["outros"]
-    const menuStudent = ["searchTab"]
-    const menuCreator = ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"]
     const getUsers = async () => {
         try {
             const response = await api.get("/user/all")
@@ -33,21 +32,33 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
         }
     }
 
-    const selectedMenu = (typeUser: string) => {
-        const menu = roles
-            .filter((role) => role.permissions) // Garante que o role tem um objeto de permissões
-            .flatMap((role) => Object.entries(role.permissions))
-            .filter(([permission, isActive]) =>
-                typeUser == "admin"
-                    ? menuAdmin.includes(permission) && isActive
-                    : typeUser == "student"
-                    ? menuStudent.includes(permission) && isActive
-                    : typeUser === "creator" && menuCreator.includes(permission) && isActive
-            )
-            .map(([permission]) => permission) // Extrai o nome da permissão
-        return menu
-    }
+    const formik = useFormik<RoleForm>({
+        initialValues: role
+            ? { ...role }
+            : {
+                  name: "",
+                  description: "",
+                  permissions: {
+                      role_id: null,
+                      configTab: false,
+                      creatorTab: false,
+                      favoritesTab: false,
+                      panelTab: false,
+                      searchTab: false,
+                  },
+              },
+        onSubmit: async (values) => {},
+        enableReinitialize: true,
+    })
+    const menuAdmin: PermissionsOption[] = []
+    const menuStudent: PermissionsOption[] = [
+        { label: "Pesquisa", value: "searchTab" },
+        { label: "Painel", value: "panelTab" },
+        { label: "Favoritos", value: "favoritesTab" },
+        { label: "Configurações", value: "configTab" },
+    ]
 
+    const menuCreator: PermissionsOption[] = [{ label: "Criador", value: "creatorTab" }]
     useEffect(() => {
         getUsers()
     }, [])
@@ -115,31 +126,17 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) =
                         roles={roles}
                         menu={"admin"}
                     /> */}
-                <Typography component={"p"} fontSize={"1rem"}>
-                    Estudante
-                </Typography>
+
                 {role ? (
-                    <SelectRoles
-                        selectedPermissions={selectedMenu("student")}
-                        onSelectPermission={(permission) => console.log(permission)}
-                        roles={roles}
-                        menu="student"
-                    />
+                    <Box sx={{ flexDirection: "column", gap: "1vw", width: 1 }}>
+                        <SelectRolesAdd permissions={menuStudent} title={"Estudante"} formik={formik} edit={false} view />
+                        <SelectRolesAdd permissions={menuCreator} title={"Criador"} formik={formik} edit={false} view />
+                    </Box>
                 ) : (
-                    <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
-                )}
-                <Typography component={"p"} fontSize={"1rem"}>
-                    Criador de conteúdo
-                </Typography>
-                {role ? (
-                    <SelectRoles
-                        selectedPermissions={selectedMenu("creator")}
-                        onSelectPermission={(permission) => console.log(permission)}
-                        menu="creator"
-                        roles={roles}
-                    />
-                ) : (
-                    <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
+                    <Box sx={{ flexDirection: "column", gap: "1vw", width: 1 }}>
+                        <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
+                        <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
+                    </Box>
                 )}
             </Box>
             {role && (

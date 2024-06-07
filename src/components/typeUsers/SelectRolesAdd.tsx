@@ -8,6 +8,7 @@ interface SelectRolesAddProps {
     permissions: PermissionsOption[] // Permissões selecionadas
     title: string
     edit: boolean
+    view?: boolean
     formik: {
         initialValues: RoleForm
         values: Partial<Role>
@@ -26,7 +27,7 @@ interface SelectRolesAddProps {
     }
 }
 
-export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, title, formik }) => {
+export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, title, formik, view }) => {
     const [selected, setSelected] = useState<string[]>([])
 
     // const truePermissions = Object.entries(formik.values.permissions!)
@@ -59,7 +60,8 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
             <TextField
                 select
                 value={selectedValues}
-                onChange={(e) => handleChange(e, e.target.value)}
+                //@ts-ignore
+                onChange={view ? () => {} : (e) => handleChange(e, e.target.value)}
                 InputProps={{
                     sx: { height: "2vw" }, // Define a altura do input
                 }}
@@ -81,7 +83,7 @@ export const SelectRolesAdd: React.FC<SelectRolesAddProps> = ({ permissions, tit
                         <Checkbox
                             //@ts-ignore
                             checked={formik.values.permissions[item.value] ?? false}
-                            onChange={(e) => handleChange(e, item.value)}
+                            onChange={view ? () => {} : (e) => handleChange(e, item.value)}
                             name={item.value}
                         />
                         {item.label}
