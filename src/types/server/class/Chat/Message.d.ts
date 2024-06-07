@@ -12,6 +12,7 @@ export type MessagePrisma = Prisma.MessageGetPayload<{
 }>;
 export type MessageForm = Omit<WithoutFunctions<Message>, "id" | "user" | "datetime" | "media_id" | "media" | "deleted"> & {
     media?: MediaForm;
+    admin?: boolean;
 };
 export declare class Message {
     id: string;

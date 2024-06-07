@@ -1,13 +1,13 @@
-import { Prisma } from "@prisma/client"
-import { Socket } from "socket.io"
-import { Permissions, PermissionsForm } from "./Permissions"
-import { WithoutFunctions } from "./helpers"
+import { Prisma } from "@prisma/client";
+import { Socket } from "socket.io";
+import { Permissions, PermissionsForm } from "./Permissions";
+import { WithoutFunctions } from "./helpers";
 export declare const role_include: {
-    permissions: true
-}
+    permissions: true;
+};
 export type RolePrisma = Prisma.RoleGetPayload<{
-    include: typeof role_include
-}>
+    include: typeof role_include;
+}>;
 export type PartialRole = Partial<WithoutFunctions<Role>> & {
     id: number
 }

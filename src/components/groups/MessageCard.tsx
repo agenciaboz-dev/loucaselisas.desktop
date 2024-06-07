@@ -1,9 +1,10 @@
-import React from "react"
-import { Avatar, Box, Paper, Skeleton } from "@mui/material"
+import React, { useState } from "react"
+import { Avatar, Box, Dialog, Icon, IconButton, Modal, Paper, Skeleton, Typography } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
 import logo_without from "../../assets/logo_without_text.svg"
+import CloseIcon from "@mui/icons-material/Close"
 
 interface MessageCardProps {
     message: Message
@@ -13,6 +14,7 @@ interface MessageCardProps {
 }
 
 export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creators, refreshing }) => {
+    const deleted = message.deleted
     const { user } = useUser()
     const you = message.user_id == user?.id
     const skeletonWidth = message.text.length * 14 * 0.55 + 20
@@ -24,10 +26,17 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
     const same_message_above = !(!previous_message || previous_message.user_id != message.user_id)
     const same_message_bellow = !(!next_message || next_message.user_id != message.user_id)
 
+    const [isOpen, setIsOpen] = useState(false)
+
     // useEffect(() => {
     //     console.log(message.text)
     //     console.log({ USER: user })
     // }, [message])
+
+    {
+        console.log({ VideoID: message.video_id })
+    }
+
     return user ? (
         !refreshing ? (
             <Box
@@ -50,18 +59,84 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     </Box>
                 )}
                 <Paper
+                    id={message.id}
                     elevation={1}
                     sx={{
                         width: "fit-content",
-                        padding: "0.8vw",
+                        padding: message.media ? "0.3vw" : "0.6vw",
+                        paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
                         borderRadius: "1vw",
                         maxWidth: "fit-content",
                         bgcolor: you ? "" : "",
                         borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
+                        flexDirection: "column",
+                        gap: "0.5vw",
                     }}
                 >
-                    <p>{message.text}</p>
+                    {message.media && (
+                        <Box>
+                            <Avatar
+                                src={message.media?.url}
+                                variant="rounded"
+                                sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.9vw" }}
+                                onClick={() => setIsOpen(true)}
+                            />
+                        </Box>
+                    )}
+                    {message.video_id && (
+                        <Box>
+                            <Avatar
+                                src={"/placeholders/video.webp"}
+                                sx={{
+                                    borderRadius: "0.5vw",
+                                    width: "3vw",
+                                    height: "3vw",
+                                }}
+                            />
+                            <Box></Box>
+                            <Typography></Typography>
+                        </Box>
+                    )}
+                    {message.text && (
+                        <p
+                            style={{
+                                color: deleted ? "#00000060" : "",
+                                wordBreak: "break-word",
+                                textDecoration: deleted ? "line-through" : "",
+                                marginLeft: message.media ? "0.3vw" : "",
+                            }}
+                        >
+                            {message.text}
+                        </p>
+                    )}
                 </Paper>
+                <Dialog
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    PaperProps={{ sx: { width: "100%", maxWidth: "fit-content", gap: "1vw", borderRadius: "1.2vw", position: "relative" } }}
+                >
+                    <IconButton
+                        sx={{
+                            position: "absolute",
+                            right: "1vw",
+                            top: "1vw",
+                            zIndex: 2000,
+                            backgroundColor: "#000",
+                            ":hover": {
+                                backgroundColor: "#000",
+                            },
+                        }}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        <CloseIcon color="secondary" />
+                    </IconButton>
+                    <Avatar
+                        src={message.media?.url}
+                        variant="rounded"
+                        sx={{ width: "60vw", height: "33vw", borderRadius: "0.5vw" }}
+                        onClick={() => setIsOpen(true)}
+                    />
+                </Dialog>
             </Box>
         ) : (
             <Box

@@ -305,7 +305,13 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                     <ColumnTitle prop="Ultímos Comentários" />
                     <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
                         {messages.map((item) => (
-                            <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
+                            <MessageCard
+                                messageId={item.message.id}
+                                key={item.message.id}
+                                message={item.message}
+                                course={item.course}
+                                sx={{ width: "24.4vw" }}
+                            />
                         ))}
                     </Box>
                 </Box>
