@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar, Box } from "@mui/material"
+import { Avatar, Box, MenuItem } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 
 interface MessageImageProps {
@@ -9,13 +9,13 @@ interface MessageImageProps {
 
 export const MessageImage: React.FC<MessageImageProps> = ({ message, setIsOpen }) => {
     return (
-        <Box>
+        <MenuItem sx={{ padding: 0 }}>
             <Avatar
                 src={message.media?.url}
                 variant="rounded"
                 sx={{ width: "15vw", height: "8.43vw", borderRadius: "0.9vw" }}
                 onClick={() => setIsOpen(true)}
             />
-        </Box>
+        </MenuItem>
     )
 }
