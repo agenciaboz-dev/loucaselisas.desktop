@@ -6,7 +6,7 @@ import { TypeUserCard } from "../components/typeUsers/TypeUserCard"
 import { RoleInfo } from "../components/typeUsers/RoleInfo"
 import { api } from "../api/api"
 import { Role } from "../types/server/class/Role"
-import { AddTypeUserModal } from "../components/typeUsers/AddTypeUserModal"
+import { TypeUserModal } from "../components/typeUsers/TypeUserModal"
 
 interface TypeUsersProps {}
 
@@ -33,9 +33,9 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     useEffect(() => {
         fetchRoles()
     }, [])
-    useEffect(() => {
-        if (roles.length !== 0) setSelectedRole(roles[0])
-    }, [roles])
+    // useEffect(() => {
+    //     if (roles.length !== 0) setSelectedRole(roles[0])
+    // }, [roles])
 
     useEffect(() => {
         console.log(roles)
@@ -80,7 +80,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                 >
                     <Box sx={{ width: 1, gap: "1vw", height: "95%", overflowY: "auto" }}>
                         <Box sx={{ width: 0.7, height: "fit-content", justifyContent: "center" }}>
-                            <Grid container columns={4} spacing={2} sx={{ pb: "1vw", width: 1 }}>
+                            <Grid container columns={3} spacing={2} sx={{ pb: "1vw", width: 1, pt: "1vw" }}>
                                 {loading
                                     ? skeletonCourse.map((_, index) => (
                                           <Grid item xs={1} key={index}>
@@ -244,14 +244,16 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                 />
                             </Paper>
                         ) : (
-                            selectedRole && <RoleInfo roles={roles} role={selectedRole} />
+                            <RoleInfo roles={roles} role={selectedRole} fetchRoles={fetchRoles} />
                         )}
                     </Box>
-                    <AddTypeUserModal
+                    <TypeUserModal
                         openModal={openModal}
                         setOpenModal={setopenModal}
                         roles={roles}
+                        role={selectedRole}
                         fetchRoles={fetchRoles}
+                        edit={false}
                     />
                 </Box>
             </Box>
