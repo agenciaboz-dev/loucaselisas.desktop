@@ -10,7 +10,7 @@ export declare const message_include: {
 export type MessagePrisma = Prisma.MessageGetPayload<{
     include: typeof message_include;
 }>;
-export type MessageForm = Omit<WithoutFunctions<Message>, "id" | "user" | "datetime" | "media_id" | "media"> & {
+export type MessageForm = Omit<WithoutFunctions<Message>, "id" | "user" | "datetime" | "media_id" | "media" | "deleted"> & {
     media?: MediaForm;
 };
 export declare class Message {

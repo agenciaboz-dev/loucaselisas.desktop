@@ -9,14 +9,16 @@ export type RolePrisma = Prisma.RoleGetPayload<{
     include: typeof role_include
 }>
 export type PartialRole = Partial<WithoutFunctions<Role>> & {
-    id: string
+    id: number
 }
 export type RoleForm = Omit<WithoutFunctions<Role>, "id"> & {
+    id?: number
     permissions: PermissionsForm
 }
 export declare class Role {
     id: number
     name: string
+    description?: string
     permissions: PermissionsForm
     constructor(data: RolePrisma)
     static list(): Promise<Role[]>

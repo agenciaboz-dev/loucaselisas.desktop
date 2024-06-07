@@ -59,4 +59,7 @@ export declare class Lesson {
         lesson_id: string;
         user_id: string;
     }[] | undefined>;
+    sendPendingNotification(): Promise<void>;
+    sendActiveNotification(): Promise<void>;
+    sendDeclinedNotification(): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Checkbox, Divider, FormControlLabel, MenuItem, Paper, TextField, Typography } from "@mui/material"
+import { Box, Checkbox, Divider, FormControlLabel, MenuItem, Paper, Skeleton, TextField, Typography } from "@mui/material"
 import { OutlineButton } from "./OutlineButtom"
 import { FaEdit } from "react-icons/fa"
 import { SelectRoles } from "./SelectRoles"
@@ -7,36 +7,19 @@ import { Role } from "../../types/server/class/Role"
 import { User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { useFormik } from "formik"
+import { TypeUserModal } from "./TypeUserModal"
 
 interface RoleInfoProps {
     roles: Role[]
-    role: Role
+    role: Role | null
+    fetchRoles: () => Promise<void>
 }
 
-export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
+export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles }) => {
     const [users, setUsers] = useState<User[]>([])
     const [usersRole, setUsersRole] = useState(0)
+    const [openModalEdit, setopenModalEdit] = useState(false)
 
-    const formik = useFormik<Partial<Role>>({
-        initialValues: {
-            id: role.id,
-            name: role.name,
-            permissions: role.permissions
-                ? {
-                      id: role.permissions.id,
-                      panelTab: role.permissions.panelTab,
-                      creatorTab: role.permissions.creatorTab,
-                      searchTab: role.permissions.searchTab,
-                      favoritesTab: role.permissions.favoritesTab,
-                      configTab: role.permissions.configTab,
-                      role_id: role.permissions.role_id,
-                  }
-                : undefined,
-        },
-        onSubmit: (values) => {
-            console.log(values)
-        },
-    })
     const menuAdmin = ["outros"]
     const menuStudent = ["searchTab"]
     const menuCreator = ["panelTab", "creatorTab", "searchTab", "favoritesTab", "configTab"]
@@ -70,53 +53,60 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
     }, [])
 
     useEffect(() => {
-        setUsersRole(users.filter((item) => item.role.id === role.id).length)
+        setUsersRole(users.filter((item) => item.role.id === role?.id).length)
     }, [role])
     return (
-        <form onSubmit={formik.handleSubmit} action="">
-            <Paper
-                sx={{
-                    borderRadius: "1vw",
-                    flex: 1,
-                    height: "100%",
-                    p: "1vw",
-                    flexDirection: "column",
-                    gap: "0.5vw",
-                }}
-            >
-                <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
-                    <Typography component={"h2"} fontSize={"1.3rem"}>
-                        Role ID
-                    </Typography>
-                    <Typography component={"p"} fontSize={"1.1rem"}>
-                        {role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()}
-                    </Typography>
-                </Box>
-                <Divider />
-                <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
-                    <Typography component={"p"} fontSize={"1.1rem"}>
-                        Número de Membros
-                    </Typography>
-                    <Typography component={"p"} fontSize={"1.1rem"}>
-                        {usersRole}
-                    </Typography>
-                </Box>
-                <Divider />
-                <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.5vw" }}>
-                    <Typography component={"p"} fontSize={"1.1rem"}>
-                        Descrição
-                    </Typography>
+        <Paper
+            sx={{
+                borderRadius: "1vw",
+                flex: 1,
+                height: "100%",
+                p: "1vw",
+                flexDirection: "column",
+                gap: "0.5vw",
+                overflowY: "hidden",
+            }}
+        >
+            <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
+                <Typography component={"h2"} fontSize={"1.3rem"}>
+                    Role ID
+                </Typography>
+                <Typography component={"p"} fontSize={"1.1rem"}>
+                    {role ? (
+                        role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()
+                    ) : (
+                        <Skeleton animation="wave" variant="rounded" sx={{ width: "10vw", height: "2vw" }} />
+                    )}
+                </Typography>
+            </Box>
+            <Divider />
+            <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
+                <Typography component={"p"} fontSize={"1.1rem"}>
+                    Número de Membros
+                </Typography>
+                <Typography component={"p"} fontSize={"1.1rem"}>
+                    {role ? usersRole : <Skeleton animation="wave" variant="rounded" sx={{ width: "2vw", height: "2vw" }} />}
+                </Typography>
+            </Box>
+            <Divider />
+            <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.5vw" }}>
+                <Typography component={"p"} fontSize={"1.1rem"}>
+                    Descrição
+                </Typography>
+                {role ? (
                     <Typography component={"p"} fontSize={"1rem"}>
-                        Facilisi etiam dignissim diam quis enim lobortis. Gravida arcu ac tortor dignissim convallis aenean
-                        et. Bibendum enim facilisis gravida neque convallis. Malesuada fames ac turpis egestas integer.
+                        {role.description}
                     </Typography>
-                </Box>
-                <Divider />
-                <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.4vw" }}>
-                    <Typography component={"p"} fontSize={"1.1rem"}>
-                        Menus Disponíveis
-                    </Typography>
-                    <Typography component={"p"} fontSize={"1rem"}>
+                ) : (
+                    <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "4vw" }} />
+                )}
+            </Box>
+            <Divider />
+            <Box sx={{ flexDirection: "column", textAlign: "justify", width: 1, gap: "0.4vw" }}>
+                <Typography component={"p"} fontSize={"1.1rem"}>
+                    Menus Disponíveis
+                </Typography>
+                {/* <Typography component={"p"} fontSize={"1rem"}>
                         Administrador
                     </Typography>
                     <SelectRoles
@@ -124,34 +114,53 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles }) => {
                         onSelectPermission={(permission) => console.log(permission)}
                         roles={roles}
                         menu={"admin"}
-                    />
-                    <Typography component={"p"} fontSize={"1rem"}>
-                        Estudante
-                    </Typography>
+                    /> */}
+                <Typography component={"p"} fontSize={"1rem"}>
+                    Estudante
+                </Typography>
+                {role ? (
                     <SelectRoles
                         selectedPermissions={selectedMenu("student")}
                         onSelectPermission={(permission) => console.log(permission)}
                         roles={roles}
                         menu="student"
                     />
-                    <Typography component={"p"} fontSize={"1rem"}>
-                        Criador de conteúdo
-                    </Typography>
+                ) : (
+                    <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
+                )}
+                <Typography component={"p"} fontSize={"1rem"}>
+                    Criador de conteúdo
+                </Typography>
+                {role ? (
                     <SelectRoles
                         selectedPermissions={selectedMenu("creator")}
                         onSelectPermission={(permission) => console.log(permission)}
                         menu="creator"
                         roles={roles}
                     />
-                </Box>
+                ) : (
+                    <Skeleton animation="wave" variant="rounded" sx={{ width: "100%", height: "2vw" }} />
+                )}
+            </Box>
+            {role && (
                 <OutlineButton
                     type="submit"
                     title="Editar"
-                    handleClick={() => {}}
+                    handleClick={() => {
+                        setopenModalEdit(true)
+                    }}
                     Icon={FaEdit}
                     style={{ alignSelf: "end", padding: "2px 10px" }}
                 />
-            </Paper>
-        </form>
+            )}
+            <TypeUserModal
+                openModal={openModalEdit}
+                setOpenModal={setopenModalEdit}
+                roles={roles}
+                role={role}
+                fetchRoles={fetchRoles}
+                edit={true}
+            />
+        </Paper>
     )
 }

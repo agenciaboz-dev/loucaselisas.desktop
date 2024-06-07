@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, Grid, IconButton, Menu, MenuItem, Paper, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { useNavigate } from "react-router-dom"
@@ -13,6 +13,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
+    const [hover, setHover] = useState(false)
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
     }
@@ -24,20 +25,28 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
         navigate("")
         handleClose()
     }
+    const defaultStyle = {
+        flexDirection: "row",
+        p: "0.5vw",
+        gap: "0.5vw",
+        borderRadius: "1vw",
+        flex: 1,
+        height: "fit-content",
+        justifyContent: "space-between",
+        alignItems: "center",
+        cursor: "pointer",
+    }
+
+    const hoverStyle = {
+        ...defaultStyle,
+        backgroundColor: "#E5E5E5", // Exemplo de cor quando o mouse está sobre o componente
+    }
     return (
         <Grid item xs={1}>
             <Paper
-                sx={{
-                    flexDirection: "row",
-                    p: "0.5vw",
-                    gap: "0.5vw",
-                    borderRadius: "1vw",
-                    flex: 1,
-                    height: "fit-content",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    cursor: "pointer",
-                }}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                sx={hover ? hoverStyle : defaultStyle}
                 onClick={() => {
                     setSelectedRole(role)
                 }}

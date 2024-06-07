@@ -166,4 +166,7 @@ export declare class Course {
         course_id: string;
         user_id: string;
     }[] | undefined>;
+    sendPendingNotification(): Promise<void>;
+    sendActiveNotification(): Promise<void>;
+    sendDeclinedNotification(): Promise<void>;
 }
