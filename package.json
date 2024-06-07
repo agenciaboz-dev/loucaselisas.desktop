@@ -20,6 +20,8 @@
     "burgos-confirm": "^1.3.1",
     "burgos-masks": "^1.2.3",
     "burgos-snackbar": "^2.1.0",
+    "dayjs": "^1.11.11",
+    "duration": "^0.2.2",
     "formik": "^2.4.5",
     "moment": "^2.30.1",
     "moment-duration-format": "^2.3.2",
