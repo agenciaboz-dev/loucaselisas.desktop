@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Avatar, Box, Dialog, Icon, IconButton, Modal, Paper, Skeleton, Typography } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
@@ -8,6 +8,8 @@ import CloseIcon from "@mui/icons-material/Close"
 import { MessageText } from "./MessageText"
 import { MessageVideo } from "./MessageVideo"
 import { MessageImage } from "./MessageImage"
+import { Lesson } from "../../types/server/class/Course/Lesson"
+import { api } from "../../api/api"
 
 interface MessageCardProps {
     message: Message
@@ -30,15 +32,22 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
     const same_message_bellow = !(!next_message || next_message.user_id != message.user_id)
 
     const [isOpen, setIsOpen] = useState(false)
+    const [lesson, setLesson] = useState<Lesson>()
 
-    // useEffect(() => {
-    //     console.log(message.text)
-    //     console.log({ USER: user })
-    // }, [message])
-
-    {
-        console.log({ VideoID: message.video_id })
+    const fetchLesson = async () => {
+        try {
+            const response = await api.get("/lesson", { params: { lesson_id: message.video_id } })
+            setLesson(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    useEffect(() => {
+        if (message.video_id) {
+            fetchLesson()
+        }
+    }, [])
 
     return user ? (
         !refreshing ? (
@@ -77,7 +86,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     }}
                 >
                     {message.media && <MessageImage message={message} setIsOpen={setIsOpen} />}
-                    {message.video_id && <MessageVideo />}
+                    {/* {message.video_id && lesson && <MessageVideo message={message} lesson={lesson} />} */}
                     {message.text && <MessageText deleted={deleted} message={message} />}
                 </Paper>
                 <Dialog
