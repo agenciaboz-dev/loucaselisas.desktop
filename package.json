@@ -21,6 +21,8 @@
     "burgos-masks": "^1.2.3",
     "burgos-snackbar": "^2.1.0",
     "formik": "^2.4.5",
+    "moment": "^2.30.1",
+    "moment-duration-format": "^2.3.2",
     "react": "^18.2.0",
     "react-currency-format": "^1.1.0",
     "react-dom": "^18.2.0",
