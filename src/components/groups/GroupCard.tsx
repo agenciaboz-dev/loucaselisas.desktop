@@ -29,6 +29,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
         borderRadius: "0.5vw",
         flex: 1,
         cursor: "pointer",
+        height: 1,
     }
 
     const hoverStyle = {

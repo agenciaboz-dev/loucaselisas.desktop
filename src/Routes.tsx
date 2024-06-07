@@ -60,6 +60,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
                     <>
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<PageLayout children={<DashBoard />} />} />
+
                         <Route path="/cursos" element={<PageLayout children={<Courses />} />} />
                         <Route path="/cursos/:id" element={<PageLayout children={<CoursePage />} />} />
 

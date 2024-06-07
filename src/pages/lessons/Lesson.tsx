@@ -148,7 +148,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                     <MoreVertIcon />
                                 </IconButton>
                             </Box>
-                            <Box sx={{ pr: "0.9vw" }}>
+                            <Box sx={{ pr: "0.9vw", pb: "1vw" }}>
                                 <Typography variant="body1" component="p">
                                     {course?.description}
                                 </Typography>
