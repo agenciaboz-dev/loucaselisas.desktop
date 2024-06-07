@@ -44,6 +44,8 @@ export declare class Creator {
         active: boolean;
         image: string | null;
         cover: string | null;
+        created_at: string;
+        need_send_data: boolean;
     } | undefined>;
     load(data: CreatorPrisma): void;
     update(data: Partial<Creator>): Promise<this | undefined>;
