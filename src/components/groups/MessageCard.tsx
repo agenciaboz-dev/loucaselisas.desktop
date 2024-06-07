@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Dialog, Icon, IconButton, Modal, Paper, Skeleton, Typography } from "@mui/material"
+import { Avatar, Box, Dialog, Divider, Icon, IconButton, Modal, Paper, Skeleton, Typography } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
@@ -86,7 +86,8 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     }}
                 >
                     {message.media && <MessageImage message={message} setIsOpen={setIsOpen} />}
-                    {/* {message.video_id && lesson && <MessageVideo message={message} lesson={lesson} />} */}
+                    {message.video_id && lesson && <MessageVideo message={message} lesson={lesson} />}
+                    {message.video_id && <Divider />}
                     {message.text && <MessageText deleted={deleted} message={message} />}
                 </Paper>
                 <Dialog
