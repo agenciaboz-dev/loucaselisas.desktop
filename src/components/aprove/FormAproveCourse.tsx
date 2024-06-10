@@ -327,6 +327,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     openAproveModal={openAproveModal}
                                     onConfirm={formik.handleSubmit}
                                     handleOpenAproveModal={handleOpenAproveModal}
+                                    setOpenAproveModal={setOpenAproveModal}
                                 />
                                 <ReproveModal
                                     name={name}
