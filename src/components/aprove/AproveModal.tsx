@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { Dispatch, SetStateAction, useEffect } from "react"
 import { Box, Button, Modal, Paper, Typography } from "@mui/material"
 
 interface AproveModalProps {
@@ -7,6 +7,7 @@ interface AproveModalProps {
     openAproveModal: boolean
     handleOpenAproveModal: () => void
     onConfirm: () => void
+    setOpenAproveModal: Dispatch<SetStateAction<boolean>>
 }
 
 export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
