@@ -21,12 +21,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
     const [loading, setLoading] = useState(false)
 
     const [currentLesson, setCurrentLesson] = useState<Lesson>(lesson)
-    const [openAproveModal, setopenAproveModal] = useState(false)
+    const [openAproveModal, setOpenAproveModal] = useState(false)
     const [openReproveModal, setOpenReproveModal] = useState(false)
-
-    const handleOpenAproveModal = () => setopenAproveModal(!openAproveModal)
-    const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
-
     const FormatedStatus = formatStatus(currentLesson.status)
 
     const formik = useFormik<StatusForm>({
@@ -42,7 +38,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                 const response = await api.patch("/lesson", values)
                 console.log(response.data)
                 setCurrentLesson(response.data)
-                handleOpenAproveModal()
+                setOpenAproveModal(false)
             } catch (error) {
                 console.log(error)
             } finally {
@@ -63,7 +59,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             const response = await api.patch("/lesson", data)
             setCurrentLesson(response.data)
             console.log(response.data)
-            handleopenReproveModal()
+            setOpenReproveModal(false)
         } catch (error) {
             console.log(error)
         } finally {
@@ -118,7 +114,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                                     <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={() => setOpenReproveModal(true)}>
                                         Reprovar
                                     </Button>
-                                    <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={() => setopenAproveModal(true)}>
+                                    <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={() => setOpenAproveModal(true)}>
                                         Aprovar
                                     </Button>
                                 </>
@@ -127,15 +123,14 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                                     name={name}
                                     type={type}
                                     openAproveModal={openAproveModal}
-                                    handleOpenAproveModal={handleOpenAproveModal}
                                     onConfirm={formik.handleSubmit}
-                                    setOpenAproveModal={setopenAproveModal}
+                                    setOpenAproveModal={setOpenAproveModal}
                                 />
                                 <ReproveModal
                                     name={name}
                                     type={type}
                                     openReproveModal={openReproveModal}
-                                    handleOpenReproveModal={handleopenReproveModal}
+                                    setOpenReproveModal={setOpenReproveModal}
                                     onConfirm={onReprove}
                                 />
                             </Box>
