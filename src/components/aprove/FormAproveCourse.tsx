@@ -42,8 +42,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [userTypes, setUserTypes] = useState<Role[]>([])
     const [priceError, setPriceError] = useState("")
 
-    const handleOpenAproveModal = () => setOpenAproveModal(!openAproveModal)
-    const handleopenReproveModal = () => setOpenReproveModal(!openReproveModal)
+    
 
     const fetchUsersTypes = async () => {
         if (loading) return
@@ -151,7 +150,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         try {
             const response = await api.patch("/course", data)
             // setCurrentCourse(response.data)
-            handleopenReproveModal()
+            setOpenReproveModal(false)
             onChangeStatus()
         } catch (error) {
             console.log(error)
@@ -313,10 +312,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                             <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                                 {status === "pending" && (
                                     <>
-                                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={handleopenReproveModal}>
+                                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={()=>setOpenReproveModal(true)}>
                                             Reprovar
                                         </Button>
-                                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={handleOpenAproveModal}>
+                                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={()=>setOpenAproveModal(true)}>
                                             Aprovar
                                         </Button>
                                     </>
@@ -326,14 +325,14 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     type={type}
                                     openAproveModal={openAproveModal}
                                     onConfirm={formik.handleSubmit}
-                                    handleOpenAproveModal={handleOpenAproveModal}
+                                    // handleOpenAproveModal={handleOpenAproveModal}
                                     setOpenAproveModal={setOpenAproveModal}
                                 />
                                 <ReproveModal
                                     name={name}
                                     type={type}
                                     openReproveModal={openReproveModal}
-                                    handleOpenReproveModal={handleopenReproveModal}
+                                    setOpenReproveModal={setOpenReproveModal}
                                     onConfirm={onReprove}
                                 />
                             </Box>
