@@ -5,15 +5,15 @@ interface ReproveModalProps {
     name: string
     type: "course" | "lesson"
     openReproveModal: boolean
-    handleOpenReproveModal: () => void
     onConfirm: (reason: string) => void
+    setOpenReproveModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openReproveModal, handleOpenReproveModal, onConfirm }) => {
+export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openReproveModal, setOpenReproveModal, onConfirm }) => {
     const [reason, setReason] = useState<string>("")
 
     return (
-        <Modal open={openReproveModal} onClose={handleOpenReproveModal}>
+        <Modal open={openReproveModal} onClose={() => setOpenReproveModal(false)}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
                 <Paper
                     sx={{
@@ -46,7 +46,7 @@ export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openRepr
                             <TextField fullWidth minRows={3} multiline value={reason} onChange={(e) => setReason(e.target.value)} />
                         </Box>
                         <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
-                            <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={handleOpenReproveModal}>
+                            <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={() => setOpenReproveModal(false)}>
                                 Cancelar
                             </Button>
                             <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={() => onConfirm(reason)}>
