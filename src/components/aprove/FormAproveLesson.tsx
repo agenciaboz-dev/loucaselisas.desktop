@@ -81,7 +81,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
         try {
             const response = await api.patch("/lesson", data)
             setCurrentLesson(response.data)
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -106,46 +106,40 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                         </Box>
 
                         {currentLesson.status !== "declined" && (
-                            <Switch checked={currentLesson.status === "active"} onChange={() => onDisabled()} />
+                            <Switch checked={currentLesson.status === "active"} disabled={status !== "active"} onChange={() => onDisabled()} />
                         )}
                     </Box>
-                    {currentLesson.status == "pending" && <Divider />}
+                    {/* {currentLesson.status == "pending" && } */}
                     {currentLesson.status === "pending" && (
-                        <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
-                            <>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={{ borderRadius: "2vw" }}
-                                    onClick={handleopenReproveModal}
-                                >
-                                    Reprovar
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ borderRadius: "2vw" }}
-                                    onClick={handleOpenAproveModal}
-                                >
-                                    Aprovar
-                                </Button>
-                            </>
+                        <>
+                            <Divider />
+                            <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
+                                <>
+                                    <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={() => setOpenReproveModal(true)}>
+                                        Reprovar
+                                    </Button>
+                                    <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={() => setopenAproveModal(true)}>
+                                        Aprovar
+                                    </Button>
+                                </>
 
-                            <AproveModal
-                                name={name}
-                                type={type}
-                                openAproveModal={openAproveModal}
-                                handleOpenAproveModal={handleOpenAproveModal}
-                                onConfirm={formik.handleSubmit}
-                            />
-                            <ReproveModal
-                                name={name}
-                                type={type}
-                                openReproveModal={openReproveModal}
-                                handleOpenReproveModal={handleopenReproveModal}
-                                onConfirm={onReprove}
-                            />
-                        </Box>
+                                <AproveModal
+                                    name={name}
+                                    type={type}
+                                    openAproveModal={openAproveModal}
+                                    handleOpenAproveModal={handleOpenAproveModal}
+                                    onConfirm={formik.handleSubmit}
+                                    setOpenAproveModal={setopenAproveModal}
+                                />
+                                <ReproveModal
+                                    name={name}
+                                    type={type}
+                                    openReproveModal={openReproveModal}
+                                    handleOpenReproveModal={handleopenReproveModal}
+                                    onConfirm={onReprove}
+                                />
+                            </Box>
+                        </>
                     )}
                 </Box>
             </Paper>
