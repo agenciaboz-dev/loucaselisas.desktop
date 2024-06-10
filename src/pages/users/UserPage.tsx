@@ -113,6 +113,8 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         }
     }
 
+    // const onDelete =
+
     useEffect(() => {
         fetchUser()
     }, [])
@@ -155,10 +157,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                     <ColumnTitle prop="Nome:" value={user.username || user.name} />
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>
                         <Paper sx={{ borderRadius: "1vw" }}>
-                            <Avatar
-                                src={user.cover || placeholders.landscape}
-                                sx={{ width: "23.6vw", height: "13.27vw", borderRadius: "1vw" }}
-                            >
+                            <Avatar src={user.cover || placeholders.landscape} sx={{ width: "23.6vw", height: "13.27vw", borderRadius: "1vw" }}>
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
@@ -179,9 +178,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                     <TextField
                                         name="selectedRole"
                                         value={selectedRole}
-                                        onChange={(e) =>
-                                            setSelectedRole(userTypes.find((item) => item.id.toString() == e.target.value))
-                                        }
+                                        onChange={(e) => setSelectedRole(userTypes.find((item) => item.id.toString() == e.target.value))}
                                         InputProps={{ sx: { height: "1.7vw", width: "12.5vw" } }}
                                         SelectProps={{
                                             MenuProps: { MenuListProps: { sx: { width: 1 } } },
@@ -240,13 +237,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         {messages.length > 0 ? (
                             messages.map((item) => (
                                 <Grid item xs={6}>
-                                    <MessageCard
-                                        key={item.message.id}
-                                        messageId={item.message.id}
-                                        message={item.message}
-                                        course={item.course}
-                                        sx={{ height: "100%" }}
-                                    />
+                                    <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ height: "100%" }} />
                                 </Grid>
                             ))
                         ) : (
