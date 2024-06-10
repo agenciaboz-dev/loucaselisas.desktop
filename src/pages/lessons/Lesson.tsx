@@ -122,7 +122,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
                         <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>{lesson && <Media media={media} />}</Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
-                            <Box sx={{ width: 1, justifyContent: "space-between", alignItems: "center" }}>
+                            <Box sx={{ width: 1, gap: "1vw", alignItems: "center" }}>
                                 <Avatar src={course?.owner?.image || placeholders.avatar} sx={{ width: "4vw", height: "4vw" }} />
                                 <Box sx={{ flexDirection: "column" }}>
                                     <Typography variant="subtitle1" component="h5">
@@ -144,9 +144,9 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                         {course?.owner?.description}
                                     </Typography>
                                 </Box>
-                                <IconButton sx={{ height: "2vw", p: "0.25vw", mr: "0.5vw" }}>
+                                {/* <IconButton sx={{ height: "2vw", p: "0.25vw", mr: "0.5vw" }}>
                                     <MoreVertIcon />
-                                </IconButton>
+                                </IconButton> */}
                             </Box>
                             <Box sx={{ pr: "0.9vw", pb: "1vw" }}>
                                 <Typography variant="body1" component="p">
