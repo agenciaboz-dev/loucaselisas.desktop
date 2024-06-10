@@ -17,26 +17,33 @@ interface Options {
     user?: User | undefined
     course?: Course | undefined
     lesson?: Lesson | undefined
-    message: Message
+    message?: Message
+    onDelete: (message: Message) => void
 }
 
 export const useGetPaths = (options: Options) => {
-    const { course, lesson, user, message } = options
+    const { course, lesson, user, message, onDelete } = options
+
+    console.log(lesson)
+
     const navigate = useNavigate()
     const creator = user?.creator
-    const messageID = message.id
+    const messageID = message?.id
 
     const deleteMessage = async () => {
-        const data: Data = { messages: [message], chat_id: message.chat_id }
+        if (message) {
+            const data: Data = { messages: [message], chat_id: message.chat_id }
 
-        console.log(data)
+            console.log(data)
 
-        try {
-            const response = await api.delete("/chat/delete_message", { data })
-            const thisMessage = response.data
-            console.log(thisMessage)
-        } catch (error) {
-            console.log(error)
+            try {
+                const response = await api.delete("/chat/delete_message", { data })
+                const thisMessage = response.data[0]
+                console.log(thisMessage)
+                onDelete(thisMessage)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -112,11 +119,11 @@ export const useGetPaths = (options: Options) => {
             course
                 ? [
                       {
-                          link: `/grupos?id=${course.id}&messageId=${message.id}`,
+                          link: `/grupos?id=${course.id}&messageId=${message?.id}`,
                           title: "Ver mensagem",
                           icon: <VisibilityOutlined />,
                           id: course.id,
-                          onClick: () => navigate(`/grupos?id=${course.id}&messageId=${message.id}`),
+                          onClick: () => navigate(`/grupos?id=${course.id}&messageId=${message?.id}`),
                       },
                       {
                           link: `/grupos?id=${course.id}`,
@@ -126,7 +133,7 @@ export const useGetPaths = (options: Options) => {
                           onClick: () => navigate(`/grupos?id=${course.id}`),
                       },
                       {
-                          link: messageID,
+                          link: messageID || "",
                           title: "Deletar Mensagem",
                           icon: <DeleteOutlineIcon />,
                           id: messageID,

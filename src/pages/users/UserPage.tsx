@@ -113,7 +113,22 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         }
     }
 
-    // const onDelete =
+    const onDelete = (message: Message) => {
+        setMessages((messages) => {
+            let course: Course | undefined = undefined
+
+            const list = messages.filter((item) => {
+                if (item.message.id === message.id) {
+                    course = item.course
+                }
+
+                return item.message.id !== message.id
+            })
+
+            return [...list, { course: course!, message }]
+        })
+        console.log("mensagem setada")
+    }
 
     useEffect(() => {
         fetchUser()
@@ -235,11 +250,13 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
                     <Grid container spacing={2}>
                         {messages.length > 0 ? (
-                            messages.map((item) => (
-                                <Grid item xs={6}>
-                                    <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ height: "100%" }} />
-                                </Grid>
-                            ))
+                            messages
+                                .sort((a, b) => Number(b.message.datetime) - Number(a.message.datetime))
+                                .map((item) => (
+                                    <Grid item xs={6} key={item.message.id}>
+                                        <MessageCard message={item.message} course={item.course} onDelete={onDelete} sx={{ height: "100%" }} />
+                                    </Grid>
+                                ))
                         ) : (
                             <Grid item xs={12} sx={{ height: "69vh" }}>
                                 <NoFeaturedContent title="Não há comentários a serem exibidos" text="" />

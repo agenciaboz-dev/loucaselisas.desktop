@@ -9,11 +9,12 @@ interface MessageCardProps {
     message: Message
     course: Course
     sx?: SxProps
+    onDelete: (message: Message) => void
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, course, onDelete, sx }) => {
     const textCard = { maxWidth: "19.8vw", maxHeight: "3vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
-    const { messagePaths } = useGetPaths({ course, message })
+    const { messagePaths } = useGetPaths({ course, message, onDelete })
 
     return (
         <Paper sx={{ padding: "0.5vw", gap: "0.5vw", flexDirection: "column", ...sx }}>
@@ -40,8 +41,11 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, course, sx })
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
                             WebkitLineClamp: 4,
+                            color: message.deleted ? "#00000060" : "",
+                            textDecoration: message.deleted ? "line-through" : "",
                         }}
                     >
+                        {/* {message.deleted ? `${message.text} - excluida` : message.text} */}
                         {message.text}
                     </Typography>
                 </Box>

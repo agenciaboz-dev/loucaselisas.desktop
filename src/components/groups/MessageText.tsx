@@ -11,8 +11,8 @@ export const MessageText: React.FC<MessageTextProps> = ({ deleted, message }) =>
     return (
         <Typography
             style={{
-                color: deleted ? "#00000060" : "",
                 wordBreak: "break-word",
+                color: deleted ? "#00000060" : "",
                 textDecoration: deleted ? "line-through" : "",
                 marginLeft: message.media ? "0.3vw" : "",
             }}
