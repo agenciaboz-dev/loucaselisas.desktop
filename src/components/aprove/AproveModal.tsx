@@ -1,18 +1,17 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { Box, Button, Modal, Paper, Typography } from "@mui/material"
 
 interface AproveModalProps {
     name: string
     type: "course" | "lesson"
     openAproveModal: boolean
-    handleOpenAproveModal: () => void
     onConfirm: () => void
     setOpenAproveModal: Dispatch<SetStateAction<boolean>>
 }
 
-export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, handleOpenAproveModal, onConfirm }) => {
+export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAproveModal, onConfirm, setOpenAproveModal }) => {
     return (
-        <Modal open={openAproveModal} onClose={() => handleOpenAproveModal()}>
+        <Modal open={openAproveModal} onClose={() => setOpenAproveModal(false)}>
             <Box sx={{ width: "100%", height: "100vh", justifyContent: "center", alignItems: "center" }}>
                 <Paper
                     sx={{
@@ -48,7 +47,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                             variant="outlined"
                             sx={{ borderRadius: "3vw" }}
                             onClick={() => {
-                                handleOpenAproveModal()
+                                setOpenAproveModal(false)
                             }}
                         >
                             Cancelar
@@ -58,7 +57,7 @@ export const AproveModal: React.FC<AproveModalProps> = ({ name, type, openAprove
                             variant="contained"
                             sx={{ borderRadius: "3vw" }}
                             onClick={() => {
-                                handleOpenAproveModal()
+                                setOpenAproveModal(false)
                                 onConfirm()
                             }}
                         >
