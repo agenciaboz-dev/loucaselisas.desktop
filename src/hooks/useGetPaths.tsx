@@ -18,7 +18,7 @@ interface Options {
     course?: Course | undefined
     lesson?: Lesson | undefined
     message?: Message
-    onDelete: (message: Message) => void
+    onDelete?: (message: Message) => void
 }
 
 export const useGetPaths = (options: Options) => {
@@ -40,7 +40,9 @@ export const useGetPaths = (options: Options) => {
                 const response = await api.delete("/chat/delete_message", { data })
                 const thisMessage = response.data[0]
                 console.log(thisMessage)
-                onDelete(thisMessage)
+                {
+                    onDelete && onDelete(thisMessage)
+                }
             } catch (error) {
                 console.log(error)
             }
