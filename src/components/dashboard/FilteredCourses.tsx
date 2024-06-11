@@ -71,6 +71,7 @@ export const FilteredCourses: React.FC<FilteredCoursesProps> = ({ courses, loadi
                                       variant="rounded"
                                       animation="wave"
                                       sx={{
+                                          margin: "0.1vw 0",
                                           height: "10vw",
                                           aspectRatio: "4/3",
                                           flexShrink: 0,

@@ -98,7 +98,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                     <Divider />
                     <Box
                         sx={{
-                            width: 1,
+                            flex: 1,
                             flexDirection: "row",
                             gap: "0.5vw",
                             alignItems: "center",
@@ -109,12 +109,13 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                             sx={{
                                 flexDirection: "row",
                                 alignItems: "center",
-                                minHeight: "4.2vw",
+                                minHeight: "4.5vw",
                                 gap: "0.5vw",
+                                width: "75%",
                             }}
                         >
                             <Avatar src={message.user?.cover || placeholders.avatar} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
-                            <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.2vw" }}>
+                            <Box sx={{ width: "75%", flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography
                                     variant="body2"
                                     component={"p"}
@@ -127,7 +128,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                     component={"p"}
                                     fontSize={"0.8rem"}
                                     sx={{
-                                        width: "15vw",
+                                        width: "90%",
                                         overflow: "hidden",
                                         display: "-webkit-box",
                                         textOverflow: "ellipsis",
