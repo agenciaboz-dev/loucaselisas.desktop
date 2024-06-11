@@ -119,7 +119,6 @@ export const Courses: React.FC<CourrsesProps> = ({}) => {
                                                       <Divider sx={{ mt: "-0.8vw" }} />
                                                       <Box sx={{ justifyContent: "space-between" }}>
                                                           <Skeleton variant="text" animation="wave" sx={{ width: "10vw" }} />
-                                                          <Skeleton variant="text" animation="wave" sx={{ width: "10vw", height: "1.6rem" }} />
                                                       </Box>
                                                   </Paper>
                                               </Grid>

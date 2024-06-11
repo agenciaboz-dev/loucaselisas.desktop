@@ -24,7 +24,7 @@ interface Options {
 export const useGetPaths = (options: Options) => {
     const { course, lesson, user, message, onDelete } = options
 
-    console.log(lesson)
+    // console.log(lesson)
 
     const navigate = useNavigate()
     const creator = user?.creator
@@ -34,7 +34,7 @@ export const useGetPaths = (options: Options) => {
         if (message) {
             const data: Data = { messages: [message], chat_id: message.chat_id }
 
-            console.log(data)
+            // console.log(data)
 
             try {
                 const response = await api.delete("/chat/delete_message", { data })
@@ -48,6 +48,12 @@ export const useGetPaths = (options: Options) => {
             }
         }
     }
+
+    // const reproveCourse = async () => {
+    //     if (course {
+
+    //     })
+    // }
 
     const coursePaths: Paths = useMemo(
         () =>

@@ -25,7 +25,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
         setLoading(true)
         try {
             const response = await api.get("/user/types")
-            console.log({ roles: response.data })
+            // console.log({ roles: response.data })
             setRoles(response.data)
         } catch (error) {
             console.log(error)
@@ -39,7 +39,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
     }, [])
 
     useEffect(() => {
-        console.log(roles)
+        // console.log(roles)
         setFilteredRoles(roles)
     }, [roles])
 

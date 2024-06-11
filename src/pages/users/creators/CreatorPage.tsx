@@ -71,9 +71,9 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         setLoading(true)
 
         try {
-            console.log(value)
+            // console.log(value)
             const response = await api.patch("/user", { role: value, id: user?.id })
-            console.log(response.data)
+            // console.log(response.data)
             setUser(response.data)
         } catch (error) {
             console.log(error)
@@ -92,7 +92,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         try {
             const response = await api.post("/user/creator", data)
             setUser(response.data)
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
