@@ -181,8 +181,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                       <Box
                                                           sx={{
                                                               flexDirection: "column",
-                                                              justifyContent: "space-between",
-                                                              gap: "0.3vw",
+                                                              gap: "0.5vw",
                                                           }}
                                                       >
                                                           <Skeleton
@@ -202,24 +201,46 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                   <Box
                                                       sx={{
                                                           width: 1,
-                                                          minHeight: "5vw",
                                                           flexDirection: "row",
                                                           gap: "0.5vw",
                                                           alignItems: "center",
+                                                          justifyContent: "space-between",
                                                       }}
                                                   >
-                                                      <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
-                                                      <Box sx={{ width: 0.75, flexDirection: "column", gap: "0.4vw" }}>
-                                                          <Skeleton
-                                                              variant="rounded"
-                                                              animation="wave"
-                                                              sx={{ width: "13vw", height: "1.2vw", maxWidth: "16vw" }}
-                                                          />
-                                                          <Skeleton
-                                                              variant="rounded"
-                                                              animation="wave"
-                                                              sx={{ width: "16vw", height: "2vw", maxWidth: "16vw" }}
-                                                          />
+                                                      <Box
+                                                          sx={{
+                                                              flexDirection: "row",
+                                                              alignItems: "center",
+                                                              minHeight: "4.5vw",
+                                                              gap: "0.5vw",
+                                                              width: "100%",
+                                                          }}
+                                                      >
+                                                          <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                                                          <Box sx={{ flexDirection: "column", gap: "0.75vw" }}>
+                                                              <Skeleton variant="rounded" animation="wave" sx={{ width: "9vw", height: "1.5vw" }} />
+                                                              <Skeleton variant="rounded" animation="wave" sx={{ width: "12vw", height: "1.2vw" }} />
+                                                          </Box>
+                                                          <Box
+                                                              sx={{
+                                                                  width: "25%",
+                                                                  flexDirection: "column",
+                                                                  gap: "0.75vw",
+                                                                  marginLeft: "auto",
+                                                                  alignItems: "flex-end",
+                                                              }}
+                                                          >
+                                                              <Skeleton
+                                                                  variant="rounded"
+                                                                  animation="wave"
+                                                                  sx={{ width: "5vw", height: "1.2vw", maxWidth: "6vw" }}
+                                                              />
+                                                              <Skeleton
+                                                                  variant="rounded"
+                                                                  animation="wave"
+                                                                  sx={{ width: "3vw", height: "1.2vw", maxWidth: "3vw" }}
+                                                              />
+                                                          </Box>
                                                       </Box>
                                                   </Box>
                                               </Paper>
