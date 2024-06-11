@@ -5,6 +5,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories"
 import GroupIcon from "@mui/icons-material/Group"
 import BadgeIcon from "@mui/icons-material/Badge"
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver"
+import LogoutIcon from "@mui/icons-material/Logout"
 import GroupsIcon from "@mui/icons-material/Groups"
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo"
 import ViewListIcon from "@mui/icons-material/ViewList"
@@ -82,6 +83,7 @@ export const MenuPrincipal: React.FC<MenuPrincipalProps> = ({}) => {
                 </List>
                 <List>
                     <MenuItem menuOption={{ path: "/configuracoes", icon: <SettingsIcon />, label: "Configurações" }} />
+                    <MenuItem menuOption={{ path: "/", icon: <LogoutIcon />, label: "Sair" }} />
                 </List>
             </Paper>
         </Box>
