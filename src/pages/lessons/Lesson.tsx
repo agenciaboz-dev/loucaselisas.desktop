@@ -99,7 +99,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     if (!lessonId)
         return (
             <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-                <HeaderInfo title={`Lição não encontrada`} refreshButton={false} exitButton={false} backButton />
+                <HeaderInfo title={`Lição não encontrada`} refreshButton={false} backButton />
                 <NoFeaturedContent
                     styles={{ height: "37vw" }}
                     title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -110,7 +110,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
 
     return lesson === undefined ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Lição não encontrada`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Lição não encontrada`} refreshButton={false} backButton />
             <NoFeaturedContent
                 styles={{ height: "37vw" }}
                 title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -119,7 +119,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
         </Box>
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Lição: ${lesson?.name}`} backButton exitButton={false} refreshButton={false} chatButton menuButton />
+            <HeaderInfo title={`Lição: ${lesson?.name}`} backButton refreshButton={false} chatButton menuButton />
             <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>

@@ -66,7 +66,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
     if (!id)
         return (
             <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-                <HeaderInfo title={`Curso não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <HeaderInfo title={`Curso não encontrado`} refreshButton={false} backButton />
                 <NoFeaturedContent
                     styles={{ height: "37vw" }}
                     title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -79,7 +79,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
 
     return course === undefined ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Curso não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Curso não encontrado`} refreshButton={false} backButton />
             <NoFeaturedContent
                 styles={{ height: "37vw" }}
                 title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -88,7 +88,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
         </Box>
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} exitButton={false} backButton chatButton menuButton />
+            <HeaderInfo title={`Curso: ${course.name}`} refreshButton={false} backButton chatButton menuButton />
             <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>

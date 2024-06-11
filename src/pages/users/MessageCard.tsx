@@ -9,7 +9,7 @@ interface MessageCardProps {
     message: Message
     course: Course
     sx?: SxProps
-    onDelete: (message: Message) => void
+    onDelete?: (message: Message) => void
 }
 
 export const MessageCard: React.FC<MessageCardProps> = ({ message, course, onDelete, sx }) => {

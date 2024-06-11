@@ -14,7 +14,7 @@ interface HeaderInfoProps {
     refreshCallback?: () => void
     refreshButton?: boolean
     dashButton?: boolean
-    exitButton?: boolean
+    // exitButton?: boolean
     backButton?: boolean
     chatButton?: boolean
     menuButton?: boolean
@@ -27,7 +27,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
     refreshCallback,
     refreshButton = true,
     dashButton = false,
-    exitButton = true,
+    // exitButton = true,
     backButton = false,
     chatButton = false,
     menuButton = false,
@@ -89,13 +89,13 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                     )}
                 </Box>
 
-                {exitButton && (
+                {/* {exitButton && (
                     <Button endIcon={<LogoutIcon />} onClick={onLogout}>
                         <Typography variant="h4" component="p" sx={{ fontSize: "1.4rem" }}>
                             SAIR
                         </Typography>
                     </Button>
-                )}
+                )} */}
             </Box>
         </Box>
     )
