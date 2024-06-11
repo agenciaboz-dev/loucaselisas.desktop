@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Avatar, Box, LinearProgress, MenuItem, Switch, Typography } from "@mui/material"
+import { Avatar, Box, Divider, LinearProgress, MenuItem, Switch, Typography } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { Course, Status } from "../../types/server/class/Course"
@@ -88,10 +88,10 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                             {thisLesson.info}
                         </Typography>
                         <Box sx={{ gap: "1vw", alignItems: "center" }}>
-                            <LinearProgress variant="determinate" value={65} sx={{ flex: 1 }} />
+                            {/* <LinearProgress variant="determinate" value={65} sx={{ flex: 1 }} />
                             <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
                                 {"59:99"}
-                            </Typography>
+                            </Typography> */}
                         </Box>
                     </Box>
                 </Box>
