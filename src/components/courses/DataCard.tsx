@@ -141,7 +141,7 @@ export const DataCard: React.FC<DataCardProps> = ({
                     >
                         <MoreVertIcon />
                     </IconButton> */}
-                    <Divider />
+                    <Divider sx={{ mt: "auto" }} />
                     <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                         <Box sx={{ gap: "1vw" }}>
                             <StatData stats={likes} Icon={FavoriteBorderIcon} />
