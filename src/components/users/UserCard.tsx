@@ -30,14 +30,19 @@ export const UserCard: React.FC<UserCardProps> = ({ creator = false, user, link,
                             sx={{ width: "4.5vw", height: "4.5vw" }}
                         />
                         <Box sx={{ flexDirection: "column", gap: "0.5vw", flex: 1 }}>
-                            <Box sx={{ flexDirection: "column" }}>
+                            <Box sx={{ gap: "0.5vw", alignItems: "center" }}>
                                 <Typography variant="subtitle1" component="h4">
                                     {creator ? user.creator?.nickname : user.name}
                                 </Typography>
                                 {user.created_at && (
-                                    <Typography variant="body1" component="p">
-                                        {new Date(Number(user.created_at)).toLocaleDateString("pt-br")}
-                                    </Typography>
+                                    <>
+                                        <Typography variant="body1" component="p">
+                                            -
+                                        </Typography>
+                                        <Typography variant="body1" component="p">
+                                            {new Date(Number(user.created_at)).toLocaleDateString("pt-br")}
+                                        </Typography>
+                                    </>
                                 )}
                             </Box>
                             <Box sx={{ gap: "0.3vw", flexWrap: "wrap", maxWidth: "90%" }}>
