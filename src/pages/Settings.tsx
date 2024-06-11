@@ -146,7 +146,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
 
     return (
         <Box sx={{ flexDirection: "column", flex: 1 }}>
-            <HeaderInfo title="Configurações" exitButton={false} refreshButton={false} />
+            <HeaderInfo title="Configurações" refreshButton={false} />
             <Grid container columns={3} spacing={2} sx={{ pt: "1vw" }}>
                 <Grid item xs={1}>
                     <Box sx={{ flexDirection: "column", gap: "1vw" }}>

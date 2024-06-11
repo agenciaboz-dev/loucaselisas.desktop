@@ -187,7 +187,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     if (!id)
         return (
             <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-                <HeaderInfo title={`Criador não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <HeaderInfo title={`Criador não encontrado`} refreshButton={false} backButton />
                 <NoFeaturedContent
                     styles={{ height: "37vw" }}
                     title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -198,7 +198,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
 
     return user === undefined ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Criador não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Criador não encontrado`} refreshButton={false} backButton />
             <NoFeaturedContent
                 styles={{ height: "37vw" }}
                 title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -207,7 +207,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         </Box>
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
-            <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Informações do criador de conteúdo`} refreshButton={false} backButton />
             <Box sx={{ gap: "0.5vw", height: 1, flex: 1 }}>
                 <Box sx={pageColumnStyle}>
                     <ColumnTitle prop="Nome:" value={creator?.nickname} />

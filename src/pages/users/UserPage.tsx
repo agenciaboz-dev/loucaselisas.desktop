@@ -146,7 +146,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     if (!id)
         return (
             <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-                <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} exitButton={false} backButton />
+                <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} backButton />
                 <NoFeaturedContent
                     styles={{ height: "37vw" }}
                     title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -157,7 +157,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
 
     return user === undefined ? (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
-            <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Usuário não encontrado`} refreshButton={false} backButton />
             <NoFeaturedContent
                 styles={{ height: "37vw" }}
                 title="O link que você tentou acessar parece estar quebrado ou não existe."
@@ -166,7 +166,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         </Box>
     ) : (
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "76vw", height: "71.6vh" }}>
-            <HeaderInfo title={`Informações do usuário`} refreshButton={false} exitButton={false} backButton />
+            <HeaderInfo title={`Informações do usuário`} refreshButton={false} backButton />
             <Box sx={{ gap: "0.5vw", height: 1, flex: 1 }}>
                 <Box sx={userColumnStyle}>
                     <ColumnTitle prop="Nome:" value={user.username || user.name} />
