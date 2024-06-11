@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import React, { useMemo } from "react"
 import { User } from "../types/server/class"
 import { Paths } from "../types/paths"
 import { slugify } from "../tools/urlMask"
@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom"
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined"
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import HighlightOffIcon from "@mui/icons-material/HighlightOff"
 import { Lesson } from "../types/server/class/Course/Lesson"
 import { Message } from "../types/server/class/Chat/Message"
 import { api } from "../api/api"
+import { StatusForm } from "../types/statusForm"
 
 type Data = { messages: Message[]; chat_id: string }
 
@@ -19,10 +21,11 @@ interface Options {
     lesson?: Lesson | undefined
     message?: Message
     onDelete?: (message: Message) => void
+    setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const useGetPaths = (options: Options) => {
-    const { course, lesson, user, message, onDelete } = options
+    const { course, lesson, user, message, onDelete, setOpenModal } = options
 
     // console.log(lesson)
 
@@ -55,6 +58,18 @@ export const useGetPaths = (options: Options) => {
     //     })
     // }
 
+    const reproveCourse = async (reason?: string) => {
+        const data: StatusForm = { id: course!.id, status: "declined", declined_reason: reason }
+
+        try {
+            const response = await api.patch("/course", data)
+            console.log(response.data)
+            setOpenModal!(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const coursePaths: Paths = useMemo(
         () =>
             user && creator && course
@@ -79,6 +94,13 @@ export const useGetPaths = (options: Options) => {
                           icon: <ChatOutlinedIcon />,
                           id: user.id,
                           onClick: () => navigate(`/grupos?id=${course.id}`),
+                      },
+                      {
+                          link: `reprove-course=${course.id}`,
+                          title: "Reprovar",
+                          icon: <HighlightOffIcon />,
+                          id: course.id,
+                          onClick: () => setOpenModal!(true),
                       },
                   ]
                 : [],
@@ -152,5 +174,5 @@ export const useGetPaths = (options: Options) => {
         [user]
     )
 
-    return { coursePaths, allPaths, messagePaths }
+    return { coursePaths, allPaths, messagePaths, reproveCourse }
 }
