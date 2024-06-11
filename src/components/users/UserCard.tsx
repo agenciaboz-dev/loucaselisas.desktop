@@ -48,7 +48,7 @@ export const UserCard: React.FC<UserCardProps> = ({ creator = false, user, link,
                         </Box>
                     </Box>
                 </MenuItem>
-                <IconButton
+                {/* <IconButton
                     onClick={() => {}}
                     sx={{
                         height: "2vw",
@@ -61,7 +61,7 @@ export const UserCard: React.FC<UserCardProps> = ({ creator = false, user, link,
                     }}
                 >
                     <MoreVertIcon />
-                </IconButton>
+                </IconButton> */}
             </Paper>
         </Grid>
     )
