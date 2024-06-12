@@ -196,7 +196,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Box sx={{ alignItems: "flex-start", justifyContent: "space-between", flex: 1 }}>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between", flex: 1 }}>
                             <Paper sx={{ borderRadius: "4vw" }}>
                                 <Avatar src={user.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
                                     <Avatar src={placeholders.avatar} />
@@ -205,7 +205,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                             <Box
                                 sx={{
                                     flexDirection: "column",
-                                    justifyContent: "end",
+                                    justifyContent: "center",
                                 }}
                             >
                                 <Box sx={{ gap: "1vw", alignItems: "center", alignSelf: "end" }}>
@@ -222,7 +222,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ marginTop: "-3vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
+                        <Box sx={{ marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
                             {selectedRole && (
                                 <>
                                     <TextField
