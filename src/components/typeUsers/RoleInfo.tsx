@@ -79,7 +79,6 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, set
                 <Paper
                     sx={{
                         borderRadius: "1vw",
-                        width: 0.68,
                         height: "fit-content",
                         p: "1vw",
                         flexDirection: "column",
