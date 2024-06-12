@@ -46,18 +46,18 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
         onSubmit: async (values, { resetForm }) => {
             try {
                 if (!edit) {
-                    console.log({ DATA: values })
+                    // console.log({ DATA: values })
                     const response = await api.post("/role", values)
-                    console.log({ Add_Response: response })
+                    // console.log({ Add_Response: response })
                     if (response) {
                         setOpenModal(false)
                         fetchRoles()
                         resetForm()
                     }
                 } else {
-                    console.log({ EDIT: values })
+                    // console.log({ EDIT: values })
                     const response = await api.post("/role/update", values)
-                    console.log({ Edit_response: response })
+                    // console.log({ Edit_response: response })
                     if (response) {
                         setSelectedRole && setSelectedRole(response.data)
                         setOpenModal(false)
@@ -81,7 +81,7 @@ export const TypeUserModal: React.FC<TypeUserModalProps> = ({
         try {
             const response = await api.get("/user/all")
             setUsers(response.data)
-            console.log({ users: response.data })
+            // console.log({ users: response.data })
         } catch (error) {
             console.log(error)
         }

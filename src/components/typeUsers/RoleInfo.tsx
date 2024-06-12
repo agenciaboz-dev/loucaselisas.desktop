@@ -28,7 +28,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, set
         try {
             const response = await api.get("/user/all")
             setUsers(response.data)
-            console.log({ users: response.data })
+            // console.log({ users: response.data })
         } catch (error) {
             console.log(error)
         }
@@ -71,7 +71,7 @@ export const RoleInfo: React.FC<RoleInfoProps> = ({ role, roles, fetchRoles, set
 
     useEffect(() => {
         setRoleCurrent(role)
-        console.log(role)
+        // console.log(role)
     }, [role])
     return (
         <Grid container spacing={2} sx={{ pb: "1vw", width: 1, pt: "1vw" }}>

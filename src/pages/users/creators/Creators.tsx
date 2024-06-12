@@ -17,7 +17,7 @@ export const Creators: React.FC<CreatorsProps> = ({}) => {
     const [users, setUsers] = useState<User[]>([])
     const [creators, setCreators] = useState<User[]>([])
 
-    console.log(creators)
+    // console.log(creators)
     const [filteredCreators, setFilteredCreators] = useState<User[]>(creators)
 
     const ref = useRef<HTMLElement>() as React.MutableRefObject<HTMLInputElement>

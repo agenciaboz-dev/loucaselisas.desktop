@@ -1,5 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Checkbox, CircularProgress, Dialog, DialogTitle, Divider, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
+import {
+    Autocomplete,
+    Box,
+    Button,
+    Checkbox,
+    CircularProgress,
+    Dialog,
+    DialogTitle,
+    Divider,
+    MenuItem,
+    Paper,
+    Switch,
+    TextField,
+    Typography,
+} from "@mui/material"
 import { AproveModal } from "./AproveModal"
 import { useFormik } from "formik"
 import { ReproveModal } from "./ReproveModal"
@@ -41,8 +55,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
     const [plans, setPlans] = useState<Plan[]>([])
     const [userTypes, setUserTypes] = useState<Role[]>([])
     const [priceError, setPriceError] = useState("")
-
-    
+    const [selectedRole, setSelectedRole] = useState<Role[]>(course.roles)
 
     const fetchUsersTypes = async () => {
         if (loading) return
@@ -161,6 +174,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
         }
     }
 
+    useEffect(() => {
+        formik.setFieldValue("roles", selectedRole)
+    }, [selectedRole])
+
     return (
         <Box sx={{}}>
             <Paper sx={{ flex: 1, p: "0.7vw", borderRadius: "1vw" }}>
@@ -277,22 +294,40 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                 <Typography variant="body1" component="p" sx={{ fontSize: "1.1rem" }}>
                                     Tipo de Usuário
                                 </Typography>
-                                <TextField
+                                {/* <TextField
                                     select
                                     name="roles"
                                     value={formik.values.roles?.map((role) => role.id)}
                                     onChange={formik.handleChange}
-                                    // helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
-                                    SelectProps={{ MenuProps: { MenuListProps: { sx: { width: 1 } } }, multiple: true }}
+                                    helperText="Selecione o tipo de usuário que irá ter acesso ao curso"
+                                    SelectProps={{
+                                        MenuProps: { MenuListProps: { sx: { width: 1 } } },
+                                        multiple: true,
+                                        renderValue: (selected: number[]) =>
+                                            userTypes
+                                                .filter((item) => selected.includes(item.id))
+                                                .map((item) => item.name)
+                                                .join(", "),
+                                    }}
                                     error={formik.touched.roles && Boolean(formik.errors.roles)}
                                     helperText={formik.touched.roles && formik.errors.roles}
                                 >
                                     {userTypes.map((type) => (
                                         <MenuItem value={type.id} key={type.id}>
-                                            {type.name}
+                                            <Checkbox checked={formik.values.roles?.includes(type)} /> {type.name}
                                         </MenuItem>
                                     ))}
-                                </TextField>
+                                </TextField> */}
+                                <Autocomplete
+                                    multiple
+                                    value={selectedRole}
+                                    onChange={(_, value) => setSelectedRole(value)}
+                                    options={userTypes}
+                                    getOptionLabel={(option) => option.name}
+                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                    renderInput={(params) => <TextField {...params} variant="standard" />}
+                                    ListboxProps={{ sx: { width: 1 } }}
+                                />
                             </Box>
                             <Box sx={{ justifyContent: "space-between" }}>
                                 <MenuItem sx={{ pl: 0 }}>
@@ -312,10 +347,10 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                             <Box sx={{ justifyContent: "space-between", gap: "0.5vw" }}>
                                 {status === "pending" && (
                                     <>
-                                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={()=>setOpenReproveModal(true)}>
+                                        <Button fullWidth variant="outlined" sx={{ borderRadius: "2vw" }} onClick={() => setOpenReproveModal(true)}>
                                             Reprovar
                                         </Button>
-                                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={()=>setOpenAproveModal(true)}>
+                                        <Button fullWidth variant="contained" sx={{ borderRadius: "2vw" }} onClick={() => setOpenAproveModal(true)}>
                                             Aprovar
                                         </Button>
                                     </>

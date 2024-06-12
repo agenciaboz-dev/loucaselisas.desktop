@@ -51,7 +51,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
             try {
                 formikPlans.values.price = unmaskCurrency(formikPlans.values.price)
                 const response = currentPlan ? await api.patch("/plan", formikPlans.values) : await api.post("/plan", formikPlans.values)
-                console.log(response.data)
+                // console.log(response.data)
                 setOpenPlanModal(!openPlanModal)
                 fetchPlans()
             } catch (error) {
@@ -79,7 +79,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
                 if (imageSource) formData.append("file", imageSource)
 
                 const response = currentCategory ? await api.patch("/category", formData) : await api.post("/category", formData)
-                console.log(response.data)
+                // console.log(response.data)
                 setOpenCategoryModal(!openCategoryModal)
                 fetchCategories()
             } catch (error) {
@@ -100,7 +100,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
         try {
             const response = await api.get("/category/list/admin")
             setCategorys(response.data)
-            console.log(categories)
+            // console.log(categories)
         } catch (error) {
             console.log(error)
         } finally {

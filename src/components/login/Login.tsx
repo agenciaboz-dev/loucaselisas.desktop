@@ -101,7 +101,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
             }
         }
 
-        console.log(JSON.parse(localStorage.getItem("stay_connected") || "null"))
+        // console.log(JSON.parse(localStorage.getItem("stay_connected") || "null"))
 
         const stayConnected = JSON.parse(localStorage.getItem("stay_connected") || "null")
         if (stayConnected) {

@@ -38,7 +38,7 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
     const fetchCourse = async () => {
         try {
             const response = await api.get("/course", { params: { course_id: courseId } })
-            console.log({ Resposta: response.data })
+            // console.log({ Resposta: response.data })
             setCourse(response.data)
             setExpanded(true)
         } catch (error) {
@@ -113,17 +113,17 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         )
     }
 
-    useEffect(() => {
-        console.log(lastMessages)
-    }, [lastMessages])
+    // useEffect(() => {
+    //     console.log(lastMessages)
+    // }, [lastMessages])
 
     useEffect(() => {
         setFilteredCourses(courses)
     }, [courses])
 
-    useEffect(() => {
-        console.log(expandedChat)
-    }, [expandedChat])
+    // useEffect(() => {
+    //     console.log(expandedChat)
+    // }, [expandedChat])
 
     // useEffect(() => {
     //     fetchCourse()

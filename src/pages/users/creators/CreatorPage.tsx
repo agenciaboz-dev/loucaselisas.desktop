@@ -18,6 +18,7 @@ import { DataCard } from "../../../components/courses/DataCard"
 import { slugify } from "../../../tools/urlMask"
 import { Lesson } from "../../../types/server/class/Course/Lesson"
 import { NoFeaturedContent } from "../../../components/dashboard/NoFeaturedContent"
+import { PartialUser } from "../../../types/server/class/User"
 interface CreatorPageProps {}
 
 interface MessageItem {
@@ -65,15 +66,16 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const [selectedRole, setSelectedRole] = useState<Role>()
 
     const [creatorFlag, setCreatorFlag] = useState(!!user?.creator?.active)
+    const [adminFlag, setAdminFlag] = useState(!!user?.admin)
 
     const onSubmit = async (value: Role) => {
         if (loading) return
         setLoading(true)
 
         try {
-            console.log(value)
+            // console.log(value)
             const response = await api.patch("/user", { role: value, id: user?.id })
-            console.log(response.data)
+            // console.log(response.data)
             setUser(response.data)
         } catch (error) {
             console.log(error)
@@ -84,13 +86,30 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         }
     }
 
-    const onSwitch = async (e: boolean) => {
+    const onSwitchCreator = async (e: boolean) => {
         const data = { user_id: user?.id, creator_flag: e }
         if (loading) return
         setLoading(true)
 
         try {
             const response = await api.post("/user/creator", data)
+            setUser(response.data)
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
+    const onSwitchAdmin = async (e: boolean) => {
+        const data: PartialUser = { id: user!.id, admin: e }
+        if (loading) return
+        setLoading(true)
+
+        try {
+            const response = await api.patch("/user/", data)
             setUser(response.data)
             console.log(response.data)
         } catch (error) {
@@ -173,6 +192,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             setCreator(user.creator)
             setSelectedRole(user.role)
             setCreatorFlag(!!user.creator?.active)
+            setAdminFlag(!!user.admin)
         }
     }, [user])
 
@@ -217,18 +237,33 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Box sx={{ alignItems: "center", justifyContent: "space-between", marginTop: "-1.5vw", flex: 1 }}>
-                            <Avatar src={creator?.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
-                                <Avatar src={placeholders.avatar} />
-                            </Avatar>
-                            <Box sx={{ alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
-                                <Typography variant="body1" component="p">
-                                    Tornar o usuário um criador de conteúdo
-                                </Typography>
-                                <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitch(checked)} sx={{}} />
+                        <Box sx={{ alignItems: "flex-start", justifyContent: "space-between", flex: 1 }}>
+                            <Paper sx={{ borderRadius: "4vw" }}>
+                                <Avatar src={user.creator?.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
+                                    <Avatar src={placeholders.avatar} />
+                                </Avatar>
+                            </Paper>
+                            <Box
+                                sx={{
+                                    flexDirection: "column",
+                                    justifyContent: "end",
+                                }}
+                            >
+                                <Box sx={{ gap: "1vw", alignItems: "center", alignSelf: "end" }}>
+                                    <Typography variant="body1" component="p" sx={{}}>
+                                        Administrador
+                                    </Typography>
+                                    <Switch checked={adminFlag} onChange={(_e, checked) => onSwitchAdmin(checked)} />
+                                </Box>
+                                <Box sx={{ gap: "1vw", alignItems: "center" }}>
+                                    <Typography variant="body1" component="p" sx={{ marginTop: "-0.5vw" }}>
+                                        Criador de conteúdo
+                                    </Typography>
+                                    <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitchCreator(checked)} sx={{ marginTop: "-0.5vw" }} />
+                                </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ marginTop: "-1.5vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
+                        <Box sx={{ marginTop: "-3vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
                             {selectedRole && (
                                 <>
                                     <TextField
