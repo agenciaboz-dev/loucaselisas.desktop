@@ -12,14 +12,18 @@ import { Lesson } from "../../types/server/class/Course/Lesson"
 import { api } from "../../api/api"
 import { DeleteMessage } from "./DeleteMessage"
 
+type Data = { messages: Message[]; chat_id: string }
+
 interface MessageCardProps {
     message: Message
+    messages: Message[]
     list: Message[]
     creators: Partial<Creator>[]
     refreshing?: boolean
+    onDelete?: (message: Message, messages: Message[]) => void
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creators, refreshing }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, list, creators, refreshing, onDelete }) => {
     const deleted = message.deleted
     const { user } = useUser()
     const you = message.user_id == user?.id
@@ -42,6 +46,25 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
             setLesson(response.data)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const deleteMessage = async () => {
+        if (message) {
+            const data: Data = { messages: [message], chat_id: message.chat_id }
+
+            // console.log(data)
+
+            try {
+                const response = await api.delete("/chat/delete_message", { data })
+                const thisMessage = response.data[0]
+                console.log(thisMessage)
+                {
+                    onDelete && onDelete(thisMessage, messages)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -78,7 +101,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                     onMouseEnter={() => setOnHover(true)}
                     onMouseLeave={() => setOnHover(false)}
                 >
-                    {!you && onHover && <DeleteMessage />}
+                    {!you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                     <Paper
                         id={message.id}
                         elevation={1}
@@ -100,7 +123,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                         {message.video_id && <Divider />}
                         {message.text && <MessageText deleted={deleted} message={message} />}
                     </Paper>
-                    {you && onHover && <DeleteMessage />}
+                    {you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                 </Box>
                 <Dialog
                     open={isOpen}

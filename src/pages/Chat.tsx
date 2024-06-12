@@ -82,6 +82,16 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
         setMessages((messages) => [...messages, message])
     }
 
+    const onDelete = (message: Message, messages: Message[]) => {
+        setMessages((messages) => {
+            const list = messages.filter((item) => {
+                return item.id !== message.id
+            })
+
+            return [...list, message]
+        })
+    }
+
     const listenToEvents = () => {
         if (!socket.current) return
 
@@ -165,9 +175,7 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
 
     useEffect(() => {
         if (messageId && messages.length > 0) {
-
             const messageElement = document.getElementById(messageId)
-
 
             if (messageElement) {
                 messageElement.scrollIntoView({
@@ -223,6 +231,8 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
                                         list={messages}
                                         creators={[course.owner, ...course.creators]}
                                         refreshing={refreshing}
+                                        messages={messages}
+                                        onDelete={onDelete}
                                     />
                                 ))}
                     </Box>
