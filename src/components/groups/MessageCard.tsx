@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Dialog, Divider, IconButton, Paper, Skeleton } from "@mui/material"
+import { Avatar, Box, Button, Dialog, Divider, IconButton, Paper, Skeleton } from "@mui/material"
 import { Message } from "../../types/server/class/Chat/Message"
 import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
 import logo_without from "../../assets/logo_without_text.svg"
 import CloseIcon from "@mui/icons-material/Close"
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { MessageText } from "./MessageText"
 import { MessageVideo } from "./MessageVideo"
 import { MessageImage } from "./MessageImage"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { api } from "../../api/api"
-
 
 interface MessageCardProps {
     message: Message
@@ -34,6 +34,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
 
     const [isOpen, setIsOpen] = useState(false)
     const [lesson, setLesson] = useState<Lesson>()
+    const [onHover, setOnHover] = useState(false)
 
     const fetchLesson = async () => {
         try {
@@ -71,26 +72,46 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                         <p style={{ paddingLeft: "0.4vw", paddingRight: "0.5vw" }}>{you ? "Você" : message.user?.name || "Usuário indisponível"}</p>
                     </Box>
                 )}
-                <Paper
-                    id={message.id}
-                    elevation={1}
-                    sx={{
-                        width: "fit-content",
-                        padding: message.media ? "0.3vw" : "0.6vw",
-                        paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
-                        borderRadius: "1vw",
-                        maxWidth: "fit-content",
-                        bgcolor: you ? "" : "",
-                        borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
-                        flexDirection: "column",
-                        gap: "0.5vw",
-                    }}
+
+                <Box
+                    sx={{ alignItems: "center", width: you && onHover ? "39vw" : "fit-content" }}
+                    onMouseEnter={() => setOnHover(true)}
+                    onMouseLeave={() => setOnHover(false)}
                 >
-                    {message.media && <MessageImage message={message} setIsOpen={setIsOpen} />}
-                    {message.video_id && lesson && <MessageVideo message={message} lesson={lesson} />}
-                    {message.video_id && <Divider />}
-                    {message.text && <MessageText deleted={deleted} message={message} />}
-                </Paper>
+                    {!you && onHover && (
+                        <IconButton>
+                            <DeleteOutlineIcon />
+                        </IconButton>
+                    )}
+                    <Paper
+                        id={message.id}
+                        elevation={1}
+                        sx={{
+                            width: "fit-content",
+                            padding: message.media ? "0.3vw" : "0.6vw",
+                            paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
+                            borderRadius: "1vw",
+                            maxWidth: you && onHover ? "37vw" : "fit-content",
+                            bgcolor: you ? "" : "",
+                            borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
+                            flexDirection: "column",
+                            gap: "0.5vw",
+                            marginLeft: you && onHover ? "auto" : "",
+                        }}
+                    >
+                        {message.media && <MessageImage message={message} setIsOpen={setIsOpen} />}
+                        {message.video_id && lesson && <MessageVideo message={message} lesson={lesson} />}
+                        {message.video_id && <Divider />}
+                        {message.text && <MessageText deleted={deleted} message={message} />}
+                    </Paper>
+                    {you && onHover && (
+                        <Box>
+                            <IconButton>
+                                <DeleteOutlineIcon />
+                            </IconButton>
+                        </Box>
+                    )}
+                </Box>
                 <Dialog
                     open={isOpen}
                     onClose={() => setIsOpen(false)}
