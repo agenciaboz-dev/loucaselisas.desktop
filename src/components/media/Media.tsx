@@ -1,6 +1,7 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react"
+import React, { SetStateAction, useEffect, useRef } from "react"
 import { Avatar, Paper } from "@mui/material"
 import placeholders from "../../tools/placeholders"
+import { useTimeInstant } from "../../hooks/useTimeInstant"
 
 interface MediaProps {
     setShowCarrosel?: React.Dispatch<SetStateAction<boolean>> | undefined
@@ -12,7 +13,7 @@ interface MediaProps {
 
 export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
     const video_ref = useRef<HTMLVideoElement>(null)
-    const [timeInstant, setTimeInstant] = useState<number>()
+    const { timeInstant } = useTimeInstant()
 
     useEffect(() => {
         if (video_ref.current && timeInstant) {
