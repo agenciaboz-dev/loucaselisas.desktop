@@ -4,6 +4,7 @@ import {
     Box,
     Button,
     Checkbox,
+    Chip,
     CircularProgress,
     Dialog,
     DialogTitle,
@@ -327,6 +328,13 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
                                     isOptionEqualToValue={(option, value) => option.id === value.id}
                                     renderInput={(params) => <TextField {...params} variant="standard" />}
                                     ListboxProps={{ sx: { width: 1 } }}
+                                    renderTags={(value, getTagProps) =>
+                                        value.map((option, index) => (
+                                            <Box key={index}>
+                                                <Chip label={option.name} {...getTagProps({ index })} sx={{ gap: 1, paddingLeft: 1 }} />
+                                            </Box>
+                                        ))
+                                    }
                                 />
                             </Box>
                             <Box sx={{ justifyContent: "space-between" }}>
