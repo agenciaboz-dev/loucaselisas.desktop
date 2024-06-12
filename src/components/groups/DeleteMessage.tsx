@@ -1,7 +1,6 @@
 import React from "react"
 import { Box, IconButton, Paper } from "@mui/material"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import { api } from "../../api/api"
 
 interface DeleteMessageProps {
     deleteMessage: () => void
