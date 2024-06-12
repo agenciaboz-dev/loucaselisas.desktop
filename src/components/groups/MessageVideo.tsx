@@ -8,6 +8,7 @@ import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
 import { useNavigate } from "react-router-dom"
 import { slugify } from "../../tools/urlMask"
+import { useTimeInstant } from "../../hooks/useTimeInstant"
 dayjs.extend(duration)
 
 interface MessageVideoProps {
@@ -17,6 +18,7 @@ interface MessageVideoProps {
 
 export const MessageVideo: React.FC<MessageVideoProps> = ({ message, lesson }) => {
     const navigate = useNavigate()
+    const { setTimeInstant } = useTimeInstant()
     const link = `/licoes/${slugify(lesson.name)}?id:${lesson.id}`
     const routerParam = { lesson }
     const formattedDuration = dayjs.duration(Number(message.video_timestamp)).format("mm:ss")
@@ -27,6 +29,7 @@ export const MessageVideo: React.FC<MessageVideoProps> = ({ message, lesson }) =
                 <MenuItem
                     sx={{ padding: 0, gap: "1vw" }}
                     onClick={() => {
+                        setTimeInstant(Number(message.video_timestamp) / 1000)
                         navigate(link, { state: { data: routerParam } })
                     }}
                 >
