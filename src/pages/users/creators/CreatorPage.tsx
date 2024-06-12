@@ -237,7 +237,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                                 <Avatar src={placeholders.landscape} />
                             </Avatar>
                         </Paper>
-                        <Box sx={{ alignItems: "flex-start", justifyContent: "space-between", flex: 1 }}>
+                        <Box sx={{ alignItems: "center", justifyContent: "space-between", flex: 1, marginTop: "-1.5vw" }}>
                             <Paper sx={{ borderRadius: "4vw" }}>
                                 <Avatar src={user.creator?.image || placeholders.avatar} sx={{ width: "6vw", height: "6vw" }}>
                                     <Avatar src={placeholders.avatar} />
@@ -246,24 +246,24 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             <Box
                                 sx={{
                                     flexDirection: "column",
-                                    justifyContent: "end",
+                                    justifyContent: "center",
                                 }}
                             >
-                                <Box sx={{ gap: "1vw", alignItems: "center", alignSelf: "end" }}>
+                                <Box sx={{ alignItems: "center", alignSelf: "end" }}>
                                     <Typography variant="body1" component="p" sx={{}}>
                                         Administrador
                                     </Typography>
                                     <Switch checked={adminFlag} onChange={(_e, checked) => onSwitchAdmin(checked)} />
                                 </Box>
-                                <Box sx={{ gap: "1vw", alignItems: "center" }}>
-                                    <Typography variant="body1" component="p" sx={{ marginTop: "-0.5vw" }}>
+                                <Box sx={{ alignItems: "center", alignSelf: "end", marginTop: "-0.5vw" }}>
+                                    <Typography variant="body1" component="p">
                                         Criador de conteúdo
                                     </Typography>
-                                    <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitchCreator(checked)} sx={{ marginTop: "-0.5vw" }} />
+                                    <Switch checked={creatorFlag} onChange={(_e, checked) => onSwitchCreator(checked)} />
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ marginTop: "-3vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
+                        <Box sx={{ marginTop: "-1.5vw", marginLeft: "auto", gap: "0.5vw", alignItems: "center" }}>
                             {selectedRole && (
                                 <>
                                     <TextField
