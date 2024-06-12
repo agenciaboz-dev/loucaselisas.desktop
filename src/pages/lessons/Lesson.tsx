@@ -123,7 +123,9 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
             <Grid container spacing={3} sx={{ flex: 1, height: "74vh" }}>
                 <Grid item xs={7}>
                     <Box sx={{ width: 1, flexDirection: "column", gap: "1vw" }}>
-                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>{lesson && <Media media={media} />}</Box>
+                        <Box sx={{ width: 1, position: "relative", flexDirection: "column" }}>
+                            {lesson && <Media media={media} lesson={lesson} />}
+                        </Box>
                         <Box sx={{ height: "12vw", gap: "1vw", flexDirection: "column", overflowY: "scroll" }}>
                             <Box sx={{ width: 1, gap: "1vw", alignItems: "center" }}>
                                 <Avatar src={course?.owner?.image || placeholders.avatar} sx={{ width: "4vw", height: "4vw" }} />
