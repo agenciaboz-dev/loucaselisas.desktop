@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react"
+import React, { SetStateAction, useEffect, useRef, useState } from "react"
 import { Avatar, Paper } from "@mui/material"
 import placeholders from "../../tools/placeholders"
 
@@ -11,6 +11,15 @@ interface MediaProps {
 }
 
 export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
+    const video_ref = useRef<HTMLVideoElement>(null)
+    const [timeInstant, setTimeInstant] = useState<number>()
+
+    useEffect(() => {
+        if (video_ref.current && timeInstant) {
+            video_ref.current.currentTime = timeInstant
+        }
+    }, [timeInstant])
+
     return (
         <>
             <Paper
@@ -24,6 +33,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media }) => {
             >
                 {media.type === "video" && (
                     <video
+                        ref={video_ref}
                         src={media.url || "/placeholders/video.webp"}
                         controls
                         style={{
