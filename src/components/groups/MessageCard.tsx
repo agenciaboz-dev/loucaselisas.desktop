@@ -12,14 +12,18 @@ import { Lesson } from "../../types/server/class/Course/Lesson"
 import { api } from "../../api/api"
 import { DeleteMessage } from "./DeleteMessage"
 
+type Data = { messages: Message[]; chat_id: string }
+
 interface MessageCardProps {
     message: Message
+    messages: Message[]
     list: Message[]
     creators: Partial<Creator>[]
     refreshing?: boolean
+    onDelete?: (message: Message, messages: Message[]) => void
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creators, refreshing }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, list, creators, refreshing, onDelete }) => {
     const deleted = message.deleted
     const { user } = useUser()
     const you = message.user_id == user?.id
@@ -42,6 +46,25 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
             setLesson(response.data)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const deleteMessage = async () => {
+        if (message) {
+            const data: Data = { messages: [message], chat_id: message.chat_id }
+
+            // console.log(data)
+
+            try {
+                const response = await api.delete("/chat/delete_message", { data })
+                const thisMessage = response.data[0]
+                console.log(thisMessage)
+                {
+                    onDelete && onDelete(thisMessage, messages)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -74,11 +97,16 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                 )}
 
                 <Box
-                    sx={{ alignItems: "center", width: you && onHover ? "39vw" : "fit-content", gap: "0.5vw" }}
+                    sx={{
+                        justifyContent: you && onHover ? "right" : "",
+                        alignItems: "center",
+                        // width: you && onHover ? "39vw" : "fit-content",
+                        gap: "0.5vw",
+                    }}
                     onMouseEnter={() => setOnHover(true)}
                     onMouseLeave={() => setOnHover(false)}
                 >
-                    {!you && onHover && <DeleteMessage />}
+                    {you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                     <Paper
                         id={message.id}
                         elevation={1}
@@ -87,7 +115,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                             padding: message.media ? "0.3vw" : "0.6vw",
                             paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
                             borderRadius: "1vw",
-                            maxWidth: you && onHover ? "36vw" : "fit-content",
+                            maxWidth: you && onHover ? "35.62vw" : "fit-content",
                             bgcolor: you ? "" : "",
                             borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
                             flexDirection: "column",
@@ -100,7 +128,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                         {message.video_id && <Divider />}
                         {message.text && <MessageText deleted={deleted} message={message} />}
                     </Paper>
-                    {you && onHover && <DeleteMessage />}
+                    {!you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                 </Box>
                 <Dialog
                     open={isOpen}
