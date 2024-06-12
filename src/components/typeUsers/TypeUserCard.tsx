@@ -102,7 +102,9 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
                     setSelectedRole(role)
                 }}
             >
-                {role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()}
+                <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase()}
+                </Typography>
                 <Box>
                     <IconButton
                         aria-controls={open ? "basic-menu" : undefined}
@@ -130,12 +132,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
                         </Menu>
                     )}
                 </Box>
-                <DeleteConfirm
-                    name={role.name}
-                    openDeleteConfirm={openModal}
-                    setopenModal={setopenModal}
-                    onConfirm={handleDelete}
-                />
+                <DeleteConfirm name={role.name} openDeleteConfirm={openModal} setopenModal={setopenModal} onConfirm={handleDelete} />
                 <DuplicateConfirm
                     name={role.name}
                     openDuplicateConfirm={openModalDuplicate}

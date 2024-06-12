@@ -95,7 +95,7 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                     <Box sx={{ width: 1, gap: "1vw", height: "100%", overflowY: "auto", pt: "0.5vw", overflow: "hidden" }}>
                         <Box
                             sx={{
-                                width: 0.75,
+                                flex: 1,
                                 height: "fit-content",
                                 maxHeight: "100%",
                                 justifyContent: "center",
@@ -142,135 +142,8 @@ export const TypeUsers: React.FC<TypeUsersProps> = ({}) => {
                                       ))}
                             </Grid>
                         </Box>
-                        {loading ? (
-                            <Grid container spacing={2} sx={{ pb: "1vw", width: 1, pt: "1vw" }}>
-                                <Grid item xs={12}>
-                                    <Paper
-                                        sx={{
-                                            borderRadius: "1vw",
-                                            flexDirection: "column",
-                                            flex: 1,
-                                            height: "fit-content",
-                                            padding: "1vw",
-                                            gap: "1vw",
-                                        }}
-                                    >
-                                        <Box
-                                            sx={{
-                                                flexDirection: "column",
-                                                gap: "2vw",
-                                            }}
-                                        >
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                flexDirection: "column",
-                                                gap: "1vw",
-                                            }}
-                                        >
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                    height: "5vw",
-                                                }}
-                                            />
-                                        </Box>
-                                        {/* <Box
-                                            sx={{
-                                                flexDirection: "column",
-                                                gap: "0.5vw",
-                                            }}
-                                        >
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                    height: "2vw",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                    height: "2vw",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                }}
-                                            />
-                                            <Skeleton
-                                                variant="rounded"
-                                                animation="wave"
-                                                sx={{
-                                                    width: "100%",
-                                                    height: "2vw",
-                                                }}
-                                            />
-                                        </Box>
-                                        <Skeleton
-                                            variant="rounded"
-                                            animation="wave"
-                                            sx={{
-                                                width: "20%",
-                                                height: "2vw",
-                                                marginLeft: "auto",
-                                            }}
-                                        /> */}
-                                    </Paper>
-                                </Grid>
-                            </Grid>
-                        ) : (
-                            <Box sx={{ width: 0.34 }}>
+                        {selectedRole && (
+                            <Box sx={{ width: "25%" }}>
                                 <RoleInfo roles={roles} role={selectedRole} fetchRoles={fetchRoles} setSelectedRole={setSelectedRole} />
                             </Box>
                         )}
