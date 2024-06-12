@@ -97,11 +97,16 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, lis
                 )}
 
                 <Box
-                    sx={{ alignItems: "center", width: you && onHover ? "39vw" : "fit-content", gap: "0.5vw" }}
+                    sx={{
+                        justifyContent: you && onHover ? "right" : "",
+                        alignItems: "center",
+                        // width: you && onHover ? "39vw" : "fit-content",
+                        gap: "0.5vw",
+                    }}
                     onMouseEnter={() => setOnHover(true)}
                     onMouseLeave={() => setOnHover(false)}
                 >
-                    {!you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
+                    {you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                     <Paper
                         id={message.id}
                         elevation={1}
@@ -110,7 +115,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, lis
                             padding: message.media ? "0.3vw" : "0.6vw",
                             paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
                             borderRadius: "1vw",
-                            maxWidth: you && onHover ? "36vw" : "fit-content",
+                            maxWidth: you && onHover ? "35.62vw" : "fit-content",
                             bgcolor: you ? "" : "",
                             borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
                             flexDirection: "column",
@@ -123,7 +128,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, lis
                         {message.video_id && <Divider />}
                         {message.text && <MessageText deleted={deleted} message={message} />}
                     </Paper>
-                    {you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
+                    {!you && onHover && <DeleteMessage deleteMessage={deleteMessage} />}
                 </Box>
                 <Dialog
                     open={isOpen}
