@@ -5,12 +5,12 @@ import { Creator } from "../../types/server/class"
 import { useUser } from "../../hooks/useUser"
 import logo_without from "../../assets/logo_without_text.svg"
 import CloseIcon from "@mui/icons-material/Close"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { MessageText } from "./MessageText"
 import { MessageVideo } from "./MessageVideo"
 import { MessageImage } from "./MessageImage"
 import { Lesson } from "../../types/server/class/Course/Lesson"
 import { api } from "../../api/api"
+import { DeleteMessage } from "./DeleteMessage"
 
 interface MessageCardProps {
     message: Message
@@ -74,15 +74,11 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                 )}
 
                 <Box
-                    sx={{ alignItems: "center", width: you && onHover ? "39vw" : "fit-content" }}
+                    sx={{ alignItems: "center", width: you && onHover ? "39vw" : "fit-content", gap: "0.5vw" }}
                     onMouseEnter={() => setOnHover(true)}
                     onMouseLeave={() => setOnHover(false)}
                 >
-                    {!you && onHover && (
-                        <IconButton>
-                            <DeleteOutlineIcon />
-                        </IconButton>
-                    )}
+                    {!you && onHover && <DeleteMessage />}
                     <Paper
                         id={message.id}
                         elevation={1}
@@ -91,7 +87,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                             padding: message.media ? "0.3vw" : "0.6vw",
                             paddingBottom: message.text ? "0.6vw" : !message.text && message.media ? "0.3vw" : "0.5vw",
                             borderRadius: "1vw",
-                            maxWidth: you && onHover ? "37vw" : "fit-content",
+                            maxWidth: you && onHover ? "36vw" : "fit-content",
                             bgcolor: you ? "" : "",
                             borderBottomRightRadius: you && !same_message_bellow ? "0" : "1vw",
                             flexDirection: "column",
@@ -104,13 +100,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, list, creator
                         {message.video_id && <Divider />}
                         {message.text && <MessageText deleted={deleted} message={message} />}
                     </Paper>
-                    {you && onHover && (
-                        <Box>
-                            <IconButton>
-                                <DeleteOutlineIcon />
-                            </IconButton>
-                        </Box>
-                    )}
+                    {you && onHover && <DeleteMessage />}
                 </Box>
                 <Dialog
                     open={isOpen}
