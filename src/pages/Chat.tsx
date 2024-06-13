@@ -96,14 +96,14 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
         if (!socket.current) return
 
         socket.current.on("connect", () => {
-            console.log("socketio conected")
+            // console.log("socketio conected")
         })
         socket.current.on("disconnect", () => {
-            console.log("socketio disconnected")
+            // console.log("socketio disconnected")
         })
 
         socket.current.on("chat:join", (data: Message[]) => {
-            console.log("joined chat!")
+            // console.log("joined chat!")
             setMessages(data)
             setTimeout(() => {
                 setRefreshing(false)
@@ -130,12 +130,12 @@ export const Chat: React.FC<ChatProps> = ({ setExpanded, course, user }) => {
     const socketConnect = () => {
         socket.current = io(`ws${url}`)
         listenToEvents()
-        console.log({ COURSE: course?.chat?.id, CHATE: chatCourse?.id })
+        // console.log({ COURSE: course?.chat?.id, CHATE: chatCourse?.id })
         if (chatCourse) socket.current.emit("chat:join", course?.chat?.id)
     }
 
     useEffect(() => {
-        console.log("BLABLABLABLABLABLA")
+        // console.log("BLABLABLABLABLABLA")
         if (course) {
             socketConnect()
         }

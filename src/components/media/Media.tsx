@@ -27,7 +27,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
 
         try {
             const response = await api.post("/user/lesson_watchtime", { user_id: user?.id, lesson_id: lesson?.id, watched })
-            console.log({ respostaSaveTime: response.data })
+            // console.log({ respostaSaveTime: response.data })
         } catch (error) {
             console.log(error)
         }
@@ -37,7 +37,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
         try {
             const response = await api.get("/user/lesson_watchtime", { params: { user_id: user?.id, lesson_id: lesson?.id } })
             const data = response.data
-            console.log({ fetchResponse: data })
+            // console.log({ fetchResponse: data })
             setWhatchedTime(Number(data))
         } catch (error) {
             console.log(error)
@@ -45,7 +45,11 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
     }
 
     useEffect(() => {
+        if (!lesson || !user) return
+
+        // if (lesson && user) {
         fetchWatchedTime()
+        // }
     }, [lesson])
 
     useEffect(() => {

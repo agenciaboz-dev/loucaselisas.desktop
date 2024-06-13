@@ -27,7 +27,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
     const [thisTimeInstant, setThisTimeInstant] = useState<number>()
     const { user } = useUser()
     const progress = thisTimeInstant && (thisTimeInstant / lesson.media.duration) * 100000
-    console.log({ PROGRESS: progress })
+    // console.log({ PROGRESS: progress })
     const [loading, setLoading] = useState(false)
     const [thisLesson, setThisLesson] = useState(lesson)
     const FormatedStatus = formatStatus(thisLesson.status)
@@ -56,7 +56,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
         try {
             const response = await api.get("/user/lesson_watchtime", { params: { user_id: user?.id, lesson_id: lesson?.id } })
             const data = response.data
-            console.log({ fetchResponse: data })
+            // console.log({ fetchResponse: data })
             setThisTimeInstant(Number(data))
         } catch (error) {
             console.log(error)
@@ -115,7 +115,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                         </Typography>
                         {thisLesson.media.type === "video" && (
                             <Box sx={{ gap: "1vw", alignItems: "center" }}>
-                                <LinearProgress variant="determinate" value={progress} sx={{ flex: 1 }} />
+                                <LinearProgress variant="determinate" value={progress || 0} sx={{ flex: 1 }} />
                                 <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
                                     {/* {"59:99"} */}
                                     {formattedDuration}
