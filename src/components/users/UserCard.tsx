@@ -18,36 +18,51 @@ export const UserCard: React.FC<UserCardProps> = ({ creator = false, user, link,
         <Grid item xs={1}>
             <Paper sx={{ position: "relative", height: "100%", width: "100%" }}>
                 <MenuItem
-                    sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw" }}
+                    sx={{ flex: 1, justifyContent: "space-between", p: "0.7vw", width: "100%" }}
                     onClick={() => {
                         navigate(link, { state: { user: routerParam } })
                     }}
                 >
-                    <Box sx={{ alignItems: "center", gap: "0.5vw", width: "100%" }}>
+                    <Box sx={{ alignItems: "center", gap: "0.5vw", flex: 1, overflow: "hidden" }}>
                         <Avatar
                             src={(creator ? user.creator?.image : user.image) || placeholders.avatar || undefined}
                             variant="circular"
                             sx={{ width: "4.5vw", height: "4.5vw" }}
                         />
                         <Box sx={{ flexDirection: "column", gap: "0.5vw", flex: 1 }}>
-                            <Box sx={{ gap: "0.5vw", alignItems: "center" }}>
-                                <Typography variant="subtitle1" component="h4">
+                            <Box
+                                sx={{
+                                    gap: "0.5vw",
+                                    alignItems: "center",
+                                    flex: 1,
+                                    maxWidth: "18vw",
+                                }}
+                            >
+                                <Typography
+                                    variant="subtitle1"
+                                    component="h4"
+                                    sx={{
+                                        whiteSpace: "nowrap",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                    }}
+                                >
                                     {creator ? user.creator?.nickname : user.name}
                                 </Typography>
                                 {user.created_at && (
-                                    <>
+                                    <Box sx={{ gap: "0.5vw" }}>
                                         <Typography variant="body1" component="p">
                                             -
                                         </Typography>
                                         <Typography variant="body1" component="p">
                                             {new Date(Number(user.created_at)).toLocaleDateString("pt-br")}
                                         </Typography>
-                                    </>
+                                    </Box>
                                 )}
                             </Box>
                             <Box sx={{ gap: "0.3vw", flexWrap: "wrap", maxWidth: "90%" }}>
                                 {user.admin && <Chip label="ADM" variant="outlined" sx={{ px: "0.5vw" }} />}
-                                {user.creator && <Chip label="Criador de Conteudo" variant="outlined" sx={{ px: "0.5vw" }} />}
+                                {user.creator && <Chip label="Criador de Conteúdo" variant="outlined" sx={{ px: "0.5vw" }} />}
                                 {user.student && <Chip label="Estudante" variant="outlined" sx={{ px: "0.5vw" }} />}
                             </Box>
                         </Box>
