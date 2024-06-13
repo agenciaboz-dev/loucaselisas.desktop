@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Switch, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, CircularProgress, Grid, MenuItem, Paper, Skeleton, Switch, TextField, Typography } from "@mui/material"
 import { useLocation, useSearchParams } from "react-router-dom"
 import { HeaderInfo } from "../../components/header/HeaderInfo"
 import { User } from "../../types/server/class"
@@ -37,7 +37,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     const [user, setUser] = useState(location.state?.user as User | undefined)
     const id = (user ? user?.id : userId) || search.get("id")
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const [userTypes, setUserTypes] = useState<Role[]>([])
     const [messages, setMessages] = useState<Messages>([])
@@ -100,7 +100,6 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
     }
 
     const fetchUser = async () => {
-        if (loading) return
         setLoading(true)
         try {
             const response = await api.get("/user", { params: { id: id } })
@@ -110,25 +109,36 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
         } finally {
             setTimeout(() => {
                 setLoading(false)
-            }, 300)
+            }, 3000)
         }
     }
 
     const fetchUsersTypes = async () => {
+        setLoading(true)
         try {
             const response = await api.get("/user/types")
             setUserTypes(response.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
         }
     }
 
     const fetchMessages = async () => {
+        setLoading(true)
         try {
             const response = await api.get("/user/messages", { params: { user_id: id } })
             setMessages(response.data)
+            setLoading(false)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
         }
     }
 
@@ -278,13 +288,18 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         gap: "0.5vw",
                         overflowY: "auto",
                         overflowX: "hidden",
-                        width: "66%",
                         padding: "0 0.5vw 1vw",
+                        flex: 1,
+                        height: 1,
                     }}
                 >
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
-                    <Grid container spacing={2}>
-                        {messages.length > 0 ? (
+                    <Grid container spacing={2} sx={{ height: 1 }}>
+                        {loading ? (
+                            <Grid item xs={12}>
+                                <Skeleton sx={{ height: 1, transform: "scale(1)" }} />
+                            </Grid>
+                        ) : messages.length > 0 ? (
                             messages
                                 .sort((a, b) => Number(b.message.datetime) - Number(a.message.datetime))
                                 .map((item) => (
@@ -293,7 +308,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                     </Grid>
                                 ))
                         ) : (
-                            <Grid item xs={12} sx={{ height: "69vh" }}>
+                            <Grid item xs={12} sx={{ height: 1 }}>
                                 <NoFeaturedContent title="Não há comentários a serem exibidos" text="" />
                             </Grid>
                         )}
