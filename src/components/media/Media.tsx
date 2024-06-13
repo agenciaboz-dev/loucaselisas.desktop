@@ -20,29 +20,31 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
     const { user } = useUser()
     const { timeInstant, setTimeInstant } = useTimeInstant()
 
-    // const saveWatchedTime = async (watched: number) => {
-    //     try {
-    //         const response = await api.post("/user/lesson_watchtime", { user_id: user?.id, lesson_id: lesson?.id, watched })
-    //         console.log({ respostaSaveTime: response.data })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    const saveWatchedTime = async (watched: number) => {
+        try {
+            const response = await api.post("/user/lesson_watchtime", { user_id: user?.id, lesson_id: lesson?.id, watched })
+            console.log({ respostaSaveTime: response.data })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-    // const fetchWatchedTime = async () => {
-    //     try {
-    //         const response = await api.get("/user/lesson_watchtime", { params: { user_id: user?.id, lesson_id: lesson?.id } })
-    //         const data = response.data
-    //         console.log({ fetchResponse: data })
-    //         setTimeInstant(Number(data))
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    const fetchWatchedTime = async () => {
+        if (timeInstant) return
 
-    // useEffect(() => {
-    //     fetchWatchedTime()
-    // }, [])
+        try {
+            const response = await api.get("/user/lesson_watchtime", { params: { user_id: user?.id, lesson_id: lesson?.id } })
+            const data = response.data
+            console.log({ fetchResponse: data })
+            setTimeInstant(Number(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchWatchedTime()
+    }, [])
 
     useEffect(() => {
         if (video_ref.current && timeInstant !== undefined) {
@@ -50,15 +52,15 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
         }
     }, [timeInstant])
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         if (video_ref.current) {
-    //             saveWatchedTime(video_ref.current.currentTime)
-    //         }
-    //     }, 3000)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (video_ref.current) {
+                saveWatchedTime(video_ref.current.currentTime)
+            }
+        }, 3000)
 
-    //     return () => clearInterval(interval)
-    // }, [video_ref.current?.currentTime, setTimeInstant])
+        return () => clearInterval(interval)
+    }, [video_ref.current?.currentTime])
 
     return (
         <>
