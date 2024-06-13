@@ -278,12 +278,13 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                         gap: "0.5vw",
                         overflowY: "auto",
                         overflowX: "hidden",
-                        width: "66%",
                         padding: "0 0.5vw 1vw",
+                        flex: 1,
+                        height: 1,
                     }}
                 >
                     <ColumnTitle prop="Últimos comentários" sx={{ width: 1 }} />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} sx={{ height: 1 }}>
                         {messages.length > 0 ? (
                             messages
                                 .sort((a, b) => Number(b.message.datetime) - Number(a.message.datetime))
@@ -293,7 +294,7 @@ export const UserPage: React.FC<UserPageProps> = ({}) => {
                                     </Grid>
                                 ))
                         ) : (
-                            <Grid item xs={12} sx={{ height: "69vh" }}>
+                            <Grid item xs={12} sx={{ height: 1 }}>
                                 <NoFeaturedContent title="Não há comentários a serem exibidos" text="" />
                             </Grid>
                         )}
