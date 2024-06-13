@@ -35,11 +35,10 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             setLoading(true)
 
             try {
-                const response = await api.patch("/lesson", values)
-                console.log(response.data)
+                const response = await api.patch("/lesson", { id: id, status: "active" })
+                // console.log(response.data)
                 setCurrentLesson(response.data)
                 setOpenAproveModal(false)
-                formik.resetForm()
             } catch (error) {
                 console.log(error)
             } finally {
@@ -59,7 +58,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
         try {
             const response = await api.patch("/lesson", data)
             setCurrentLesson(response.data)
-            console.log(response.data)
+            // console.log(response.data)
             setOpenReproveModal(false)
             formik.resetForm()
         } catch (error) {
