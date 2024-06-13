@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Avatar, Box, Divider, LinearProgress, MenuItem, Switch, Typography } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Lesson } from "../../types/server/class/Course/Lesson"
@@ -7,6 +7,11 @@ import { StatusForm } from "../../types/statusForm"
 import { api } from "../../api/api"
 import { formatStatus } from "../../tools/formatStatus"
 import placeholders from "../../tools/placeholders"
+import { useTimeInstant } from "../../hooks/useTimeInstant"
+import { useUser } from "../../hooks/useUser"
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+dayjs.extend(duration)
 
 interface DataCardProps {
     lesson: Lesson
@@ -17,8 +22,12 @@ interface DataCardProps {
 }
 
 export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus, routerParam }) => {
+    const formattedDuration = dayjs.duration(Number(lesson.media.duration)).format("mm:ss")
     const navigate = useNavigate()
-
+    const [thisTimeInstant, setThisTimeInstant] = useState<number>()
+    const { user } = useUser()
+    const progress = thisTimeInstant && (thisTimeInstant / lesson.media.duration) * 100000
+    console.log({ PROGRESS: progress })
     const [loading, setLoading] = useState(false)
     const [thisLesson, setThisLesson] = useState(lesson)
     const FormatedStatus = formatStatus(thisLesson.status)
@@ -40,6 +49,23 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
             }, 500)
         }
     }
+
+    const fetchWatchedTime = async () => {
+        // if (timeInstant) return
+
+        try {
+            const response = await api.get("/user/lesson_watchtime", { params: { user_id: user?.id, lesson_id: lesson?.id } })
+            const data = response.data
+            console.log({ fetchResponse: data })
+            setThisTimeInstant(Number(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchWatchedTime()
+    }, [lesson])
 
     return (
         <Box sx={{ flexDirection: "column", width: "29.3vw" }}>
@@ -87,12 +113,15 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
                         >
                             {thisLesson.info}
                         </Typography>
-                        <Box sx={{ gap: "1vw", alignItems: "center" }}>
-                            {/* <LinearProgress variant="determinate" value={65} sx={{ flex: 1 }} />
-                            <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
-                                {"59:99"}
-                            </Typography> */}
-                        </Box>
+                        {thisLesson.media.type === "video" && (
+                            <Box sx={{ gap: "1vw", alignItems: "center" }}>
+                                <LinearProgress variant="determinate" value={progress} sx={{ flex: 1 }} />
+                                <Typography variant="body2" component="p" sx={{ fontSize: "0.8rem", alignSelf: "end" }}>
+                                    {/* {"59:99"} */}
+                                    {formattedDuration}
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
                 </Box>
             </MenuItem>
