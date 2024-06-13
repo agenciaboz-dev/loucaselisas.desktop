@@ -27,10 +27,10 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
         formData.append("data", JSON.stringify(data))
 
         try {
-            console.log(data)
+            // console.log(data)
             const response = await api.patch("/category", formData)
             setThisCategory(response.data)
-            console.log({ Response: response.data })
+            // console.log({ Response: response.data })
         } catch (error) {
             console.log(error)
         }
@@ -40,9 +40,9 @@ export const SettingsCard: React.FC<SettingCardProps> = ({ category, setCurrentC
         const data: Partial<Plan> = { active: checked ? true : false, id: thisPlan?.id }
 
         try {
-            console.log(data)
+            // console.log(data)
             const response = await api.patch("/plan", data)
-            console.log({ Response: response.data })
+            // console.log({ Response: response.data })
             setThisPlan(response.data)
         } catch (error) {
             console.log(error)

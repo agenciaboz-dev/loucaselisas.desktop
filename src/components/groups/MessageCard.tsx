@@ -58,7 +58,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, messages, lis
             try {
                 const response = await api.delete("/chat/delete_message", { data })
                 const thisMessage = response.data[0]
-                console.log(thisMessage)
+                // console.log(thisMessage)
                 {
                     onDelete && onDelete(thisMessage, messages)
                 }

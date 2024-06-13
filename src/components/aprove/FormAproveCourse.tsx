@@ -114,7 +114,7 @@ export const FormAproveCourse: React.FC<FormAproveCourseProps> = ({ course, name
 
                 // setCurrentPartialCourse(values)
                 const response = await api.patch("/course", values)
-                console.log({ Response: response.data })
+                // console.log({ Response: response.data })
                 formik.resetForm()
                 onChangeStatus()
             } catch (error) {

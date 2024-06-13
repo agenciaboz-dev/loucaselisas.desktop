@@ -38,7 +38,7 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
         try {
             if (role) {
                 const response = await api.get(`/role/delete?id=${role.id}`)
-                console.log(response)
+                // console.log(response)
                 // snackbar({ text: "Deletado com sucesso!", severity: "success" })
             } else {
                 // snackbar({ text: "Erro ao deletar", severity: "error" })
@@ -64,10 +64,10 @@ export const TypeUserCard: React.FC<TypeUserCardProps> = ({ role, setSelectedRol
         }
         try {
             if (values) {
-                console.log({ DATA: values })
+                // console.log({ DATA: values })
                 fetchRoles()
                 const response = await api.post("/role", values)
-                console.log({ Add_Response: response })
+                // console.log({ Add_Response: response })
                 if (response) {
                     setopenModalDuplicate(false)
                     fetchRoles()

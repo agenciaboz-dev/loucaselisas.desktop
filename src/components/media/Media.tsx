@@ -20,6 +20,7 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
     const { user } = useUser()
     // const { timeInstant } = useTimeInstant()
     // const sharedTime = timeInstant
+    const [formatNotSuported, setFormatNotSuported] = useState<boolean>()
     const [whatchedTime, setWhatchedTime] = useState<number>()
 
     const saveWatchedTime = async (watched: number) => {
