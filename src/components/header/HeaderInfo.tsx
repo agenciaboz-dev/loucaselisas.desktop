@@ -63,7 +63,14 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                     {dashButton && !loading && (
                         <Button
                             variant="outlined"
-                            sx={{ border: "1px dashed", width: "fit-content", gap: "0.3vw", borderRadius: "1vw", padding: "2px 10px" }}
+                            sx={{
+                                border: "1px dashed",
+                                width: "fit-content",
+                                gap: "0.3vw",
+                                borderRadius: "1vw",
+                                padding: "2px 10px",
+                                marginLeft: "auto",
+                            }}
                             onClick={handleClick}
                         >
                             Adicionar novo usuário
