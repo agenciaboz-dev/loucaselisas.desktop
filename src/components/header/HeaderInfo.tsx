@@ -73,7 +73,7 @@ export const HeaderInfo: React.FC<HeaderInfoProps> = ({
                             }}
                             onClick={handleClick}
                         >
-                            Adicionar novo usuário
+                            Adicionar novo tipo de usuário
                             <IoMdAddCircleOutline size={"1.3vw"} />
                         </Button>
                     )}
