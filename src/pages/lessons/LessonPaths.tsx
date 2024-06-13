@@ -26,6 +26,7 @@ export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
     }
 
     const fetchUser = async () => {
+        if (!course) return
         try {
             const response = await api.get("/user", { params: { id: course?.owner.user.id } })
             setUser(response.data)

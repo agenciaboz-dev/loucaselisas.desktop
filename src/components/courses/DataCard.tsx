@@ -55,6 +55,7 @@ export const DataCard: React.FC<DataCardProps> = ({
     const [loading, setLoading] = useState(false)
 
     const fetchUser = async () => {
+        if (!course) return
         if (loading) return
         setLoading(true)
         try {
