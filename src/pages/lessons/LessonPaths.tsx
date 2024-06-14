@@ -6,6 +6,7 @@ import { User } from "../../types/server/class"
 import { api } from "../../api/api"
 import { Course } from "../../types/server/class/Course"
 import { useGetPaths } from "../../hooks/useGetPaths"
+import { ReproveModal } from "../../components/aprove/ReproveModal"
 
 interface LessonPathsProps {
     lesson: Lesson
@@ -14,7 +15,9 @@ interface LessonPathsProps {
 export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
     const [course, setCourse] = useState<Course>()
     const [user, setUser] = useState<User>()
-    const { allPaths } = useGetPaths({ user, course, lesson })
+    const [openModal, setOpenModal] = useState<boolean>(false)
+
+    const { allPaths, reproveLesson } = useGetPaths({ user, course, lesson, setOpenModal })
 
     const fetchCourse = async () => {
         try {
@@ -48,19 +51,28 @@ export const LessonPaths: React.FC<LessonPathsProps> = ({ lesson }) => {
     }, [])
 
     return (
-        <DataCard
-            key={lesson.id}
-            paths={allPaths}
-            lesson={lesson}
-            image={lesson.thumb || lesson.media.url}
-            title={lesson.name}
-            description={lesson.info}
-            likes={lesson.likes}
-            downloads={lesson.downloads}
-            views={lesson.views}
-            userName={lesson.course.name}
-            link={`/licoes/${slugify(lesson.name)}?id:${lesson.id}`}
-            routerParam={{ lesson }}
-        />
+        <>
+            <ReproveModal
+                name={lesson.name}
+                onConfirm={reproveLesson}
+                type="lesson"
+                openReproveModal={openModal}
+                setOpenReproveModal={setOpenModal}
+            />
+            <DataCard
+                key={lesson.id}
+                paths={allPaths}
+                lesson={lesson}
+                image={lesson.thumb || lesson.media.url}
+                title={lesson.name}
+                description={lesson.info}
+                likes={lesson.likes}
+                downloads={lesson.downloads}
+                views={lesson.views}
+                userName={lesson.course.name}
+                link={`/licoes/${slugify(lesson.name)}?id:${lesson.id}`}
+                routerParam={{ lesson }}
+            />
+        </>
     )
 }

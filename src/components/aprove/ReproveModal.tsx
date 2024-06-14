@@ -9,7 +9,13 @@ interface ReproveModalProps {
     setOpenReproveModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openReproveModal, setOpenReproveModal, onConfirm }) => {
+export const ReproveModal: React.FC<ReproveModalProps> = ({
+    name,
+    type,
+    openReproveModal,
+    setOpenReproveModal,
+    onConfirm,
+}) => {
     const [reason, setReason] = useState<string>("")
 
     return (
@@ -41,15 +47,35 @@ export const ReproveModal: React.FC<ReproveModalProps> = ({ name, type, openRepr
                                 {name}
                             </Typography>
                         </Box>
-                        <Box sx={{ flexDirection: "column" }}>
-                            <Typography>Motivo da reprovação (Opcional)</Typography>
-                            <TextField fullWidth minRows={3} multiline value={reason} onChange={(e) => setReason(e.target.value)} />
-                        </Box>
+                        {type == "course" && (
+                            <Box sx={{ flexDirection: "column" }}>
+                                <Typography>Motivo da reprovação (Opcional)</Typography>
+                                <TextField
+                                    fullWidth
+                                    minRows={3}
+                                    multiline
+                                    value={reason}
+                                    onChange={(e) => setReason(e.target.value)}
+                                />
+                            </Box>
+                        )}
                         <Box sx={{ gap: "0.5vw", mt: "1vw" }}>
-                            <Button fullWidth variant="outlined" sx={{ borderRadius: "3vw" }} onClick={() => setOpenReproveModal(false)}>
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                sx={{ borderRadius: "3vw" }}
+                                onClick={() => setOpenReproveModal(false)}
+                            >
                                 Cancelar
                             </Button>
-                            <Button fullWidth variant="contained" sx={{ borderRadius: "3vw" }} onClick={() => onConfirm(reason)}>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                sx={{ borderRadius: "3vw" }}
+                                onClick={() => {
+                                    onConfirm(reason)
+                                }}
+                            >
                                 Reprovar
                             </Button>
                         </Box>

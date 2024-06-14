@@ -22,9 +22,11 @@ interface Options {
     message?: Message
     onDelete?: (message: Message) => void
     setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>
+    setAnchorElement?: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
 export const useGetPaths = (options: Options) => {
+    const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(null)
     const { course, lesson, user, message, onDelete, setOpenModal } = options
 
     // console.log(lesson)
@@ -65,6 +67,19 @@ export const useGetPaths = (options: Options) => {
             const response = await api.patch("/course", data)
             console.log(response.data)
             setOpenModal!(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const reproveLesson = async (reason?: string) => {
+        const data = { id: lesson!.id, status: "pending" }
+
+        try {
+            console.log(data)
+            const response = await api.patch("/lesson", data)
+            console.log(response.data)
+            setOpenModal!(false)
+            setAnchorElement(null)
         } catch (error) {
             console.log(error)
         }
@@ -139,6 +154,13 @@ export const useGetPaths = (options: Options) => {
                           id: user.id,
                           onClick: () => navigate(`/grupos?id=${course.id}`),
                       },
+                      {
+                          link: `reprove-lesson=${lesson.id}`,
+                          title: "Reprovar",
+                          icon: <HighlightOffIcon />,
+                          id: lesson.id,
+                          onClick: () => setOpenModal!(true),
+                      },
                   ]
                 : [],
         [user]
@@ -189,5 +211,5 @@ export const useGetPaths = (options: Options) => {
                 : [],
         [user]
     )
-    return { coursePaths, allPaths, messagePaths, groupPaths, reproveCourse }
+    return { coursePaths, allPaths, messagePaths, groupPaths, reproveCourse, reproveLesson, anchorElement, setAnchorElement }
 }

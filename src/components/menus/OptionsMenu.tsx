@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Fade, IconButton, Menu, MenuItem, SxProps, Typography } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { Paths } from "../../types/paths"
@@ -17,6 +17,9 @@ export const OptionsMenu: React.FC<OptionsMenuProps> = ({ paths, sx }) => {
     const handleClose = () => {
         setAnchorElement(null)
     }
+    useEffect(() => {
+        console.log(anchorElement)
+    }, [anchorElement])
 
     return (
         <>
@@ -26,7 +29,14 @@ export const OptionsMenu: React.FC<OptionsMenuProps> = ({ paths, sx }) => {
             <Menu id="fade-menu" anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade}>
                 {paths &&
                     paths.map((path) => (
-                        <MenuItem key={path.link} onClick={path.onClick} sx={{ justifyContent: "right", gap: "0.5vw" }}>
+                        <MenuItem
+                            key={path.link}
+                            onClick={() => {
+                                path.onClick && path.onClick()
+                                handleClose()
+                            }}
+                            sx={{ justifyContent: "right", gap: "0.5vw" }}
+                        >
                             <Typography variant="body2" component="p" sx={{ fontSize: "1.3rem" }}>
                                 {path.title}
                             </Typography>
