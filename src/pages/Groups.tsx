@@ -101,7 +101,8 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
         setFilteredCourses(
             courses.filter((course) => {
                 const courseMatches =
-                    course.name.toLowerCase().includes(lowerCaseValue) || course.owner.user.username?.toLowerCase().includes(lowerCaseValue)
+                    course.name.toLowerCase().includes(lowerCaseValue) ||
+                    course.owner.user.username?.toLowerCase().includes(lowerCaseValue)
 
                 const messageMatches =
                     (lastMessages[course.id] && lastMessages[course.id]?.text.toLowerCase().includes(lowerCaseValue)) ||
@@ -177,7 +178,13 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                       flex: 1,
                                                   }}
                                               >
-                                                  <Box sx={{ width: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                                                  <Box
+                                                      sx={{
+                                                          width: 1,
+                                                          flexDirection: "row",
+                                                          justifyContent: "space-between",
+                                                      }}
+                                                  >
                                                       <Box
                                                           sx={{
                                                               flexDirection: "column",
@@ -195,7 +202,11 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                               sx={{ width: "18vw", height: "0.8vw", maxWidth: "16vw" }}
                                                           />
                                                       </Box>
-                                                      <Skeleton variant="rounded" animation="wave" sx={{ width: "3vw", height: "3vw" }} />
+                                                      <Skeleton
+                                                          variant="rounded"
+                                                          animation="wave"
+                                                          sx={{ width: "3vw", height: "3vw" }}
+                                                      />
                                                   </Box>
                                                   <Divider />
                                                   <Box
@@ -216,10 +227,21 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                                               width: "100%",
                                                           }}
                                                       >
-                                                          <Skeleton variant="circular" sx={{ width: "3vw", height: "3vw" }} />
+                                                          <Skeleton
+                                                              variant="circular"
+                                                              sx={{ width: "3vw", height: "3vw" }}
+                                                          />
                                                           <Box sx={{ flexDirection: "column", gap: "0.75vw" }}>
-                                                              <Skeleton variant="rounded" animation="wave" sx={{ width: "9vw", height: "1.5vw" }} />
-                                                              <Skeleton variant="rounded" animation="wave" sx={{ width: "12vw", height: "1.2vw" }} />
+                                                              <Skeleton
+                                                                  variant="rounded"
+                                                                  animation="wave"
+                                                                  sx={{ width: "9vw", height: "1.5vw" }}
+                                                              />
+                                                              <Skeleton
+                                                                  variant="rounded"
+                                                                  animation="wave"
+                                                                  sx={{ width: "12vw", height: "1.2vw" }}
+                                                              />
                                                           </Box>
                                                           <Box
                                                               sx={{
@@ -247,7 +269,10 @@ export const Groups: React.FC<GroupsProps> = ({}) => {
                                           </Grid>
                                       ))
                                     : filteredCourses
-                                          .sort((a, b) => Number(lastMessages[b.id]?.datetime) - Number(lastMessages[a.id]?.datetime))
+                                          .sort(
+                                              (a, b) =>
+                                                  Number(lastMessages[b.id]?.datetime) - Number(lastMessages[a.id]?.datetime)
+                                          )
                                           .map((course) => (
                                               <GroupCard
                                                   setCourse={setCourse}
