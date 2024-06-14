@@ -30,15 +30,17 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             id: id,
             status: status,
         },
-        onSubmit: async (values) => {
+        onSubmit: async () => {
             if (loading) return
             setLoading(true)
 
             try {
+                console.log({ PrevLesson: currentLesson })
                 const response = await api.patch("/lesson", { id: id, status: "active" })
-                // console.log(response.data)
-                setCurrentLesson(response.data)
-                setOpenAproveModal(false)
+                if (response.data) {
+                    setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
+                    // setOpenAproveModal(false)
+                }
             } catch (error) {
                 console.log(error)
             } finally {
@@ -57,10 +59,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
 
         try {
             const response = await api.patch("/lesson", data)
-            setCurrentLesson(response.data)
+            setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
             // console.log(response.data)
-            setOpenReproveModal(false)
-            formik.resetForm()
         } catch (error) {
             console.log(error)
         } finally {
@@ -77,8 +77,9 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
 
         try {
             const response = await api.patch("/lesson", data)
-            setCurrentLesson(response.data)
-            formik.resetForm()
+            setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
+
+            // formik.resetForm()
             // console.log(response.data)
         } catch (error) {
             console.log(error)
@@ -92,6 +93,14 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
     useEffect(() => {
         setCurrentLesson(lesson)
     }, [lesson])
+
+    useEffect(() => {
+        if (currentLesson) {
+            console.log({ currentLesson: currentLesson })
+            formik.resetForm()
+            setOpenAproveModal(false)
+        }
+    }, [currentLesson])
 
     return (
         <Box sx={{}}>
