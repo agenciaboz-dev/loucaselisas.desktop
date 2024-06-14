@@ -19,7 +19,7 @@ interface MessageVideoProps {
 export const MessageVideo: React.FC<MessageVideoProps> = ({ message, lesson }) => {
     const navigate = useNavigate()
     const { setTimeInstant } = useTimeInstant()
-    const link = `/licoes/${slugify(lesson.name)}?id:${lesson.id}`
+    const link = `/licoes/${slugify(lesson.name)}?instant=${message.video_timestamp}`
     const routerParam = { lesson }
     const formattedDuration = dayjs.duration(Number(message.video_timestamp)).format("mm:ss")
 

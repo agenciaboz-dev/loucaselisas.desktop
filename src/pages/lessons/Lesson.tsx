@@ -24,7 +24,6 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
     const [loading, setLoading] = useState(false)
     const [lessons, setLessons] = useState<Lesson[]>([])
     const [lessonId, setLessonId] = useState(lesson ? lesson.id : search.get("id"))
-
     // console.log(lessonId)
     // const otherLessons = lessons.filter((item) => item.id !== lesson?.id).sort((a, b) => Number(a.published) - Number(b.published))
 

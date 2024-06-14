@@ -5,6 +5,7 @@ import placeholders from "../../tools/placeholders"
 import { api } from "../../api/api"
 import { useUser } from "../../hooks/useUser"
 import { Lesson } from "../../types/server/class/Course/Lesson"
+import { useSearchParams } from "react-router-dom"
 
 interface MediaProps {
     setShowCarrosel?: React.Dispatch<SetStateAction<boolean>> | undefined
@@ -18,13 +19,14 @@ interface MediaProps {
 export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) => {
     const video_ref = useRef<HTMLVideoElement>(null)
     const { user } = useUser()
-    // const { timeInstant } = useTimeInstant()
-    // const sharedTime = timeInstant
-    const [formatNotSuported, setFormatNotSuported] = useState<boolean>()
+    const [search] = useSearchParams()
+
+    const instant = search.get("instant")
+    // const [formatNotSuported, setFormatNotSuported] = useState<boolean>()
     const [whatchedTime, setWhatchedTime] = useState<number>()
 
     const saveWatchedTime = async (watched: number) => {
-        // if (sharedTime) return
+        if (instant) return
 
         try {
             const response = await api.post("/user/lesson_watchtime", { user_id: user?.id, lesson_id: lesson?.id, watched })
@@ -54,14 +56,16 @@ export const Media: React.FC<MediaProps> = ({ setShowCarrosel, media, lesson }) 
     }, [lesson])
 
     useEffect(() => {
-        // if (video_ref.current && sharedTime) {
-        //     video_ref.current.currentTime = sharedTime
-        // } else
+        if (instant) {
+            console.log("instant")
+        }
 
-        if (video_ref.current && whatchedTime !== undefined) {
+        if (video_ref.current && instant) {
+            video_ref.current.currentTime = Number(instant) / 1000
+        } else if (video_ref.current && whatchedTime) {
             video_ref.current.currentTime = whatchedTime
         }
-    }, [whatchedTime])
+    }, [whatchedTime, instant])
 
     useEffect(() => {
         const interval = setInterval(() => {
