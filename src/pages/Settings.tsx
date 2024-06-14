@@ -19,7 +19,7 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     const skeletonSettingsCard: number[] = new Array(20).fill(0).map((_, index) => index)
     const required_message = "Campo obrigatório"
     const categorySchema = Yup.object().shape({
-        name: Yup.string().min(3, required_message).required(required_message),
+        name: Yup.string().min(3, "Digite no mínimo 3 caracteres").required(required_message),
     })
 
     const planSchema = Yup.object().shape({
