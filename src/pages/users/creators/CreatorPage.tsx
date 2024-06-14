@@ -364,12 +364,14 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                     <ColumnTitle prop="Ultímos Comentários" />
                     {loadingCenter ? (
                         <Skeleton sx={{ flex: 1, transform: "scale(1)" }} />
-                    ) : (
+                    ) : messages.length ? (
                         <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
                             {messages.map((item) => (
                                 <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
                             ))}
                         </Box>
+                    ) : (
+                        <NoFeaturedContent styles={{ flex: 1 }} title="Não encontrado" text="Não há comentários ainda" />
                     )}
                 </Box>
                 {loadingRight ? (
@@ -386,38 +388,46 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             }}
                         >
                             {currentTab === 1 &&
-                                courses.map((course) => (
-                                    <DataCard
-                                        key={course.id}
-                                        course={course}
-                                        image={course.cover}
-                                        title={course.name}
-                                        description={course.description}
-                                        likes={course.likes}
-                                        downloads={course.downloads}
-                                        messages={course.chat?.messages}
-                                        views={course.views}
-                                        link={`/cursos/${slugify(course.name)}?id=${course.id}`}
-                                        routerParam={course}
-                                        sx={{ width: "24.4vw" }}
-                                    />
+                                (courses.length ? (
+                                    courses.map((course) => (
+                                        <DataCard
+                                            key={course.id}
+                                            course={course}
+                                            image={course.cover}
+                                            title={course.name}
+                                            description={course.description}
+                                            likes={course.likes}
+                                            downloads={course.downloads}
+                                            messages={course.chat?.messages}
+                                            views={course.views}
+                                            link={`/cursos/${slugify(course.name)}?id=${course.id}`}
+                                            routerParam={course}
+                                            sx={{ width: "24.4vw" }}
+                                        />
+                                    ))
+                                ) : (
+                                    <NoFeaturedContent styles={{ flex: 1 }} title="Não encontrado" text="Não há cursos ainda" />
                                 ))}
                             {currentTab === 2 &&
-                                lessons.map((lesson) => (
-                                    <DataCard
-                                        key={lesson.id}
-                                        lesson={lesson}
-                                        image={lesson.thumb || lesson.media.url}
-                                        title={lesson.name}
-                                        description={lesson.info}
-                                        likes={lesson.likes}
-                                        downloads={lesson.downloads}
-                                        views={lesson.views}
-                                        userName={lesson.course.name}
-                                        link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
-                                        routerParam={{ lesson }}
-                                        sx={{ width: "24.4vw" }}
-                                    />
+                                (lessons.length ? (
+                                    lessons.map((lesson) => (
+                                        <DataCard
+                                            key={lesson.id}
+                                            lesson={lesson}
+                                            image={lesson.thumb || lesson.media.url}
+                                            title={lesson.name}
+                                            description={lesson.info}
+                                            likes={lesson.likes}
+                                            downloads={lesson.downloads}
+                                            views={lesson.views}
+                                            userName={lesson.course.name}
+                                            link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
+                                            routerParam={{ lesson }}
+                                            sx={{ width: "24.4vw" }}
+                                        />
+                                    ))
+                                ) : (
+                                    <NoFeaturedContent styles={{ flex: 1 }} title="Não encontrado" text="Não há lições ainda" />
                                 ))}
                         </Box>
                     </Box>
