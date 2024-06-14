@@ -15,9 +15,10 @@ interface FormAproveLessonProps {
     name: string
     type: "course" | "lesson"
     status: Status
+    onUpdate: (lesson: Lesson) => void
 }
 
-export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, name, type, status }) => {
+export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, name, type, status, onUpdate }) => {
     const [loading, setLoading] = useState(false)
 
     const [currentLesson, setCurrentLesson] = useState<Lesson>(lesson)
@@ -38,7 +39,8 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                 console.log({ PrevLesson: currentLesson })
                 const response = await api.patch("/lesson", { id: id, status: "active" })
                 if (response.data) {
-                    setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
+                    setCurrentLesson(response.data)
+                    onUpdate(response.data)
                     // setOpenAproveModal(false)
                 }
             } catch (error) {
@@ -113,7 +115,11 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
                         </Box>
 
                         {currentLesson.status !== "declined" && (
-                            <Switch checked={currentLesson.status === "active"} disabled={status !== "active"} onChange={() => onDisabled()} />
+                            <Switch
+                                checked={currentLesson.status === "active"}
+                                disabled={currentLesson.status !== "active"}
+                                onChange={() => onDisabled()}
+                            />
                         )}
                     </Box>
                     {/* {currentLesson.status == "pending" && } */}

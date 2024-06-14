@@ -164,7 +164,14 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                 <Grid item xs={5}>
                     <Box sx={{ width: 1, flex: 1, flexDirection: "column", gap: "1vw" }}>
                         {course && lesson && (
-                            <FormAproveLesson name={lesson.name} lesson={lesson} type="lesson" id={lesson.id} status={lesson.status} />
+                            <FormAproveLesson
+                                name={lesson.name}
+                                lesson={lesson}
+                                type="lesson"
+                                id={lesson.id}
+                                status={lesson.status}
+                                onUpdate={(lesson: Lesson) => setLessons((lessons) => [...lessons.filter((item) => item.id != lesson.id), lesson])}
+                            />
                         )}
                         <Box
                             sx={{
