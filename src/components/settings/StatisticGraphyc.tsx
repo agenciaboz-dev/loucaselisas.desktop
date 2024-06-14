@@ -1,8 +1,14 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, useTheme } from "@mui/material"
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts"
+import { api } from "../../api/api"
 
 interface StatisticGraphycsProps {}
+
+type View = { id: number; datetime: string; lesson_id: string; user_id: string }
+
+type FilteredView = { name: string; indice1: number; indice2: number }
+type FilteredViews = FilteredView[]
 
 export const StatisticGraphycs: React.FC<StatisticGraphycsProps> = ({}) => {
     const data = [
@@ -19,6 +25,45 @@ export const StatisticGraphycs: React.FC<StatisticGraphycsProps> = ({}) => {
     ]
 
     const theme = useTheme()
+
+    const [courseViews, setCourseViews] = useState<View[]>([])
+    const [lessonViews, setLessonViews] = useState<View[]>([])
+    const [views, setViews] = useState<View[]>()
+    const [filteredViews, setFilteredViews] = useState<FilteredViews>()
+    const fetchCourseViews = async () => {
+        try {
+            const response = await api.get("stats/courses")
+            setCourseViews(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchLessonViews = async () => {
+        try {
+            const response = await api.get("stats/lessons")
+            setLessonViews(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCourseViews()
+        fetchLessonViews()
+    }, [])
+
+    useEffect(() => {
+        if (courseViews && lessonViews) {
+            setViews([...courseViews, ...lessonViews])
+        }
+    }, [courseViews, lessonViews])
+
+    // useEffect(() => {
+    //     if (views) {
+    //         setFilteredViews([{}])
+    //     }
+    // }, [views])
 
     return (
         <Box sx={{ width: "100%" }}>
