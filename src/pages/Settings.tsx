@@ -23,8 +23,8 @@ export const Settings: React.FC<SettingsProps> = ({}) => {
     })
 
     const planSchema = Yup.object().shape({
-        name: Yup.string().min(3, required_message).required(required_message),
-        description: Yup.string().min(5, required_message).required(required_message),
+        name: Yup.string().min(3, "Digite no mínimo 3 caracteres").required(required_message),
+        description: Yup.string().min(5, "Digite no mínimo 5 caracteres").required(required_message),
         price: Yup.string()
             .min(3, required_message)
             .test("is-not-zero", "O valor deve ser maior que 0", (value) => value !== "R$ 0")
