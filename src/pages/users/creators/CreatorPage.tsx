@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Avatar, Box, Button, CircularProgress, MenuItem, Paper, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, CircularProgress, MenuItem, Paper, Skeleton, Switch, Tab, Tabs, TextField, Typography } from "@mui/material"
 import { useLocation, useSearchParams } from "react-router-dom"
 import { HeaderInfo } from "../../../components/header/HeaderInfo"
 import { User } from "../../../types/server/class"
@@ -54,7 +54,10 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     const id = (user ? user?.id : userId) || search.get("id")
     const [creator, setCreator] = useState(user?.creator)
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [loadingLeft, setLoadingLeft] = useState(true)
+    const [loadingCenter, setLoadingCenter] = useState(true)
+    const [loadingRight, setLoadingRight] = useState(true)
 
     const [statistic, setStatistic] = useState<{ views: number; downloads: number; likes: number; messages: number }>()
     const [userTypes, setUserTypes] = useState<Role[]>([])
@@ -122,7 +125,6 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     }
 
     const fetchUser = async () => {
-        if (loading) return
         setLoading(true)
         try {
             const response = await api.get("/user", { params: { id: id } })
@@ -146,29 +148,47 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
     }
 
     const fetchStatistic = async () => {
+        setLoadingLeft(true)
         try {
             const response = await api.get("/creator/statistics", { params: { creator_id: creator?.id } })
             setStatistic(response.data)
+            setLoadingLeft(false)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoadingLeft(false)
+            }, 3000)
         }
     }
 
     const fetchMessages = async () => {
+        setLoadingCenter(true)
         try {
             const response = await api.get("/user/messages", { params: { user_id: id } })
             setMessages(response.data)
+            setLoadingCenter(false)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoadingCenter(false)
+            }, 3000)
         }
     }
 
     const fetchCourses = async () => {
+        setLoadingRight(true)
         try {
             const response = await api.get("/course/owner", { params: { owner_id: creator?.id } })
             setCourses(response.data)
+            setLoadingRight(false)
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoadingRight(false)
+            }, 500)
         }
     }
 
@@ -209,7 +229,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
             <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
                 <HeaderInfo title={`Criador não encontrado`} refreshButton={false} backButton />
                 <NoFeaturedContent
-                    styles={{ height: "37vw" }}
+                    styles={{ flex: 1 }}
                     title="O link que você tentou acessar parece estar quebrado ou não existe."
                     text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
                 />
@@ -220,7 +240,7 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
         <Box sx={{ flexDirection: "column", gap: "1vw", width: "100%" }}>
             <HeaderInfo title={`Criador não encontrado`} refreshButton={false} backButton />
             <NoFeaturedContent
-                styles={{ height: "37vw" }}
+                styles={{ flex: 1 }}
                 title="O link que você tentou acessar parece estar quebrado ou não existe."
                 text="Por favor, verifique se o endereço está correto ou entre em contato com o suporte técnico para mais ajuda."
             />
@@ -312,84 +332,96 @@ export const CreatorPage: React.FC<CreatorPageProps> = ({}) => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Paper
-                        sx={{
-                            flexDirection: "column",
-                            gap: "1vw",
-                            height: "fit-content",
-                            marginTop: "auto",
-                            paddingBottom: "1vw",
-                        }}
-                    >
-                        <Typography
-                            variant="body1"
-                            component="p"
-                            sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem", fontWeight: 500 }}
+                    {loadingLeft ? (
+                        <Skeleton sx={{ flex: 1, transform: "scale(1)" }} />
+                    ) : (
+                        <Paper
+                            sx={{
+                                flexDirection: "column",
+                                gap: "1vw",
+                                height: "fit-content",
+                                marginTop: "auto",
+                                paddingBottom: "1vw",
+                            }}
                         >
-                            Estatísticas
-                        </Typography>
+                            <Typography
+                                variant="body1"
+                                component="p"
+                                sx={{ marginTop: "1vw", lineHeight: "1vw", alignSelf: "center", fontSize: "1.3rem", fontWeight: 500 }}
+                            >
+                                Estatísticas
+                            </Typography>
 
-                        <Box>
-                            <StatisticsView statistic={statistic?.views} icon={<VisibilityOutlinedIcon />} text="Visualizados" />
-                            <StatisticsView statistic={statistic?.likes} icon={<FavoriteBorderOutlinedIcon />} text="Favoritados" />
-                            <StatisticsView statistic={statistic?.messages} icon={<MessageOutlinedIcon />} text="Mensagens" />
-                        </Box>
-                    </Paper>
+                            <Box>
+                                <StatisticsView statistic={statistic?.views} icon={<VisibilityOutlinedIcon />} text="Visualizados" />
+                                <StatisticsView statistic={statistic?.likes} icon={<FavoriteBorderOutlinedIcon />} text="Favoritados" />
+                                <StatisticsView statistic={statistic?.messages} icon={<MessageOutlinedIcon />} text="Mensagens" />
+                            </Box>
+                        </Paper>
+                    )}
                 </Box>
                 <Box sx={pageColumnStyle}>
                     <ColumnTitle prop="Ultímos Comentários" />
-                    <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
-                        {messages.map((item) => (
-                            <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
-                        ))}
-                    </Box>
-                </Box>
-                <Box sx={pageColumnStyle}>
-                    <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
-                        <Tab value={1} label="Cursos" />
-                        <Tab value={2} label="Lições" />
-                    </Tabs>
-                    <Box
-                        sx={{
-                            ...cardsColumnStyle,
-                        }}
-                    >
-                        {currentTab === 1 &&
-                            courses.map((course) => (
-                                <DataCard
-                                    key={course.id}
-                                    course={course}
-                                    image={course.cover}
-                                    title={course.name}
-                                    description={course.description}
-                                    likes={course.likes}
-                                    downloads={course.downloads}
-                                    messages={course.chat?.messages}
-                                    views={course.views}
-                                    link={`/cursos/${slugify(course.name)}?id=${course.id}`}
-                                    routerParam={course}
-                                    sx={{ width: "24.4vw" }}
-                                />
+                    {loadingCenter ? (
+                        <Skeleton sx={{ flex: 1, transform: "scale(1)" }} />
+                    ) : (
+                        <Box sx={{ ...cardsColumnStyle, marginTop: "0.5vw" }}>
+                            {messages.map((item) => (
+                                <MessageCard key={item.message.id} message={item.message} course={item.course} sx={{ width: "24.4vw" }} />
                             ))}
-                        {currentTab === 2 &&
-                            lessons.map((lesson) => (
-                                <DataCard
-                                    key={lesson.id}
-                                    lesson={lesson}
-                                    image={lesson.thumb || lesson.media.url}
-                                    title={lesson.name}
-                                    description={lesson.info}
-                                    likes={lesson.likes}
-                                    downloads={lesson.downloads}
-                                    views={lesson.views}
-                                    userName={lesson.course.name}
-                                    link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
-                                    routerParam={{ lesson }}
-                                    sx={{ width: "24.4vw" }}
-                                />
-                            ))}
-                    </Box>
+                        </Box>
+                    )}
                 </Box>
+                {loadingRight ? (
+                    <Skeleton sx={{ flex: 1, transform: "scale(1)" }} />
+                ) : (
+                    <Box sx={pageColumnStyle}>
+                        <Tabs value={currentTab} onChange={(_, value) => setCurrentTab(value)} variant="fullWidth">
+                            <Tab value={1} label="Cursos" />
+                            <Tab value={2} label="Lições" />
+                        </Tabs>
+                        <Box
+                            sx={{
+                                ...cardsColumnStyle,
+                            }}
+                        >
+                            {currentTab === 1 &&
+                                courses.map((course) => (
+                                    <DataCard
+                                        key={course.id}
+                                        course={course}
+                                        image={course.cover}
+                                        title={course.name}
+                                        description={course.description}
+                                        likes={course.likes}
+                                        downloads={course.downloads}
+                                        messages={course.chat?.messages}
+                                        views={course.views}
+                                        link={`/cursos/${slugify(course.name)}?id=${course.id}`}
+                                        routerParam={course}
+                                        sx={{ width: "24.4vw" }}
+                                    />
+                                ))}
+                            {currentTab === 2 &&
+                                lessons.map((lesson) => (
+                                    <DataCard
+                                        key={lesson.id}
+                                        lesson={lesson}
+                                        image={lesson.thumb || lesson.media.url}
+                                        title={lesson.name}
+                                        description={lesson.info}
+                                        likes={lesson.likes}
+                                        downloads={lesson.downloads}
+                                        views={lesson.views}
+                                        userName={lesson.course.name}
+                                        link={`/licoes/${slugify(lesson.name)}?id=${lesson.id}`}
+                                        routerParam={{ lesson }}
+                                        sx={{ width: "24.4vw" }}
+                                    />
+                                ))}
+                        </Box>
+                    </Box>
+                )}
             </Box>
         </Box>
     )
