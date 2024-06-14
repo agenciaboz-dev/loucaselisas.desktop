@@ -72,6 +72,8 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
         }
     }
 
+    const onSwitch = (lesson: Lesson) => setLessons((lessons) => [...lessons.filter((item) => item.id != lesson.id), lesson])
+
     useEffect(() => {
         if (locationState) {
             setLesson(locationState.data.lesson)
@@ -169,7 +171,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                 type="lesson"
                                 id={lesson.id}
                                 status={lesson.status}
-                                onUpdate={(lesson: Lesson) => setLessons((lessons) => [...lessons.filter((item) => item.id != lesson.id), lesson])}
+                                onUpdate={onSwitch}
                             />
                         )}
                         <Box
@@ -190,6 +192,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({}) => {
                                     .sort((a, b) => Number(a.published) - Number(b.published))
                                     .map((lesson) => (
                                         <DataCard
+                                            onUpdate={onSwitch}
                                             key={lesson.id}
                                             lesson={lesson}
                                             refreshStatus={fetchLessons}

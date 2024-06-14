@@ -19,9 +19,10 @@ interface DataCardProps {
     refreshStatus: () => Promise<void>
     // refreshLesson?: () => Promise<void>
     routerParam?: { lesson: Lesson; course: Course }
+    onUpdate: (lesson: Lesson) => void
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus, routerParam }) => {
+export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus, routerParam, onUpdate }) => {
     const formattedDuration = dayjs.duration(Number(lesson.media.duration)).format("mm:ss")
     const navigate = useNavigate()
     const [thisTimeInstant, setThisTimeInstant] = useState<number>()
@@ -41,6 +42,7 @@ export const DataCard: React.FC<DataCardProps> = ({ lesson, link, refreshStatus,
             const response = await api.patch("/lesson", data)
             setThisLesson(response.data)
             refreshStatus()
+            onUpdate(response.data)
         } catch (error) {
             console.log(error)
         } finally {

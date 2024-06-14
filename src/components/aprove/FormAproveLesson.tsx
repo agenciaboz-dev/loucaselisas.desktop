@@ -36,7 +36,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             setLoading(true)
 
             try {
-                console.log({ PrevLesson: currentLesson })
                 const response = await api.patch("/lesson", { id: id, status: "active" })
                 if (response.data) {
                     setCurrentLesson(response.data)
@@ -62,7 +61,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
         try {
             const response = await api.patch("/lesson", data)
             setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
-            // console.log(response.data)
+            onUpdate(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -82,7 +81,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
             setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
             onUpdate(response.data)
             // formik.resetForm()
-            // console.log(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -98,7 +96,6 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
 
     useEffect(() => {
         if (currentLesson) {
-            console.log({ currentLesson: currentLesson })
             formik.resetForm()
             setOpenAproveModal(false)
         }
