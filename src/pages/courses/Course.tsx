@@ -52,6 +52,9 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
         }
     }
 
+    const onSwitch = (lesson: Lesson) => setLessons((lessons) => [...lessons.filter((item) => item.id != lesson.id), lesson])
+
+
     useEffect(() => {
         fetchCourse()
     }, [])
@@ -172,6 +175,7 @@ export const CoursePage: React.FC<CourseProps> = ({}) => {
                         >
                             {lessons.map((lesson) => (
                                 <DataCard
+                                    onUpdate={onSwitch}
                                     key={lesson.id}
                                     lesson={lesson}
                                     refreshStatus={fetchLessons}
