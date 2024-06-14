@@ -80,7 +80,7 @@ export const FormAproveLesson: React.FC<FormAproveLessonProps> = ({ lesson, id, 
         try {
             const response = await api.patch("/lesson", data)
             setCurrentLesson((prevLesson) => ({ ...prevLesson, ...response.data }))
-
+            onUpdate(response.data)
             // formik.resetForm()
             // console.log(response.data)
         } catch (error) {
