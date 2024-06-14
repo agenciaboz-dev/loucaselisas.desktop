@@ -174,5 +174,20 @@ export const useGetPaths = (options: Options) => {
         [user]
     )
 
-    return { coursePaths, allPaths, messagePaths, reproveCourse }
+    const groupPaths: Paths = useMemo(
+        () =>
+            course
+                ? [
+                      {
+                          link: `/cursos/${slugify(course.name)}?id=${course.id}`,
+                          title: "Ver Curso",
+                          icon: <VisibilityOutlined />,
+                          id: course.id,
+                          onClick: () => navigate(`/cursos/${slugify(course.name)}?id=${course.id}`),
+                      },
+                  ]
+                : [],
+        [user]
+    )
+    return { coursePaths, allPaths, messagePaths, groupPaths, reproveCourse }
 }

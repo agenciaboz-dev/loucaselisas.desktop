@@ -6,6 +6,8 @@ import { Message } from "../../types/server/class/Chat/Message"
 import { api } from "../../api/api"
 import placeholders from "../../tools/placeholders"
 import { useNavigate } from "react-router-dom"
+import { OptionsMenu } from "../menus/OptionsMenu"
+import { useGetPaths } from "../../hooks/useGetPaths"
 
 interface GroupCardProps {
     course: Course
@@ -20,6 +22,8 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
     const navigate = useNavigate()
     const [message, setMessage] = useState<Message | null>(null)
     const [hover, setHover] = useState(false)
+
+    const { groupPaths } = useGetPaths({ course })
     const chat = course.chat
 
     const defaultStyle = {
@@ -52,7 +56,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
 
     return (
         message && (
-            <Grid item xs={1} sx={{}}>
+            <Grid item xs={1} sx={{ position: "relative" }}>
                 <Paper
                     sx={hover ? hoverStyle : defaultStyle}
                     onMouseEnter={() => setHover(true)}
@@ -93,12 +97,17 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                 {course.description}
                             </Typography>
                         </Box>
-                        <Avatar src={course.cover || placeholders.square} variant="rounded" sx={{ width: "3vw", height: "3vw" }} />
+                        <Avatar
+                            src={course.cover || placeholders.square}
+                            variant="rounded"
+                            sx={{ width: "3vw", height: "3vw" }}
+                        />
                     </Box>
                     <Divider />
                     <Box
                         sx={{
                             flex: 1,
+                            width: 0.92,
                             flexDirection: "row",
                             gap: "0.5vw",
                             alignItems: "center",
@@ -111,11 +120,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                                 alignItems: "center",
                                 minHeight: "4.5vw",
                                 gap: "0.5vw",
-                                width: "75%",
+                                width: "65%",
                             }}
                         >
-                            <Avatar src={message.user?.cover || placeholders.avatar} variant="circular" sx={{ width: "3vw", height: "3vw" }} />
-                            <Box sx={{ width: "75%", flexDirection: "column", gap: "0.2vw" }}>
+                            <Avatar
+                                src={message.user?.cover || placeholders.avatar}
+                                variant="circular"
+                                sx={{ width: "3vw", height: "3vw" }}
+                            />
+                            <Box sx={{ width: "65%", flexDirection: "column", gap: "0.2vw" }}>
                                 <Typography
                                     variant="body2"
                                     component={"p"}
@@ -156,6 +169,19 @@ export const GroupCard: React.FC<GroupCardProps> = ({ course, setExpanded, setCo
                         </Box>
                     </Box>
                 </Paper>
+                <OptionsMenu
+                    paths={groupPaths}
+                    sx={{
+                        position: "absolute",
+                        right: 0,
+                        top: "6.7vw",
+                        height: "2vw",
+                        p: "0.2vw",
+                        mr: "0.5vw",
+                        minHeight: 0,
+                        zIndex: 10000,
+                    }}
+                />
             </Grid>
         )
     )
